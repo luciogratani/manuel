@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { fontVariables } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Manuel — Portfolio",
+  title: "Manuel Casati",
   description: "",
 };
 
@@ -12,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it">
+    <html lang="it" className={fontVariables}>
       <body>{children}</body>
     </html>
   );

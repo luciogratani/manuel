@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+/* Le facce disponibili, esposte come utility Tailwind (font-hatton, font-air...).
+   Nominate per faccia e non per ruolo: i ruoli semantici non sono ancora fissati.
+   `inline` è necessario perché i valori puntano a variabili generate a runtime
+   da next/font, non a stringhe note a build time. */
+/* ── Scala del sito ───────────────────────────────────────────────────────────
+   Tutto il sito è disegnato in pixel assoluti su una viewport di riferimento di
+   1440 × 780. Sopra quella soglia non succede niente: le misure restano quelle.
+   Sotto — in larghezza o in altezza — l'intera composizione rimpicciolisce di un
+   unico fattore, così i rapporti fra le parti non cambiano mai.
+
+   Il meccanismo è tutto qui: la radice vale 16px finché c'è spazio, altrimenti
+   scende al più piccolo fra i due rapporti. Tutte le misure del sito sono in rem
+   e seguono da sé. Nessuna media query, nessun JavaScript.
+
+     16 / 1440 = 1.1111vw      16 / 780 = 2.0513vh
+
+   Il pavimento a 11px evita che si scenda nell'illeggibile: sotto quella soglia
+   la composizione viene tagliata, ed è il punto in cui prima o poi entrerà un
+   impianto mobile a sé stante.
+
+   Nota: questo sovrascrive la dimensione di testo predefinita del browser, che
+   è una preferenza d'accessibilità. Lo zoom continua a funzionare. */
+html {
+  font-size: max(11px, min(16px, 1.1111vw, 2.0513vh));
+}
+
+@theme inline {
+  --font-hatton: var(--font-pp-hatton);
+  --font-frama: var(--font-pp-frama);
+  --font-frama-text: var(--font-pp-frama-text);
+  --font-air: var(--font-pp-air);
+  --font-object-sans: var(--font-pp-object-sans);
+  --font-haas: var(--font-neue-haas-text);
+  --font-haas-display: var(--font-neue-haas-display);
+}
