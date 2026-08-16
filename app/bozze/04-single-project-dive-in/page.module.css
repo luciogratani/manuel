@@ -1,0 +1,181 @@
+/* Bozza 04 — single project, dive in.
+
+   Stesse convenzioni della bozza 01: ogni misura è in rem, e 1rem vale 16px
+   sulla viewport di riferimento (1440 × 780). I numeri sono i pixel
+   dell'artboard divisi per 16.
+
+   Una differenza di sostanza rispetto alla 01: qui la colonna delle immagini è
+   ELASTICA in larghezza. Nella 01 non poteva esserlo, perché la striscia scorre
+   in orizzontale e la larghezza è già la dimensione del movimento. Qui il
+   movimento è verticale, quindi la larghezza è libera — e conviene che lo sia:
+   il senso di questa schermata è vedere la foto grande, e su uno schermo largo
+   deve poter essere più grande. Le altezze seguono dal formato, e siccome la
+   colonna scorre, un'altezza variabile non rompe niente. */
+
+.pagina {
+  --avorio: #f5f5f0;
+  --inchiostro: #090d16;
+  --grigio: #474b57; /* il placeholder video dell'artboard */
+
+  --x: 1.125rem; /* 18px */
+  --margine: calc(var(--x) * 2); /* 36px */
+
+  /* Le due colonne stanno in rapporto 6/10 e 4/10 della viewport, sempre.
+     È anche il tetto della crescita: la colonna delle immagini si allarga con
+     la finestra ma non supera mai i sei decimi, così l'apparato non si assottiglia
+     man mano che lo schermo cresce. */
+  --apparato: 40%;
+  --stacco: 3.75rem; /* 60px — dal bordo della colonna immagini al testo */
+
+  /* Il corpo del testo rientra più della testa: la testa segna il limite della
+     colonna, il corpo sta più dentro. */
+  --rientro: 2.25rem; /* 36px */
+
+  --fuga: 0.5rem; /* 8px — fra due immagini della pila */
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+
+  background: var(--avorio);
+  color: var(--inchiostro);
+  font-family: var(--font-pp-object-sans), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* ── La colonna delle immagini ────────────────────────────────────────────────
+   Rientrata di `--x` a sinistra, come nella 01. Ma in alto e in basso arriva al
+   bordo della viewport: sono i lati su cui scorre, quindi il taglio lo fa lo
+   schermo. La prima immagine tocca il bordo superiore, e deve toccarlo.
+
+   Come nella 01 il contenitore copre tutta l'altezza della pagina così lo
+   scroll parte da qualunque punto. */
+.colonna {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--x);
+  right: var(--apparato);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-width: none;
+}
+
+.colonna::-webkit-scrollbar {
+  display: none;
+}
+
+.pila {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fuga);
+  padding-bottom: var(--fuga);
+}
+
+.piastra {
+  flex: none;
+  width: 100%;
+  aspect-ratio: var(--ar);
+  background: var(--inchiostro);
+}
+
+.piastra[data-video] {
+  background: var(--grigio);
+}
+
+/* ── L'apparato testuale ──────────────────────────────────────────────────────
+   Fermo. Ancorato in alto e al bordo destro: la colonna non si allarga con la
+   finestra, si limita a restare dov'è mentre le immagini crescono. */
+.apparato {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: var(--apparato);
+  z-index: 1;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}
+
+/* Il corpo del testo occupa una colonna di 280px come nella 01, rientrata di
+   `--stacco + --rientro` dal bordo della colonna immagini. La testa invece si
+   ferma allo `--stacco` e arriva a destra fino a `2x`. */
+.corpo {
+  position: absolute;
+  top: 8.5rem; /* 136px — stessa quota della 01 */
+  bottom: var(--margine);
+  left: calc(var(--stacco) + var(--rientro));
+  width: 17.5rem; /* 280px */
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* I tre vuoti fra i gruppi di testo crescono fino alle quote dell'artboard e
+   non oltre; se la finestra è più bassa si stringono, in proporzione fra loro.
+   È la stessa regola della cornice elastica: i vuoti assorbono, il testo no. */
+.vuoto {
+  flex-basis: 0;
+  flex-shrink: 0;
+}
+
+.vuoto[data-vuoto="1"] {
+  flex-grow: 278;
+  max-height: 17.375rem; /* 278px */
+}
+
+.vuoto[data-vuoto="2"] {
+  flex-grow: 39;
+  max-height: 2.4375rem; /* 39px */
+}
+
+.vuoto[data-vuoto="3"] {
+  flex-grow: 247;
+  max-height: 15.4375rem; /* 247px */
+}
+
+.testa {
+  position: absolute;
+  top: 1.75rem; /* 28px — come nella 01 */
+  left: var(--stacco);
+  right: var(--margine);
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.125rem; /* 18px */
+  line-height: 1;
+}
+
+.testa a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* La freccia sporge fuori dalla colonna di esattamente `--x`, così la parola
+   "back" resta allineata al testo sotto. */
+.indietro {
+  position: relative;
+  left: calc(var(--x) * -1);
+}
+
+.freccia {
+  margin-right: 0.375rem;
+}
+
+.percorso {
+  text-align: right;
+}
+
+.titolo {
+  margin-top: 1.75rem;
+  font-size: inherit;
+  font-weight: 800;
+}
+
+.descrizione {
+  margin-top: 1.75rem;
+}
+
+.credito {
+  display: flex;
+  gap: 0.25rem;
+}

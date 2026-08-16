@@ -1,0 +1,206 @@
+/* Bozza 05 — timeline.
+
+   Stesse convenzioni delle altre bozze: tutto in rem, 1rem = 16px sulla
+   viewport di riferimento 1440 × 780.
+
+   Niente rosso, per ora: merita un approfondimento a sé. E niente filetti
+   verticali — solo orizzontali. Il legame fra una voce e il suo anno lo fa il
+   dentino marcato sull'asse, che è un segno già presente, non uno nuovo.
+
+   Convenzione sulle variabili: quelle per-elemento arrivano dal TSX e si
+   chiamano `--dx`, `--n`, `--f`, `--ar`. Quelle di sistema stanno qui sotto. */
+
+.pagina {
+  --avorio: #f5f5f0;
+  --inchiostro: #090d16;
+
+  --x: 1.125rem; /* 18px */
+  --margine: calc(var(--x) * 2); /* 36px */
+
+  --asse: 18.75rem; /* 300px */
+  --passo-riga: 3.5rem; /* 56px — se due voci si accavallano */
+  --voce: 12.5rem; /* 200px */
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+
+  background: var(--avorio);
+  color: var(--inchiostro);
+  font-family: var(--font-pp-object-sans), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* ── Il nastro ────────────────────────────────────────────────────────────────
+   Rientrato di `--x` come nelle altre bozze: il tempo sparisce prima del bordo.
+   Nessun loop qui dentro — il loop con frizione arriverà col livello dinamico,
+   e non è il meccanismo della slide 01. */
+.binario {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--x);
+  right: var(--x);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.binario::-webkit-scrollbar {
+  display: none;
+}
+
+.pista {
+  position: relative;
+  height: 100%;
+  width: calc(var(--pista) + var(--margine) * 2);
+}
+
+.asse {
+  position: absolute;
+  top: var(--asse);
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--inchiostro);
+}
+
+/* ── La scala grossa ──────────────────────────────────────────────────────────
+   Un dentino al mese. Gennaio è più lungo. Dove c'è una voce, il dentino
+   dell'anno è pieno: è l'unico segno che lega la voce alla sua ascissa. */
+.dente {
+  position: absolute;
+  top: var(--asse);
+  left: calc(var(--margine) + var(--dx));
+  height: 0.375rem; /* 6px */
+  border-left: 1px solid var(--inchiostro);
+  opacity: 0.25;
+}
+
+.dente[data-anno] {
+  height: 0.75rem; /* 12px */
+  opacity: 0.45;
+}
+
+.dente[data-opera] {
+  height: 1.125rem; /* 18px */
+  opacity: 1;
+}
+
+.anno {
+  position: absolute;
+  top: calc(var(--asse) + 1.5rem);
+  left: calc(var(--margine) + var(--dx));
+  font-size: 0.75rem; /* 12px */
+  line-height: 1;
+  opacity: 0.3;
+}
+
+/* Solo l'anno sotto la testina è pieno. Statico finché non c'è lo scorrimento. */
+.anno[data-corrente] {
+  opacity: 1;
+}
+
+/* ── Le voci ──────────────────────────────────────────────────────────────────
+   Più leggere di prima: medium e luogo sono scesi nell'approfondimento, qui
+   restano coordinata e titolo. L'ordinata serve solo a non accavallarsi. */
+.voce {
+  position: absolute;
+  top: calc(var(--asse) + 3.5rem + var(--passo-riga) * var(--n));
+  left: calc(var(--margine) + var(--dx));
+  width: var(--voce);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.coordinata {
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.2;
+  opacity: 0.55;
+}
+
+.titolo {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+/* Le voci che hanno una route nel sito si distinguono da quelle che sono solo
+   biografia. Sottolineatura sottile, nessun colore: il rimando è un fatto
+   archivistico, non un invito. */
+.voce[data-route] .titolo {
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+  text-decoration-thickness: 1px;
+}
+
+/* ── La testina ───────────────────────────────────────────────────────────────
+   Il nonio ridotto all'osso: un dentino solo, che sale sopra l'asse dove i mesi
+   scendono sotto. Stesso spessore dei loro, appena più lungo e pieno — quanto
+   basta a distinguerlo senza diventare un'altra cosa.
+
+   Sta FUORI dal nastro: è la testina di lettura, resta ferma sullo schermo
+   mentre il tempo le scorre sotto. Il tick suona quando un dentino dei mesi le
+   passa esattamente davanti. */
+.testina {
+  /* Alta esattamente quanto i dentini dell'anno di sotto: la testina e ciò che
+     legge sono la stessa misura, e la coincidenza si vede a occhio. */
+  position: absolute;
+  top: calc(var(--asse) - 0.75rem); /* 12px sopra l'asse */
+  left: 50%;
+  height: 0.75rem;
+  border-left: 1px solid var(--inchiostro);
+  z-index: 1;
+}
+
+/* Il materiale della voce sotto la testina. Ancorato in basso, niente
+   contorni, niente testo: per ora è solo un placeholder orizzontale. */
+.materiale {
+  position: absolute;
+  bottom: 5rem; /* 80px */
+  left: var(--margine);
+  z-index: 1;
+  height: 7.5rem; /* 120px */
+  aspect-ratio: 3 / 2;
+  background: var(--inchiostro);
+}
+
+/* ── Testa e piede ────────────────────────────────────────────────────────────
+   Identici alle altre bozze: ancorati ai bordi a `2x`. */
+.testa,
+.piede {
+  position: absolute;
+  left: var(--margine);
+  right: var(--margine);
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  line-height: 1;
+}
+
+.testa {
+  top: 1.75rem;
+  font-size: 1.125rem; /* 18px */
+}
+
+.piede {
+  bottom: var(--margine);
+  font-size: 0.875rem; /* 14px */
+}
+
+.testa a,
+.piede a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.percorso {
+  text-align: right;
+}
+
+.freccia {
+  margin-right: 0.375rem;
+}

@@ -1,0 +1,206 @@
+/* Bozza 03 — archivio.
+
+   Stesse convenzioni delle altre bozze: tutto in rem, 1rem = 16px sulla
+   viewport di riferimento 1440 × 780.
+
+   Le quote vengono dalla miniatura dell'artboard: l'impianto è giusto, i numeri
+   vanno confermati.
+
+   Sull'altezza delle lastre, 110px: è il valore che fa entrare TRE righe più la
+   scheda, i filtri e il piede dentro 780px. Vedi la nota nel messaggio — con
+   due righe starebbero a 170 e la pagina respirerebbe. */
+
+.pagina {
+  --avorio: #f5f5f0;
+  --inchiostro: #090d16;
+  --accento: #c1121c;
+
+  --x: 1.125rem; /* 18px */
+  --margine: calc(var(--x) * 2); /* 36px */
+
+  --lastra: 7.1875rem; /* 115px — altezza dell'immagine; la larghezza segue */
+  --fuga: 1rem; /* 16px — fra due colonne */
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+
+  background: var(--avorio);
+  color: var(--inchiostro);
+  font-family: var(--font-pp-object-sans), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+}
+
+.binario {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--x);
+  right: var(--x);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.binario::-webkit-scrollbar {
+  display: none;
+}
+
+/* `column` e non `row`: la sequenza scende lungo la colonna e poi passa alla
+   successiva, così scorrendo verso destra la numerazione avanza sempre.
+
+   `max-content` sulle colonne, e non una larghezza fissa: le lastre hanno
+   formati diversi, quindi larghezze diverse. Con una colonna fissa una 3:2
+   traboccava e le immagini si toccavano. Così invece ogni colonna è larga
+   quanto la sua lastra e la fuga resta uniforme. */
+.griglia {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(var(--righe), min-content);
+  grid-auto-columns: max-content;
+  column-gap: var(--fuga);
+  row-gap: 1.125rem; /* 18px */
+  align-content: start;
+  padding: 6.875rem var(--margine) 0; /* 110px dall'alto */
+  width: max-content;
+}
+
+.cella {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.numero {
+  font-size: 0.75rem; /* 12px */
+  line-height: 1;
+  opacity: 0.55;
+}
+
+.lastra {
+  height: var(--lastra);
+  aspect-ratio: var(--ar);
+  background: var(--inchiostro);
+
+  /* `outline` e non `border`: non occupa spazio, quindi la cornice appare e
+     sparisce senza spostare di un pixel la griglia. */
+  outline: 1px solid transparent;
+  outline-offset: 0;
+}
+
+/* La cornice della selezione. È l'unico rosso della pagina, ed è sul bordo —
+   §2.3: il rosso non colora l'interfaccia, vive sul bordo e nella fessura. */
+.cella[data-selezionata] .lastra,
+.cella:hover .lastra,
+.cella:focus-visible .lastra {
+  outline-color: var(--accento);
+}
+
+/* Al passaggio del mouse la selezione si sposta: quella di partenza si spegne
+   finché il puntatore è sulla griglia. Tutto in CSS, nessun JavaScript. */
+.griglia:has(.cella:hover) .cella[data-selezionata] .lastra {
+  outline-color: transparent;
+}
+
+.griglia:has(.cella:hover) .cella:hover .lastra {
+  outline-color: var(--accento);
+}
+
+/* ── La banda sotto la griglia ────────────────────────────────────────────────
+   Tre colonne: la scheda della selezione, i tag, l'indicatore. Una riga sola,
+   allineata in alto, così le tre colonne partono dalla stessa quota anche se
+   hanno altezze diverse.
+
+   La scheda cambierà con la selezione — quella parte richiede JavaScript: in
+   CSS si può spostare una cornice, non riscrivere del testo altrove. */
+.banda {
+  position: absolute;
+  bottom: 6.25rem; /* 100px — ancorata in basso, non in alto */
+  left: var(--margine);
+  right: var(--margine);
+  z-index: 1;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--margine);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}
+
+.scheda {
+  width: 25rem; /* 400px */
+}
+
+.tag {
+  white-space: nowrap;
+}
+
+.indicatore {
+  text-align: right;
+}
+
+.coordinata {
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.2;
+  opacity: 0.55;
+}
+
+.titolo {
+  margin-top: 0.5rem;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.descrizione {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+/* ── Il piede ─────────────────────────────────────────────────────────────────
+   Fermo sopra il nastro, ancorato in basso. */
+.piede {
+  position: absolute;
+  left: var(--margine);
+  right: var(--margine);
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+  bottom: var(--margine);
+  align-items: flex-end;
+}
+
+.categorie {
+  list-style: none;
+}
+
+/* ── Testa ────────────────────────────────────────────────────────────────────
+   Identica alle altre bozze: ancorata a `2x`. */
+.testa {
+  position: absolute;
+  top: 1.75rem;
+  left: var(--margine);
+  right: var(--margine);
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.125rem; /* 18px */
+  line-height: 1;
+}
+
+.testa a,
+.piede a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.percorso {
+  text-align: right;
+}

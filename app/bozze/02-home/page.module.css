@@ -1,0 +1,68 @@
+/* Bozza 02 — home.
+
+   Stesse convenzioni delle altre bozze: tutto in rem, 1rem = 16px sulla
+   viewport di riferimento 1440 × 780.
+
+   Le quote qui sono ricavate dalla MINIATURA dell'artboard, non da uno
+   screenshot a risoluzione piena come per la 01 e la 04. Sono quindi
+   approssimate: la composizione è giusta, i numeri vanno confermati. */
+
+.pagina {
+  --avorio: #f5f5f0;
+  --inchiostro: #090d16;
+  --grigio: #474b57;
+
+  --x: 1.125rem; /* 18px */
+  --margine: calc(var(--x) * 2); /* 36px */
+
+  background: var(--avorio);
+  color: var(--inchiostro);
+  font-family: var(--font-pp-object-sans), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* La prima schermata. A differenza della 01 e della 04 qui la composizione non
+   è ancorata ai bordi ma centrata: nav e player stanno sull'asse verticale
+   della pagina. È l'unica delle quattro schermate che si comporta così, e ha
+   senso che sia proprio la soglia. */
+.soglia {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--margine);
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 22.3125rem; /* 357px */
+  font-size: 1.125rem; /* 18px */
+  line-height: 1;
+}
+
+.nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.marchio {
+  font-weight: 800;
+}
+
+/* Il player. Rettangolo 3:2, largo 572px sulla viewport di riferimento.
+   Non scala con la finestra: come tutto il resto del sito, ha una taglia. */
+.player {
+  margin-top: 3.6875rem; /* 59px */
+  width: 35.75rem; /* 572px */
+  aspect-ratio: 3 / 2;
+  background: var(--grigio);
+}
+
+.piede {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--margine) var(--margine);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}

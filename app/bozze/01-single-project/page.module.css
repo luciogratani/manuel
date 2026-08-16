@@ -1,0 +1,195 @@
+/* Bozza 01 — single project.
+
+   Ogni misura è in rem, e 1rem vale 16px sulla viewport di riferimento
+   (1440 × 780). Quindi i numeri qui sotto SONO i pixel dell'artboard divisi per
+   16: 2.25rem è 36px, 11.375rem è 182px. Sopra la soglia restano quelli; sotto,
+   la regola in globals.css li rimpicciolisce tutti insieme.
+
+   Unica eccezione: i filetti da 1px, che restano px veri. Un bordo a 0,7px si
+   sfoca, e i segni di taglio devono essere netti. */
+
+.pagina {
+  --avorio: #f5f5f0;
+  --inchiostro: #090d16;
+
+  /* Due margini, uno il doppio dell'altro.
+     La striscia è rientrata di `--x` e taglia lì: le lastre non arrivano mai al
+     bordo della viewport, spariscono prima. Testa e piede stanno a `2x`, quindi
+     il testo è sempre più interno del limite oltre cui le foto scompaiono. */
+  --x: 1.125rem; /* 18px */
+  --margine: calc(var(--x) * 2); /* 36px */
+
+  /* La mensola. Tre registri d'altezza e una linea di base condivisa.
+     La lastra corrente è l'unica che la rompe, e la rompe da tutt'e due i lati:
+     è centrata sull'asse del registro alto. */
+  --base: 38.375rem; /* 614px — dove appoggiano tutte le lastre */
+  --sporgenza: 6.1875rem; /* 99px — quanto la corrente scende sotto la base */
+  --alta: 11.375rem; /* 182px */
+  --media: 8.5625rem; /* 137px */
+  --bassa: 4.25rem; /* 68px */
+  --corrente: 23.75rem; /* 380px */
+  --fuga: 0.75rem; /* 12px — la distanza fra due lastre */
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+
+  background: var(--avorio);
+  color: var(--inchiostro);
+  font-family: var(--font-pp-object-sans), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* ── La striscia ──────────────────────────────────────────────────────────────
+   Occupa tutta la pagina, non solo la fascia delle lastre: così lo scroll si
+   può fare da qualunque punto, che è il comportamento chiesto. Gli elementi di
+   testo stanno sopra e si riprendono i loro eventi.
+
+   Lo scroll nativo qui è un ponteggio. Quando entra GSAP questo contenitore
+   smette di scorrere e `.fila` viene traslata da una timeline circolare: la
+   rotella del mouse comincia a funzionare (adesso no, muove solo il trackpad)
+   e il loop diventa vero. Il markup non cambia. */
+.striscia {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--x);
+  right: var(--x);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+
+  /* Nessuna barra visibile, su nessun motore. */
+  scrollbar-width: none;
+}
+
+.striscia::-webkit-scrollbar {
+  display: none;
+}
+
+.fila {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--fuga);
+  width: max-content;
+
+  /* Alta quanto la lastra corrente arriva in basso; il padding rialza tutte le
+     altre fino alla linea di base. */
+  height: calc(var(--base) + var(--sporgenza));
+  padding-bottom: var(--sporgenza);
+
+  /* Posiziona la corrente a 282px dal bordo della viewport: tiene conto del
+     rientro `--x` e dei due cloni di coda che la precedono.
+     Diventerà la posizione iniziale della timeline. */
+  padding-left: 0.8125rem;
+  padding-right: var(--x);
+}
+
+.lastra {
+  flex: none;
+  height: var(--h);
+  width: calc(var(--h) * var(--ar));
+  background: var(--inchiostro);
+}
+
+.lastra[data-registro="alta"] {
+  --h: var(--alta);
+}
+
+.lastra[data-registro="media"] {
+  --h: var(--media);
+}
+
+.lastra[data-registro="bassa"] {
+  --h: var(--bassa);
+}
+
+/* La corrente ignora il registro e scende sotto la linea di base. */
+.lastra[data-corrente] {
+  --h: var(--corrente);
+  margin-bottom: calc(var(--sporgenza) * -1);
+}
+
+/* ── Testa e piede ────────────────────────────────────────────────────────────
+   Ancorati ai bordi della viewport, non alla composizione: sono la cornice
+   elastica. Tutto il resto ha posizioni fisse dall'alto. */
+.testa,
+.piede {
+  position: absolute;
+  left: var(--margine);
+  right: var(--margine);
+  z-index: 1;
+
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.125rem; /* 18px */
+  line-height: 1;
+}
+
+.testa {
+  top: 1.75rem;
+}
+
+.piede {
+  bottom: var(--margine);
+}
+
+.testa a,
+.piede a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.percorso {
+  text-align: right;
+}
+
+.freccia {
+  margin-right: 0.375rem;
+}
+
+/* ── Il testo ─────────────────────────────────────────────────────────────────
+   Posizioni assolute misurate sull'artboard. Il testo resta fermo mentre la
+   striscia scorre: alcune voci si aggiorneranno con la lastra corrente (numero,
+   titolo, descrizione, percorso in testa), altre no. */
+.scheda,
+.crediti,
+.nota {
+  position: absolute;
+  z-index: 1;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}
+
+.scheda {
+  top: 8.5rem; /* 136px */
+  left: 17.625rem; /* 282px — la colonna del testo */
+  width: 17.5rem; /* 280px — dove va a capo la descrizione */
+}
+
+.titolo {
+  margin-top: 1.75rem;
+  font-size: inherit;
+  font-weight: 800;
+}
+
+.descrizione {
+  margin-top: 1.75rem;
+}
+
+.crediti {
+  top: 14.125rem; /* 226px — allineati alla descrizione */
+  left: 51.0625rem; /* 817px */
+}
+
+.credito {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nota {
+  top: 14.125rem;
+  left: 68.5rem; /* 1096px */
+  width: 10rem; /* 160px */
+  text-align: right;
+}
