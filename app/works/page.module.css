@@ -28,31 +28,31 @@
 
      Da cui il motivo per cui questa pagina è a DUE righe e non a tre.
 
-     A tre righe le colonne vengono 87px, e ventuno opere su tre righe fanno
-     sette colonne: 705px in tutto, metà schermo vuoto a destra, e niente da
-     scorrere. Allargare le colonne per riempire la viewport richiederebbe righe
-     più alte, che a tre non ci starebbero in altezza.
+     Da cui anche il motivo per cui questa pagina e a DUE righe e non a tre: a
+     tre le colonne verrebbero troppo strette perche ventuno opere riempiano la
+     viewport, e allargarle richiederebbe righe piu alte, che a tre non ci
+     starebbero in altezza.
 
-     A due righe le colonne vengono 119px e le opere fanno undici colonne:
-     1.469px, che riempiono la viewport e la superano. La griglia occupa tutta
-     la larghezza e lo scorrimento ha qualcosa da scorrere. Con le 26 opere
-     definitive diventano tredici colonne. */
+     Con i valori attuali: righe da 184px, lastre fino a 148, colonne da 99.
+     Ventuno opere fanno undici colonne, 1.413px contro i 1.404 disponibili —
+     riempie appena. Con le 26 opere definitive diventano tredici colonne e
+     1.662px, e lo scorrimento ha davvero qualcosa da scorrere. */
   --righe: 2;
-  --zona: 26rem; /* 416px — lo spazio verticale della griglia */
-  --fuga: 1.5rem; /* 24px — fra due colonne */
-  --fuga-riga: 1.125rem; /* 18px */
-  --alto: 10rem; /* 160px — dove comincia la griglia */
+  --zona: 24rem; /* 384px — lo spazio verticale della griglia */
+  --fuga: 1.60rem; /* 25,6px — fra due colonne */
+  --fuga-riga: 1rem; /* 16px */
+  --alto: 8rem; /* 128px — dove comincia la griglia */
 
   --riga: calc(
     (var(--zona) - var(--fuga-riga) * (var(--righe) - 1)) / var(--righe)
   );
-  --lastra: calc(var(--riga) - 3.25rem); /* meno il numero e la sua fuga (52px) */
+  --lastra: calc(var(--riga) - 2.25rem); /* meno il numero e la sua fuga (36px) */
   --colonna: calc(var(--lastra) * 2 / 3); /* il formato più alto è 2:3 */
 
   /* Lo stacco fra la griglia e la banda. La quota della banda non è più un
      numero fisso: discende da dove finiscono i lavori, così resta distanziata
      da loro anche se la griglia cambia. */
-  --stacco: 9.75rem; /* 156px */
+  --stacco: 7.25rem; /* 116px */
 
   position: fixed;
   inset: 0;
