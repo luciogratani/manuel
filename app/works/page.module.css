@@ -39,20 +39,20 @@
      definitive diventano tredici colonne. */
   --righe: 2;
   --zona: 26rem; /* 416px — lo spazio verticale della griglia */
-  --fuga: 1rem; /* 16px — fra due colonne */
+  --fuga: 1.5rem; /* 24px — fra due colonne */
   --fuga-riga: 1.125rem; /* 18px */
-  --alto: 6.875rem; /* 110px — dove comincia la griglia */
+  --alto: 12.875rem; /* 206px — dove comincia la griglia */
 
   --riga: calc(
     (var(--zona) - var(--fuga-riga) * (var(--righe) - 1)) / var(--righe)
   );
-  --lastra: calc(var(--riga) - 1.25rem); /* meno il numero e la sua fuga */
+  --lastra: calc(var(--riga) - 3.25rem); /* meno il numero e la sua fuga (52px) */
   --colonna: calc(var(--lastra) * 2 / 3); /* il formato più alto è 2:3 */
 
   /* Lo stacco fra la griglia e la banda. La quota della banda non è più un
      numero fisso: discende da dove finiscono i lavori, così resta distanziata
      da loro anche se la griglia cambia. */
-  --stacco: 3.75rem; /* 60px */
+  --stacco: 9.75rem; /* 156px */
 
   position: fixed;
   inset: 0;
@@ -158,7 +158,7 @@
    CSS si può spostare una cornice, non riscrivere del testo altrove. */
 .banda {
   position: absolute;
-  /* 586px: dove finiscono i lavori, più lo stacco. Non un numero a mano. */
+  /* Dove finiscono i lavori, più lo stacco. Non un numero a mano. */
   top: calc(var(--alto) + var(--zona) + var(--stacco));
   left: var(--margine);
   right: var(--margine);
