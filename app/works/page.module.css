@@ -1,14 +1,10 @@
-/* Bozza 03 — archivio.
+/* L'indice dell'archivio.
 
    Stesse convenzioni delle altre pagine: tutto in rem, 1rem = 16px sulla
    viewport di riferimento 1440 × 780.
 
    Le quote vengono dalla miniatura dell'artboard: l'impianto è giusto, i numeri
-   vanno confermati.
-
-   Sull'altezza delle lastre, 110px: è il valore che fa entrare TRE righe più la
-   scheda, i filtri e il piede dentro 780px. Vedi la nota nel messaggio — con
-   due righe starebbero a 170 e la pagina respirerebbe. */
+   vanno confermati. */
 
 .pagina {
   --avorio: #f5f5f0;
@@ -18,25 +14,45 @@
   --x: 1.125rem; /* 18px */
   --margine: calc(var(--x) * 2); /* 36px */
 
-  /* La griglia si dimensiona da sola a partire dal numero di righe.
-     Le colonne sono tutte larghe uguale: è l'ALTEZZA che cambia col formato,
-     e le lastre appoggiano su una linea di base condivisa — come la mensola
-     della slide 01.
+  /* ── La griglia ─────────────────────────────────────────────────────────────
+     Le colonne sono tutte larghe uguale: è l'ALTEZZA che cambia col formato, e
+     le lastre appoggiano su una linea di base condivisa — come la mensola della
+     work page.
 
-     La larghezza discende dal formato più alto (2:3), perché è quello che
-     detta l'altezza della riga: se ci sta lui, ci stanno tutti.
+     Tutto discende da `--righe`, e la catena è vincolata da un capo all'altro:
 
-     Cambiando `--righe` da 3 a 2 si ridimensiona tutto: colonne da 86 a 143px. */
-  --righe: 3;
-  --zona: 30.375rem; /* 486px — lo spazio verticale della griglia */
+       l'altezza della riga viene dalla zona disponibile
+       l'altezza massima della lastra viene dalla riga
+       la LARGHEZZA della colonna viene dall'altezza, perché il formato più alto
+       ammesso è 2:3 — se ci sta lui ci stanno tutti
+
+     Da cui il motivo per cui questa pagina è a DUE righe e non a tre.
+
+     A tre righe le colonne vengono 87px, e ventuno opere su tre righe fanno
+     sette colonne: 705px in tutto, metà schermo vuoto a destra, e niente da
+     scorrere. Allargare le colonne per riempire la viewport richiederebbe righe
+     più alte, che a tre non ci stanno in 780px di altezza.
+
+     A due righe le colonne vengono 119px e le opere fanno undici colonne:
+     1.469px, che riempiono la viewport e la superano. La griglia occupa tutta
+     la larghezza e lo scorrimento ha qualcosa da scorrere. Con le 26 opere
+     definitive diventano tredici colonne. */
+  --righe: 2;
+  --zona: 26rem; /* 416px — lo spazio verticale della griglia */
   --fuga: 1rem; /* 16px — fra due colonne */
   --fuga-riga: 1.125rem; /* 18px */
+  --alto: 6.875rem; /* 110px — dove comincia la griglia */
 
   --riga: calc(
     (var(--zona) - var(--fuga-riga) * (var(--righe) - 1)) / var(--righe)
   );
   --lastra: calc(var(--riga) - 1.25rem); /* meno il numero e la sua fuga */
   --colonna: calc(var(--lastra) * 2 / 3); /* il formato più alto è 2:3 */
+
+  /* Lo stacco fra la griglia e la banda. La quota della banda non è più un
+     numero fisso: discende da dove finiscono i lavori, così resta distanziata
+     da loro anche se la griglia cambia. */
+  --stacco: 3.75rem; /* 60px */
 
   position: fixed;
   inset: 0;
@@ -74,7 +90,7 @@
   column-gap: var(--fuga);
   row-gap: var(--fuga-riga);
   align-content: start;
-  padding: 6.875rem var(--margine) 0; /* 110px dall'alto */
+  padding: var(--alto) var(--margine) 0;
   width: max-content;
 }
 
@@ -142,7 +158,8 @@
    CSS si può spostare una cornice, non riscrivere del testo altrove. */
 .banda {
   position: absolute;
-  top: 38.75rem; /* 620px — sotto la griglia, non incollata al piede */
+  /* 586px: dove finiscono i lavori, più lo stacco. Non un numero a mano. */
+  top: calc(var(--alto) + var(--zona) + var(--stacco));
   left: var(--margine);
   right: var(--margine);
   z-index: 1;
