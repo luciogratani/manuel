@@ -17,8 +17,9 @@ import styles from "./misura-finestra.module.css";
 /** La viewport di riferimento del sito. Se cambia in globals.css, cambia qui. */
 const RIF = { w: 1440, h: 780 };
 
-/** Sotto questo fattore la scala si ferma e la composizione viene tagliata. */
-const PAVIMENTO = 11 / 16;
+/** Il pavimento: sotto, la scala si ferma e la pagina comincia a scorrere.
+ *  Deve restare uguale a `--scala-minima` in globals.css. */
+const PAVIMENTO = 0.82;
 
 export function MisuraFinestra() {
   const [misura, setMisura] = useState<{ w: number; h: number } | null>(null);

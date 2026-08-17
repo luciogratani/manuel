@@ -21,7 +21,10 @@
   --passo-riga: 3.5rem; /* 56px — se due voci si accavallano */
   --voce: 12.5rem; /* 200px */
 
-  position: fixed;
+  /* Ancorata al CORPO, non alla finestra: sotto il pavimento della scala il
+     corpo resta grande quanto la viewport di riferimento e il documento
+     scorre, invece di tagliare la composizione. */
+  position: absolute;
   inset: 0;
   overflow: hidden;
 

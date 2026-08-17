@@ -32,7 +32,10 @@
 
   --fuga: 0.5rem; /* 8px — fra due immagini della pila */
 
-  position: fixed;
+  /* Ancorata al CORPO, non alla finestra: sotto il pavimento della scala il
+     corpo resta grande quanto la viewport di riferimento e il documento
+     scorre, invece di tagliare la composizione. */
+  position: absolute;
   inset: 0;
   overflow: hidden;
 

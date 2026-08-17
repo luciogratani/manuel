@@ -8,7 +8,10 @@
   --x: 1.125rem; /* 18px */
   --margine: calc(var(--x) * 2); /* 36px */
 
-  position: fixed;
+  /* Ancorata al CORPO, non alla finestra: sotto il pavimento della scala il
+     corpo resta grande quanto la viewport di riferimento e il documento
+     scorre, invece di tagliare la composizione. */
+  position: absolute;
   inset: 0;
   overflow: hidden;
 

@@ -14,16 +14,52 @@
    scende al più piccolo fra i due rapporti. Tutte le misure del sito sono in rem
    e seguono da sé. Nessuna media query, nessun JavaScript.
 
-     16 / 1440 = 1.1111vw      16 / 780 = 2.0513vh
+   ── Il pavimento ────────────────────────────────────────────────────────────
+   `--scala-minima` è dove la composizione SMETTE DI RIMPICCIOLIRE, che non è
+   dove smette di funzionare. Sotto quel fattore la composizione resta grande e
+   la finestra è più piccola: qualcosa deve cedere.
 
-   Il pavimento a 11px evita che si scenda nell'illeggibile: sotto quella soglia
-   la composizione viene tagliata, ed è il punto in cui prima o poi entrerà un
-   impianto mobile a sé stante.
+   0,82 è misurato, non scelto a occhio: sotto, il corpo del testo scende sotto
+   gli 11,5px e i metadati sotto i 10, e la tipografia molla. Siccome sulle
+   pagine dell'archivio la scala è guidata dalla larghezza, dire 0,82 equivale a
+   dire che **l'impianto desktop finisce a 1178px di larghezza**. Sotto quella
+   soglia comincia il territorio del mobile, che sarà un disegno a sé e non
+   questa composizione rimpicciolita.
+
+   Finché quel disegno non esiste, sotto il pavimento la pagina SCORRE invece di
+   essere tagliata (vedi `body` qui sotto). Scorrere è brutto per un impianto a
+   camera fissa; tagliare fa sparire il contenuto senza dirlo, ed è peggio.
 
    Nota: questo sovrascrive la dimensione di testo predefinita del browser, che
    è una preferenza d'accessibilità. Lo zoom continua a funzionare. */
+:root {
+  --rif-larghezza: 1440;
+  --rif-altezza: 780;
+  --scala-minima: 0.82;
+}
+
 html {
-  font-size: max(11px, min(16px, 1.1111vw, 2.0513vh));
+  font-size: max(
+    calc(16px * var(--scala-minima)),
+    min(
+      16px,
+      calc(100vw / var(--rif-larghezza) * 16),
+      calc(100vh / var(--rif-altezza) * 16)
+    )
+  );
+}
+
+/* Sotto il pavimento la composizione è più grande della finestra. Il corpo si
+   tiene almeno la taglia della viewport di riferimento — 90rem × 48.75rem, che
+   ALLA SCALA CORRENTE sono esattamente i 1440 × 780 di partenza — e il
+   documento scorre invece di tagliare.
+
+   Sopra il pavimento questi minimi non mordono mai: la finestra è già grande
+   abbastanza, e nessuna barra compare. */
+body {
+  position: relative;
+  min-width: 90rem;
+  min-height: max(100vh, 48.75rem);
 }
 
 @theme inline {

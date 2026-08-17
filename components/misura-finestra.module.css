@@ -42,8 +42,9 @@
   opacity: 1;
 }
 
-/* Al pavimento la scala non scende più e la composizione viene tagliata: è
-   l'unico stato che vale un segnale, ed è rosso perché è un bordo raggiunto. */
+/* Al pavimento la scala non scende più: da lì in giù la pagina scorre invece
+   di rimpicciolire, e si è usciti dall'impianto desktop. È l'unico stato che
+   vale un segnale, ed è rosso perché è un bordo raggiunto. */
 .misura[data-pavimento] {
   background: #c1121c;
   opacity: 1;
