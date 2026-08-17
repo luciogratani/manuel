@@ -53,7 +53,7 @@ export default async function Page({
   const coda = altre.slice(Math.max(0, altre.length - CODA_IN_TESTA));
 
   return (
-    <div className={styles.pagina}>
+    <div className={styles.pagina} data-densita={opera.densita}>
       <div className={styles.striscia}>
         <div className={styles.fila}>
           {coda.map(({ scatto, registro }, i) => (

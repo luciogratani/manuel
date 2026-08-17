@@ -201,3 +201,60 @@
   width: 10rem; /* 160px */
   text-align: right;
 }
+
+/* ── Densità minima ───────────────────────────────────────────────────────────
+   Un'opera con una fotografia sola non ha una mensola da sfogliare: la
+   larghezza dello schermo resta vuota, e le tre colonne di testo in cima
+   galleggerebbero sopra il niente.
+
+   Quindi l'apparato si sposta ACCANTO al materiale. È la stessa regola
+   dell'altro caso, letta al contrario: l'apparato sta a fianco di ciò che c'è,
+   ed è la larghezza del materiale a decidere dove. Mensola larga → apparato
+   sopra, in colonne. Una foto → apparato di lato.
+
+   Non diventa la vista ravvicinata, e la differenza va difesa: qui il fondo è
+   avorio e l'immagine è contenuta, là il fondo è nero e l'immagine arriva a
+   filo del bordo. Presentare contro immergere. */
+
+.pagina[data-densita="minima"] {
+  --colonna: 50rem; /* 800px — dove attacca l'apparato */
+  --media-h: 25rem; /* 400px — altezza dell'immagine */
+  --media-w: 23.75rem; /* 380px — il tetto: oltre, invaderebbe la colonna */
+}
+
+/* La fila regge una lastra sola: niente linea di base condivisa, niente
+   sporgenza. L'immagine appoggia a 700px dall'alto. */
+.pagina[data-densita="minima"] .fila {
+  height: 43.75rem; /* 700px */
+  padding-bottom: 0;
+  padding-left: 22.5625rem; /* 361px + il rientro `--x` = 379 dal bordo */
+}
+
+/* Altezza fissa, larghezza dal formato, con un tetto: una 3:2 diventa più
+   bassa invece di allargarsi addosso al testo. */
+.pagina[data-densita="minima"] .lastra[data-corrente] {
+  --h: auto;
+  height: auto;
+  width: min(var(--media-w), calc(var(--media-h) * var(--ar)));
+  aspect-ratio: var(--ar);
+  margin-bottom: 0;
+}
+
+/* L'apparato si incolonna a destra dell'immagine, nell'ordine in cui si legge:
+   coordinata, titolo, descrizione, note, dati. */
+.pagina[data-densita="minima"] .scheda {
+  top: 16.625rem; /* 266px */
+  left: var(--colonna);
+}
+
+.pagina[data-densita="minima"] .nota {
+  top: 26.875rem; /* 430px */
+  left: var(--colonna);
+  width: 17.5rem;
+  text-align: left;
+}
+
+.pagina[data-densita="minima"] .crediti {
+  top: 35rem; /* 560px */
+  left: var(--colonna);
+}
