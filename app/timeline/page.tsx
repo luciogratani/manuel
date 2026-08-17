@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import styles from "./page.module.css";
 
-// Bozza 05 — timeline. NON è l'indice dell'archivio: è la biografia storica di
+// Timeline — la biografia storica di Manuel, e insieme una mappa del sito. NON è l'indice dell'archivio: è la biografia storica di
 // Manuel, e insieme una mappa del sito.
 //
 // La differenza è di contenuto, non di forma. L'indice porta le 26 opere, che
@@ -60,7 +60,7 @@ type Voce = {
 // Qui dentro finiranno anche le voci che opere non sono — formazione, appunti,
 // lavori esterni — che Manuel aggiungerà.
 const VOCI: Voce[] = [
-  { titolo: "Intervento per il Candide", anno: 2013, medium: "intervento", luogo: "Palazzo Guillot, Alghero", href: "/bozze/01-single-project" },
+  { titolo: "Intervento per il Candide", anno: 2013, medium: "intervento", luogo: "Palazzo Guillot, Alghero", href: "/works" },
   { titolo: "Glamour Confusion", anno: 2014, medium: "—", luogo: "—" },
   { titolo: "Photo Editorial Design Scene", anno: 2015, medium: "editoriale", luogo: "—" },
   { titolo: "Ph Shoot Anto", anno: 2015, medium: "—", luogo: "—" },
@@ -68,7 +68,7 @@ const VOCI: Voce[] = [
   { titolo: "A Boy's Closet", anno: 2020, medium: "—", luogo: "—" },
   { titolo: "L'Affair", anno: 2021, medium: "video performance", luogo: "—" },
   { titolo: "Le Rêve Lever", anno: 2022, medium: "—", luogo: "—" },
-  { titolo: "Funeral Rave", anno: 2023, medium: "—", luogo: "—", href: "/bozze/01-single-project" },
+  { titolo: "Funeral Rave", anno: 2023, medium: "—", luogo: "—", href: "/works" },
   { titolo: "Don Giovanni", anno: 2025, medium: "—", luogo: "—" },
   { titolo: "BDSM", anno: 2025, medium: "video", luogo: "—" },
   { titolo: "Coucher avec moi", anno: 2026, medium: "—", luogo: "—" },
@@ -177,14 +177,14 @@ export default function Page() {
       <span className={styles.materiale} aria-hidden="true" />
 
       <header className={styles.testa}>
-        <Link href="/bozze/02-home">manuel</Link>
+        <Link href="/">manuel</Link>
         <p className={styles.percorso}>
           {CORRENTE} / timeline
         </p>
       </header>
 
       <footer className={styles.piede}>
-        <Link href="/bozze/02-home">
+        <Link href="/">
           <span className={styles.freccia} aria-hidden="true">
             ←
           </span>

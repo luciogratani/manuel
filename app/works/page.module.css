@@ -1,6 +1,6 @@
 /* Bozza 03 — archivio.
 
-   Stesse convenzioni delle altre bozze: tutto in rem, 1rem = 16px sulla
+   Stesse convenzioni delle altre pagine: tutto in rem, 1rem = 16px sulla
    viewport di riferimento 1440 × 780.
 
    Le quote vengono dalla miniatura dell'artboard: l'impianto è giusto, i numeri
@@ -206,7 +206,7 @@
 }
 
 /* ── Testa ────────────────────────────────────────────────────────────────────
-   Identica alle altre bozze: ancorata a `2x`. */
+   Identica alle altre pagine: ancorata a `2x`. */
 .testa {
   position: absolute;
   top: 1.75rem;

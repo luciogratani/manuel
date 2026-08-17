@@ -1,24 +1,22 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { INDICE, RAPPORTO, formato } from "@/lib/bozze-media";
+import { OPERE, RAPPORTO, formato, numerato } from "@/lib/opere";
 import styles from "./page.module.css";
 
-// Bozza 03 — archivio. L'indice: la griglia numerata dell'artboard originale.
+// L'indice: la griglia numerata. È la spina dorsale del sito, la pagina che
+// decide se quindici anni si leggono come una ricerca o come una raccolta.
 //
-// Le foto sono vere: derivati web delle sorgenti in 01-assets/media, una per
-// cartella-opera. Non sono ritagliate su disco — è la CORNICE ad avere il
-// formato, e l'immagine la riempie con `object-fit: cover`. Così il ritaglio
-// resta una decisione di presentazione e non una perdita irreversibile, e il
-// giorno in cui servirà un punto focale per foto si aggiunge lì.
+// Il ritaglio non è su disco: è la CORNICE ad avere il formato dichiarato e
+// l'immagine la riempie con `object-fit: cover`. Così il taglio resta una
+// decisione di presentazione, reversibile, e il punto focale per foto si
+// aggiungerà ai dati senza rigenerare niente.
 //
-// Niente animazioni, ma NON è tutto fermo: la selezione al passaggio del mouse
-// è CSS puro (`:has`), quindi il comportamento è già quello definitivo.
-//
-// Manca la parte che richiede JS:
-//   · la selezione che avanza SCORRENDO, non solo al passaggio del mouse
-//   · header e scheda che seguono la selezione col mouse (in CSS si può
-//     spostare una cornice, non riscrivere del testo altrove)
+// La selezione al passaggio del mouse è CSS puro (`:has`), quindi è già il
+// comportamento definitivo. Manca la parte che richiede JavaScript:
+//   · la selezione che avanza SCORRENDO, non solo col mouse
+//   · header e scheda che seguono la selezione (in CSS si sposta una cornice,
+//     non si riscrive del testo altrove)
 //   · lo scorrimento con la rotella (ora solo trackpad)
 
 /** Tre righe, e la sequenza scende prima di andare a destra: così scorrendo si
@@ -26,34 +24,33 @@ import styles from "./page.module.css";
 const RIGHE = 3;
 
 /** La selezione di partenza. Diventerà stato quando la striscia si muoverà. */
-const SELEZIONATA = 1;
+const SELEZIONATA = 0;
 
 export default function Page() {
-  const selezionata = INDICE[SELEZIONATA - 1];
+  const selezionata = OPERE[SELEZIONATA];
 
   return (
     <div className={styles.pagina}>
       <div className={styles.binario}>
         <div className={styles.griglia} style={{ "--righe": RIGHE } as CSSProperties}>
-          {INDICE.map((scatto, i) => {
-            const f = formato(scatto.w, scatto.h);
+          {OPERE.map((opera, i) => {
+            const copertina = opera.scatti[0];
+            const f = formato(copertina.w, copertina.h);
             return (
               <Link
-                key={scatto.src}
+                key={opera.slug}
                 className={styles.cella}
-                href="/bozze/01-single-project"
-                data-selezionata={i + 1 === SELEZIONATA ? "" : undefined}
+                href={`/works/${opera.slug}`}
+                data-selezionata={i === SELEZIONATA ? "" : undefined}
               >
-                <span className={styles.numero}>
-                  {String(i + 1).padStart(3, "0")}
-                </span>
+                <span className={styles.numero}>{numerato(opera.numero)}</span>
                 <span
                   className={styles.lastra}
                   style={{ "--ar": RAPPORTO[f] } as CSSProperties}
                 >
                   <Image
-                    src={scatto.src}
-                    alt={scatto.opera}
+                    src={copertina.src}
+                    alt={opera.titolo}
                     fill
                     sizes="200px"
                     className={styles.foto}
@@ -66,19 +63,17 @@ export default function Page() {
       </div>
 
       <header className={styles.testa}>
-        <Link href="/bozze/02-home">manuel</Link>
+        <Link href="/">manuel</Link>
         <p className={styles.percorso}>progetti / archivio</p>
       </header>
 
-      {/* La banda sotto la griglia, in tre colonne: la scheda della selezione,
-          i tag, l'indicatore. La scheda cambierà con la selezione — qui è ferma
-          sulla prima. I tag sono segnaposto, non contenuto. */}
+      {/* Tre colonne: la scheda della selezione, i tag, l'indicatore. */}
       <div className={styles.banda}>
         <div className={styles.scheda}>
           <p className={styles.coordinata}>
-            {String(SELEZIONATA).padStart(3, "0")} — anno
+            {numerato(selezionata.numero)} — {selezionata.anno}
           </p>
-          <h2 className={styles.titolo}>{selezionata.opera}</h2>
+          <h2 className={styles.titolo}>{selezionata.titolo}</h2>
           <p className={styles.descrizione}>
             descrizione del progetto — due o tre righe che dicono cos&apos;è
             l&apos;opera, quando, dove, e perché sta in questa sequenza.
@@ -87,11 +82,11 @@ export default function Page() {
 
         <p className={styles.tag}>tags / tags / tags</p>
 
-        <p className={styles.indicatore}>(1–3)</p>
+        <p className={styles.indicatore}>({RIGHE > 1 ? `1–${RIGHE}` : "1"})</p>
       </div>
 
       <footer className={styles.piede}>
-        <Link href="/bozze/02-home">home</Link>
+        <Link href="/">home</Link>
         <p>meta-voice</p>
         <ul className={styles.categorie}>
           <li>work-category-x</li>

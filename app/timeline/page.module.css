@@ -1,6 +1,6 @@
-/* Bozza 05 — timeline.
+/* Timeline — la biografia storica di Manuel, e insieme una mappa del sito.
 
-   Stesse convenzioni delle altre bozze: tutto in rem, 1rem = 16px sulla
+   Stesse convenzioni delle altre pagine: tutto in rem, 1rem = 16px sulla
    viewport di riferimento 1440 × 780.
 
    Niente rosso, per ora: merita un approfondimento a sé. E niente filetti
@@ -32,7 +32,7 @@
 }
 
 /* ── Il nastro ────────────────────────────────────────────────────────────────
-   Rientrato di `--x` come nelle altre bozze: il tempo sparisce prima del bordo.
+   Rientrato di `--x` come nelle altre pagine: il tempo sparisce prima del bordo.
    Nessun loop qui dentro — il loop con frizione arriverà col livello dinamico,
    e non è il meccanismo della slide 01. */
 .binario {
@@ -169,7 +169,7 @@
 }
 
 /* ── Testa e piede ────────────────────────────────────────────────────────────
-   Identici alle altre bozze: ancorati ai bordi a `2x`. */
+   Identici alle altre pagine: ancorati ai bordi a `2x`. */
 .testa,
 .piede {
   position: absolute;
