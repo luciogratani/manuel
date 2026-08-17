@@ -15,7 +15,6 @@
 .pagina {
   --avorio: #f5f5f0;
   --inchiostro: #090d16;
-  --grigio: #474b57; /* il placeholder video dell'artboard */
 
   --x: 1.125rem; /* 18px */
   --margine: calc(var(--x) * 2); /* 36px */
@@ -73,14 +72,17 @@
 }
 
 .piastra {
+  position: relative;
   flex: none;
   width: 100%;
   aspect-ratio: var(--ar);
   background: var(--inchiostro);
+  overflow: hidden;
 }
 
-.piastra[data-video] {
-  background: var(--grigio);
+/* Il ritaglio vive nella cornice, non su disco. */
+.foto {
+  object-fit: cover;
 }
 
 /* ── L'apparato testuale ──────────────────────────────────────────────────────

@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { FUNERAL_RAVE, RAPPORTO, formato } from "@/lib/bozze-media";
 import styles from "./page.module.css";
 
 // Bozza 04 — single project, dive in. Ricostruzione statica dell'artboard.
@@ -10,28 +12,13 @@ import styles from "./page.module.css";
 // Niente animazioni, niente JavaScript. Lo scroll verticale qui è quello nativo
 // del contenitore. La colonna di testo resta ferma.
 
-/** I formati chiusi dell'archivio. La larghezza la dà la colonna, l'altezza segue. */
-type Formato = "2:3" | "3:4" | "1:1" | "4:3" | "3:2";
-
-const RAPPORTO: Record<Formato, number> = {
-  "2:3": 2 / 3,
-  "3:4": 3 / 4,
-  "1:1": 1,
-  "4:3": 4 / 3,
-  "3:2": 3 / 2,
-};
-
-type Piastra = { formato: Formato; video?: boolean };
-
-// La sequenza dell'opera. Nell'artboard la seconda è grigia: l'ho letta come
-// video, perché è il grigio che nella home indica il player. Se invece era solo
-// un secondo placeholder fotografico, si toglie il flag.
-const COLONNA: Piastra[] = [
-  { formato: "3:4" },
-  { formato: "3:2", video: true },
-  { formato: "2:3" },
-  { formato: "4:3" },
-];
+// La sequenza dell'opera: le prime sei foto di FUNERAL RAVE, a piena colonna.
+// La larghezza la dà la colonna, l'altezza segue dal formato dichiarato.
+//
+// Nell'artboard la seconda piastra era grigia e l'avevo letta come video. Con
+// le foto vere il posto del video resta da decidere: due opere dell'archivio
+// (L'AFFAIR e video BDSM) non hanno nemmeno una fotografia, solo filmati.
+const COLONNA = FUNERAL_RAVE.slice(0, 6);
 
 const CREDITI = [
   ["stylist", "name"],
@@ -45,15 +32,24 @@ export default function Page() {
     <div className={styles.pagina}>
       <div className={styles.colonna}>
         <div className={styles.pila}>
-          {COLONNA.map((piastra, i) => (
+          {COLONNA.map((scatto) => (
             <div
-              key={i}
+              key={scatto.src}
               className={styles.piastra}
-              data-video={piastra.video ? "" : undefined}
               style={
-                { "--ar": RAPPORTO[piastra.formato] } as CSSProperties
+                {
+                  "--ar": RAPPORTO[formato(scatto.w, scatto.h)],
+                } as CSSProperties
               }
-            />
+            >
+              <Image
+                src={scatto.src}
+                alt={scatto.opera}
+                fill
+                sizes="60vw"
+                className={styles.foto}
+              />
+            </div>
           ))}
         </div>
       </div>

@@ -18,8 +18,25 @@
   --x: 1.125rem; /* 18px */
   --margine: calc(var(--x) * 2); /* 36px */
 
-  --lastra: 7.1875rem; /* 115px — altezza dell'immagine; la larghezza segue */
+  /* La griglia si dimensiona da sola a partire dal numero di righe.
+     Le colonne sono tutte larghe uguale: è l'ALTEZZA che cambia col formato,
+     e le lastre appoggiano su una linea di base condivisa — come la mensola
+     della slide 01.
+
+     La larghezza discende dal formato più alto (2:3), perché è quello che
+     detta l'altezza della riga: se ci sta lui, ci stanno tutti.
+
+     Cambiando `--righe` da 3 a 2 si ridimensiona tutto: colonne da 86 a 143px. */
+  --righe: 3;
+  --zona: 30.375rem; /* 486px — lo spazio verticale della griglia */
   --fuga: 1rem; /* 16px — fra due colonne */
+  --fuga-riga: 1.125rem; /* 18px */
+
+  --riga: calc(
+    (var(--zona) - var(--fuga-riga) * (var(--righe) - 1)) / var(--righe)
+  );
+  --lastra: calc(var(--riga) - 1.25rem); /* meno il numero e la sua fuga */
+  --colonna: calc(var(--lastra) * 2 / 3); /* il formato più alto è 2:3 */
 
   position: fixed;
   inset: 0;
@@ -48,28 +65,26 @@
 }
 
 /* `column` e non `row`: la sequenza scende lungo la colonna e poi passa alla
-   successiva, così scorrendo verso destra la numerazione avanza sempre.
-
-   `max-content` sulle colonne, e non una larghezza fissa: le lastre hanno
-   formati diversi, quindi larghezze diverse. Con una colonna fissa una 3:2
-   traboccava e le immagini si toccavano. Così invece ogni colonna è larga
-   quanto la sua lastra e la fuga resta uniforme. */
+   successiva, così scorrendo verso destra la numerazione avanza sempre. */
 .griglia {
   display: grid;
   grid-auto-flow: column;
-  grid-template-rows: repeat(var(--righe), min-content);
-  grid-auto-columns: max-content;
+  grid-template-rows: repeat(var(--righe), var(--riga));
+  grid-auto-columns: var(--colonna);
   column-gap: var(--fuga);
-  row-gap: 1.125rem; /* 18px */
+  row-gap: var(--fuga-riga);
   align-content: start;
   padding: 6.875rem var(--margine) 0; /* 110px dall'alto */
   width: max-content;
 }
 
+/* Numero in alto, lastra in basso: le lastre di una riga appoggiano tutte
+   sulla stessa linea, e la differenza di formato si legge come differenza di
+   altezza sopra quella linea. */
 .cella {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  justify-content: space-between;
   color: inherit;
   text-decoration: none;
 }
@@ -81,14 +96,23 @@
 }
 
 .lastra {
-  height: var(--lastra);
+  position: relative;
+  width: 100%;
   aspect-ratio: var(--ar);
   background: var(--inchiostro);
+  overflow: hidden;
 
   /* `outline` e non `border`: non occupa spazio, quindi la cornice appare e
      sparisce senza spostare di un pixel la griglia. */
   outline: 1px solid transparent;
   outline-offset: 0;
+}
+
+/* Il ritaglio vive qui, non su disco: la cornice ha il formato dichiarato e la
+   foto la riempie. Il giorno in cui una foto va tagliata altrove, si aggiunge
+   un punto focale ai dati e diventa `object-position`. */
+.foto {
+  object-fit: cover;
 }
 
 /* La cornice della selezione. È l'unico rosso della pagina, ed è sul bordo —
@@ -118,7 +142,7 @@
    CSS si può spostare una cornice, non riscrivere del testo altrove. */
 .banda {
   position: absolute;
-  bottom: 6.25rem; /* 100px — ancorata in basso, non in alto */
+  top: 38.75rem; /* 620px — sotto la griglia, non incollata al piede */
   left: var(--margine);
   right: var(--margine);
   z-index: 1;

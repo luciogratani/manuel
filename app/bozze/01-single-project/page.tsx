@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { FUNERAL_RAVE, RAPPORTO, formato } from "@/lib/bozze-media";
 import styles from "./page.module.css";
 
 // Bozza 01 — single project. Ricostruzione statica dell'artboard Illustrator.
@@ -17,23 +19,26 @@ import styles from "./page.module.css";
 /** Tre altezze, e basta: la mensola ha registri fissi, non misure per lastra. */
 type Registro = "alta" | "media" | "bassa";
 
-/** `ar` è larghezza/altezza: la larghezza segue dall'altezza del registro. */
-type Lastra = { registro: Registro; ar: number };
-
-// Misurate sullo screenshot e ricondotte ai formati fotografici evidentemente
-// voluti (1:2, 3:4, 1:1, 2:1). Se sono ritagli precisi da rispettare al pixel,
-// si rimettono i valori grezzi.
-const MENSOLA: Lastra[] = [
-  { registro: "alta", ar: 0.5 },
-  { registro: "alta", ar: 0.75 },
-  { registro: "alta", ar: 0.75 },
-  { registro: "media", ar: 1 },
-  { registro: "bassa", ar: 2 },
-  { registro: "media", ar: 1 },
-  { registro: "media", ar: 1 },
-  { registro: "bassa", ar: 2 },
-  { registro: "alta", ar: 0.5 },
+// Il ritmo dei registri è quello dell'artboard. Le LARGHEZZE però non sono più
+// disegnate: vengono dal formato della foto vera. Nell'artboard c'erano 1:2 e
+// 2:1, rapporti che nell'archivio non esistono — 2.850 foto e nemmeno una.
+// Questo è il primo posto dove la mensola incontra il materiale.
+const REGISTRI: Registro[] = [
+  "alta",
+  "alta",
+  "alta",
+  "media",
+  "bassa",
+  "media",
+  "media",
+  "bassa",
+  "alta",
 ];
+
+const MENSOLA = REGISTRI.map((registro, i) => {
+  const scatto = FUNERAL_RAVE[i % FUNERAL_RAVE.length];
+  return { registro, scatto, ar: RAPPORTO[formato(scatto.w, scatto.h)] };
+});
 
 // La lastra corrente: quella raccontata dal testo, l'unica fuori registro.
 // Statica sulla prima, perché il sito apre da lì. Diventerà stato quando la
@@ -72,8 +77,16 @@ export default function Page() {
                 data-registro={lastra.registro}
                 data-corrente={corrente ? "" : undefined}
                 aria-hidden={clone || undefined}
-                style={{ "--ar": corrente ? 0.75 : lastra.ar } as CSSProperties}
-              />
+                style={{ "--ar": lastra.ar } as CSSProperties}
+              >
+                <Image
+                  src={lastra.scatto.src}
+                  alt={lastra.scatto.opera}
+                  fill
+                  sizes="(max-width: 1440px) 40vw, 600px"
+                  className={styles.foto}
+                />
+              </div>
             );
           })}
         </div>

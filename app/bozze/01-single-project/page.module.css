@@ -86,10 +86,18 @@
 }
 
 .lastra {
+  position: relative;
   flex: none;
   height: var(--h);
   width: calc(var(--h) * var(--ar));
   background: var(--inchiostro);
+  overflow: hidden;
+}
+
+/* Il ritaglio vive nella cornice, non su disco: la lastra ha il formato
+   dichiarato e la foto la riempie. */
+.foto {
+  object-fit: cover;
 }
 
 .lastra[data-registro="alta"] {
