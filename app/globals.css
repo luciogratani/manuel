@@ -38,7 +38,7 @@
    è una preferenza d'accessibilità. Lo zoom continua a funzionare. */
 :root {
   --rif-larghezza: 1440;
-  --rif-altezza: 780;
+  --rif-altezza: 980;
   --tetto: 16px;
   --pavimento: 11px;
 }

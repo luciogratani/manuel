@@ -1,7 +1,7 @@
 /* L'indice dell'archivio.
 
    Stesse convenzioni delle altre pagine: tutto in rem, 1rem = 16px sulla
-   viewport di riferimento 1440 × 780.
+   viewport di riferimento 1440 × 980.
 
    Le quote vengono dalla miniatura dell'artboard: l'impianto è giusto, i numeri
    vanno confermati. */
@@ -31,7 +31,7 @@
      A tre righe le colonne vengono 87px, e ventuno opere su tre righe fanno
      sette colonne: 705px in tutto, metà schermo vuoto a destra, e niente da
      scorrere. Allargare le colonne per riempire la viewport richiederebbe righe
-     più alte, che a tre non ci stanno in 780px di altezza.
+     più alte, che a tre non ci starebbero in altezza.
 
      A due righe le colonne vengono 119px e le opere fanno undici colonne:
      1.469px, che riempiono la viewport e la superano. La griglia occupa tutta
@@ -41,7 +41,7 @@
   --zona: 26rem; /* 416px — lo spazio verticale della griglia */
   --fuga: 1.5rem; /* 24px — fra due colonne */
   --fuga-riga: 1.125rem; /* 18px */
-  --alto: 12.875rem; /* 206px — dove comincia la griglia */
+  --alto: 10rem; /* 160px — dove comincia la griglia */
 
   --riga: calc(
     (var(--zona) - var(--fuga-riga) * (var(--righe) - 1)) / var(--righe)
