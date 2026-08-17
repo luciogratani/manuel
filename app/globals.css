@@ -30,10 +30,6 @@
                       grande in una finestra piccola e viene tagliata: è il punto
                       in cui prima o poi entrerà un impianto mobile a sé.
 
-   Il righello di sviluppo in alto al centro scrive `--tetto` e `--rif-altezza`
-   qui sopra a caldo, per provarli senza ricompilare. Quando un valore convince,
-   va scritto qui: quello che il righello imposta vive solo nella scheda.
-
    Nota: questo sovrascrive la dimensione di testo predefinita del browser, che
    è una preferenza d'accessibilità. Lo zoom continua a funzionare. */
 :root {

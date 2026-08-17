@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { MisuraFinestra } from "@/components/misura-finestra";
 import { fontVariables } from "@/lib/fonts";
 import "./globals.css";
 
@@ -15,11 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it" className={fontVariables}>
-      <body>
-        {children}
-        {/* Strumento di sviluppo: non esiste in produzione. */}
-        {process.env.NODE_ENV === "development" ? <MisuraFinestra /> : null}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
