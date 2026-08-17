@@ -5,25 +5,53 @@
    `inline` è necessario perché i valori puntano a variabili generate a runtime
    da next/font, non a stringhe note a build time. */
 /* ── Scala del sito ───────────────────────────────────────────────────────────
-   Tutto il sito è disegnato in pixel assoluti su una viewport di riferimento di
-   1440 × 780. Sopra quella soglia non succede niente: le misure restano quelle.
-   Sotto — in larghezza o in altezza — l'intera composizione rimpicciolisce di un
-   unico fattore, così i rapporti fra le parti non cambiano mai.
+   Tutto il sito è disegnato in pixel assoluti su una viewport di riferimento.
+   Sopra quella soglia non succede niente: le misure restano quelle. Sotto — in
+   larghezza o in altezza — l'intera composizione rimpicciolisce di un unico
+   fattore, così i rapporti fra le parti non cambiano mai.
 
-   Il meccanismo è tutto qui: la radice vale 16px finché c'è spazio, altrimenti
-   scende al più piccolo fra i due rapporti. Tutte le misure del sito sono in rem
-   e seguono da sé. Nessuna media query, nessun JavaScript.
+   Il meccanismo è tutto qui: la radice vale `--tetto` finché c'è spazio,
+   altrimenti scende al più stretto dei due freni. Tutte le misure del sito sono
+   in rem e seguono da sé. Nessuna media query, nessun JavaScript.
 
-     16 / 1440 = 1.1111vw      16 / 780 = 2.0513vh
+   Le quattro manopole:
 
-   Il pavimento a 11px evita che si scenda nell'illeggibile: sotto quella soglia
-   la composizione viene tagliata, ed è il punto in cui prima o poi entrerà un
-   impianto mobile a sé stante.
+   `--rif-larghezza`  la larghezza a cui la composizione è disegnata.
+   `--rif-altezza`    l'altezza che la composizione RICHIEDE, non una a piacere.
+                      Se è sottostimata il freno dell'altezza non morde mai,
+                      allargando vince quello della larghezza, e la scala supera
+                      l'altezza che la finestra ha davvero.
+   `--tetto`          quanto la composizione può crescere. 16px è la taglia
+                      d'autore; abbassarlo significa dire che il sito non si
+                      mostra mai più grande di così, per quanto grande sia lo
+                      schermo. È contenuto fisso e cornice elastica applicato
+                      alla scala stessa.
+   `--pavimento`      dove smette di rimpicciolire. Sotto, la composizione resta
+                      grande in una finestra piccola e viene tagliata: è il punto
+                      in cui prima o poi entrerà un impianto mobile a sé.
+
+   Il righello di sviluppo in alto al centro scrive `--tetto` e `--rif-altezza`
+   qui sopra a caldo, per provarli senza ricompilare. Quando un valore convince,
+   va scritto qui: quello che il righello imposta vive solo nella scheda.
 
    Nota: questo sovrascrive la dimensione di testo predefinita del browser, che
    è una preferenza d'accessibilità. Lo zoom continua a funzionare. */
+:root {
+  --rif-larghezza: 1440;
+  --rif-altezza: 780;
+  --tetto: 16px;
+  --pavimento: 11px;
+}
+
 html {
-  font-size: max(11px, min(16px, 1.1111vw, 2.0513vh));
+  font-size: max(
+    var(--pavimento),
+    min(
+      var(--tetto),
+      calc(100vw / var(--rif-larghezza) * 16),
+      calc(100vh / var(--rif-altezza) * 16)
+    )
+  );
 }
 
 @theme inline {
