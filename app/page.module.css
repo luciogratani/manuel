@@ -28,7 +28,7 @@
 .soglia {
   /* Come il corpo: almeno l'altezza della viewport di riferimento, così sotto
      il pavimento della scala la soglia non si schiaccia ma si scorre. */
-  min-height: max(100vh, 48.75rem);
+  min-height: max(100vh, 61.0625rem);
   display: flex;
   flex-direction: column;
   align-items: center;

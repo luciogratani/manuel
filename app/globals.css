@@ -14,28 +14,33 @@
    scende al più piccolo fra i due rapporti. Tutte le misure del sito sono in rem
    e seguono da sé. Nessuna media query, nessun JavaScript.
 
+   ── L'altezza di riferimento ────────────────────────────────────────────────
+   `--rif-altezza` non è un'altezza a piacere: è l'altezza che la composizione
+   più esigente RICHIEDE DAVVERO. Se la si sottostima, il freno dell'altezza non
+   morde mai, allargando la finestra vince il freno della larghezza, la scala
+   sale, e la composizione cresce oltre l'altezza che la finestra ha — piede e
+   testo si sovrappongono.
+
+   977 è misurato su /works, che è la pagina più alta: la banda cade a 778, la
+   scheda ne occupa 89, e sotto ci vuole il piede. Se una pagina diventa più
+   esigente, questo numero va alzato con lei.
+
    ── Il pavimento ────────────────────────────────────────────────────────────
    `--scala-minima` è dove la composizione SMETTE DI RIMPICCIOLIRE, che non è
    dove smette di funzionare. Sotto quel fattore la composizione resta grande e
    la finestra è più piccola: qualcosa deve cedere.
 
-   0,82 è misurato, non scelto a occhio: sotto, il corpo del testo scende sotto
-   gli 11,5px e i metadati sotto i 10, e la tipografia molla. Siccome sulle
-   pagine dell'archivio la scala è guidata dalla larghezza, dire 0,82 equivale a
-   dire che **l'impianto desktop finisce a 1178px di larghezza**. Sotto quella
-   soglia comincia il territorio del mobile, che sarà un disegno a sé e non
-   questa composizione rimpicciolita.
-
-   Finché quel disegno non esiste, sotto il pavimento la pagina SCORRE invece di
-   essere tagliata (vedi `body` qui sotto). Scorrere è brutto per un impianto a
-   camera fissa; tagliare fa sparire il contenuto senza dirlo, ed è peggio.
+   Finché non esiste un impianto mobile a sé, sotto il pavimento la pagina
+   SCORRE invece di essere tagliata (vedi `body` qui sotto). Scorrere è brutto
+   per un impianto a camera fissa; tagliare fa sparire il contenuto senza dirlo,
+   ed è peggio.
 
    Nota: questo sovrascrive la dimensione di testo predefinita del browser, che
    è una preferenza d'accessibilità. Lo zoom continua a funzionare. */
 :root {
   --rif-larghezza: 1440;
-  --rif-altezza: 780;
-  --scala-minima: 0.82;
+  --rif-altezza: 977;
+  --scala-minima: 0.6875; /* 11px su 16 */
 }
 
 html {
@@ -50,8 +55,8 @@ html {
 }
 
 /* Sotto il pavimento la composizione è più grande della finestra. Il corpo si
-   tiene almeno la taglia della viewport di riferimento — 90rem × 48.75rem, che
-   ALLA SCALA CORRENTE sono esattamente i 1440 × 780 di partenza — e il
+   tiene almeno la taglia della viewport di riferimento — 90rem × 61.0625rem,
+   che ALLA SCALA CORRENTE sono esattamente i 1440 × 977 di riferimento — e il
    documento scorre invece di tagliare.
 
    Sopra il pavimento questi minimi non mordono mai: la finestra è già grande
@@ -59,7 +64,7 @@ html {
 body {
   position: relative;
   min-width: 90rem;
-  min-height: max(100vh, 48.75rem);
+  min-height: max(100vh, 61.0625rem);
 }
 
 @theme inline {

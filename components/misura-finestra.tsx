@@ -9,17 +9,17 @@ import styles from "./misura-finestra.module.css";
 // Mostra la viewport e — più utile — il FATTORE DI SCALA: tutto il sito è
 // disegnato su una viewport di riferimento e sotto quella soglia rimpicciolisce
 // di un unico fattore (vedi la regola in `app/globals.css`). Sapere di stare a
-// 1,00 o a 0,82 spiega da solo perché una composizione respira su un monitor e
-// si schiaccia su un laptop.
+// 1,00 o a 0,82 spiega da solo perché la stessa composizione respira su una
+// finestra e si accavalla su un'altra.
 //
 // Un clic copia la riga, così è incollabile in chat senza trascriverla.
 
 /** La viewport di riferimento del sito. Se cambia in globals.css, cambia qui. */
-const RIF = { w: 1440, h: 780 };
+const RIF = { w: 1440, h: 977 };
 
 /** Il pavimento: sotto, la scala si ferma e la pagina comincia a scorrere.
  *  Deve restare uguale a `--scala-minima` in globals.css. */
-const PAVIMENTO = 0.82;
+const PAVIMENTO = 0.6875;
 
 export function MisuraFinestra() {
   const [misura, setMisura] = useState<{ w: number; h: number } | null>(null);
