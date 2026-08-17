@@ -19,9 +19,11 @@ import styles from "./page.module.css";
 //     non si riscrive del testo altrove)
 //   · lo scorrimento con la rotella (ora solo trackpad)
 
-/** Tre righe, e la sequenza scende prima di andare a destra: così scorrendo si
- *  avanza nella numerazione invece di dover tornare indietro a capo riga. */
-const RIGHE = 3;
+// Il numero di righe NON sta qui: vive in `--righe` nel CSS, insieme a tutta
+// l'aritmetica che ne discende — altezza della riga, altezza della lastra,
+// larghezza della colonna, quota della banda. Averlo anche qui significava due
+// sorgenti per lo stesso numero, e appena hanno smesso di essere d'accordo la
+// griglia ha disegnato tre righe con le misure calcolate per due.
 
 /** La selezione di partenza. Diventerà stato quando la striscia si muoverà. */
 const SELEZIONATA = 0;
@@ -32,7 +34,7 @@ export default function Page() {
   return (
     <div className={styles.pagina}>
       <div className={styles.binario}>
-        <div className={styles.griglia} style={{ "--righe": RIGHE } as CSSProperties}>
+        <div className={styles.griglia}>
           {OPERE.map((opera, i) => {
             const copertina = opera.scatti[0];
             const f = formato(copertina.w, copertina.h);
@@ -82,7 +84,8 @@ export default function Page() {
 
         <p className={styles.tag}>tags / tags / tags</p>
 
-        <p className={styles.indicatore}>({RIGHE > 1 ? `1–${RIGHE}` : "1"})</p>
+        {/* Segnaposto dell'artboard, decorativo: non deriva dal layout. */}
+        <p className={styles.indicatore}>(1–3)</p>
       </div>
 
       <footer className={styles.piede}>
