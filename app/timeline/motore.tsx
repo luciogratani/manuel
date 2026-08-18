@@ -12,6 +12,10 @@ import {
   SENSIBILITA_BORDO,
   MOMENTO_DECADIMENTO,
   MOMENTO_SOGLIA,
+  PASSO_TASTIERA,
+  TRASCINAMENTO_ATTIVO,
+  TICK_DETUNE_CENTI,
+  TICK_DETUNE_VELOCITA_RIFERIMENTO,
   FOCUS_RAGGIO_MESI,
   FOCUS_MIN,
   FOCUS_PICCO,
@@ -157,6 +161,7 @@ export function MotoreTimeline({
   const sforzoRef = useRef(0);
   const velocitaRef = useRef(0); // anni/secondo, per il momento dopo il rilascio
   const denteRef = useRef(Math.floor((correnteIniziale - inizio) * 12));
+  const ultimoVisibileRef = useRef(correnteIniziale); // per il verso/intensità del tick
 
   // Misure reali, ricalcolate al resize (vedi commento in testa al file).
   const scorrimentoPxRef = useRef(0);
@@ -280,9 +285,27 @@ export function MotoreTimeline({
       }
     };
 
+    /** Frecce sinistra/destra: stesso passo fisico dello scroll, non un
+     *  bypass — riusa `spingi()`, quindi elastico e salto valgono anche da
+     *  tastiera. Ascoltato sulla pagina intera: qui non c'è altro widget con
+     *  cui le frecce potrebbero entrare in conflitto. */
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        spingi(-PASSO_TASTIERA);
+        e.preventDefault();
+      } else if (e.key === "ArrowLeft") {
+        spingi(PASSO_TASTIERA);
+        e.preventDefault();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+
     const observer = Observer.create({
       target: binario,
-      type: "wheel,touch,pointer",
+      // Il trascinamento è spento (TRASCINAMENTO_ATTIVO): non ascoltare
+      // affatto touch/pointer, invece di ascoltarli e ignorarli — così non
+      // interferisce con lo scroll/tap nativo altrove sulla pagina.
+      type: TRASCINAMENTO_ATTIVO ? "wheel,touch,pointer" : "wheel",
       ignore: "a, button",
       dragMinimum: 6,
       preventDefault: true,
@@ -335,8 +358,20 @@ export function MotoreTimeline({
       const nuovoDente = Math.floor((visibileRef.current - inizio) * 12);
       if (nuovoDente !== denteRef.current) {
         denteRef.current = nuovoDente;
-        if (!mutoRef.current) suona();
+        // Nessuna soglia di velocità: sospendere il tick durante un fling
+        // sembrava un bug, non un effetto. Il throttle in useSuonoBreve
+        // resta l'unico limite alla frequenza (vedi lib/suono.ts). Il verso
+        // del movimento intona il tick invece: più acuto avanti, più grave
+        // indietro, con un margine di ±TICK_DETUNE_CENTI raggiunto alla
+        // velocità di riferimento.
+        if (!mutoRef.current) {
+          const velocitaIstantanea = (visibileRef.current - ultimoVisibileRef.current) / dt;
+          const intensita = Math.min(1, Math.abs(velocitaIstantanea) / TICK_DETUNE_VELOCITA_RIFERIMENTO);
+          const detune = Math.sign(velocitaIstantanea) * intensita * TICK_DETUNE_CENTI;
+          suona(detune);
+        }
       }
+      ultimoVisibileRef.current = visibileRef.current;
 
       // Scala diretta dei dentini + enfasi ai bordi (§2/§4 del feedback).
       const eccessoVisibile =
@@ -361,6 +396,7 @@ export function MotoreTimeline({
 
     return () => {
       window.removeEventListener("resize", misura);
+      window.removeEventListener("keydown", onKeyDown);
       observer.kill();
       gsap.ticker.remove(tick);
     };

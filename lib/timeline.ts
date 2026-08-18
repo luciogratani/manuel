@@ -32,13 +32,20 @@ export const RILASSAMENTO_BORDO = 0.12;
 
 /** Sensibilità: quanto di un delta in ingresso arriva davvero a `obiettivo`.
  *  Non "frizione" nel nome perché è un moltiplicatore, non una resistenza da
- *  invertire — ma è la stessa manopola: 0.8 = 20% meno sensibile ovunque
- *  (chiesto: "aumenta la frizione generale del 20%"), 0.7 si applica IN PIÙ
- *  solo dentro la zona elastica (chiesto: "del 30% ai bordi") — le due si
- *  moltiplicano, quindi ai bordi la resistenza totale è maggiore delle due
- *  prese singolarmente, non la somma. */
-export const SENSIBILITA_GENERALE = 0.8;
+ *  invertire — ma è la stessa manopola. `SENSIBILITA_BORDO` si applica IN
+ *  PIÙ, solo dentro la zona elastica — le due si moltiplicano, quindi ai
+ *  bordi la resistenza totale è maggiore delle due prese singolarmente.
+ *  `SENSIBILITA_GENERALE` abbassata da 0,8 a 0,3: con un solo movimento si
+ *  attraversava tutta la timeline, serviva molto più che un -20%. */
+export const SENSIBILITA_GENERALE = 0.3;
 export const SENSIBILITA_BORDO = 0.7;
+
+/** Il trascinamento col mouse (drag) esiste ancora nel motore ma è spento:
+ *  troppo sensibile rispetto a rotella/tastiera e non ancora tarato a sé.
+ *  Il codice resta intero apposta — riattivarlo è girare questo booleano,
+ *  non riscrivere nulla. Il cursore `grab`/`grabbing` in CSS resta comunque,
+ *  segnala che l'area è manipolabile anche solo con la rotella. */
+export const TRASCINAMENTO_ATTIVO = false;
 
 /** Il momento residuo dopo che l'input smette: quanta velocità sopravvive
  *  dopo un secondo (decadimento esponenziale, indipendente dal frame rate).
@@ -49,6 +56,20 @@ export const MOMENTO_DECADIMENTO = 0.05;
 /** Sotto questa velocità (anni/secondo) il momento si azzera invece di
  *  continuare a scemare all'infinito. */
 export const MOMENTO_SOGLIA = 0.01;
+
+/** Il tick sonoro si intona leggermente con la direzione: più acuto andando
+ *  avanti nel tempo, più grave tornando indietro — non una soglia che
+ *  sospende, un colore che segue il movimento. `TICK_DETUNE_CENTI` è il
+ *  margine massimo (in cent, 1/100 di semitono — appena percettibile di
+ *  proposito), raggiunto quando la velocità arriva a
+ *  `TICK_DETUNE_VELOCITA_RIFERIMENTO` (anni/secondo); sotto scala in
+ *  proporzione. */
+export const TICK_DETUNE_CENTI = 25;
+export const TICK_DETUNE_VELOCITA_RIFERIMENTO = 3;
+
+/** Quanti anni si muove `obiettivo` per pressione di freccia. Riusa la
+ *  stessa fisica di `spingi()`, quindi resta soggetto a elastico e salto. */
+export const PASSO_TASTIERA = 0.25;
 
 /** La scala dei dentini attorno al nonio (scala diretta: tutti bassi, quello
  *  sotto il nonio al picco). Curva a campana di Lorentz, non a coseno: sale

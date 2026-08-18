@@ -10,7 +10,7 @@ import { useCallback, useEffect, useRef } from "react";
 // `src: null` disattiva silenziosamente: è lo stato di un suono non ancora
 // collegato, non un errore da segnalare.
 
-export function useSuonoBreve(src: string | null, sogliaMs = 55) {
+export function useSuonoBreve(src: string | null, sogliaMs = 90) {
   const contestoRef = useRef<AudioContext | null>(null);
   const bufferRef = useRef<AudioBuffer | null>(null);
   const srcCaricatoRef = useRef<string | null>(null);
@@ -25,7 +25,9 @@ export function useSuonoBreve(src: string | null, sogliaMs = 55) {
     };
   }, []);
 
-  const suona = useCallback(() => {
+  /** `detuneCents`: scostamento in cent (1/100 di semitono) applicato a
+   *  questo singolo tick — positivo più acuto, negativo più grave. */
+  const suona = useCallback((detuneCents = 0) => {
     if (!src) return;
 
     const ora = performance.now();
@@ -54,6 +56,7 @@ export function useSuonoBreve(src: string | null, sogliaMs = 55) {
     if (!bufferRef.current) return;
     const nodo = contesto.createBufferSource();
     nodo.buffer = bufferRef.current;
+    nodo.detune.value = detuneCents;
     nodo.connect(contesto.destination);
     nodo.start();
   }, [src, sogliaMs]);

@@ -47,6 +47,11 @@
   left: var(--x);
   right: var(--x);
   overflow: hidden;
+  cursor: grab;
+}
+
+.binario:active {
+  cursor: grabbing;
 }
 
 /* Il default `0rem` è lo stato a riposo: `--dx` di ogni figlio è già calcolato
@@ -177,7 +182,7 @@
   bottom: 5rem; /* 80px */
   left: var(--margine);
   z-index: 1;
-  height: 7.5rem; /* 120px */
+  height: 9.375rem; /* 150px — 120px + 25% */
   aspect-ratio: 3 / 2;
   overflow: hidden;
   opacity: 0;
@@ -268,6 +273,10 @@
 
 .freccia {
   margin-right: 0.375rem;
+}
+
+.legenda {
+  opacity: 0.55;
 }
 
 .interruttore {

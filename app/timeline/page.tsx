@@ -114,10 +114,10 @@ export default function Page() {
             </span>
             home
           </Link>
-          <InterruttoreSuono />
-          <p>
-            {INIZIO} — {FINE} · {voci.length} voci · contenuto provvisorio
+          <p className={styles.legenda} aria-label="usa lo scroll o le frecce sinistra e destra per navigare">
+            <span aria-hidden="true">scroll  ·  ← →</span>
           </p>
+          <InterruttoreSuono />
         </footer>
       </MotoreTimeline>
     </div>
