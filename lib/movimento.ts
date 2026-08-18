@@ -11,3 +11,21 @@ export const TAGLIO = {
   rosso: "#C1121C",
   anticipoRosso: 0.07,
 } as const;
+
+/** L'altra metà del §3.2: la dissolvenza segna una variazione interna a uno
+ *  stato già stabilito, dove il taglio segna il passaggio di stato. Sta qui
+ *  accanto al taglio perché la scelta fra i due è la regola, e una regola con
+ *  un solo termine scritto non è una regola. */
+export const DISSOLVENZA = {
+  durata: 0.25,
+  ease: "power1.out",
+} as const;
+
+/** §9.4 della guida — il sito funziona anche senza animazioni. Qui la
+ *  preferenza di sistema: chi la chiede ottiene gli stessi stati, raggiunti
+ *  senza percorso (nessun momento residuo, nessun inseguimento smorzato,
+ *  nessun taglio). Letta una volta al montaggio e non riascoltata: cambiarla
+ *  a pagina aperta è raro, e un listener in più sul motore non lo vale. */
+export function motoRidotto() {
+  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}

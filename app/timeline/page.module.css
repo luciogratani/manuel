@@ -22,7 +22,9 @@
 
   --asse: 18.75rem; /* 300px */
   --passo-riga: 3.5rem; /* 56px — se due voci si accavallano */
-  --voce: 12.5rem; /* 200px */
+  /* `--pista`, `--voce`, `--dx-iniziale` arrivano dal TSX (vedi `page.tsx`):
+     sono gli stessi numeri con cui il TSX dispone le voci, e il foglio non ne
+     tiene una copia. */
 
   position: fixed;
   inset: 0;
@@ -54,14 +56,25 @@
   cursor: grabbing;
 }
 
-/* Il default `0rem` è lo stato a riposo: `--dx` di ogni figlio è già calcolato
-   perché CORRENTE_INIZIALE cada al centro a scorrimento zero, quindi la
-   pagina è visivamente corretta prima ancora che il motore idrati. */
+/* Lo stato a riposo, prima che il motore idrati (e per sempre, se il JS non
+   arriva): `--dx-iniziale` è dove cade CORRENTE_INIZIALE sulla pista, e il
+   default lo porta esattamente sotto il nonio — che sta a `left: 50%` della
+   pagina, cioè a `50vw`, mentre la pista comincia a `--x + --margine`.
+
+   Prima il default era `0rem`, cioè si assumeva che quell'anno cadesse già al
+   centro: falso di 54px alla viewport di riferimento e di segno variabile
+   altrove (misurato: 15px a 1485×921), perché il nonio è ancorato al viewport
+   reale e la pista alla scala in rem del sito. Si vedeva come uno scatto del
+   nastro al primo frame dopo l'idratazione — il motore, che la posizione la
+   MISURA, correggeva subito ciò che il foglio aveva sbagliato. Ora le due
+   sorgenti dicono la stessa cosa e lo scatto non c'è. */
 .pista {
   position: relative;
   height: 100%;
   width: calc(var(--pista) + var(--margine) * 2);
-  transform: translateX(var(--scorrimento, 0rem));
+  transform: translateX(
+    var(--scorrimento, calc(50vw - var(--x) - var(--margine) - var(--dx-iniziale)))
+  );
 }
 
 .asse {
@@ -92,7 +105,10 @@
   transform-origin: top;
 }
 
-.dente[data-anno] {
+/* `data-gennaio`, non `data-anno`: quest'ultimo sta sulle ETICHETTE e porta
+   il valore dell'anno (il motore ci misura sopra `[data-anno="2010"]`). Lo
+   stesso nome per due cose diverse era un'ambiguità in attesa di un bug. */
+.dente[data-gennaio] {
   height: 0.75rem; /* 12px */
   opacity: 0.45;
 }
@@ -195,6 +211,14 @@
   color: var(--avorio);
 }
 
+/* Il contenuto sta in un livello suo dentro `.corpo`: la dissolvenza del
+   cambio voce (§3.2) agisce qui, mentre il fondo inchiostro del pannello
+   resta pieno — altrimenti a metà transizione si vedrebbe attraverso. */
+.contenuto {
+  position: absolute;
+  inset: 0;
+}
+
 .immagine {
   position: relative;
   width: 100%;
@@ -234,7 +258,7 @@
   bottom: 0;
   right: -1px;
   width: 2px;
-  background: #c1121c;
+  background: var(--taglio-rosso);
   opacity: 0;
 }
 
@@ -277,6 +301,20 @@
 
 .legenda {
   opacity: 0.55;
+}
+
+/* Visibile ai soli lettori di schermo: la legenda mostra "scroll · ← →", che
+   letto ad alta voce non dice niente. */
+.soloLettori {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 .interruttore {

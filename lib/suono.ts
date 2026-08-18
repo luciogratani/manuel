@@ -49,6 +49,13 @@ export function useSuonoBreve(src: string | null, sogliaMs = 90) {
         .then((dati) => contesto.decodeAudioData(dati))
         .then((buffer) => {
           bufferRef.current = buffer;
+        })
+        .catch(() => {
+          // Il caricamento è già stato segnato come fatto per non ripartire ad
+          // ogni tick: se fallisce va disfatto, altrimenti il suono resta muto
+          // per sempre senza mai riprovare. E resta un fallimento silenzioso —
+          // un tick che non suona non è un errore da mostrare a nessuno.
+          srcCaricatoRef.current = null;
         });
       return;
     }
@@ -56,7 +63,16 @@ export function useSuonoBreve(src: string | null, sogliaMs = 90) {
     if (!bufferRef.current) return;
     const nodo = contesto.createBufferSource();
     nodo.buffer = bufferRef.current;
-    nodo.detune.value = detuneCents;
+    // WebKit non implementa `detune` su AudioBufferSourceNode. Senza guard
+    // sarebbe un TypeError sollevato dentro il ticker GSAP che chiama
+    // `suona()`: non il tick muto, il motore fermo. `playbackRate` esiste
+    // ovunque e intona allo stesso modo (un cent è 2^(1/1200)), al prezzo di
+    // accorciare/allungare il campione — impercettibile su ±25 cent.
+    if (nodo.detune) {
+      nodo.detune.value = detuneCents;
+    } else {
+      nodo.playbackRate.value = Math.pow(2, detuneCents / 1200);
+    }
     nodo.connect(contesto.destination);
     nodo.start();
   }, [src, sogliaMs]);

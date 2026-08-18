@@ -10,6 +10,9 @@ import {
   RILASSAMENTO_BORDO,
   SENSIBILITA_GENERALE,
   SENSIBILITA_BORDO,
+  SENSIBILITA_TOCCO,
+  SALTO_ATTIVO,
+  RITARDO_NASCONDI_MS,
   MOMENTO_DECADIMENTO,
   MOMENTO_SOGLIA,
   PASSO_TASTIERA,
@@ -24,6 +27,7 @@ import {
   BORDO_ENFASI_PICCO,
   type VoceTimeline,
 } from "@/lib/timeline";
+import { motoRidotto } from "@/lib/movimento";
 import { useSuonoBreve } from "@/lib/suono";
 import { ContestoTimeline } from "./contesto";
 import { PannelloMateriale } from "./pannello-materiale";
@@ -81,11 +85,6 @@ function sottoscriviMuto(callback: () => void) {
 
 const mutoDiDefault = () => true;
 
-/** Quanto aspettare dopo un `mouseleave`/`blur` prima di nascondere davvero
- *  il pannello: abbastanza perché passare da un titolo al successivo non
- *  faccia lampeggiare lo stato vuoto in mezzo (il bug dell'hover veloce). */
-const RITARDO_NASCONDI_MS = 100;
-
 /** Smorzamento/rilassamento/decadimento indipendenti dal refresh rate: un
  *  fattore fisso applicato una volta a 60fps si applicherebbe il doppio
  *  delle volte al secondo su uno schermo a 120Hz. */
@@ -127,16 +126,26 @@ function fattoreBordo(
   const assottigliamento = BORDO_MIN + (1 - BORDO_MIN) * normalizzata;
 
   const forzatoQui = (alConfineInizio && latoForzato === -1) || (alConfineFine && latoForzato === 1);
-  if (!forzatoQui || eccessoNormalizzato <= 0) return assottigliamento;
+  if (!forzatoQui) return assottigliamento;
 
-  return 1 + (BORDO_ENFASI_PICCO - 1) * eccessoNormalizzato * (1 - normalizzata);
+  // Interpolato fra i due regimi, non scelto con un `if`: a eccesso zero il
+  // valore È l'assottigliamento, quindi non c'è scalino nell'istante in cui
+  // `visibile` supera il capo. Prima il ramo enfasi partiva da `1 +` invece
+  // che da dove finiva l'altro, e il fattore saltava da BORDO_MIN a 1 in un
+  // frame — tutta la fascia del raggio insieme, proprio mentre la molla
+  // inizia a cedere. Gli estremi restano quelli di prima.
+  const enfasi = 1 + (BORDO_ENFASI_PICCO - 1) * (1 - normalizzata);
+  return assottigliamento + (enfasi - assottigliamento) * eccessoNormalizzato;
 }
 
 type Props = {
   inizio: number;
   fine: number;
   correnteIniziale: number;
-  larghezzaPista: string;
+  /** `--pista`, `--voce`, `--dx-iniziale`: le misure del tracciato, calcolate
+   *  in `page.tsx` dalle costanti di `lib/timeline.ts` — il foglio non ne
+   *  tiene una copia. */
+  stilePista: CSSProperties;
   /** Il nastro: asse, denti, anni, voci — server-renderizzato. */
   nastro: ReactNode;
   /** Testa e piede della pagina — server-renderizzati, tranne le foglie
@@ -148,7 +157,7 @@ export function MotoreTimeline({
   inizio,
   fine,
   correnteIniziale,
-  larghezzaPista,
+  stilePista,
   nastro,
   children,
 }: Props) {
@@ -160,6 +169,9 @@ export function MotoreTimeline({
   const visibileRef = useRef(correnteIniziale);
   const sforzoRef = useRef(0);
   const velocitaRef = useRef(0); // anni/secondo, per il momento dopo il rilascio
+  // Con quale sensibilità è nato il momento: il rilascio di un dito (1:1) non
+  // può decelerare con la sensibilità della rotella, sarebbe uno strappo.
+  const sensibilitaMomentoRef = useRef(SENSIBILITA_GENERALE);
   const denteRef = useRef(Math.floor((correnteIniziale - inizio) * 12));
   const ultimoVisibileRef = useRef(correnteIniziale); // per il verso/intensità del tick
 
@@ -169,6 +181,15 @@ export function MotoreTimeline({
   const origineAnnoRef = useRef(0);
   const pxPerAnnoRef = useRef(1);
   const dentiRef = useRef<{ el: HTMLElement; t: number }[]>([]);
+
+  // L'obiettivo del motore è un ref, non uno stato: `vaiA` è il solo modo in
+  // cui il resto della pagina può muoverlo (oggi il focus da tastiera, domani
+  // un'ancora o un indice). Il ticker ci arriva smorzato come da qualunque
+  // altro input — non è un salto scritto a mano.
+  const obiettivoDaFuoriRef = useRef<number | null>(null);
+  const vaiA = useCallback((anno: number) => {
+    obiettivoDaFuoriRef.current = anno;
+  }, []);
 
   const [corrente, setCorrente] = useState(correnteIniziale);
   const [voceInEvidenza, setVoceInEvidenza] = useState<VoceTimeline | null>(null);
@@ -219,6 +240,11 @@ export function MotoreTimeline({
     const testina = testinaRef.current;
     if (!binario || !pista || !testina) return;
 
+    // Letta una volta al montaggio (vedi `motoRidotto()`): niente momento
+    // residuo, nessun inseguimento smorzato, elastico che non oltrepassa il
+    // capo. Gli stati restano gli stessi, sparisce il percorso per arrivarci.
+    const ridotto = motoRidotto();
+
     const denti: { el: HTMLElement; t: number }[] = [];
     pista.querySelectorAll<HTMLElement>("[data-t]").forEach((el) => {
       const t = parseFloat(el.dataset.t ?? "");
@@ -253,8 +279,8 @@ export function MotoreTimeline({
      *  elastica ai capi e accumulo per il salto. Usato sia dall'input diretto
      *  (`spingi`) sia dal momento residuo dopo il rilascio (nel ticker) —
      *  stessa fisica, non due sistemi paralleli. */
-    const spingi = (deltaAnniGrezzi: number) => {
-      const deltaAnni = deltaAnniGrezzi * SENSIBILITA_GENERALE;
+    const spingi = (deltaAnniGrezzi: number, sensibilita = SENSIBILITA_GENERALE) => {
+      const deltaAnni = deltaAnniGrezzi * sensibilita;
       let obiettivo = obiettivoRef.current - deltaAnni;
 
       const oltreFine = obiettivo > fine;
@@ -274,7 +300,7 @@ export function MotoreTimeline({
         sforzoRef.current = 0;
       }
 
-      if (sforzoRef.current > SFORZO_SALTO) {
+      if (SALTO_ATTIVO && sforzoRef.current > SFORZO_SALTO) {
         const capoOpposto = oltreFine ? inizio : fine;
         obiettivoRef.current = capoOpposto;
         visibileRef.current = capoOpposto;
@@ -290,6 +316,9 @@ export function MotoreTimeline({
      *  tastiera. Ascoltato sulla pagina intera: qui non c'è altro widget con
      *  cui le frecce potrebbero entrare in conflitto. */
     const onKeyDown = (e: KeyboardEvent) => {
+      // Con un modificatore la freccia non è nostra: su macOS Cmd+← è
+      // "indietro" nel browser, Alt+← altrove.
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.key === "ArrowRight") {
         spingi(-PASSO_TASTIERA);
         e.preventDefault();
@@ -300,12 +329,22 @@ export function MotoreTimeline({
     };
     window.addEventListener("keydown", onKeyDown);
 
+    // Ascolta sulla pagina, non sul solo `.binario`: testa e piede sono suoi
+    // fratelli con `z-index`, e con il puntatore lì sopra la rotella non
+    // arrivava a nessuno — la pagina sembrava bloccata proprio dove ci sono i
+    // due link. `ignore` protegge comunque link e bottoni.
+    const pagina = binario.closest<HTMLElement>(`.${styles.pagina}`) ?? binario;
+
+    // `pointer` è il trascinamento col mouse, spento perché non tarato
+    // (TRASCINAMENTO_ATTIVO); `touch` è il dito, ed è l'unico ingresso che
+    // esiste su un telefono — spegnerlo insieme al mouse rendeva la pagina
+    // immobile lì, senza rotella né tastiera a fare da alternativa.
+    const daTocco = (e: Event) =>
+      e.type.startsWith("touch") || (e as PointerEvent).pointerType === "touch";
+
     const observer = Observer.create({
-      target: binario,
-      // Il trascinamento è spento (TRASCINAMENTO_ATTIVO): non ascoltare
-      // affatto touch/pointer, invece di ascoltarli e ignorarli — così non
-      // interferisce con lo scroll/tap nativo altrove sulla pagina.
-      type: TRASCINAMENTO_ATTIVO ? "wheel,touch,pointer" : "wheel",
+      target: pagina,
+      type: TRASCINAMENTO_ATTIVO ? "wheel,touch,pointer" : "wheel,touch",
       ignore: "a, button",
       dragMinimum: 6,
       preventDefault: true,
@@ -314,23 +353,34 @@ export function MotoreTimeline({
         const deltaPx = asseX ? self.deltaX : self.deltaY;
         const velocitaPx = asseX ? self.velocityX : self.velocityY;
         spingi(deltaPx / pxPerAnnoRef.current);
-        velocitaRef.current = velocitaPx / pxPerAnnoRef.current;
+        sensibilitaMomentoRef.current = SENSIBILITA_GENERALE;
+        velocitaRef.current = ridotto ? 0 : velocitaPx / pxPerAnnoRef.current;
       },
       onDrag: (self) => {
-        spingi(-self.deltaX / pxPerAnnoRef.current);
-        velocitaRef.current = -self.velocityX / pxPerAnnoRef.current;
+        const sensibilita = daTocco(self.event) ? SENSIBILITA_TOCCO : SENSIBILITA_GENERALE;
+        spingi(-self.deltaX / pxPerAnnoRef.current, sensibilita);
+        sensibilitaMomentoRef.current = sensibilita;
+        velocitaRef.current = ridotto ? 0 : -self.velocityX / pxPerAnnoRef.current;
       },
     });
 
     const tick = () => {
       const dt = gsap.ticker.deltaRatio(60) / 60;
 
+      // Un obiettivo arrivato da fuori (`vaiA`) vince sul resto e azzera il
+      // momento: è una destinazione, non una spinta.
+      if (obiettivoDaFuoriRef.current !== null) {
+        obiettivoRef.current = obiettivoDaFuoriRef.current;
+        obiettivoDaFuoriRef.current = null;
+        velocitaRef.current = 0;
+      }
+
       // Il momento residuo: se non arriva altro input, `obiettivo` continua
       // a scivolare per un po' invece di fermarsi di scatto al rilascio —
-      // stessa `spingi()` dell'input diretto, quindi rispetta l'elastico e
-      // il salto allo stesso modo.
+      // stessa `spingi()` dell'input diretto, e con la stessa sensibilità con
+      // cui il gesto era nato, quindi rispetta l'elastico allo stesso modo.
       if (Math.abs(velocitaRef.current) > MOMENTO_SOGLIA) {
-        spingi(velocitaRef.current * dt);
+        spingi(velocitaRef.current * dt, sensibilitaMomentoRef.current);
         velocitaRef.current *= Math.pow(MOMENTO_DECADIMENTO, dt);
       } else {
         velocitaRef.current = 0;
@@ -338,14 +388,18 @@ export function MotoreTimeline({
 
       // Rilassamento continuo verso il capo: se `obiettivo` è oltre i
       // confini e non arriva altro input in questo frame, la molla torna da
-      // sola invece di restare tesa in attesa di un altro evento.
-      if (obiettivoRef.current > fine) {
+      // sola invece di restare tesa in attesa di un altro evento. A moto
+      // ridotto la molla non esiste: il capo è un muro.
+      if (ridotto) {
+        obiettivoRef.current = Math.min(fine, Math.max(inizio, obiettivoRef.current));
+      } else if (obiettivoRef.current > fine) {
         obiettivoRef.current -= (obiettivoRef.current - fine) * smorza(RILASSAMENTO_BORDO, dt);
       } else if (obiettivoRef.current < inizio) {
         obiettivoRef.current += (inizio - obiettivoRef.current) * smorza(RILASSAMENTO_BORDO, dt);
       }
 
-      visibileRef.current += (obiettivoRef.current - visibileRef.current) * smorza(SMORZAMENTO, dt);
+      visibileRef.current +=
+        (obiettivoRef.current - visibileRef.current) * (ridotto ? 1 : smorza(SMORZAMENTO, dt));
 
       const posizioneAnnoPx = origineAnnoRef.current + (visibileRef.current - inizio) * pxPerAnnoRef.current;
       const dx = puntoLetturaRef.current - posizioneAnnoPx;
@@ -403,13 +457,11 @@ export function MotoreTimeline({
   }, { scope: binarioRef });
 
   return (
-    <ContestoTimeline.Provider value={{ corrente, voceInEvidenza, mostraVoce, nascondiVoce, muto, setMuto }}>
+    <ContestoTimeline.Provider
+      value={{ corrente, voceInEvidenza, mostraVoce, nascondiVoce, vaiA, muto, setMuto }}
+    >
       <div ref={binarioRef} className={styles.binario}>
-        <div
-          ref={pistaRef}
-          className={styles.pista}
-          style={{ "--pista": larghezzaPista } as CSSProperties}
-        >
+        <div ref={pistaRef} className={styles.pista} style={stilePista}>
           {nastro}
         </div>
       </div>

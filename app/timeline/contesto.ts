@@ -16,6 +16,11 @@ export type StatoTimeline = {
    *  era il bug segnalato con l'hover rapido. */
   mostraVoce: (voce: VoceTimeline) => void;
   nascondiVoce: () => void;
+  /** Porta il nonio su un anno passando per la fisica del motore, non con un
+   *  salto scritto a mano. Serve al focus da tastiera — una voce messa a
+   *  fuoco fuori schermo era irraggiungibile — e sarà l'aggancio di
+   *  qualunque navigazione futura verso un punto della cronologia. */
+  vaiA: (anno: number) => void;
   muto: boolean;
   setMuto: (muto: boolean) => void;
 };

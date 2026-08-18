@@ -22,6 +22,16 @@ export const CORRENTE_INIZIALE = 2013;
 export const ELASTICO_ANNI = 1.5;
 export const SFORZO_SALTO = 38;
 
+/** Il salto al capo opposto è spento. §4.4 della guida: "un archivio ha un
+ *  inizio e una fine, e la cronologia è il suo senso" — il loop infinito era
+ *  stato scartato lì, e premiare la spinta prolungata con un teletrasporto
+ *  2026→2010 lo rimetteva esattamente nei due punti che invece devono dire
+ *  "qui finisce". Senza salto la sola risposta alla spinta resta l'enfasi dei
+ *  dentini forzati, che il limite lo dice invece di annullarlo.
+ *  Come TRASCINAMENTO_ATTIVO: il codice resta intero, questo è l'unico
+ *  interruttore. */
+export const SALTO_ATTIVO = false;
+
 /** Quanto insegue l'obiettivo la posizione visibile, e quanto in fretta
  *  `obiettivo` torna al capo quando è stato tirato oltre e nessun input lo
  *  spinge più: entrambi normalizzati a 60fps (`smorza()` in motore.tsx). Più
@@ -39,6 +49,12 @@ export const RILASSAMENTO_BORDO = 0.12;
  *  attraversava tutta la timeline, serviva molto più che un -20%. */
 export const SENSIBILITA_GENERALE = 0.3;
 export const SENSIBILITA_BORDO = 0.7;
+
+/** Il tocco non è la rotella: il dito non "spinge" il nastro, lo tiene. Deve
+ *  restare 1:1 sotto il polpastrello, altrimenti si legge come rotto e non
+ *  come pesante — quindi ha una sensibilità sua e non passa da
+ *  SENSIBILITA_GENERALE. */
+export const SENSIBILITA_TOCCO = 1;
 
 /** Il trascinamento col mouse (drag) esiste ancora nel motore ma è spento:
  *  troppo sensibile rispetto a rotella/tastiera e non ancora tarato a sé.
@@ -70,6 +86,11 @@ export const TICK_DETUNE_VELOCITA_RIFERIMENTO = 3;
 /** Quanti anni si muove `obiettivo` per pressione di freccia. Riusa la
  *  stessa fisica di `spingi()`, quindi resta soggetto a elastico e salto. */
 export const PASSO_TASTIERA = 0.25;
+
+/** Quanto aspettare dopo un `mouseleave`/`blur` prima di nascondere davvero
+ *  il pannello: abbastanza perché passare da un titolo al successivo non
+ *  faccia lampeggiare lo stato vuoto in mezzo (il bug dell'hover veloce). */
+export const RITARDO_NASCONDI_MS = 100;
 
 /** La scala dei dentini attorno al nonio (scala diretta: tutti bassi, quello
  *  sotto il nonio al picco). Curva a campana di Lorentz, non a coseno: sale
@@ -115,17 +136,17 @@ export type Voce = {
 // lavori esterni — che Manuel aggiungerà.
 export const VOCI: Voce[] = [
   { titolo: "Intervento per il Candide", anno: 2013, medium: "intervento", luogo: "Palazzo Guillot, Alghero", slug: "intervento-per-il-candide" },
-  { titolo: "Glamour Confusion", anno: 2014, medium: "—", luogo: "—" },
-  { titolo: "Photo Editorial Design Scene", anno: 2015, medium: "editoriale", luogo: "—" },
-  { titolo: "Ph Shoot Anto", anno: 2015, medium: "—", luogo: "—" },
-  { titolo: "Corsa Futurista", anno: 2015, fine: 2024, medium: "—", luogo: "—" },
-  { titolo: "A Boy's Closet", anno: 2020, medium: "—", luogo: "—" },
+  { titolo: "Glamour Confusion", anno: 2014, medium: "—", luogo: "—", slug: "glamour-confusion" },
+  { titolo: "Photo Editorial Design Scene", anno: 2015, medium: "editoriale", luogo: "—", slug: "photo-editorial-design-scene" },
+  { titolo: "Ph Shoot Anto", anno: 2015, medium: "—", luogo: "—", slug: "ph-shoot-anto" },
+  { titolo: "Corsa Futurista", anno: 2015, fine: 2024, medium: "—", luogo: "—", slug: "corsa-futurista" },
+  { titolo: "A Boy's Closet", anno: 2020, medium: "—", luogo: "—", slug: "a-boys-closet" },
   { titolo: "L'Affair", anno: 2021, medium: "video performance", luogo: "—" },
-  { titolo: "Le Rêve Lever", anno: 2022, medium: "—", luogo: "—" },
+  { titolo: "Le Rêve Lever", anno: 2022, medium: "—", luogo: "—", slug: "le-reve-lever" },
   { titolo: "Funeral Rave", anno: 2023, medium: "—", luogo: "—", slug: "funeral-rave" },
-  { titolo: "Don Giovanni", anno: 2025, medium: "—", luogo: "—" },
+  { titolo: "Don Giovanni", anno: 2025, medium: "—", luogo: "—", slug: "don-giovanni" },
   { titolo: "BDSM", anno: 2025, medium: "video", luogo: "—" },
-  { titolo: "Coucher avec moi", anno: 2026, medium: "—", luogo: "—" },
+  { titolo: "Coucher avec moi", anno: 2026, medium: "—", luogo: "—", slug: "coucher-avec-moi" },
 ];
 
 export const ANNI = Array.from({ length: FINE - INIZIO + 1 }, (_, i) => INIZIO + i);
@@ -158,7 +179,11 @@ export type VoceTimeline = Voce & {
   x: number;
   /** L'ordinata non porta significato: serve solo a non far accavallare le voci. */
   riga: number;
-  /** Risolti da `lib/opere.ts` quando `slug` è presente. */
+  /** Risolti da `lib/opere.ts` quando `slug` è presente. Il numero è quello
+   *  della sequenza d'archivio 01→26 (§3.3): non si deriva dalla posizione in
+   *  `VOCI`, che è un altro insieme — qui dentro stanno anche voci che opere
+   *  non sono, e quelle un numero non ce l'hanno affatto. */
+  numero?: number;
   href?: string;
   copertina?: { src: string; w: number; h: number };
 };

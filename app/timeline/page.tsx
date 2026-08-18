@@ -16,7 +16,7 @@ import {
   type VoceTimeline,
 } from "@/lib/timeline";
 import { MotoreTimeline } from "./motore";
-import { AnnoCorrente, AnnoTick, VoceInteractiva } from "./nastro-vivo";
+import { AnnoCorrente, AnnoTick, VoceInterattiva } from "./nastro-vivo";
 import { InterruttoreSuono } from "./interruttore-suono";
 import styles from "./page.module.css";
 
@@ -35,14 +35,16 @@ import styles from "./page.module.css";
 // esplicita: un'animazione d'ingresso al primo caricamento — è un incremento
 // successivo, separato.
 
-// Le voci con `slug` sono anche opere vere del sito: risolvo qui `href` e
-// copertina da `lib/opere.ts` invece di duplicarli in `lib/timeline.ts`.
+// Le voci con `slug` sono anche opere vere del sito: risolvo qui numero,
+// `href` e copertina da `lib/opere.ts` invece di duplicarli in
+// `lib/timeline.ts`.
 function arricchisci(voci: ReturnType<typeof disponi>): VoceTimeline[] {
   return voci.map((voce) => {
     const opera = voce.slug ? perSlug(voce.slug) : undefined;
     const copertina = opera?.scatti[0];
     return {
       ...voce,
+      numero: opera?.numero,
       href: opera ? `/works/${opera.slug}` : undefined,
       copertina: copertina ? { src: copertina.src, w: copertina.w, h: copertina.h } : undefined,
     };
@@ -59,7 +61,16 @@ export default function Page() {
         inizio={INIZIO}
         fine={FINE}
         correnteIniziale={CORRENTE_INIZIALE}
-        larghezzaPista={rem((FINE - INIZIO) * PASSO + (PISTA_PADDING_MESI * 2 * PASSO) / 12 + VOCE)}
+        stilePista={
+          {
+            "--pista": rem((FINE - INIZIO) * PASSO + (PISTA_PADDING_MESI * 2 * PASSO) / 12 + VOCE),
+            "--voce": rem(VOCE),
+            // Dove cade CORRENTE_INIZIALE sulla pista: serve al foglio per
+            // mettere quell'anno sotto il nonio già a riposo, senza JS e
+            // senza lo scatto al primo frame dopo l'idratazione.
+            "--dx-iniziale": rem((CORRENTE_INIZIALE - INIZIO) * PASSO),
+          } as CSSProperties
+        }
         nastro={
           <>
             <div className={styles.asse} />
@@ -78,7 +89,7 @@ export default function Page() {
                   key={m}
                   className={styles.dente}
                   data-t={INIZIO + m / 12}
-                  data-anno={dentroRange && m % 12 === 0 ? "" : undefined}
+                  data-gennaio={dentroRange && m % 12 === 0 ? "" : undefined}
                   data-opera={dentroRange && m % 12 === 0 && conOpera.has(INIZIO + m / 12) ? "" : undefined}
                   style={{ "--dx": rem((m / 12) * PASSO) } as CSSProperties}
                 />
@@ -89,11 +100,10 @@ export default function Page() {
               <AnnoTick key={anno} anno={anno} dx={rem((anno - INIZIO) * PASSO)} />
             ))}
 
-            {voci.map((voce, i) => (
-              <VoceInteractiva
+            {voci.map((voce) => (
+              <VoceInterattiva
                 key={voce.titolo}
                 voce={voce}
-                indice={i}
                 stile={{ "--dx": rem(voce.x), "--n": voce.riga } as CSSProperties}
               />
             ))}
@@ -114,8 +124,11 @@ export default function Page() {
             </span>
             home
           </Link>
-          <p className={styles.legenda} aria-label="usa lo scroll o le frecce sinistra e destra per navigare">
+          <p className={styles.legenda}>
             <span aria-hidden="true">scroll  ·  ← →</span>
+            <span className={styles.soloLettori}>
+              usa lo scroll o le frecce sinistra e destra per navigare
+            </span>
           </p>
           <InterruttoreSuono />
         </footer>
