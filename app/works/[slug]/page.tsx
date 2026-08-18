@@ -106,7 +106,7 @@ export default async function Page({
       <header className={styles.testa}>
         <Link href="/">manuel</Link>
         <p className={styles.percorso}>
-          {numerato(1)} / {opera.titolo.toLowerCase()} / archivio
+          {numerato(opera.numero)} / {opera.titolo.toLowerCase()} / archivio
         </p>
       </header>
 
