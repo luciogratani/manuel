@@ -3,9 +3,12 @@
    Stesse convenzioni delle altre pagine: tutto in rem, 1rem = 16px sulla
    viewport di riferimento 1440 × 780.
 
-   Niente rosso, per ora: merita un approfondimento a sé. E niente filetti
-   verticali — solo orizzontali. Il legame fra una voce e il suo anno lo fa il
-   dentino marcato sull'asse, che è un segno già presente, non uno nuovo.
+   Niente rosso nel nastro: denti e anni restano neutri, il legame fra una
+   voce e il suo anno lo fa il dentino marcato sull'asse, un segno già
+   presente e non uno nuovo. Il primo rosso della pagina è la lama del taglio
+   nel pannello sotto la testina (`.lama`) — vive solo lì, com'è la regola
+   (§2.3: il rosso sta nel taglio, non colora l'interfaccia). Niente filetti
+   verticali nel nastro — solo orizzontali.
 
    Convenzione sulle variabili: quelle per-elemento arrivano dal TSX e si
    chiamano `--dx`, `--n`, `--f`, `--ar`. Quelle di sistema stanno qui sotto. */
@@ -33,28 +36,27 @@
 
 /* ── Il nastro ────────────────────────────────────────────────────────────────
    Rientrato di `--x` come nelle altre pagine: il tempo sparisce prima del bordo.
-   Nessun loop qui dentro — il loop con frizione arriverà col livello dinamico,
-   e non è il meccanismo della slide 01. */
+   Lo scroll nativo è sostituito dal motore (`motore.tsx`, GSAP Observer):
+   `.binario` è solo il viewport che ritaglia, `.pista` si sposta per intero
+   via `--scorrimento`, letta a runtime — mai in scroll nativo, quindi niente
+   overflow/scrollbar qui. */
 .binario {
   position: absolute;
   top: 0;
   bottom: 0;
   left: var(--x);
   right: var(--x);
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none;
+  overflow: hidden;
 }
 
-.binario::-webkit-scrollbar {
-  display: none;
-}
-
+/* Il default `0rem` è lo stato a riposo: `--dx` di ogni figlio è già calcolato
+   perché CORRENTE_INIZIALE cada al centro a scorrimento zero, quindi la
+   pagina è visivamente corretta prima ancora che il motore idrati. */
 .pista {
   position: relative;
   height: 100%;
   width: calc(var(--pista) + var(--margine) * 2);
+  transform: translateX(var(--scorrimento, 0rem));
 }
 
 .asse {
@@ -67,7 +69,13 @@
 
 /* ── La scala grossa ──────────────────────────────────────────────────────────
    Un dentino al mese. Gennaio è più lungo. Dove c'è una voce, il dentino
-   dell'anno è pieno: è l'unico segno che lega la voce alla sua ascissa. */
+   dell'anno è pieno: è l'unico segno che lega la voce alla sua ascissa.
+
+   `--focus`, scritta dal motore ad ogni frame in base alla distanza dal
+   nonio (scala diretta: bassi di norma, il dentino sotto il nonio al picco),
+   scala l'altezza già autorata invece di sostituirla — `transform-origin:
+   top` perché i denti crescono verso il basso dall'asse, e il picco non deve
+   spostare l'ancoraggio. */
 .dente {
   position: absolute;
   top: var(--asse);
@@ -75,6 +83,8 @@
   height: 0.375rem; /* 6px */
   border-left: 1px solid var(--inchiostro);
   opacity: 0.25;
+  transform: scaleY(var(--focus, 1));
+  transform-origin: top;
 }
 
 .dente[data-anno] {
@@ -156,8 +166,12 @@
   z-index: 1;
 }
 
-/* Il materiale della voce sotto la testina. Ancorato in basso, niente
-   contorni, niente testo: per ora è solo un placeholder orizzontale. */
+/* Il materiale della voce in evidenza (hover/focus su un titolo — non più
+   legato allo scroll, era fastidioso restasse attivo scorrendo in fretta).
+   Nascosto a riposo; mostra la copertina reale quando la voce è anche
+   un'opera del sito, altrimenti un fallback testuale — nello stesso riquadro
+   3:2. Il fade in/out è gestito da GSAP (`pannello-materiale.tsx`), non da
+   una transition CSS, per restare coerente col resto del motore. */
 .materiale {
   position: absolute;
   bottom: 5rem; /* 80px */
@@ -165,7 +179,58 @@
   z-index: 1;
   height: 7.5rem; /* 120px */
   aspect-ratio: 3 / 2;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.corpo {
+  position: absolute;
+  inset: 0;
   background: var(--inchiostro);
+  color: var(--avorio);
+}
+
+.immagine {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.foto {
+  object-fit: cover;
+}
+
+.testoMateriale {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+/* ── Il taglio del pannello ───────────────────────────────────────────────────
+   Guida §3.1: bordo netto, mai diagonale. `.maschera` copre a riposo,
+   retratta fuori vista via `xPercent: -100` — coerente col resto del sito,
+   nessuna animazione al primo caricamento. `.lama` è sua figlia: sta sul
+   bordo che rivela e si muove con lei senza bisogno di un'animazione propria
+   di posizione, solo di opacità. */
+.maschera {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--inchiostro);
+  transform: translateX(-100%);
+}
+
+.lama {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -1px;
+  width: 2px;
+  background: #c1121c;
+  opacity: 0;
 }
 
 /* ── Testa e piede ────────────────────────────────────────────────────────────
@@ -203,4 +268,13 @@
 
 .freccia {
   margin-right: 0.375rem;
+}
+
+.interruttore {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
