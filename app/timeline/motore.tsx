@@ -20,8 +20,11 @@ import {
   TICK_DETUNE_CENTI,
   TICK_DETUNE_VELOCITA_RIFERIMENTO,
   FOCUS_RAGGIO_MESI,
-  FOCUS_MIN,
-  FOCUS_PICCO,
+  FOCUS_AGGIUNTA,
+  LETTURA_PIENA,
+  LETTURA_MIN,
+  SOGLIA_SCRITTURA,
+  PASSO,
   BORDO_RAGGIO_ANNI,
   BORDO_MIN,
   BORDO_ENFASI_PICCO,
@@ -92,15 +95,28 @@ function smorza(fattore: number, dt: number) {
   return 1 - Math.pow(1 - fattore, dt * 60);
 }
 
-/** Scala diretta (§2 del feedback): tutti i dentini bassi, quello sotto il
- *  nonio al picco. Campana di Lorentz, non coseno: sale ripida vicino al
- *  centro e ha una coda lunga e morbida invece di un taglio netto al raggio
- *  — "centro più chiuso, bordi lunghi e morbidi". */
-function fattoreFocus(t: number, visibile: number) {
+/** Il fuoco attorno al nonio, 0 lontano e 1 sotto la testina. Campana di
+ *  Lorentz, non coseno: sale ripida vicino al centro e ha una coda lunga e
+ *  morbida invece di un taglio netto al raggio — "centro più chiuso, bordi
+ *  lunghi e morbidi". Chi chiama decide cosa farne: qui diventa un'AGGIUNTA
+ *  di altezza uguale per tutti i dentini, non un fattore di scala (vedi
+ *  FOCUS_AGGIUNTA). */
+function campanaFocus(t: number, visibile: number) {
   const distanzaMesi = Math.abs(t - visibile) * 12;
   const normalizzata = distanzaMesi / FOCUS_RAGGIO_MESI;
-  const campana = 1 / (1 + normalizzata * normalizzata);
-  return FOCUS_MIN + (FOCUS_PICCO - FOCUS_MIN) * campana;
+  return 1 / (1 + normalizzata * normalizzata);
+}
+
+/** La zona di lettura: 1 nella fascia centrale, poi giù fino a LETTURA_MIN al
+ *  bordo del binario. `distanza` è già normalizzata — 0 al nonio, 1 al bordo
+ *  dal lato in cui si trova l'elemento, così la zona resta simmetrica anche
+ *  se un giorno il nonio non fosse più al centro. */
+function fattoreLettura(distanza: number) {
+  if (distanza <= LETTURA_PIENA) return 1;
+  const oltre = Math.min(1, (distanza - LETTURA_PIENA) / (1 - LETTURA_PIENA));
+  // Quadratica: la dissolvenza comincia impercettibile e si consuma negli
+  // ultimi pixel — "margini generosi, non un taglio stretto".
+  return 1 - (1 - LETTURA_MIN) * oltre * oltre;
 }
 
 /** I dentini si assottigliano avvicinandosi a un capo (§4 del feedback) — ma
@@ -137,6 +153,20 @@ function fattoreBordo(
   const enfasi = 1 + (BORDO_ENFASI_PICCO - 1) * (1 - normalizzata);
   return assottigliamento + (enfasi - assottigliamento) * eccessoNormalizzato;
 }
+
+/** Un elemento del nastro che il motore aggiorna ad ogni frame: dentini, anni
+ *  e voci insieme, perché la zona di lettura li tratta allo stesso modo.
+ *  `base` è l'altezza autorata nel foglio (0 per ciò che dentino non è): il
+ *  fuoco è un'aggiunta in pixel, e per tradurla in `scaleY` serve sapere da
+ *  cosa si parte — letta da lì, non ricopiata qui. `focus`/`lettura` sono
+ *  l'ultimo valore scritto, per non riscrivere ciò che non è cambiato. */
+type ElementoNastro = {
+  el: HTMLElement;
+  t: number;
+  base: number;
+  focus: number;
+  lettura: number;
+};
 
 type Props = {
   inizio: number;
@@ -180,7 +210,8 @@ export function MotoreTimeline({
   const puntoLetturaRef = useRef(0);
   const origineAnnoRef = useRef(0);
   const pxPerAnnoRef = useRef(1);
-  const dentiRef = useRef<{ el: HTMLElement; t: number }[]>([]);
+  const larghezzaBinarioRef = useRef(0);
+  const elementiRef = useRef<ElementoNastro[]>([]);
 
   // L'obiettivo del motore è un ref, non uno stato: `vaiA` è il solo modo in
   // cui il resto della pagina può muoverlo (oggi il focus da tastiera, domani
@@ -245,12 +276,16 @@ export function MotoreTimeline({
     // capo. Gli stati restano gli stessi, sparisce il percorso per arrivarci.
     const ridotto = motoRidotto();
 
-    const denti: { el: HTMLElement; t: number }[] = [];
+    // Tutto ciò che sta sul nastro a un'ascissa temporale: dentini, etichette
+    // degli anni, voci. `data-t` è l'unica cosa che li accomuna, ed è quanto
+    // basta perché la posizione a schermo si ricavi dai numeri già misurati
+    // — nessun getBoundingClientRect per elemento per frame.
+    const elementi: ElementoNastro[] = [];
     pista.querySelectorAll<HTMLElement>("[data-t]").forEach((el) => {
       const t = parseFloat(el.dataset.t ?? "");
-      if (!Number.isNaN(t)) denti.push({ el, t });
+      if (!Number.isNaN(t)) elementi.push({ el, t, base: 0, focus: -1, lettura: -1 });
     });
-    dentiRef.current = denti;
+    elementiRef.current = elementi;
 
     /** Misura dove sta davvero il nonio e dove cade `inizio`, in pixel
      *  reali, invece di assumerlo. `rA`/`testina` includono il transform già
@@ -267,8 +302,18 @@ export function MotoreTimeline({
       const rB = annoB.getBoundingClientRect();
 
       pxPerAnnoRef.current = rB.left - rA.left || 1;
+      larghezzaBinarioRef.current = rBinario.width;
       puntoLetturaRef.current = testina.getBoundingClientRect().left - rBinario.left;
       origineAnnoRef.current = rA.left - rBinario.left - scorrimentoPxRef.current;
+
+      // L'altezza autorata dei dentini si legge dal foglio invece di tenere
+      // qui una copia dei 6/12/18px. `getComputedStyle().height` è l'altezza
+      // usata, non toccata dal `transform` già applicato. Al resize cambia,
+      // perché cambia la scala in rem del sito.
+      for (const e of elementi) {
+        if (!e.el.classList.contains(styles.dente)) continue;
+        e.base = parseFloat(getComputedStyle(e.el).height) || 0;
+      }
     };
 
     misura();
@@ -438,11 +483,38 @@ export function MotoreTimeline({
       const latoForzato: -1 | 0 | 1 =
         visibileRef.current > fine ? 1 : visibileRef.current < inizio ? -1 : 0;
 
-      for (const { el, t } of dentiRef.current) {
-        const scala =
-          fattoreFocus(t, visibileRef.current) *
-          fattoreBordo(t, inizio, fine, eccessoNormalizzato, latoForzato);
-        el.style.setProperty("--focus", scala.toFixed(3));
+      // Un giro solo su tutto il nastro. La posizione a schermo di ogni
+      // elemento è analitica — origine misurata, passo misurato, scorrimento
+      // di questo frame — quindi non costa un getBoundingClientRect a testa.
+      // `pxPerAnno / PASSO` è la scala in rem del sito, misurata e non
+      // assunta: serve a portare FOCUS_AGGIUNTA dai px di riferimento a
+      // quelli veri.
+      const aggiuntaPx = FOCUS_AGGIUNTA * (pxPerAnnoRef.current / PASSO);
+      const puntoLettura = puntoLetturaRef.current;
+      const mezzoSinistra = puntoLettura;
+      const mezzoDestra = larghezzaBinarioRef.current - puntoLettura;
+
+      for (const e of elementiRef.current) {
+        const x =
+          origineAnnoRef.current + (e.t - inizio) * pxPerAnnoRef.current + scorrimentoPxRef.current;
+        const mezzo = x < puntoLettura ? mezzoSinistra : mezzoDestra;
+        const distanza = mezzo > 0 ? Math.min(1, Math.abs(x - puntoLettura) / mezzo) : 1;
+
+        const lettura = fattoreLettura(distanza);
+        if (Math.abs(lettura - e.lettura) > SOGLIA_SCRITTURA) {
+          e.lettura = lettura;
+          e.el.style.setProperty("--lettura", lettura.toFixed(3));
+        }
+
+        // Il fuoco è solo dei dentini: le etichette e le voci non si scalano.
+        if (e.base <= 0) continue;
+        const focus =
+          (1 + (aggiuntaPx * campanaFocus(e.t, visibileRef.current)) / e.base) *
+          fattoreBordo(e.t, inizio, fine, eccessoNormalizzato, latoForzato);
+        if (Math.abs(focus - e.focus) > SOGLIA_SCRITTURA) {
+          e.focus = focus;
+          e.el.style.setProperty("--focus", focus.toFixed(3));
+        }
       }
     };
 

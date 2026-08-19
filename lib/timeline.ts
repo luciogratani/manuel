@@ -92,16 +92,50 @@ export const PASSO_TASTIERA = 0.25;
  *  faccia lampeggiare lo stato vuoto in mezzo (il bug dell'hover veloce). */
 export const RITARDO_NASCONDI_MS = 100;
 
-/** La scala dei dentini attorno al nonio (scala diretta: tutti bassi, quello
- *  sotto il nonio al picco). Curva a campana di Lorentz, non a coseno: sale
+/** Il fuoco attorno al nonio. Curva a campana di Lorentz, non a coseno: sale
  *  ripida vicino al centro e poi ha una coda lunga e morbida invece di un
  *  taglio netto al raggio — "centro più chiuso, bordi lunghi e morbidi".
  *  `FOCUS_RAGGIO_MESI` è dove la campana è a metà altezza, non un confine:
- *  oltre continua a scendere verso `FOCUS_MIN` senza mai un salto. Prima
- *  ipotesi, da tarare a occhio. */
+ *  oltre continua a scendere senza mai un salto.
+ *
+ *  ADDITIVO, non moltiplicativo: `FOCUS_AGGIUNTA` è quanto CRESCE il dentino
+ *  sotto il nonio, in px di riferimento, uguale per tutti e tre i tipi. Prima
+ *  era un fattore di scala (×2,9) applicato all'altezza già autorata, quindi
+ *  la differenza fra mese, gennaio e opera veniva esagerata di tre volte
+ *  proprio dove l'occhio guarda: 6/12/18px diventavano 17/35/52. Ora la
+ *  gerarchia autorata resta intatta e si sposta soltanto in su.
+ *
+ *  Ne è sparito anche il minimo: prima i dentini lontani erano schiacciati al
+ *  10%, cioè la scala diceva "sei lontano" oltre a "sei qui". Quel mestiere
+ *  ora è della zona di lettura, che lo fa con l'opacità — un segnale, un
+ *  canale. Prima ipotesi, da tarare a occhio. */
 export const FOCUS_RAGGIO_MESI = 14;
-export const FOCUS_MIN = 0.1;
-export const FOCUS_PICCO = 2.9;
+export const FOCUS_AGGIUNTA = 12;
+
+/** La zona di lettura: denti, anni e voci salgono di opacità avvicinandosi al
+ *  nonio. `LETTURA_PIENA` è la frazione CENTRALE della larghezza del binario
+ *  che resta a piena opacità — al di là comincia la dissolvenza, che si spegne
+ *  su `LETTURA_MIN` al bordo. Margini generosi di proposito: il fattore
+ *  scende con una quadratica, quindi l'inizio della dissolvenza è
+ *  impercettibile e il buio si concentra negli ultimi pixel.
+ *
+ *  Moltiplica l'opacità già autorata (0,25 / 0,45 / 1 sui dentini), non la
+ *  sostituisce: al centro la gerarchia si legge tutta, ai bordi sparisce
+ *  insieme al resto.
+ *
+ *  Il raggio è di proposito lontano da quello del fuoco: la campana dice
+ *  "questo mese" (poco più di un anno), la zona dice "questa parte dello
+ *  schermo" (qui ~3,5 anni). Se i due si avvicinano diventano lo stesso
+ *  segnale scritto due volte. */
+export const LETTURA_PIENA = 0.6;
+export const LETTURA_MIN = 0.05;
+
+/** Sotto questa variazione non vale la pena riscrivere una custom property:
+ *  ad ogni frame il motore tocca ~270 elementi fra denti, anni e voci, e la
+ *  maggior parte è ferma nella zona piena o già spenta ai bordi, dove il
+ *  valore non cambia affatto. Non è un'ottimizzazione preventiva: è il costo
+ *  di due proprietà per elemento invece di una. */
+export const SOGLIA_SCRITTURA = 0.004;
 
 /** I dentini si assottigliano avvicinandosi ai capi (2010/2026) — un segnale
  *  di limite, distinto dal fuoco del nonio. `BORDO_RAGGIO_ANNI` è quanto è

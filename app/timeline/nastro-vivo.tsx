@@ -16,6 +16,7 @@ export function AnnoTick({ anno, dx }: { anno: number; dx: string }) {
   return (
     <span
       className={styles.anno}
+      data-t={anno}
       data-anno={anno}
       data-corrente={anno === corrente ? "" : undefined}
       style={{ "--dx": dx } as CSSProperties}
@@ -72,12 +73,22 @@ export function VoceInterattiva({
     onBlur: () => nascondiVoce(),
   };
 
+  // `data-t`: l'ascissa temporale, la stessa che portano dentini ed etichette.
+  // È tutto ciò che serve al motore per calcolare dove cade la voce a schermo
+  // e quanto deve essere leggibile, senza misurarla ad ogni frame.
   return voce.href ? (
-    <Link className={styles.voce} href={voce.href} data-route="" style={stile} {...eventi}>
+    <Link
+      className={styles.voce}
+      href={voce.href}
+      data-t={voce.anno}
+      data-route=""
+      style={stile}
+      {...eventi}
+    >
       {contenuto}
     </Link>
   ) : (
-    <span className={styles.voce} style={stile} tabIndex={0} {...eventi}>
+    <span className={styles.voce} data-t={voce.anno} style={stile} tabIndex={0} {...eventi}>
       {contenuto}
     </span>
   );
