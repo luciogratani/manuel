@@ -20,6 +20,11 @@
 
   display: flex;
   justify-content: space-between;
+  /* Dichiarata qui e non ereditata: il font del sito sta su `.pagina` di ogni
+     pagina, e l'header vive nel layout — fuori da tutte. Senza questa riga
+     cadeva sul carattere di sistema. */
+  font-family: var(--font-pp-object-sans), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
   font-size: 1.125rem; /* 18px */
   line-height: 1;
   /* Sulla soglia la riga trasla per due secondi buoni; altrove è ferma. */
