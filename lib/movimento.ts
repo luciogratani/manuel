@@ -2,36 +2,9 @@
  *  tiene una copia — né i fogli di stile né i componenti. */
 export const ROSSO = "#C1121C";
 
-// La grammatica del taglio (guida di progetto §3.1): un bordo netto scopre
-// l'elemento, il rosso precede la rivelazione per un istante nella fessura,
-// poi sparisce. Assi ammessi solo verticale e orizzontale, mai diagonale.
-//
-// Centralizzato qui perché il pannello della timeline (`pannello-materiale.tsx`)
-// è il primo taglio mai implementato nel progetto: la futura maschera di
-// transizione fra pagine (§3.4) userà le stesse costanti, non una copia.
-export const TAGLIO = {
-  durata: 0.9,
-  ease: "cubic-bezier(0.76, 0, 0.24, 1)",
-  rosso: ROSSO,
-  /** Quando la lama rossa sparisce, in frazioni di `durata` — non in secondi.
-   *  Prima era un valore assoluto di 0,07s misurato dall'inizio, e il rosso
-   *  risultava invisibile: `ease` è un easeInOut molto marcato, quindi nei
-   *  primi 70ms la maschera percorre lo 0,39% della sua corsa. Su un pannello
-   *  di 225px sono 0,9px — la lama c'era, a piena opacità, ferma sul bordo
-   *  destro, e spariva prima che il taglio cominciasse a muoversi.
-   *
-   *  La fessura si apre davvero fra il 40% e il 60% della durata (dal 20%
-   *  all'80% della corsa). Il rosso vive lì: tiene fino a `rossoInizio` e si
-   *  spegne in `rossoDurata`, cioè attraversa il pannello mentre la lama
-   *  corre e sparisce prima che il taglio si chiuda. Resta "un istante nella
-   *  fessura" del §3.1 — solo, un istante che si vede. */
-  rossoInizio: 0.4,
-  rossoDurata: 0.16,
-} as const;
-
 /** L'altra metà del §3.2: la dissolvenza segna una variazione interna a uno
  *  stato già stabilito, dove il taglio segna il passaggio di stato. Sta qui
- *  accanto al taglio perché la scelta fra i due è la regola, e una regola con
+ *  accanto alla tenda perché la scelta fra i due è la regola, e una regola con
  *  un solo termine scritto non è una regola. */
 export const DISSOLVENZA = {
   durata: 0.25,
@@ -82,6 +55,14 @@ export const TENDA = {
   ritiro: 0.5,
   easeCopertura: "power2.out",
   easeRitiro: "power2.in",
+  /** La tenda che risponde a un puntatore, non quella che apre una pagina.
+   *  Stessa grammatica, stesso disegno, tempo più corto: un ingresso
+   *  cerimoniale si guarda, una risposta si aspetta — e un secondo prima di
+   *  vedere la preview di un titolo su cui sei già col mouse è lentezza, non
+   *  eleganza. Moltiplica i tre tempi insieme, così le proporzioni fra
+   *  copertura, attesa e ritiro restano quelle. */
+  scalaRisposta: 0.55,
+
   /** Lo scarto fra due tende della stessa composizione. Volutamente più corto
    *  della somma dei due tempi: la seconda entra mentre la prima si sta
    *  ritirando, così la soglia si compone con un'onda sola invece di due

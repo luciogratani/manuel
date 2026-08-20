@@ -32,6 +32,9 @@ type Props = {
    *  volta sola al montaggio. */
   chiave?: string | number;
   asse?: keyof typeof ASSI;
+  /** Moltiplicatore dei tre tempi. La tenda ha un disegno solo e due tempi
+   *  d'uso: cerimoniale (1) e di risposta (`TENDA.scalaRisposta`). */
+  scala?: number;
   /** Ritardo prima della copertura, in secondi. Durante l'attesa il contenuto
    *  è già nascosto: non si vede niente finché la sua tenda non arriva. */
   ritardo?: number;
@@ -39,7 +42,14 @@ type Props = {
   className?: string;
 };
 
-export function Tenda({ children, chiave, asse = "orizzontale", ritardo = 0, className }: Props) {
+export function Tenda({
+  children,
+  chiave,
+  asse = "orizzontale",
+  ritardo = 0,
+  scala = 1,
+  className,
+}: Props) {
   const contenitoreRef = useRef<HTMLDivElement>(null);
   const contenutoRef = useRef<HTMLDivElement>(null);
   const tendaRef = useRef<HTMLDivElement>(null);
@@ -54,22 +64,22 @@ export function Tenda({ children, chiave, asse = "orizzontale", ritardo = 0, cla
       const tenda = tendaRef.current;
       if (!contenuto || !tenda) return;
 
-      const { scala, entrata, uscita } = ASSI[asse];
+      const { scala: asseScala, entrata, uscita } = ASSI[asse];
 
       // §9.4: stesso stato finale, nessun percorso per arrivarci.
       if (motoRidotto()) {
         gsap.set(contenuto, { opacity: 1 });
-        gsap.set(tenda, { [scala]: 0 });
+        gsap.set(tenda, { [asseScala]: 0 });
         return;
       }
 
       gsap.set(contenuto, { opacity: 0 });
-      gsap.set(tenda, { transformOrigin: entrata, [scala]: 0 });
+      gsap.set(tenda, { transformOrigin: entrata, [asseScala]: 0 });
 
       const tl = gsap.timeline({ delay: ritardo });
       tl.to(tenda, {
-        [scala]: 1,
-        duration: TENDA.copertura,
+        [asseScala]: 1,
+        duration: TENDA.copertura * scala,
         ease: TENDA.easeCopertura,
       })
         // Copertura piena: il contenuto compare sotto il rosso.
@@ -77,15 +87,15 @@ export function Tenda({ children, chiave, asse = "orizzontale", ritardo = 0, cla
         .set(tenda, { transformOrigin: uscita })
         .to(
           tenda,
-          { [scala]: 0, duration: TENDA.ritiro, ease: TENDA.easeRitiro },
-          `+=${TENDA.attesa}`,
+          { [asseScala]: 0, duration: TENDA.ritiro * scala, ease: TENDA.easeRitiro },
+          `+=${TENDA.attesa * scala}`,
         );
 
       return () => {
         tl.kill();
       };
     },
-    { dependencies: [chiave, asse, ritardo, replay], scope: contenitoreRef },
+    { dependencies: [chiave, asse, ritardo, scala, replay], scope: contenitoreRef },
   );
 
   return (
