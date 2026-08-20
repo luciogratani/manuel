@@ -25,6 +25,7 @@ import {
   LETTURA_MIN,
   SOGLIA_SCRITTURA,
   PASSO,
+  INGRESSO,
   BORDO_RAGGIO_ANNI,
   BORDO_MIN,
   BORDO_ENFASI_PICCO,
@@ -527,6 +528,118 @@ export function MotoreTimeline({
       gsap.ticker.remove(tick);
     };
   }, { scope: binarioRef });
+
+  // ── L'ingresso: lo strumento si costruisce da sé ──────────────────────────
+  // Sta in un `useGSAP` suo, dopo quello del motore, perché ha bisogno di ciò
+  // che il motore ha appena misurato — dove cade il nonio, dove sta la pista,
+  // quali elementi ci sono sopra e a che ascissa.
+  //
+  // Non contende NIENTE al motore: quello scrive `--focus` e `--lettura` ad
+  // ogni frame, questo scrive `--ingresso`, e il foglio moltiplica. È lo
+  // stesso idioma che la pagina usa già due volte (`--lettura` per
+  // `--opacita-base`, il fuoco additivo per l'altezza autorata): due segnali
+  // che non sanno l'uno dell'altro, e un default che per entrambi vale
+  // "nessun effetto".
+  useGSAP(
+    () => {
+      const binario = binarioRef.current;
+      const pista = pistaRef.current;
+      const testina = testinaRef.current;
+      if (!binario || !pista || !testina) return;
+
+      const asse = pista.querySelector<HTMLElement>(`.${styles.asse}`);
+      const elementi = elementiRef.current;
+      if (!asse || elementi.length === 0) return;
+
+      const denti = elementi.filter((e) => e.base > 0);
+      const apparato = elementi.filter((e) => e.base <= 0);
+      const partenza = visibileRef.current;
+
+      /** Il ritardo dell'onda: la distanza in anni dal nonio, la stessa
+       *  `|t − visibile|` del fuoco. Non uno stagger d'indice — un dentino e
+       *  la voce che gli sta sotto devono partire insieme perché condividono
+       *  l'ascissa, non perché sono vicini nel DOM. */
+      const onda = (t: number) =>
+        Math.min(Math.abs(t - partenza) * INGRESSO.ondaAnni, INGRESSO.ondaMax);
+
+      const posa = () => {
+        gsap.set(testina, { opacity: 1 });
+        gsap.set(asse, { clipPath: "none" });
+        gsap.set(
+          elementi.map((e) => e.el),
+          { "--ingresso": 1 },
+        );
+      };
+
+      // §9.4: stesso stato finale, nessun percorso per arrivarci.
+      if (motoRidotto()) {
+        posa();
+        return;
+      }
+
+      // L'asse cresce in pixel e non in scala: il ritaglio parte chiuso sul
+      // nonio e si apre di mezza larghezza di binario per parte, che è quanto
+      // basta a coprire il visibile. Oltre non c'è niente da guardare, quindi
+      // il ritaglio si toglie del tutto invece di continuare fino ai capi.
+      const nonioSullaPista = puntoLetturaRef.current - scorrimentoPxRef.current;
+      const larghezzaPista = pista.offsetWidth;
+      const mezzo = binario.getBoundingClientRect().width / 2;
+
+      gsap.set(asse, {
+        "--asse-sx": `${nonioSullaPista}px`,
+        "--asse-dx": `${larghezzaPista - nonioSullaPista}px`,
+      });
+      gsap.set(testina, { opacity: 0 });
+      gsap.set(
+        elementi.map((e) => e.el),
+        { "--ingresso": 0 },
+      );
+
+      const tl = gsap.timeline();
+
+      // 1. La testina: è l'origine, quindi arriva prima di ciò che ne nasce.
+      tl.to(testina, { opacity: 1, duration: INGRESSO.testina, ease: "power1.out" }, 0)
+        // 2. L'asse si allunga da sotto di lei verso i due capi insieme.
+        .to(
+          asse,
+          {
+            "--asse-sx": `${Math.max(0, nonioSullaPista - mezzo)}px`,
+            "--asse-dx": `${Math.max(0, larghezzaPista - nonioSullaPista - mezzo)}px`,
+            duration: INGRESSO.asse,
+            ease: "power2.out",
+          },
+          INGRESSO.tAsse,
+        )
+        .set(asse, { clipPath: "none" })
+        // 3. I dentini scendono dall'asse, con l'onda che corre dal nonio.
+        .to(
+          denti.map((e) => e.el),
+          {
+            "--ingresso": 1,
+            duration: INGRESSO.dente,
+            ease: "power2.out",
+            stagger: (i: number) => onda(denti[i].t),
+          },
+          INGRESSO.tDenti,
+        )
+        // 4. Numeri e voci, ciascuno dietro il proprio dentino.
+        .to(
+          apparato.map((e) => e.el),
+          {
+            "--ingresso": 1,
+            duration: INGRESSO.apparato,
+            ease: "power1.out",
+            stagger: (i: number) => onda(apparato[i].t),
+          },
+          INGRESSO.tDenti + INGRESSO.ritardoApparato,
+        );
+
+      return () => {
+        tl.kill();
+      };
+    },
+    { scope: binarioRef },
+  );
 
   return (
     <ContestoTimeline.Provider

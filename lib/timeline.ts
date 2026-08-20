@@ -233,3 +233,45 @@ export function disponi(voci: Voce[]): (Voce & { x: number; riga: number })[] {
     return { ...voce, x, riga };
   });
 }
+
+/** ── L'ingresso della timeline ─────────────────────────────────────────────
+ *  Lo strumento si costruisce da sé, e si costruisce A PARTIRE DAL NONIO.
+ *  Ogni altra cosa in questa pagina è organizzata attorno a quel punto — la
+ *  campana del fuoco, la zona di lettura, l'anno che si legge — e un ingresso
+ *  che entrasse da un bordo sarebbe l'unica cosa a ignorarlo.
+ *
+ *  Quattro tempi, nell'ordine in cui lo strumento è fatto:
+ *    1. la testina, che è l'origine di tutto il resto;
+ *    2. l'asse, che si allunga da sotto di lei verso i due capi insieme;
+ *    3. i dentini, che scendono dall'asse — lo stesso verso in cui già
+ *       crescono col fuoco, quindi non un movimento nuovo — con un'onda che
+ *       corre dal nonio verso il 2010 e il 2026;
+ *    4. numeri e voci, ciascuno dietro il proprio dentino, così l'apparato
+ *       segue la sua ascissa invece di arrivare come blocco.
+ *
+ *  `ONDA_ANNI` è il ritardo per ogni anno di distanza dal nonio: è la stessa
+ *  `|t − visibile|` con cui il fuoco calcola la sua campana, non uno stagger
+ *  d'indice. Un dentino di gennaio 2010 e la voce che gli sta sotto partono
+ *  insieme perché hanno la stessa ascissa, non perché sono vicini nel DOM. */
+export const INGRESSO = {
+  testina: 0.3,
+  tAsse: 0.2,
+  asse: 0.75,
+  tDenti: 0.45,
+  dente: 0.5,
+  /** Il ritardo per ogni anno di distanza dal nonio. Tarato sulla porzione
+   *  VISIBILE e non sull'arco intero: la zona di lettura è larga ±3,2 anni,
+   *  quindi è lì che l'onda deve leggersi come un'onda. Un valore calcolato
+   *  sui sedici anni della cronologia avrebbe esaurito il tratto visibile in
+   *  due decimi di secondo — corretto sulla carta, invisibile a occhio. */
+  ondaAnni: 0.15,
+  /** Oltre l'orizzonte il ritardo smette di accumularsi. Dopo sei anni dal
+   *  nonio nessuno sta guardando, e far aspettare la pagina per una cascata
+   *  che accade fuori campo è tempo speso male. */
+  ondaMax: 0.9,
+  /** Quanto un'etichetta o una voce resta indietro rispetto al proprio
+   *  dentino. Poco: devono sembrare appese alla graduazione, non un secondo
+   *  ingresso. */
+  ritardoApparato: 0.16,
+  apparato: 0.45,
+} as const;
