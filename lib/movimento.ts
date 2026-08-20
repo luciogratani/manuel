@@ -21,6 +21,13 @@
  *  è cambiata, e va riscritta invece di essere aggirata. */
 export const ROSSO = "#C1121C";
 
+/** La carta del sito. Sta qui accanto al rosso perché la transizione fra
+ *  pagine ha bisogno di entrambi all'elemento radice, e i pseudo-elementi di
+ *  `::view-transition` non ereditano da nessuna pagina. Il resto del sito la
+ *  dichiara ancora come `--avorio` dentro ogni `.pagina`: quando la tavolozza
+ *  avrà una casa sua, è da qui che si parte. */
+export const AVORIO = "#f5f5f0";
+
 /** L'altra metà del §3.2: la dissolvenza segna una variazione interna a uno
  *  stato già stabilito, dove il taglio segna il passaggio di stato. Sta qui
  *  accanto alla tenda perché la scelta fra i due è la regola, e una regola con

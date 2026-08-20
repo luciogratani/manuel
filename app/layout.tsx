@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { ViewTransition } from "react";
 import type { Metadata } from "next";
-import { ROSSO } from "@/lib/movimento";
+import { AVORIO } from "@/lib/movimento";
 import { Testa } from "@/components/testa";
 import { fontVariables } from "@/lib/fonts";
 import "./globals.css";
@@ -17,22 +17,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // `--rosso` sull'elemento radice perché la tenda della transizione vive
+    // `--avorio` sull'elemento radice perché la dissolvenza fra pagine vive
     // nei pseudo-elementi di `::view-transition`, che stanno fuori dall'albero
-    // e non ereditano da nessuna pagina. Arriva comunque da `ROSSO`: il foglio
-    // non ne tiene una copia.
-    <html lang="it" className={fontVariables} style={{ "--rosso": ROSSO } as CSSProperties}>
+    // e non ereditano da nessuna pagina. Arriva comunque da `AVORIO`: il
+    // foglio non ne tiene una copia.
+    <html lang="it" className={fontVariables} style={{ "--avorio": AVORIO } as CSSProperties}>
       {/* L'header sta qui e non nelle pagine: è ciò che gli permette di NON
           rimontarsi cambiando rotta. Durante una transizione fra pagine resta
           fermo mentre il corpo cambia — non perché sia animato bene, ma
           perché non ha niente da far scattare. */}
       <body>
         <Testa />
-        {/* La tenda fra pagine (§3.4). L'header sta FUORI: è la stessa riga su
-            tutte le pagine, quindi non ha niente da far scattare, e tenerlo
-            fermo dà il punto di riferimento che dice che a muoversi è il
-            contenuto e non la finestra. */}
-        <ViewTransition default="tenda">{children}</ViewTransition>
+        {/* Il cambio pagina (§3.4): una dissolvenza, non un taglio. L'header
+            sta FUORI ed è la ragione per cui: è la stessa riga su tutte le
+            pagine, quindi cambiando rotta non si esce da nessuna parte, ed è
+            variazione interna e non passaggio di stato. */}
+        <ViewTransition default="pagina">{children}</ViewTransition>
       </body>
     </html>
   );
