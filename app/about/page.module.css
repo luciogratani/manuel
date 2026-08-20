@@ -92,6 +92,45 @@
   margin-top: 1.75rem;
 }
 
+/* ── L'invito alla chiusura ───────────────────────────────────────────────────
+   Sta sulla riga dei contenuti, nella terza colonna: la voce ne occupa due, e
+   la terza a quell'altezza è vuota. Un'insegna che dice cosa c'è sotto senza
+   inventarsi una posizione nuova — usa un posto che la griglia aveva già.
+
+   Allineato al margine destro come l'archivio che gli sta sotto, così le due
+   cose della colonna destra si incolonnano fra loro. */
+.invito {
+  position: absolute;
+  top: var(--riga);
+  left: calc(var(--margine) + var(--passo) * 2);
+  width: var(--colonna);
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}
+
+/* La freccia è disegnata e non scritta: il subset di Object Sans ha solo le
+   U+2190 e U+2192 recuperate per la legenda della timeline, e la U+2193 non è
+   mai stata usata in questo progetto — cioè non è mai stata verificata. Una
+   parola con un tofu accanto è peggio di nessuna freccia. */
+.giu {
+  /* Dimensionata in ALTEZZA e non in larghezza: deve misurarsi col testo che
+     le sta accanto, non con sé stessa. A 14px la larghezza scende a 5,6px e
+     il filetto da 1,5 unità di viewBox si rende a poco più di un pixel — la
+     stessa consistenza dei filetti del resto del sito. */
+  height: 0.875rem; /* 14px */
+  width: auto;
+  aspect-ratio: 8 / 20;
+  flex: none;
+}
+
 /* ── Colonne 2 e 3 — l'apparato ───────────────────────────────────────────── */
 
 .dati,
@@ -230,15 +269,14 @@
 
    `left` e `width` sono complementari (-2% e 104%), quindi lo scarto è uguale
    dai due lati e la parola resta centrata mentre esce di scena. */
-/* Il marchio resta INCHIOSTRO mentre il testo passa all'avorio, e non è una
-   svista. A 226px non è testo ma segno: non si legge, si riconosce, e per una
-   taglia simile 3,12:1 è oltre la soglia (3:1 per il testo grande). È anche
-   da lì che viene il carattere del riferimento — un marchio quasi nero su una
-   tinta piena — e ribaltarlo in avorio avrebbe fatto un'altra pagina. */
+/* Avorio come tutto il resto della chiusura: 5,70:1 sul rosso. La schermata
+   diventa così una tinta sola con un unico colore sopra, invece di due — e il
+   marchio smette di essere un corpo estraneo appoggiato sul fondo per
+   diventare il fondo che si apre. Eredita `color` dalla sezione, quindi qui
+   non c'è niente da dichiarare. */
 .insegna {
   position: absolute;
   bottom: 4.5rem; /* 72px */
-  color: var(--inchiostro);
   /* Centrato: quando il tetto dell'altezza morde, il marchio si stringe e deve
      restare in mezzo invece di scivolare a sinistra. */
   left: 50%;

@@ -114,6 +114,24 @@ export default function Page() {
           <p className={styles.medium}>{MEDIUM.join(", ")}</p>
         </div>
 
+        {/* L'invito alla seconda schermata. È un àncora vero e non un
+            ornamento: cliccandolo la pagina ci arriva, e chi naviga col tab lo
+            trova come qualunque link. Senza, due schermate senza alcun segnale
+            che ce ne sia una seconda. */}
+        <a className={styles.invito} href="#contatti">
+          contact
+          <svg
+            className={styles.giu}
+            viewBox="0 0 8 20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            aria-hidden="true"
+          >
+            <path d="M4 0 V18 M0.5 14 L4 18 L7.5 14" />
+          </svg>
+        </a>
+
         <footer className={styles.piede}>
           <p>about</p>
           <p>
@@ -131,6 +149,7 @@ export default function Page() {
           Il colore arriva da `ROSSO` in lib/movimento: è lo stesso della tenda,
           e averne una sorgente sola significa che non potranno divergere. */}
       <section
+        id="contatti"
         className={styles.chiusura}
         // `data-fondo="colore"` non è decorativo: è il segnale con cui
         // l'header condiviso si accorge di trovarsi sopra una tinta e passa

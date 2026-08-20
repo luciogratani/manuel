@@ -50,6 +50,16 @@ html {
   );
 }
 
+/* Lo scorrimento verso un àncora è smorzato invece che istantaneo: /about ha
+   due schermate e un invito che porta alla seconda, e un salto secco sarebbe
+   l'unico movimento senza percorso del sito. Chi ha chiesto meno movimento
+   (§9.4) ottiene lo stesso stato, subito. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 @theme inline {
   --font-hatton: var(--font-pp-hatton);
   --font-frama: var(--font-pp-frama);
