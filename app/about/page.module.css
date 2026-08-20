@@ -1,5 +1,18 @@
-/* About — segnaposto. Stessa cornice delle altre pagine: margini a `2x`,
-   testa in alto, piede in basso. */
+/* About — la bio.
+
+   Stesse convenzioni delle altre pagine: tutto in rem, 1rem = 16px sulla
+   viewport di riferimento, margini a `2x`, la riga dei contenuti a 136px.
+
+   ── La griglia ───────────────────────────────────────────────────────────────
+   Le altre pagine dispongono l'apparato in colonne accanto al materiale, a
+   quote misurate sull'artboard. Qui il materiale non c'è — non esiste un
+   ritratto — quindi le colonne non hanno un'immagine attorno a cui disporsi e
+   copiarne gli ascissi sarebbe cargo cult.
+
+   Le tre colonne si ricavano invece dai margini che il sito ha già: 1440 meno
+   due margini da 36 fa 1368, che diviso in tre colonne da 400 lascia due fughe
+   da 84. L'ultima colonna finisce esatta sul margine destro, e i numeri
+   discendono dalla cornice invece di essere misurati a parte. */
 
 .pagina {
   --avorio: #f5f5f0;
@@ -7,6 +20,13 @@
 
   --x: 1.125rem; /* 18px */
   --margine: calc(var(--x) * 2); /* 36px */
+
+  --colonna: 25rem; /* 400px */
+  --fuga: 5.25rem; /* 84px */
+  --passo: calc(var(--colonna) + var(--fuga)); /* 484px, da colonna a colonna */
+
+  --riga: 8.5rem; /* 136px — la quota dei contenuti, condivisa col resto */
+  --apparato: 19.75rem; /* 316px — dove attaccano le tre colonne */
 
   position: fixed;
   inset: 0;
@@ -18,49 +38,111 @@
   font-weight: 400;
 }
 
-.piede {
+/* ── La voce ──────────────────────────────────────────────────────────────────
+   L'unico testo del sito che non è apparato. PP Hatton è dichiarata in
+   `lib/fonts.ts` «candidata al ruolo di voce» e finora non aveva mai lavorato:
+   qui prende il ruolo. Resta `preload: false` — è una faccia sola su una pagina
+   sola, e `display: swap` copre l'attesa.
+
+   Larga due colonne più la fuga: a corpo 28 una riga di 400px sarebbe di sei
+   parole, e una dichiarazione spezzata ogni sei parole non è una voce. */
+.voce {
   position: absolute;
+  top: var(--riga);
   left: var(--margine);
-  right: var(--margine);
-  display: flex;
-  justify-content: space-between;
-  line-height: 1;
+  width: calc(var(--colonna) * 2 + var(--fuga)); /* 884px */
+  font-family: var(--font-pp-hatton), Georgia, "Times New Roman", serif;
+  font-size: 1.75rem; /* 28px */
+  line-height: 1.25;
 }
 
+/* ── Colonna 1 — la dichiarazione ─────────────────────────────────────────── */
 
-.piede {
-  bottom: var(--margine);
-  font-size: 0.875rem; /* 14px */
-}
-
-.piede a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.percorso {
-  text-align: right;
-}
-
-.freccia {
-  margin-right: 0.375rem;
-}
-
-.corpo {
+.nome {
   position: absolute;
-  top: 8.5rem; /* 136px — la stessa quota di tutte le altre pagine */
+  top: var(--apparato);
   left: var(--margine);
-  width: 25rem; /* 400px */
-}
-
-.titolo {
   font-size: 0.875rem; /* 14px */
   line-height: 1.2;
   font-weight: 800;
 }
 
-.testo {
-  margin-top: 1.75rem;
-  font-size: 0.875rem;
+.dichiarazione {
+  position: absolute;
+  top: calc(var(--apparato) + 1.75rem);
+  left: var(--margine);
+  width: var(--colonna);
+}
+
+.paragrafo {
+  font-size: 0.875rem; /* 14px */
   line-height: 1.35;
+}
+
+.paragrafo + .paragrafo {
+  margin-top: 1.75rem;
+}
+
+/* ── Colonne 2 e 3 — l'apparato ───────────────────────────────────────────── */
+
+.dati,
+.archivio {
+  position: absolute;
+  top: var(--apparato);
+  width: var(--colonna);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}
+
+.dati {
+  left: calc(var(--margine) + var(--passo));
+}
+
+/* Allineata al margine destro, come la nota delle work page. */
+.archivio {
+  left: calc(var(--margine) + var(--passo) * 2);
+  text-align: right;
+}
+
+/* Le work page usano un flex con una fuga di 4px, e va bene perché le loro
+   etichette sono corte e i valori stanno su una riga. Qui `formazione:` è
+   lunga il doppio delle altre e il suo valore va a capo: senza una colonna
+   dichiarata i valori si scalerebbero l'uno rispetto all'altro. */
+.dato {
+  display: grid;
+  grid-template-columns: 6.25rem 1fr; /* 100px */
+  gap: 0.25rem;
+}
+
+.dato + .dato {
+  margin-top: 0.5rem;
+}
+
+.archivio p + p {
+  margin-top: 0.5rem;
+}
+
+/* Il nome del campo, non il campo: stessa gerarchia con cui il nastro della
+   timeline distingue ciò che si legge da ciò che sta intorno. */
+.etichetta {
+  opacity: 0.55;
+}
+
+/* Scritta `.archivio .medium` e non `.medium`: `.archivio p + p` qui sopra ha
+   specificità più alta e vincerebbe, lasciando i medium attaccati all'arco. */
+.archivio .medium {
+  margin-top: 1.75rem;
+}
+
+/* ── Il piede ─────────────────────────────────────────────────────────────── */
+
+.piede {
+  position: absolute;
+  bottom: var(--margine);
+  left: var(--margine);
+  right: var(--margine);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1;
 }
