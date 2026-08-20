@@ -181,3 +181,56 @@
   display: flex;
   gap: 0.25rem;
 }
+
+/* ── L'ingresso ───────────────────────────────────────────────────────────────
+   Il ravvicinato è l'unica vista dell'archivio in cui le immagini SCENDONO
+   invece di salire, e il verso non è un capriccio: qui la colonna scorre
+   verticalmente, e scoprire dall'alto è il verso in cui poi si legge. Nelle
+   altre due viste le lastre salgono perché appoggiano su una linea di base
+   condivisa, che qui non esiste.
+
+   Ritaglio e non scala, come altrove: le fotografie stanno in `cover` e una
+   trasformazione le schiaccerebbe.
+
+   Solo le prime piastre hanno un ritardo: sotto la piega non c'è niente da
+   sfalsare, e un'onda che continua fuori campo è tempo speso per nessuno. */
+.pagina {
+  --onda-ingresso: 0.08s;
+  --scende: 0.5s;
+  --ease-ingresso: cubic-bezier(0.33, 1, 0.68, 1); /* power2.out */
+  --coda-ingresso: 0.3s;
+}
+
+.piastra {
+  animation: piastra-scende var(--scende) var(--ease-ingresso)
+    calc(min(var(--i), 2) * var(--onda-ingresso)) backwards;
+}
+
+/* L'apparato arriva dietro la prima immagine: prima ciò che si guarda, poi
+   ciò che lo racconta. */
+.apparato {
+  animation: apparato-arriva var(--scende) var(--ease-ingresso) var(--coda-ingresso) backwards;
+}
+
+@keyframes piastra-scende {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes apparato-arriva {
+  from {
+    opacity: 0;
+  }
+}
+
+/* §9.4: stesso stato finale, nessun percorso per arrivarci. */
+@media (prefers-reduced-motion: reduce) {
+  .piastra,
+  .apparato {
+    animation: none;
+  }
+}

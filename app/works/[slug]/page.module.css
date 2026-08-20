@@ -283,7 +283,7 @@
   --onda-ingresso: 0.055s;
   --sale: 0.45s;
   --ease-ingresso: cubic-bezier(0.33, 1, 0.68, 1); /* power2.out */
-  --coda-ingresso: calc(var(--scatti) * var(--onda-ingresso) + var(--sale));
+  --coda-ingresso: calc(var(--onda-max) * var(--onda-ingresso) + var(--sale));
 }
 
 .lastra {

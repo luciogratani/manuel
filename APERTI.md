@@ -10,24 +10,6 @@ ponteggio, il §8 dei video è dichiarato irrisolto). Quelle non si ripetono qui
 
 ---
 
-## La transizione fra pagine (§3.4)
-
-Il pezzo difficile **è già sciolto**, e conviene saperlo prima di riaprirlo.
-
-Era: l'header è condiviso, non può scattare da un titolo all'altro senza
-transizione. Ma da `9f1b7f3` l'header vive in `app/layout.tsx` ed è identico su
-tutte le pagine — il marchio a sinistra, le tre rotte a destra — quindi
-**durante una transizione non transisce affatto**: non si rimonta, e non ha
-niente da far scattare. Resta il corpo che cambia, e per quello c'è la tenda
-(`components/tenda.tsx`), che nasce proprio come primitivo riusabile.
-
-Il percorso per-pagina, che era l'unica parte variabile in testa, è sceso nei
-piedi: lì è locale alla pagina e cambia con lei.
-
-Entrando in `/timeline` la tenda della transizione sarà **l'unica** lavata
-rossa: l'ingresso della timeline non usa il rosso di proposito (vedi
-`655668c`), e due tende in fila sarebbero state una di troppo.
-
 ## Le cinque opere che mancano
 
 `lib/opere.ts` progetta «una sequenza unica 01→26» (§3.3) e contiene ventuno

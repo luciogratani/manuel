@@ -62,9 +62,9 @@ export default async function Page({
     <div
       className={styles.pagina}
       data-densita={opera.densita}
-      // Quante lastre: serve al foglio per sapere quando l'onda ha finito,
-      // senza che il numero sia scritto due volte.
-      style={{ "--scatti": opera.scatti.length } as CSSProperties}
+      // Quanto è lunga l'onda: metà sequenza, perché si apre dai due lati.
+      // Derivato e non scritto, così resta vero quando gli scatti cambiano.
+      style={{ "--onda-max": Math.floor(opera.scatti.length / 2) } as CSSProperties}
     >
       <Mensola>
         {lastre.map(({ scatto, n, i, registro }) => (
@@ -77,9 +77,15 @@ export default async function Page({
             style={
               {
                 "--ar": RAPPORTO[formato(scatto.w, scatto.h)],
-                // La posizione nella sequenza: al foglio serve per l'onda
-                // d'ingresso, come in /works.
-                "--i": i,
+                // Non la posizione nella sequenza ma la distanza NELL'ANELLO
+                // dalla prima lastra: `min(i, n - i)`. A riposo l'anello mette
+                // le ultime lastre subito a sinistra della prima, quindi con
+                // la distanza lineare arriverebbero per ultime pur essendo le
+                // più vicine a schermo — e si leggerebbe come un ritardo, non
+                // come un'onda. Con quella circolare l'onda si apre dalla
+                // corrente verso i due lati, che è dove le lastre stanno
+                // davvero.
+                "--i": Math.min(i, opera.scatti.length - i),
               } as CSSProperties
             }
           >

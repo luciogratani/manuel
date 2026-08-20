@@ -41,12 +41,18 @@ export default async function Page({
     <div className={styles.pagina}>
       <div className={styles.colonna}>
         <div className={styles.pila}>
-          {colonna.map((scatto) => (
+          {colonna.map((scatto, i) => (
             <div
               key={scatto.src}
               className={styles.piastra}
               style={
-                { "--ar": RAPPORTO[formato(scatto.w, scatto.h)] } as CSSProperties
+                {
+                  "--ar": RAPPORTO[formato(scatto.w, scatto.h)],
+                  // La posizione nella colonna: al foglio serve per sfalsare
+                  // l'ingresso, come `--i` nelle altre due viste
+                  // dell'archivio.
+                  "--i": i,
+                } as CSSProperties
               }
             >
               <Image
