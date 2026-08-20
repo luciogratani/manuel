@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsap";
 import { SOGLIA, motoRidotto } from "@/lib/movimento";
+import { Marchio } from "./marchio";
 import styles from "./testa.module.css";
 
 // L'header del sito, e insieme la sequenza con cui nasce.
@@ -162,7 +163,7 @@ export function Testa() {
   return (
     <header ref={testaRef} className={styles.testa} data-soglia={soglia ? "" : undefined}>
       <Link ref={marchioRef} className={styles.marchio} href="/">
-        manuel
+        <Marchio className={styles.segno} />
       </Link>
       <nav ref={rotteRef} className={styles.rotte}>
         {ROTTE.map(([voce, href]) => (

@@ -27,6 +27,10 @@
   font-weight: 400;
   font-size: 1.125rem; /* 18px */
   line-height: 1;
+  /* Il marchio è un segno e le rotte sono testo: allineati alle baseline si
+     siedono sulla stessa riga. Con `center` (il default sarebbe `stretch`) il
+     segno galleggerebbe rispetto alle parole. */
+  align-items: baseline;
   /* Sulla soglia la riga trasla per due secondi buoni; altrove è ferma. */
   will-change: transform;
 }
@@ -36,8 +40,33 @@
   text-decoration: none;
 }
 
+/* Il marchio non è più una parola ma il segno vero. `display: block` perché il
+   link stia addosso all'SVG invece di ereditare l'altezza di una riga di testo
+   che non contiene più.
+
+   L'header allinea alle BASELINE (vedi `.testa`): un elemento di flex senza
+   righe di testo dentro offre come baseline il proprio bordo inferiore, che
+   qui è esattamente la linea su cui poggiano le lettere del marchio. Il segno
+   si siede così sulla stessa riga di `archivio timeline about` senza che
+   nessuno debba tararlo a mano. */
 .marchio {
-  font-weight: 800;
+  display: block;
+}
+
+/* 14px di altezza: nel marchio l'ascendente della `l` arriva al bordo alto del
+   riquadro, quindi questa quota si confronta con l'ascendente delle voci
+   accanto, non col loro corpo. La larghezza viene dal rapporto del viewBox
+   (~6:1), non dichiarata: il segno ha una proporzione sola. */
+.segno {
+  display: block;
+  height: 0.875rem; /* 14px */
+  width: auto;
+  /* Il rapporto è dichiarato invece di lasciarlo dedurre dal `viewBox`: su un
+     SVG inline il rapporto intrinseco è onorato dai browser attuali ma non è
+     una garanzia, e la conseguenza di un fallimento sarebbe un marchio largo
+     300px (la taglia di riserva degli elementi rimpiazzati) in cima a ogni
+     pagina. Sono gli stessi numeri del `viewBox`. */
+  aspect-ratio: 1970.53 / 325.69;
 }
 
 .rotte {
