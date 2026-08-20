@@ -48,11 +48,11 @@ const DATI: [string, string][] = [
   ],
 ];
 
-// MOCK: segnaposto sicuri, non recapiti veri. `example.com` è riservato dalla
-// IANA proprio a questo, e il prefisso 000 non è assegnabile a nessuno: se
-// finissero online per sbaglio non squillerebbe il telefono di uno sconosciuto.
+// L'email è quella vera. Il numero no: MOCK, e il prefisso 000 non è
+// assegnabile a nessuno, così se finisse online per sbaglio non squillerebbe
+// il telefono di uno sconosciuto.
 const TELEFONO = "+39 000 000 0000";
-const EMAIL = "studio@example.com";
+const EMAIL = "hello@manuelcasati.it";
 
 export default function Page() {
   return (
@@ -130,7 +130,14 @@ export default function Page() {
 
           Il colore arriva da `ROSSO` in lib/movimento: è lo stesso della tenda,
           e averne una sorgente sola significa che non potranno divergere. */}
-      <section className={styles.chiusura} style={{ "--rosso": ROSSO } as React.CSSProperties}>
+      <section
+        className={styles.chiusura}
+        // `data-fondo="colore"` non è decorativo: è il segnale con cui
+        // l'header condiviso si accorge di trovarsi sopra una tinta e passa
+        // all'avorio (vedi components/testa.tsx).
+        data-fondo="colore"
+        style={{ "--rosso": ROSSO } as React.CSSProperties}
+      >
         <div className={styles.colonne}>
           <div className={styles.colonna}>
             <p className={styles.etichetta}>contatti</p>
@@ -146,9 +153,12 @@ export default function Page() {
             </p>
           </div>
 
+          {/* MOCK: i profili ci sono, i loro indirizzi non ancora. Restano
+              testo finché non sono link veri — un link che non porta da
+              nessuna parte è peggio di una parola. */}
           <div className={styles.colonna}>
             <p className={styles.etichetta}>seguire</p>
-            <p>—</p>
+            <p>Instagram, Facebook</p>
           </div>
 
           <div className={styles.colonna}>

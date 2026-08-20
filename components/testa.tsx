@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsap";
 import { SOGLIA, motoRidotto } from "@/lib/movimento";
@@ -53,6 +53,46 @@ export function Testa() {
   const rotteRef = useRef<HTMLElement>(null);
 
   const soglia = percorso === "/";
+
+  // ── L'header sopra una tinta ────────────────────────────────────────────
+  // L'header è fisso e le pagine gli scorrono sotto: dove il fondo cambia
+  // colore, il suo cambia con lui. Non è una rifinitura — l'inchiostro sul
+  // rosso della chiusura di /about dà 3,12:1, che il WCAG boccia per il testo
+  // normale, e l'header è testo normale.
+  //
+  // Il segnale è generico: qualunque elemento marcato `data-fondo="colore"`,
+  // su qualunque pagina, ottiene lo stesso trattamento senza che l'header
+  // debba conoscere /about.
+  const [sopraColore, setSopraColore] = useState(false);
+
+  useEffect(() => {
+    const testa = testaRef.current;
+    const zona = document.querySelector("[data-fondo='colore']");
+    if (!testa || !zona) {
+      setSopraColore(false);
+      return;
+    }
+
+    // La radice dell'osservatore si stringe fino alla sola banda occupata
+    // dall'header: così "sopra la tinta" significa davvero che il colore sta
+    // dietro le lettere, e non che è comparso da qualche parte nella pagina.
+    let osservatore: IntersectionObserver | null = null;
+    const guarda = () => {
+      osservatore?.disconnect();
+      const r = testa.getBoundingClientRect();
+      osservatore = new IntersectionObserver(([voce]) => setSopraColore(voce.isIntersecting), {
+        rootMargin: `-${r.top}px 0px -${Math.max(0, window.innerHeight - r.bottom)}px 0px`,
+      });
+      osservatore.observe(zona);
+    };
+
+    guarda();
+    window.addEventListener("resize", guarda);
+    return () => {
+      osservatore?.disconnect();
+      window.removeEventListener("resize", guarda);
+    };
+  }, [percorso]);
 
   useGSAP(
     () => {
@@ -161,7 +201,12 @@ export function Testa() {
   if (senzaTesta(percorso)) return null;
 
   return (
-    <header ref={testaRef} className={styles.testa} data-soglia={soglia ? "" : undefined}>
+    <header
+      ref={testaRef}
+      className={styles.testa}
+      data-soglia={soglia ? "" : undefined}
+      data-sopra-colore={sopraColore ? "" : undefined}
+    >
       <Link ref={marchioRef} className={styles.marchio} href="/">
         <Marchio className={styles.segno} />
       </Link>

@@ -165,20 +165,33 @@
    sufficiente, e cambiarlo in avorio avrebbe reso la schermata un'altra cosa
    invece di un'altra tinta della stessa. */
 .chiusura {
+  /* Il testo passa all'avorio: l'inchiostro su questo rosso dà 3,12:1, che il
+     WCAG boccia per il testo normale (soglia 4,5). L'avorio dà 5,70:1 e passa.
+     Non bianco puro, che pure darebbe 6,23:1: è la carta del sito, e la
+     chiusura diventa così la pagina rovesciata invece di introdurre un quarto
+     colore che nel resto non esiste. */
   /* Il rapporto del marchio, scritto una volta e usato due: dall'altezza che
      lo dimensiona e dall'`aspect-ratio` che ne ricava la larghezza. */
   --rapporto-marchio: 6.051; /* 1970,53 / 325,69 */
 
-  /* L'altezza del marchio è il minimo fra "quanto serve per debordare di poco"
-     e "un terzo di schermata". Senza il secondo termine, su una finestra larga
-     e bassa il marchio crescerebbe con la larghezza e salirebbe addosso alle
-     colonne: è l'unico elemento del sito misurato sulla finestra invece che
-     sulla scala in rem, quindi è l'unico che può sfuggire di mano. */
-  --insegna: min(34vh, calc(104vw / var(--rapporto-marchio)));
+  /* Il marchio arriva ai margini e non oltre. Al vivo toccava i due bordi e
+     la parola si perdeva nel taglio; ai margini invece si allinea alle colonne
+     sopra e alla citazione sotto, ed è un membro della composizione invece di
+     un fondale.
+
+     L'altezza è il minimo fra quella larghezza e un terzo di schermata: senza
+     il secondo termine, su una finestra larga e bassa il marchio crescerebbe
+     con la larghezza e salirebbe addosso alle colonne. È l'unico elemento del
+     sito misurato sulla finestra invece che sulla scala in rem, quindi è
+     l'unico che può sfuggire di mano. */
+  --insegna: min(
+    34vh,
+    calc((100vw - var(--margine) * 2) / var(--rapporto-marchio))
+  );
 
   overflow: hidden;
   background: var(--rosso);
-  color: var(--inchiostro);
+  color: var(--avorio);
 }
 
 /* Quattro colonne dichiarate invece che misurate. Nella scheda le tre colonne
@@ -217,12 +230,17 @@
 
    `left` e `width` sono complementari (-2% e 104%), quindi lo scarto è uguale
    dai due lati e la parola resta centrata mentre esce di scena. */
+/* Il marchio resta INCHIOSTRO mentre il testo passa all'avorio, e non è una
+   svista. A 226px non è testo ma segno: non si legge, si riconosce, e per una
+   taglia simile 3,12:1 è oltre la soglia (3:1 per il testo grande). È anche
+   da lì che viene il carattere del riferimento — un marchio quasi nero su una
+   tinta piena — e ribaltarlo in avorio avrebbe fatto un'altra pagina. */
 .insegna {
   position: absolute;
   bottom: 4.5rem; /* 72px */
-  /* Centrato e non ancorato a un bordo: quando il tetto dell'altezza morde, il
-     marchio smette di debordare e deve restare in mezzo invece di scivolare a
-     sinistra. */
+  color: var(--inchiostro);
+  /* Centrato: quando il tetto dell'altezza morde, il marchio si stringe e deve
+     restare in mezzo invece di scivolare a sinistra. */
   left: 50%;
   transform: translateX(-50%);
   height: var(--insegna);

@@ -10,6 +10,9 @@
 
 .testa {
   --x: 1.125rem; /* 18px */
+  /* La carta del sito, ripetuta qui come `--x` e `--margine`: l'header vive
+     nel layout e non eredita i token che ogni pagina dichiara su `.pagina`. */
+  --avorio: #f5f5f0;
   --margine: calc(var(--x) * 2); /* 36px */
 
   position: fixed;
@@ -38,6 +41,15 @@
 .testa a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Sopra una tinta piena l'header si rovescia. Il cambio è istantaneo e non
+   sfumato di proposito: la transizione resterebbe indietro rispetto al bordo
+   che scorre, e per la sua durata l'header avrebbe il colore sbagliato sul
+   fondo giusto — cioè proprio l'illeggibilità che questa regola esiste per
+   togliere. */
+.testa[data-sopra-colore] {
+  color: var(--avorio);
 }
 
 /* Il marchio non è più una parola ma il segno vero. `display: block` perché il
