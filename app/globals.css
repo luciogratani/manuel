@@ -69,3 +69,91 @@ html {
   --font-haas: var(--font-neue-haas-text);
   --font-haas-display: var(--font-neue-haas-display);
 }
+
+/* ── La tenda fra pagine (§3.4) ────────────────────────────────────────────────
+   La stessa grammatica della tenda di `components/tenda.tsx`, ottenuta però
+   senza un rettangolo: qui il rosso è il FONDO dell'overlay di transizione, e
+   sono le due pagine a scoprirlo e ricoprirlo ritagliandosi.
+
+     1. COPERTURA — la pagina che se ne va si ritaglia da sinistra verso
+        destra: dove smette di esserci, si vede il rosso. È il rosso che
+        entra, disegnato in negativo.
+     2. RITIRO — la pagina nuova si scopre da sinistra verso destra, mangiando
+        il rosso nello stesso verso.
+
+   Le tre regole della tenda valgono tutte: un solo verso di marcia per l'intera
+   transizione (il bordo rosso non torna mai indietro), nessuna dissolvenza sul
+   rosso (esce perché la pagina lo copre, non perché sbiadisce), e i due tempi
+   in sequenza e non sovrapposti.
+
+   Manca la sosta a copertura piena che ha la tenda del player: lì apre una
+   pagina per la prima volta ed è cerimoniale, qui sarebbe un'esitazione in
+   mezzo a una navigazione. Copertura e ritiro attaccati, ~0,58s in tutto —
+   il tempo di risposta, non quello cerimoniale.
+
+   `--rosso` arriva dall'elemento radice (vedi `app/layout.tsx`): questi
+   pseudo-elementi stanno fuori dall'albero e non ereditano da nessuna pagina. */
+:root {
+  --tenda-copertura: 0.28s;
+  --tenda-ritiro: 0.3s;
+  /* Le stesse curve di `TENDA` in lib/movimento.ts: quadratica in uscita
+     mentre il rosso arriva e si posa, quadratica in entrata mentre scatta via.
+     Il contrasto fra le due è il ritmo. */
+  --tenda-ease-copre: cubic-bezier(0.5, 1, 0.89, 1);
+  --tenda-ease-ritira: cubic-bezier(0.11, 0, 0.5, 0);
+}
+
+::view-transition {
+  background: var(--rosso);
+}
+
+/* Nessuna dissolvenza incrociata: le due pagine non si sovrappongono mai, si
+   danno il cambio sul rosso. */
+::view-transition-old(.tenda),
+::view-transition-new(.tenda) {
+  /* Alcuni motori compongono i due fotogrammi in `plus-lighter` per rendere
+     morbida la dissolvenza predefinita. Qui non c'è dissolvenza — le due
+     pagine non si sovrappongono mai, si danno il cambio sul rosso — e quel
+     blend schiarirebbe il bordo del taglio proprio dove deve essere netto. */
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(.tenda) {
+  animation: tenda-copre var(--tenda-copertura) var(--tenda-ease-copre) both;
+}
+
+::view-transition-new(.tenda) {
+  animation: tenda-ritira var(--tenda-ritiro) var(--tenda-ease-ritira)
+    var(--tenda-copertura) both;
+}
+
+/* Il verso: `inset()` prende alto/destra/basso/sinistra. La copertura fa
+   crescere il ritaglio SINISTRO, quindi la pagina vecchia sparisce da sinistra;
+   il ritiro fa calare quello DESTRO, quindi la nuova compare da sinistra. Lo
+   stesso verso per tutti e due i tempi: è ciò che fa leggere il rosso come un
+   bordo solo che attraversa, invece che come due eventi. */
+@keyframes tenda-copre {
+  from {
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 100%);
+  }
+}
+
+@keyframes tenda-ritira {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* §9.4: stesso stato finale, nessun percorso per arrivarci. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(.tenda),
+  ::view-transition-new(.tenda) {
+    animation: none;
+  }
+}
