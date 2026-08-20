@@ -1,15 +1,22 @@
+import { Copia } from "@/components/copia";
+import { Marchio } from "@/components/marchio";
+import { ROSSO } from "@/lib/movimento";
 import { OPERE } from "@/lib/opere";
 import { FINE, INIZIO } from "@/lib/timeline";
 import styles from "./page.module.css";
 
-// La bio. Questo sito tratta ogni cosa come un record d'archivio — un'opera ha
-// un numero, un anno, un medium, un luogo, e un apparato che li dispone in
-// colonne accanto al materiale. La bio riceve lo stesso trattamento, applicato
-// all'autore: non è una citazione di stile, è la coerenza del sistema.
+// La bio, in due schermate alte quanto la finestra.
 //
-// La differenza è che qui NON C'È materiale. Non esiste un ritratto in
-// `public/media` e non se ne inventa uno, quindi è il testo a fare da
-// materiale e l'apparato gli sta accanto come starebbe accanto a una lastra.
+//   1. LA SCHEDA — l'autore trattato come un record d'archivio.
+//   2. LA CHIUSURA — il rosso, il marchio a tutta larghezza, i contatti.
+//
+// ── La scheda ────────────────────────────────────────────────────────────────
+// Questo sito tratta ogni cosa come un record: un'opera ha un numero, un anno,
+// un medium, un luogo, e un apparato che li dispone in colonne accanto al
+// materiale. La bio riceve lo stesso trattamento, applicato all'autore — non è
+// una citazione di stile, è la coerenza del sistema. La differenza è che qui
+// NON C'È materiale: non esiste un ritratto in `public/media` e non se ne
+// inventa uno, quindi è il testo a fare da materiale.
 //
 // ── I numeri non si scrivono, si derivano ───────────────────────────────────
 // Il segnaposto che c'era qui prima diceva "Ventisei opere": l'archivio ne
@@ -18,9 +25,7 @@ import styles from "./page.module.css";
 // a mano mente appena i dati si muovono. Conteggio, arco e medium vengono da
 // `OPERE` e da `INIZIO`/`FINE`: quando l'archivio cresce, la bio lo sa.
 //
-// Tutto ciò che non è derivabile è segnaposto DICHIARATO — `—` per i dati che
-// la curatela deve ancora dare, e l'ultimo paragrafo che lo dice a parole,
-// come già fanno le altre pagine del repo.
+// Tutto ciò che non è derivabile è segnaposto DICHIARATO.
 
 /** L'opera che è formazione: sta in archivio come le altre (§3.3 non separa la
  *  ricerca dal resto), e da lì la bio la rilegge come dato biografico invece
@@ -43,77 +48,139 @@ const DATI: [string, string][] = [
   ],
 ];
 
+// MOCK: segnaposto sicuri, non recapiti veri. `example.com` è riservato dalla
+// IANA proprio a questo, e il prefisso 000 non è assegnabile a nessuno: se
+// finissero online per sbaglio non squillerebbe il telefono di uno sconosciuto.
+const TELEFONO = "+39 000 000 0000";
+const EMAIL = "studio@example.com";
+
 export default function Page() {
   return (
     <div className={styles.pagina}>
-      {/* Il nome apre il record, come il titolo apre un'opera. È anche ciò che
-          tiene il §2.1 su questa pagina: `manuel` sta nell'header, e qui
-          accanto c'è per esteso. */}
-      <h1 className={styles.nome}>Manuel Casati</h1>
+      <section className={styles.scheda}>
+        {/* Il nome apre il record, come il titolo apre un'opera. È anche ciò
+            che tiene il §2.1 su questa pagina: `manuel` sta nell'header, e qui
+            accanto c'è per esteso. */}
+        <h1 className={styles.nome}>Manuel Casati</h1>
 
-      {/* La voce. È l'unica riga del sito in cui una persona parla in prima
-          persona invece di essere schedata, ed è il posto dove PP Hatton —
-          dichiarata in `lib/fonts.ts` «candidata al ruolo di voce» e finora
-          mai usata — prende finalmente quel ruolo. Tutto il resto della pagina
-          resta l'apparato a 14px del sito.
+        {/* La voce. È l'unica riga del sito in cui una persona parla in prima
+            persona invece di essere schedata, ed è il posto dove PP Hatton —
+            dichiarata in `lib/fonts.ts` «candidata al ruolo di voce» e finora
+            mai usata — prende finalmente quel ruolo.
 
-          MOCK: frase da riscrivere con la curatela. */}
-      <p className={styles.voce}>
-        «La sartoria è una forma di ascolto: prende le misure di un corpo e gli
-        restituisce uno sguardo.»
-      </p>
-
-      {/* MOCK: i primi due paragrafi sono segnaposto scritti nel registro del
-          sito. Il secondo però dice una cosa vera e verificabile in
-          `lib/opere.ts`: la numerazione è unica e cronologica, e non separa le
-          commesse dalla ricerca. */}
-      <div className={styles.dichiarazione}>
-        <p className={styles.paragrafo}>
-          Lavora fra moda, sartoria, performance e ricerca sul corpo. Le opere
-          nascono quasi sempre da un indumento — costruito, disfatto, indossato
-          da qualcun altro — e finiscono in fotografia, in video o in una
-          stanza.
+            MOCK: frase da riscrivere con la curatela. */}
+        <p className={styles.voce}>
+          «La sartoria è una forma di ascolto: prende le misure di un corpo e
+          gli restituisce uno sguardo.»
         </p>
-        <p className={styles.paragrafo}>
-          Tiene un archivio solo invece di distinguere fra progetti, commesse e
-          ricerca: la numerazione è cronologica e non dichiara quale delle tre
-          sia stata l&apos;origine di un lavoro.
-        </p>
-        <p className={styles.paragrafo}>Testo da scrivere con la curatela.</p>
-      </div>
 
-      {/* La persona, nell'idioma dell'apparato delle work page. */}
-      <dl className={styles.dati}>
-        {DATI.map(([voce, valore]) => (
-          <div key={voce} className={styles.dato}>
-            <dt className={styles.etichetta}>{voce}:</dt>
-            <dd>{valore}</dd>
+        {/* MOCK: i primi due paragrafi sono segnaposto scritti nel registro del
+            sito. Il secondo però dice una cosa vera e verificabile in
+            `lib/opere.ts`: la numerazione è unica e cronologica, e non separa
+            le commesse dalla ricerca. */}
+        <div className={styles.dichiarazione}>
+          <p className={styles.paragrafo}>
+            Lavora fra moda, sartoria, performance e ricerca sul corpo. Le opere
+            nascono quasi sempre da un indumento — costruito, disfatto,
+            indossato da qualcun altro — e finiscono in fotografia, in video o
+            in una stanza.
+          </p>
+          <p className={styles.paragrafo}>
+            Tiene un archivio solo invece di distinguere fra progetti, commesse
+            e ricerca: la numerazione è cronologica e non dichiara quale delle
+            tre sia stata l&apos;origine di un lavoro.
+          </p>
+          <p className={styles.paragrafo}>Testo da scrivere con la curatela.</p>
+        </div>
+
+        {/* La persona, nell'idioma dell'apparato delle work page. */}
+        <dl className={styles.dati}>
+          {DATI.map(([voce, valore]) => (
+            <div key={voce} className={styles.dato}>
+              <dt className={styles.etichetta}>{voce}:</dt>
+              <dd>{valore}</dd>
+            </div>
+          ))}
+        </dl>
+
+        {/* L'archivio, allineato al margine destro come la nota delle work
+            page. Nessun dato scritto a mano. */}
+        <div className={styles.archivio}>
+          <p className={styles.etichetta}>in archivio</p>
+          <p>{OPERE.length} opere</p>
+          <p>
+            {INIZIO} — {FINE}
+          </p>
+          <p className={styles.medium}>{MEDIUM.join(", ")}</p>
+        </div>
+
+        <footer className={styles.piede}>
+          <p>about</p>
+          <p>
+            {INIZIO} — {FINE}
+          </p>
+        </footer>
+      </section>
+
+      {/* ── La chiusura ───────────────────────────────────────────────────────
+          Il rosso qui è una SUPERFICIE, e va detto: il §2.3 lo vuole solo nel
+          taglio, «non colora l'interfaccia». Questa schermata è l'eccezione
+          voluta — l'accento che si prende l'ultima parola invece di lampeggiare
+          per un istante — e finché resta l'unica il resto della regola tiene.
+
+          Il colore arriva da `ROSSO` in lib/movimento: è lo stesso della tenda,
+          e averne una sorgente sola significa che non potranno divergere. */}
+      <section className={styles.chiusura} style={{ "--rosso": ROSSO } as React.CSSProperties}>
+        <div className={styles.colonne}>
+          <div className={styles.colonna}>
+            <p className={styles.etichetta}>contatti</p>
+            {/* Si copiano al clic invece di aprire il telefono o il client di
+                posta: da desktop un `tel:` non porta da nessuna parte e un
+                `mailto:` apre spesso il programma sbagliato, mentre il numero
+                negli appunti serve sempre. */}
+            <p>
+              <Copia valore={TELEFONO} azione="il numero" />
+            </p>
+            <p>
+              <Copia valore={EMAIL} azione="l'email" />
+            </p>
           </div>
-        ))}
-      </dl>
 
-      {/* L'archivio, allineato al margine destro come la nota delle work page.
-          Nessun dato scritto a mano: tutto viene da `lib/opere.ts` e
-          `lib/timeline.ts`. I contatti arriveranno qui quando ci saranno —
-          inventarne di finti è peggio che non averne. */}
-      <div className={styles.archivio}>
-        <p className={styles.etichetta}>in archivio</p>
-        <p>{OPERE.length} opere</p>
-        <p>
-          {INIZIO} — {FINE}
-        </p>
-        <p className={styles.medium}>{MEDIUM.join(", ")}</p>
-      </div>
+          <div className={styles.colonna}>
+            <p className={styles.etichetta}>seguire</p>
+            <p>—</p>
+          </div>
 
-      <footer className={styles.piede}>
-        <p>about</p>
-        {/* Le altre pagine mettono qui l&apos;anagrafe; su questa il nome è già
-            il titolo del record, quindi il piede porta l&apos;arco invece di
-            ripeterlo. */}
-        <p>
-          {INIZIO} — {FINE}
-        </p>
-      </footer>
+          <div className={styles.colonna}>
+            <p className={styles.etichetta}>legali</p>
+            <p>—</p>
+          </div>
+
+          {/* La quarta colonna del riferimento era una newsletter, che qui non
+              esiste. Invece di lasciarla vuota o di inventare un servizio,
+              porta l'unica cosa che questa pagina sa e nessun'altra dice: da
+              dove viene il nome. È anche ciò che prepara la citazione in
+              fondo, che altrimenti arriverebbe senza spiegazione. */}
+          <div className={styles.colonna}>
+            <p className={styles.etichetta}>il nome</p>
+            <p>
+              Delogu di nascita. Casati per scelta, dalla Marchesa Luisa Casati
+              (1881–1957).
+            </p>
+          </div>
+        </div>
+
+        {/* Il marchio a tutta larghezza, debordante di poco dai due lati: è la
+            firma della pagina, non un logo da leggere daccapo. */}
+        <Marchio className={styles.insegna} />
+
+        <figure className={styles.citazione}>
+          <blockquote>
+            <p>«Voglio essere un&apos;opera d&apos;arte vivente.»</p>
+          </blockquote>
+          <figcaption>Luisa Casati</figcaption>
+        </figure>
+      </section>
     </div>
   );
 }

@@ -28,14 +28,23 @@
   --riga: 8.5rem; /* 136px — la quota dei contenuti, condivisa col resto */
   --apparato: 19.75rem; /* 316px — dove attaccano le tre colonne */
 
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-
+  /* Non più `fixed`: la pagina adesso scorre, perché le schermate sono due.
+     Le quote della scheda restano riferite alla PROPRIA schermata — è
+     `.scheda` a diventare il riferimento delle posizioni assolute — quindi
+     l'impaginato della bio non cambia di un pixel. */
   background: var(--avorio);
   color: var(--inchiostro);
   font-family: var(--font-pp-object-sans), "Helvetica Neue", Arial, sans-serif;
   font-weight: 400;
+}
+
+/* Ogni schermata è alta quanto la finestra e fa da riferimento a ciò che
+   contiene. `overflow: hidden` sulla chiusura serve al marchio, che deborda
+   di proposito. */
+.scheda,
+.chiusura {
+  position: relative;
+  height: 100vh;
 }
 
 /* ── La voce ──────────────────────────────────────────────────────────────────
@@ -145,4 +154,101 @@
   justify-content: space-between;
   font-size: 0.875rem; /* 14px */
   line-height: 1;
+}
+
+/* ── La chiusura ──────────────────────────────────────────────────────────────
+   Il rosso è una superficie e non un lampo: è l'eccezione voluta al §2.3, che
+   lo vuole solo nel taglio. `--rosso` arriva dal TSX, che lo prende da `ROSSO`
+   in lib/movimento — lo stesso della tenda, una sorgente sola.
+
+   L'inchiostro resta il colore del testo: su questo rosso ha contrasto
+   sufficiente, e cambiarlo in avorio avrebbe reso la schermata un'altra cosa
+   invece di un'altra tinta della stessa. */
+.chiusura {
+  /* Il rapporto del marchio, scritto una volta e usato due: dall'altezza che
+     lo dimensiona e dall'`aspect-ratio` che ne ricava la larghezza. */
+  --rapporto-marchio: 6.051; /* 1970,53 / 325,69 */
+
+  /* L'altezza del marchio è il minimo fra "quanto serve per debordare di poco"
+     e "un terzo di schermata". Senza il secondo termine, su una finestra larga
+     e bassa il marchio crescerebbe con la larghezza e salirebbe addosso alle
+     colonne: è l'unico elemento del sito misurato sulla finestra invece che
+     sulla scala in rem, quindi è l'unico che può sfuggire di mano. */
+  --insegna: min(34vh, calc(104vw / var(--rapporto-marchio)));
+
+  overflow: hidden;
+  background: var(--rosso);
+  color: var(--inchiostro);
+}
+
+/* Quattro colonne dichiarate invece che misurate. Nella scheda le tre colonne
+   sono quote fisse perché devono coincidere con quelle delle work page; qui
+   non devono coincidere con niente, e una griglia con la stessa fuga si
+   distribuisce da sé sulla larghezza che trova. */
+.colonne {
+  position: absolute;
+  /* Sopra il marchio, sempre: la quota si ricava dalla sua altezza invece di
+     essere un numero che vale a una sola proporzione di finestra. */
+  bottom: calc(4.5rem + var(--insegna) + 2rem);
+  left: var(--margine);
+  right: var(--margine);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--fuga);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}
+
+.colonna p + p {
+  margin-top: 0.5rem;
+}
+
+/* L'etichetta della colonna sta staccata dal suo contenuto più di quanto le
+   righe stiano fra loro: è un titolo, non la prima voce dell'elenco. */
+.colonna .etichetta + p {
+  margin-top: 0.875rem;
+}
+
+/* ── Il marchio ───────────────────────────────────────────────────────────────
+   Deborda di poco dai due lati. È l'unico elemento del sito che si misura
+   sulla finestra invece che sulla scala in rem, e lo fa perché "a filo del
+   bordo" è la sua unica misura possibile: un marchio al vivo che si fermasse
+   a un margine non sarebbe più al vivo.
+
+   `left` e `width` sono complementari (-2% e 104%), quindi lo scarto è uguale
+   dai due lati e la parola resta centrata mentre esce di scena. */
+.insegna {
+  position: absolute;
+  bottom: 4.5rem; /* 72px */
+  /* Centrato e non ancorato a un bordo: quando il tetto dell'altezza morde, il
+     marchio smette di debordare e deve restare in mezzo invece di scivolare a
+     sinistra. */
+  left: 50%;
+  transform: translateX(-50%);
+  height: var(--insegna);
+  width: auto;
+  aspect-ratio: var(--rapporto-marchio);
+  display: block;
+}
+
+/* ── La citazione ─────────────────────────────────────────────────────────────
+   La barra bassa del riferimento portava ragione sociale e partita IVA, che
+   qui non esistono. Al loro posto la voce da cui viene il cognome: `Casati` è
+   una scelta, non un'anagrafe, e questa è la pagina in cui dirlo. */
+.citazione {
+  position: absolute;
+  bottom: var(--margine);
+  left: var(--margine);
+  right: var(--margine);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--fuga);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}
+
+.citazione figcaption {
+  opacity: 0.55;
+  white-space: nowrap;
 }

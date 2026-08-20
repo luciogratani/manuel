@@ -1,8 +1,9 @@
 import { Player } from "./player";
 import styles from "./page.module.css";
 
-// La soglia. Unica pagina a scorrimento verticale nativo: è qui che entrerà
-// Lenis, non GSAP.
+// La soglia. Scorrimento verticale nativo: è qui che entrerà Lenis, non GSAP.
+// (Non è più l'unica: da quando /about ha la schermata di chiusura, scorre
+// anche lei — ma senza motore, con lo scroll del browser e basta.)
 //
 // Il player è un rettangolo 3:2. La gestione dei video (§8) è il problema
 // irrisolto del progetto e non si affronta da qui.
