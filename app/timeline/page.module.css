@@ -135,6 +135,12 @@
   position: absolute;
   top: calc(var(--asse) + 1.5rem);
   left: calc(var(--margine) + var(--dx));
+  /* Il testo si stacca dal dentino con un `padding`, non spostando `left`: il
+     motore misura `[data-anno]` per sapere dove cade l'anno in pixel reali, e
+     `left` è quella misura. Spostarla di 8px avrebbe spostato di 8px l'intera
+     cronologia rispetto al nonio — lo stesso difetto del riposo sperato. Il
+     padding muove i glifi e lascia fermo il bordo che il motore legge. */
+  padding-left: 0.5rem; /* 8px */
   font-size: 0.75rem; /* 12px */
   line-height: 1;
   opacity: calc(var(--opacita-base) * var(--lettura, 1));

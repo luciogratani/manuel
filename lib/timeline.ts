@@ -171,8 +171,8 @@ export type Voce = {
 export const VOCI: Voce[] = [
   { titolo: "Intervento per il Candide", anno: 2013, medium: "intervento", luogo: "Palazzo Guillot, Alghero", slug: "intervento-per-il-candide" },
   { titolo: "Glamour Confusion", anno: 2014, medium: "—", luogo: "—", slug: "glamour-confusion" },
-  { titolo: "Photo Editorial Design Scene", anno: 2015, medium: "editoriale", luogo: "—", slug: "photo-editorial-design-scene" },
   { titolo: "Ph Shoot Anto", anno: 2015, medium: "—", luogo: "—", slug: "ph-shoot-anto" },
+  { titolo: "Photo Editorial Design Scene", anno: 2015, medium: "editoriale", luogo: "—", slug: "photo-editorial-design-scene" },
   { titolo: "Corsa Futurista", anno: 2015, fine: 2024, medium: "—", luogo: "—", slug: "corsa-futurista" },
   { titolo: "A Boy's Closet", anno: 2020, medium: "—", luogo: "—", slug: "a-boys-closet" },
   { titolo: "L'Affair", anno: 2021, medium: "video performance", luogo: "—" },
