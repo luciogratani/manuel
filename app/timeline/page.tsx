@@ -115,7 +115,7 @@ export default function Page() {
             dentro questa pagina. Il piede è il posto dove la posizione può
             restare locale. */}
         <footer className={styles.piede}>
-          <p className={styles.percorso}>
+          <p>
             <AnnoCorrente /> / timeline
           </p>
           <p className={styles.legenda}>

@@ -136,7 +136,7 @@ export default async function Page({
       </p>
 
       <footer className={styles.piede}>
-        <p className={styles.percorso}>
+        <p>
           {numerato(opera.numero)} / {opera.titolo.toLowerCase()} / archivio
         </p>
       </footer>

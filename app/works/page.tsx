@@ -84,7 +84,7 @@ export default function Page() {
       </div>
 
       <footer className={styles.piede}>
-        <p className={styles.percorso}>progetti / archivio</p>
+        <p>progetti / archivio</p>
         <p>meta-voice</p>
         <ul className={styles.categorie}>
           <li>work-category-x</li>
