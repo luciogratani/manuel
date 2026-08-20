@@ -34,10 +34,11 @@ pnpm lint       # eslint
 ## Struttura
 
 ```
-app/            App Router (layout + placeholder di route)
-components/     componenti React (vuota)
+app/            App Router (layout, pagine, e i loro componenti locali)
+components/     componenti condivisi fra pagine (header, tenda)
 lib/            utilities e configurazioni condivise
 public/         asset statici serviti as-is
+APERTI.md       lavori aperti: deciso, valutato o misurato ma non ancora fatto
 ```
 
 ## Decisioni sulle versioni

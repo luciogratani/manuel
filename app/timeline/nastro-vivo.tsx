@@ -27,6 +27,19 @@ export function AnnoTick({ anno, dx }: { anno: number; dx: string }) {
   );
 }
 
+/** L'anno nel piede. Cambia scorrendo, e sembra il candidato naturale per un
+ *  taglio: prima 2013, poi 2014, un valore sostituito da un altro.
+ *
+ *  Non lo prende, ed è una decisione, non una dimenticanza. È un valore
+ *  CONTINUO travestito da discreto: conta, non commuta. Attraversando la
+ *  cronologia si cambia anno sedici volte, e dare un taglio a ciascuna
+ *  significa o sedici tende rosse, o sopprimerle sopra una soglia di velocità
+ *  — cioè il silenzio che legge come rotto e non come effetto, già tolto al
+ *  tick sonoro per la stessa ragione (vedi `useSuonoBreve` in lib/suono.ts).
+ *
+ *  Il taglio, in questa pagina, spetta all'unica cosa davvero discreta che
+ *  succede: che la timeline si apra. Tutto il resto è continuo, ed è della
+ *  zona di lettura e del fuoco. Un segnale, un canale. */
 export function AnnoCorrente() {
   const { corrente } = useTimeline();
   return <>{corrente}</>;
