@@ -232,36 +232,23 @@
 
 
 /* ── L'uscita dall'archivio ───────────────────────────────────────────────────
-   La tenda che, al clic su un lavoro, svuota la pagina attorno a quello scelto.
-   Sorella della striscia e non figlia: dentro `.binario` scorrerebbe con la
-   griglia, e il rosso deve stare fermo mentre le lastre spariscono sotto.
+   Al clic su un lavoro, ogni ALTRA lastra viene cancellata dal proprio taglio.
+   Non un sipario sulla pagina: ventuno tagli distinti, tutti nello stesso
+   istante. Sfalsati sarebbero ventuno eventi in fila — simultanei sono un
+   gesto solo, e l'archivio si legge come cancellato opera per opera invece
+   che coperto in blocco.
 
-   Copre la sola banda della striscia: le parole non le tocca, se ne vanno con
-   la dissolvenza. Il rosso toglie le immagini, la dissolvenza toglie le
-   parole. */
-.tendaUscita {
+   Il taglio sta DENTRO la lastra, che ha già `position: relative` e
+   `overflow: hidden`: prende esattamente la sua forma, formato compreso, senza
+   che nessuno debba misurarla. Ed è la ragione per cui a copertura piena non
+   si spegne la lastra ma il suo contenuto — spegnere la lastra spegnerebbe
+   anche il taglio, che le è figlio. */
+.taglio {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: var(--x);
-  right: var(--x);
-  z-index: 2;
+  inset: 0;
+  z-index: 1;
 
-  background: var(--tenda-rosso);
+  background: var(--accento);
   transform: scaleX(0);
   transform-origin: left center;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-/* La cella scelta viene sollevata SOPRA la tenda: il rosso le passa sotto
-   senza toccarla, e il buco nella copertura è disegnato dall'ordine di
-   impilamento invece che da un ritaglio da calcolare.
-
-   `position: relative` perché lo `z-index` abbia effetto — `.pagina` è fissa e
-   quindi è lei il contesto di impilamento, mentre `.binario` non ne apre uno
-   suo. */
-.cella[data-scelta] {
-  position: relative;
-  z-index: 3;
 }

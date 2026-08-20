@@ -62,6 +62,11 @@ export default function Page() {
                     sizes="200px"
                     className={styles.foto}
                   />
+                  {/* Il taglio di questa lastra. Server-renderizzato e fermo:
+                      costa un `<span>` vuoto e risparmia di dover creare
+                      ventuno nodi al primo clic, cioè proprio nel momento in
+                      cui il browser ha altro da fare. */}
+                  <span className={styles.taglio} aria-hidden="true" />
                 </span>
               </Link>
             );

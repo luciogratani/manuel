@@ -7,33 +7,36 @@ import { gsap } from "@/lib/gsap";
 import { DISSOLVENZA, TENDA, USCITA, motoRidotto } from "@/lib/movimento";
 import styles from "./page.module.css";
 
-// L'uscita dall'archivio. La coreografia sta in `USCITA` in lib/movimento.ts;
-// qui c'è il montaggio.
+// L'uscita dall'archivio: al clic su un lavoro la pagina si svuota attorno a
+// quello scelto. La coreografia sta in `USCITA` in lib/movimento.ts.
+//
+// ── Ventuno tagli, non un sipario ───────────────────────────────────────────
+// Ogni altra lastra viene cancellata dal PROPRIO taglio, e tutti nello stesso
+// istante. Un sipario unico sulla striscia avrebbe coperto la pagina; così
+// invece l'archivio si legge cancellato opera per opera.
+//
+// La simultaneità è la ragione per cui venti rossi insieme non sono rumore:
+// sfalsati sarebbero venti eventi in fila, insieme sono un gesto solo. È
+// l'esatto contrario della regola che vale per la preview della timeline, dove
+// il rosso deve restare raro perché arriva uno alla volta.
+//
+// ── Perché si spegne il contenuto e non la lastra ───────────────────────────
+// Il taglio è figlio della lastra — è così che ne prende la forma esatta senza
+// che nessuno debba misurarla. Ma spegnere la lastra spegnerebbe anche lui,
+// quindi a copertura piena si spengono la foto e il fondo inchiostro, e il
+// taglio resta a ritirarsi su una lastra ormai vuota.
 //
 // ── Perché intercetta il clic invece di usare `onNavigate` ──────────────────
-// `<Link onNavigate>` sarebbe l'aggancio dichiarato di Next, ma è una prop:
-// per usarla le ventuno celle dovrebbero essere rese da un componente client,
-// e con loro ventuno `<Image>`. La striscia resta invece server-renderizzata e
-// arriva come `children`, esattamente come il nastro della timeline: qui si
-// ascolta un clic sul contenitore e si chiama il router a mano.
-//
-// Si intercetta solo il clic "semplice". Con un modificatore — cmd, ctrl,
-// shift, o il tasto centrale — il browser apre in una scheda nuova, e mettersi
-// in mezzo significherebbe rubare un gesto che l'utente conosce meglio di noi.
-//
-// ── Chi sta sopra e chi sotto ───────────────────────────────────────────────
-// La tenda è sorella della striscia e la copre per intero. La cella cliccata
-// viene sollevata SOPRA la tenda, quindi il rosso le passa sotto senza
-// toccarla: non c'è nessun ritaglio da calcolare, è l'ordine di
-// impilamento a disegnare il buco.
-//
-// A copertura piena le altre celle spariscono — sotto il rosso, dove nessuno
-// le vede — che è la stessa meccanica con cui la tenda scambia il contenuto in
-// `components/tenda.tsx`.
+// `<Link onNavigate>` esiste in questa versione, ma è una prop: per usarla le
+// ventuno celle dovrebbero essere rese da un componente client, e con loro
+// ventuno `<Image>`. Così la striscia resta server-renderizzata, come il nastro
+// della timeline. Si intercetta solo il clic semplice: con un modificatore il
+// browser apre in una scheda nuova, e mettersi in mezzo significherebbe rubare
+// un gesto che l'utente conosce meglio di noi.
 
 export function Uscita({ children }: { children: ReactNode }) {
   const router = useRouter();
-  const tendaRef = useRef<HTMLDivElement>(null);
+  const ancoraRef = useRef<HTMLSpanElement>(null);
   /** Una navigazione per volta: il secondo clic durante la coreografia non
    *  deve farla ripartire da capo né spingere due volte il router. */
   const inCorsoRef = useRef(false);
@@ -43,9 +46,8 @@ export function Uscita({ children }: { children: ReactNode }) {
   const coreografiaRef = useRef<gsap.core.Timeline | null>(null);
 
   useGSAP(() => {
-    const tenda = tendaRef.current;
-    if (!tenda) return;
-    const pagina = tenda.closest<HTMLElement>(`.${styles.pagina}`);
+    const ancora = ancoraRef.current;
+    const pagina = ancora?.closest<HTMLElement>(`.${styles.pagina}`);
     if (!pagina) return;
 
     const alClic = (e: MouseEvent) => {
@@ -66,32 +68,42 @@ export function Uscita({ children }: { children: ReactNode }) {
       const altre = gsap.utils
         .toArray<HTMLElement>(`.${styles.cella}`, pagina)
         .filter((c) => c !== cella);
+      const tagli = altre.flatMap((c) =>
+        gsap.utils.toArray<HTMLElement>(`.${styles.taglio}`, c),
+      );
+      const lastre = altre.flatMap((c) =>
+        gsap.utils.toArray<HTMLElement>(`.${styles.lastra}`, c),
+      );
+      const foto = altre.flatMap((c) => gsap.utils.toArray<HTMLElement>(`.${styles.foto}`, c));
       const parole = [
         ...gsap.utils.toArray<HTMLElement>(`.${styles.banda}`, pagina),
         ...gsap.utils.toArray<HTMLElement>(`.${styles.piede}`, pagina),
-        ...gsap.utils.toArray<HTMLElement>(`.${styles.numero}`, cella),
+        ...gsap.utils.toArray<HTMLElement>(`.${styles.numero}`, pagina),
       ];
-
-      cella.dataset.scelta = "";
-      gsap.set(tenda, { transformOrigin: "left center", scaleX: 0, autoAlpha: 1 });
 
       const copertura = TENDA.copertura * TENDA.scalaRisposta;
       const ritiro = TENDA.ritiro * TENDA.scalaRisposta;
       const attesa = TENDA.attesa * TENDA.scalaRisposta;
 
+      gsap.set(tagli, { transformOrigin: "left center", scaleX: 0 });
+
       coreografiaRef.current = gsap
         .timeline({ onComplete: () => router.push(rotta) })
-        // 1. Il rosso entra e copre la striscia.
-        .to(tenda, { scaleX: 1, duration: copertura, ease: TENDA.easeCopertura }, 0)
-        // 2. Le parole se ne vanno insieme al rosso che arriva, non dopo: sono
-        //    due modi di togliere la stessa pagina, non due tempi.
+        // 1. Ogni taglio entra sulla propria lastra, tutti insieme.
+        .to(tagli, { scaleX: 1, duration: copertura, ease: TENDA.easeCopertura }, 0)
+        // 2. Le parole se ne vanno mentre il rosso arriva, non dopo: sono due
+        //    modi di togliere la stessa pagina, non due tempi. Il rosso toglie
+        //    le immagini, la dissolvenza toglie le parole.
         .to(parole, { opacity: 0, duration: DISSOLVENZA.durata, ease: DISSOLVENZA.ease }, 0)
-        // 3. A copertura piena spariscono le altre lastre, sotto il rosso.
-        .set(altre, { opacity: 0 })
-        .set(tenda, { transformOrigin: "right center" })
-        // 4. Il rosso si ritira nel verso in cui era arrivato, e resta una
+        // 3. A copertura piena la lastra si svuota SOTTO il proprio taglio.
+        //    Foto e fondo separatamente, perché spegnere la lastra spegnerebbe
+        //    anche il taglio, che le è figlio.
+        .set(foto, { autoAlpha: 0 })
+        .set(lastre, { backgroundColor: "transparent" })
+        .set(tagli, { transformOrigin: "right center" })
+        // 4. I tagli si ritirano nel verso in cui sono arrivati, e resta una
         //    pagina con una lastra sola.
-        .to(tenda, { scaleX: 0, duration: ritiro, ease: TENDA.easeRitiro }, `+=${attesa}`)
+        .to(tagli, { scaleX: 0, duration: ritiro, ease: TENDA.easeRitiro }, `+=${attesa}`)
         // 5. La sosta, poi la navigazione: da lì è la dissolvenza generica fra
         //    pagine a portare via anche quella.
         .to({}, { duration: USCITA.sosta });
@@ -102,17 +114,15 @@ export function Uscita({ children }: { children: ReactNode }) {
       pagina.removeEventListener("click", alClic);
       coreografiaRef.current?.kill();
     };
-  }, { scope: tendaRef });
+  }, { scope: ancoraRef });
 
   return (
     <>
       {children}
-      <div
-        ref={tendaRef}
-        className={styles.tendaUscita}
-        style={{ "--tenda-rosso": TENDA.rosso } as React.CSSProperties}
-        aria-hidden="true"
-      />
+      {/* Nessun elemento da animare: serve solo un nodo da cui risalire alla
+          pagina, perché un `useGSAP` senza un riferimento non ha da dove
+          partire. Non occupa spazio e non si vede. */}
+      <span ref={ancoraRef} hidden />
     </>
   );
 }
