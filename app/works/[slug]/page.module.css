@@ -27,7 +27,14 @@
   --alta: 11.375rem; /* 182px */
   --media: 8.5625rem; /* 137px */
   --bassa: 4.25rem; /* 68px */
-  --corrente: 23.75rem; /* 380px */
+
+  /* Quanto cresce la corrente, in proporzione al PROPRIO registro invece che a
+     una quota fissa. Nell'artboard la corrente era 380px contro i 182 del
+     registro alto: 2,1 volte. Preso come fattore, quel numero vale anche per
+     gli altri due registri, dove una quota fissa produceva schegge — una foto
+     verticale in registro basso è larga 54px, e a 380 di altezza diventava una
+     stecca. */
+  --fattore-corrente: 2.1;
   --fuga: 0.75rem; /* 12px — la distanza fra due lastre */
 
   position: fixed;
@@ -45,26 +52,19 @@
    può fare da qualunque punto, che è il comportamento chiesto. Gli elementi di
    testo stanno sopra e si riprendono i loro eventi.
 
-   Lo scroll nativo qui è un ponteggio. Quando entra GSAP questo contenitore
-   smette di scorrere e `.fila` viene traslata da una timeline circolare: la
-   rotella del mouse comincia a funzionare (adesso no, muove solo il trackpad)
-   e il loop diventa vero. Il markup non cambia. */
+   Il ponteggio è caduto: lo scorrimento è guidato da `mensola.tsx`, che
+   trasla ogni lastra e avvolge le posizioni in un anello. `overflow: hidden` e
+   non più `auto` — con lo scorrimento nativo acceso le due posizioni si
+   sommerebbero — e la rotella adesso funziona, dove prima muoveva solo il
+   trackpad. Senza JS resta ferma sulla prima lastra, come il binario della
+   timeline. */
 .striscia {
   position: absolute;
   top: 0;
   bottom: 0;
   left: var(--x);
   right: var(--x);
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-
-  /* Nessuna barra visibile, su nessun motore. */
-  scrollbar-width: none;
-}
-
-.striscia::-webkit-scrollbar {
-  display: none;
+  overflow: hidden;
 }
 
 .fila {
@@ -78,10 +78,12 @@
   height: calc(var(--base) + var(--sporgenza));
   padding-bottom: var(--sporgenza);
 
-  /* Posiziona la corrente a 282px dal bordo della viewport: tiene conto del
-     rientro `--x` e dei due cloni di coda che la precedono.
-     Diventerà la posizione iniziale della timeline. */
-  padding-left: 0.8125rem;
+  /* Nessun rientro: la prima lastra comincia a zero e ce la porta il motore,
+     che a riposo la mette sotto la linea di lettura (`LETTURA` in
+     lib/mensola.ts, la quota dell'artboard). Un `padding-left` qui farebbe
+     parte dell'anello e ci girerebbe dentro come un vuoto largo quanto lui.
+     La densità minima, che un anello non ce l'ha, se lo tiene. */
+  padding-left: 0;
   padding-right: var(--x);
 }
 
@@ -112,10 +114,31 @@
   --h: var(--bassa);
 }
 
-/* La corrente ignora il registro e scende sotto la linea di base. */
+/* La corrente rompe il registro: cresce verso l'alto e scende sotto la linea
+   di base. Cambia l'ALTEZZA e non `--h`, e la differenza è tutto:
+
+   `--h` decide anche la larghezza, e una lastra che si allarga spinge le
+   vicine. Con la striscia che scorre le posizioni cambierebbero sotto i piedi
+   dell'anello ad ogni cambio di corrente — l'aritmetica da rifare ogni volta, e
+   la riga che sussulta. Così invece il ritmo orizzontale non si sposta mai e
+   l'anello si misura una volta sola. Il taglio della foto cambia, ed è una
+   decisione di presentazione che questa pagina già rivendica.
+
+   La transizione perché la corrente adesso si sposta scorrendo: senza, ad ogni
+   fotografia che passa sotto la linea di lettura ci sarebbe uno scatto. */
+.lastra {
+  transition:
+    height 0.28s cubic-bezier(0.45, 0, 0.55, 1),
+    margin-bottom 0.28s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* Cresce ugualmente verso l'alto e verso il basso — «la rompe da tutt'e due i
+   lati» — quindi la sporgenza è metà della crescita e non un numero a parte.
+   Sul registro alto torna esattamente l'artboard: 182 → 382 di altezza, 100 di
+   sporgenza contro i 99 misurati. */
 .lastra[data-corrente] {
-  --h: var(--corrente);
-  margin-bottom: calc(var(--sporgenza) * -1);
+  height: calc(var(--h) * var(--fattore-corrente));
+  margin-bottom: calc(var(--h) * (var(--fattore-corrente) - 1) / -2);
 }
 
 /* ── Testa e piede ────────────────────────────────────────────────────────────
@@ -241,4 +264,67 @@
 .pagina[data-densita="minima"] .crediti {
   top: 35rem; /* 560px */
   left: var(--colonna);
+}
+
+/* ── L'ingresso ───────────────────────────────────────────────────────────────
+   Le lastre salgono dalla linea di base che già condividono, a onda da sinistra
+   verso destra — stesso idioma dell'indice, dove l'archivio si srotola, e stesso
+   mestiere dei dentini che scendono dall'asse sulla timeline.
+
+   Ritaglio e non scala: le lastre contengono foto in `cover`, e uno `scaleY`
+   le schiaccerebbe. È anche ciò che permette all'ingresso di convivere col
+   motore, che sulle stesse lastre scrive il `transform`: due proprietà diverse,
+   nessuna contesa.
+
+   Il ritardo si ricava da `--i` scritto dal Server Component. Nessun
+   JavaScript: l'ingresso resta del foglio anche su una pagina che un motore
+   ce l'ha. */
+.pagina {
+  --onda-ingresso: 0.055s;
+  --sale: 0.45s;
+  --ease-ingresso: cubic-bezier(0.33, 1, 0.68, 1); /* power2.out */
+  --coda-ingresso: calc(var(--scatti) * var(--onda-ingresso) + var(--sale));
+}
+
+.lastra {
+  animation: lastra-sale var(--sale) var(--ease-ingresso)
+    calc(var(--i) * var(--onda-ingresso)) backwards;
+}
+
+/* L'apparato arriva quando la mensola si è posata: prima il materiale, poi
+   ciò che lo racconta. */
+.scheda,
+.crediti,
+.nota,
+.piede {
+  animation: apparato-arriva var(--sale) var(--ease-ingresso) var(--coda-ingresso) backwards;
+}
+
+/* Nessun fotogramma finale dichiarato per l'apparato: quello implicito è il
+   valore che l'elemento ha già. */
+@keyframes lastra-sale {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes apparato-arriva {
+  from {
+    opacity: 0;
+  }
+}
+
+/* §9.4: stesso stato finale, nessun percorso per arrivarci. */
+@media (prefers-reduced-motion: reduce) {
+  .lastra,
+  .scheda,
+  .crediti,
+  .nota,
+  .piede {
+    animation: none;
+    transition: none;
+  }
 }

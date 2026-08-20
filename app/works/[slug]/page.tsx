@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { OPERE, RAPPORTO, formato, numerato, perSlug } from "@/lib/opere";
+import { Mensola } from "./mensola";
 import styles from "./page.module.css";
 
 // La work page. La mensola: le lastre attraversano una linea di base condivisa,
@@ -25,10 +26,6 @@ type Registro = "alta" | "media" | "bassa";
  *  nell'artboard c'erano 1:2 e 2:1, rapporti che in archivio non esistono. */
 const REGISTRI: Registro[] = ["alta", "alta", "media", "bassa", "media", "media", "bassa", "alta"];
 
-/** Prima della prima ci sono le ultime: il loop è infinito. Nella versione
- *  ferma sono cloni in testa, ed è la stessa struttura che serve al loop vero. */
-const CODA_IN_TESTA = 2;
-
 export function generateStaticParams() {
   return OPERE.map((opera) => ({ slug: opera.slug }));
 }
@@ -42,66 +39,61 @@ export default async function Page({
   const opera = perSlug(slug);
   if (!opera) notFound();
 
-  const corrente = opera.scatti[0];
-
-  // La striscia. Con una sola fotografia — la densità "minima" del §4.1 — non
-  // c'è mensola: resta la corrente, e la pagina la regge l'apparato.
-  const altre = opera.scatti.slice(1).map((scatto, i) => ({
+  // La mensola mostra TUTTE le fotografie dell'opera, e ognuna è un rimando
+  // alla propria vista ravvicinata. Prima lo era solo la corrente: adesso che
+  // la corrente si sposta scorrendo, legare il rimando a lei significherebbe
+  // un bersaglio che si muove sotto il puntatore. Ogni lastra porta alla
+  // propria foto, e `data-corrente` resta solo un segno di lettura.
+  //
+  // Sparita anche la coda di cloni in testa. Servivano a suggerire l'anello
+  // nella versione ferma, ma l'anello vero avvolge le POSIZIONI e non duplica
+  // gli elementi: dei cloni verrebbero contati come lastre e la sequenza
+  // avrebbe dei doppioni.
+  const lastre = opera.scatti.map((scatto, i) => ({
     scatto,
-    registro: REGISTRI[i % REGISTRI.length],
+    n: i + 1,
+    i,
+    // Il primo non ha registro: è la corrente a riposo, e il registro glielo
+    // toglie `data-corrente`. Gli altri prendono il ritmo dell'artboard.
+    registro: i === 0 ? REGISTRI[0] : REGISTRI[(i - 1) % REGISTRI.length],
   }));
-  const coda = altre.slice(Math.max(0, altre.length - CODA_IN_TESTA));
 
   return (
-    <div className={styles.pagina} data-densita={opera.densita}>
-      <div className={styles.striscia}>
-        <div className={styles.fila}>
-          {coda.map(({ scatto, registro }, i) => (
-            <div
-              key={`coda-${i}`}
-              className={styles.lastra}
-              data-registro={registro}
-              aria-hidden="true"
-              style={
-                { "--ar": RAPPORTO[formato(scatto.w, scatto.h)] } as CSSProperties
-              }
-            >
-              <Image src={scatto.src} alt="" fill sizes="30vw" className={styles.foto} />
-            </div>
-          ))}
-
+    <div
+      className={styles.pagina}
+      data-densita={opera.densita}
+      // Quante lastre: serve al foglio per sapere quando l'onda ha finito,
+      // senza che il numero sia scritto due volte.
+      style={{ "--scatti": opera.scatti.length } as CSSProperties}
+    >
+      <Mensola>
+        {lastre.map(({ scatto, n, i, registro }) => (
           <Link
+            key={scatto.src}
             className={styles.lastra}
-            data-corrente=""
-            href={`/works/${opera.slug}/1`}
+            data-registro={registro}
+            data-corrente={n === 1 ? "" : undefined}
+            href={`/works/${opera.slug}/${n}`}
             style={
-              { "--ar": RAPPORTO[formato(corrente.w, corrente.h)] } as CSSProperties
+              {
+                "--ar": RAPPORTO[formato(scatto.w, scatto.h)],
+                // La posizione nella sequenza: al foglio serve per l'onda
+                // d'ingresso, come in /works.
+                "--i": i,
+              } as CSSProperties
             }
           >
             <Image
-              src={corrente.src}
-              alt={opera.titolo}
+              src={scatto.src}
+              alt={n === 1 ? opera.titolo : ""}
               fill
               sizes="45vw"
-              priority
+              priority={n === 1}
               className={styles.foto}
             />
           </Link>
-
-          {altre.map(({ scatto, registro }) => (
-            <div
-              key={scatto.src}
-              className={styles.lastra}
-              data-registro={registro}
-              style={
-                { "--ar": RAPPORTO[formato(scatto.w, scatto.h)] } as CSSProperties
-              }
-            >
-              <Image src={scatto.src} alt="" fill sizes="30vw" className={styles.foto} />
-            </div>
-          ))}
-        </div>
-      </div>
+        ))}
+      </Mensola>
 
       <div className={styles.scheda}>
         <p className={styles.numero}>({numerato(opera.numero)})</p>
