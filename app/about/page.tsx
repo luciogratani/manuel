@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Copia } from "@/components/copia";
 import { Marchio } from "@/components/marchio";
 import { ROSSO } from "@/lib/movimento";
@@ -48,11 +49,13 @@ const DATI: [string, string][] = [
   ],
 ];
 
-// L'email è quella vera. Il numero no: MOCK, e il prefisso 000 non è
-// assegnabile a nessuno, così se finisse online per sbaglio non squillerebbe
-// il telefono di uno sconosciuto.
-const TELEFONO = "+39 000 000 0000";
+const TELEFONO = "+39 345 871 9638";
 const EMAIL = "hello@manuelcasati.it";
+
+const PROFILI: [string, string][] = [
+  ["Instagram", "https://www.instagram.com/manuelcasatidegliamman_/"],
+  ["Facebook", "https://www.facebook.com/p/Manuel-Casati-100066875731669/"],
+];
 
 export default function Page() {
   return (
@@ -172,17 +175,28 @@ export default function Page() {
             </p>
           </div>
 
-          {/* MOCK: i profili ci sono, i loro indirizzi non ancora. Restano
-              testo finché non sono link veri — un link che non porta da
-              nessuna parte è peggio di una parola. */}
+          {/* `rel="noreferrer"` con `target="_blank"`: il primo evita che la
+              scheda aperta possa manipolare questa attraverso `window.opener`,
+              il secondo è la convenzione per un profilo che sta fuori dal
+              sito. Sono i primi link esterni del progetto. */}
           <div className={styles.colonna}>
             <p className={styles.etichetta}>seguire</p>
-            <p>Instagram, Facebook</p>
+            {PROFILI.map(([nome, href]) => (
+              <p key={nome}>
+                <a className={styles.rimando} href={href} target="_blank" rel="noreferrer">
+                  {nome}
+                </a>
+              </p>
+            ))}
           </div>
 
           <div className={styles.colonna}>
             <p className={styles.etichetta}>legali</p>
-            <p>—</p>
+            <p>
+              <Link className={styles.rimando} href="/legali">
+                Note legali
+              </Link>
+            </p>
           </div>
 
           {/* La quarta colonna del riferimento era una newsletter, che qui non

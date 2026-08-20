@@ -1,0 +1,84 @@
+/* Note legali.
+
+   L'unica pagina del sito fatta per essere LETTA e non guardata, e la sola
+   conseguenza è che scorre: un testo di legge non si impagina su una schermata
+   sola per rispetto di una regola di composizione. Il resto — margini a `2x`,
+   apparato a 14px, la riga dei contenuti a 136px — è quello di sempre.
+
+   La colonna è larga 34rem e non 25 come nella scheda di /about: là il testo è
+   una nota accanto a un apparato, qui è il contenuto. A 14px con
+   `line-height: 1.6` fa una misura di riga leggibile senza diventare una
+   colonna di giornale. */
+
+.pagina {
+  --avorio: #f5f5f0;
+  --inchiostro: #090d16;
+
+  --x: 1.125rem; /* 18px */
+  --margine: calc(var(--x) * 2); /* 36px */
+
+  min-height: 100vh;
+  background: var(--avorio);
+  color: var(--inchiostro);
+  font-family: var(--font-pp-object-sans), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+}
+
+.corpo {
+  padding: 8.5rem var(--margine) 0; /* 136px in alto, la quota condivisa */
+  width: 34rem; /* 544px */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.titolo {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+/* La bozza si dichiara come tale, e in modo che non si possa saltare: una
+   pagina di note legali che dà per risolto ciò che non lo è darebbe una falsa
+   sicurezza proprio dove serve quella vera. */
+.avvertenza {
+  margin-top: 1.75rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--inchiostro);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  opacity: 0.55;
+}
+
+.sezione {
+  margin-top: 3.5rem; /* 56px */
+}
+
+.rubrica {
+  font-size: 0.875rem;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.testo {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.rimando {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+  text-decoration-thickness: 1px;
+}
+
+/* Nel flusso e non ancorato al bordo: la pagina scorre, e un piede fisso
+   coprirebbe l'ultima riga del testo proprio mentre la si legge. */
+.piede {
+  margin-top: 7rem; /* 112px */
+  padding: 0 var(--margine) var(--margine);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}

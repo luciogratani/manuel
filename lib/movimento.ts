@@ -1,5 +1,24 @@
 /** L'unico accento del sito. Sorgente sola: chi lo usa lo riceve, non ne
- *  tiene una copia — né i fogli di stile né i componenti. */
+ *  tiene una copia — né i fogli di stile né i componenti.
+ *
+ *  ── Dove può stare, aggiornato ─────────────────────────────────────────────
+ *  Il §2.3 dice che «il rosso sta nel taglio, non colora l'interfaccia». La
+ *  regola vale ancora, ma ha ormai un'eccezione dichiarata e conviene che sia
+ *  scritta accanto al colore invece di essere scoperta leggendo i fogli:
+ *
+ *    · LA TENDA — il taglio vero e proprio, un rettangolo che entra, copre e
+ *      si ritira. È il caso originario e non è in discussione.
+ *    · LA CHIUSURA DI /about — una schermata intera di rosso pieno. Qui il
+ *      rosso è SUPERFICIE e non gesto: l'accento che si prende l'ultima parola
+ *      del sito invece di lampeggiare per un istante.
+ *
+ *  Fuori da questi due, no. In particolare non colora un'affordance
+ *  d'interfaccia: il riquadro del copia in `components/copia.tsx` avrebbe
+ *  potuto usarlo (5,70:1 su avorio, contrasto sufficiente) e usa l'inchiostro
+ *  proprio per non spendere l'accento una terza volta.
+ *
+ *  Se un giorno arriva un terzo caso, non è più un'eccezione: è che la regola
+ *  è cambiata, e va riscritta invece di essere aggirata. */
 export const ROSSO = "#C1121C";
 
 /** L'altra metà del §3.2: la dissolvenza segna una variazione interna a uno

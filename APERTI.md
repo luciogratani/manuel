@@ -4,26 +4,11 @@ Cose decise, valutate o misurate che **non hanno un posto nel codice** — perch
 riguardano più file, o perché sono domande ancora aperte.
 
 Quello che invece riguarda un punto solo sta accanto a quel punto, com'è lo
-stile di questo repo: ogni pagina dichiara da sé cosa le manca (`/about` era un
-segnaposto, `/works` ha la selezione ancora da fare in JS, `/works/[slug]` ha lo
-scroll nativo come ponteggio, il §8 dei video è dichiarato irrisolto). Quelle
-non si ripetono qui.
+stile di questo repo: ogni pagina dichiara da sé cosa le manca (`/works` ha la
+selezione ancora da fare in JS, `/works/[slug]` ha lo scroll nativo come
+ponteggio, il §8 dei video è dichiarato irrisolto). Quelle non si ripetono qui.
 
 ---
-
-## La home a due schermate
-
-Valutata, non fatta. La prima schermata mostrerebbe la sola navbar al centro,
-il piede alleggerito e un invito allo scorrimento; uno scorrimento guidato
-porterebbe poi alla schermata dell'hero, che entra con la sequenza che c'è già.
-
-Richiede **Lenis**, installato in `package.json` e mai attivato, e lo snap fra
-sezioni. È la cosa più cara fra quelle rimaste.
-
-Un vincolo da non perdere: il §2.1 chiede che `manuel` non compaia mai in una
-schermata dove `Manuel Casati` non sia leggibile. Se il piede si svuota nella
-prima schermata la regola salta proprio dove il marchio è protagonista —
-`Manuel Casati` va tenuto, semmai lasciando cadere `ITA, 1986` e l'arco.
 
 ## La transizione fra pagine (§3.4)
 
@@ -31,9 +16,9 @@ Il pezzo difficile **è già sciolto**, e conviene saperlo prima di riaprirlo.
 
 Era: l'header è condiviso, non può scattare da un titolo all'altro senza
 transizione. Ma da `9f1b7f3` l'header vive in `app/layout.tsx` ed è identico su
-tutte le pagine — `manuel` a sinistra, le tre rotte a destra — quindi **durante
-una transizione non transisce affatto**: non si rimonta, e non ha niente da far
-scattare. Resta il corpo che cambia, e per quello c'è la tenda
+tutte le pagine — il marchio a sinistra, le tre rotte a destra — quindi
+**durante una transizione non transisce affatto**: non si rimonta, e non ha
+niente da far scattare. Resta il corpo che cambia, e per quello c'è la tenda
 (`components/tenda.tsx`), che nasce proprio come primitivo riusabile.
 
 Il percorso per-pagina, che era l'unica parte variabile in testa, è sceso nei
@@ -43,56 +28,96 @@ Entrando in `/timeline` la tenda della transizione sarà **l'unica** lavata
 rossa: l'ingresso della timeline non usa il rosso di proposito (vedi
 `655668c`), e due tende in fila sarebbero state una di troppo.
 
-## La posizione del player nella home
+## Le cinque opere che mancano
 
-Da guardare. `--player margin-top` vale 434px, ed è la somma di dove stava la
-nav nella bozza (357) più la sua altezza (18) più la fuga (59).
+`lib/opere.ts` progetta «una sequenza unica 01→26» (§3.3) e contiene ventuno
+opere, numerate 01→21. Le pagine adesso contano invece di dichiarare, quindi
+nessuna mente — ma le cinque assenti restano da inserire, ed è curatela.
 
-Ma la nav **non è più lì**: da `9f1b7f3` è l'header del sito e sta in cima, a
-28px. Il player è rimasto alla quota che aveva quando sotto la nav c'era. Il
-risultato è un vuoto fra 46px e 434px che nella bozza non esisteva.
+Il repo non dice quali siano. Dice però dove cercarle:
 
-Non l'ho toccato perché ricentrare la composizione è una scelta d'autore, non
-una conseguenza tecnica. Ma è una quota che adesso deriva da un elemento che
-non c'è più.
+- **Quattro immagini senza opera.** `public/media/indice/` contiene ventiquattro
+  file (001→024) e `lib/opere.ts` ne referenzia venti. Orfani: **002, 003, 014,
+  022**.
+- **Due voci di cronologia senza opera.** In `lib/timeline.ts` tutte le voci
+  hanno uno slug che rimanda all'archivio, tranne **L'Affair** (2021, video
+  performance) e **BDSM** (2025, video). Sono in cronologia ma non in archivio,
+  quindi non hanno numero.
 
-## `--rif-altezza` — i numeri misurati
+Le due liste possono sovrapporsi: una delle immagini orfane potrebbe essere
+proprio L'Affair o BDSM.
+
+## `--rif-altezza` — i numeri, rimisurati
 
 `app/globals.css` frena la scala del sito su `--rif-altezza: 980`, e il suo
 commento avverte che quel numero deve essere «l'altezza che la composizione
 RICHIEDE, non una a piacere»: se è sottostimato il freno non morde, se è
 sovrastimato tutto rimpicciolisce prima del necessario.
 
-Le intestazioni dei fogli dichiarano viewport diverse (`/works` dice 1440×980,
-le altre 1440×780), quindi ho calcolato dai CSS l'altezza che ciascuna pagina
-occupa davvero, dal contenuto più in alto al piede:
+Altezza calcolata dai fogli, dal contenuto più alto al piede:
 
 | pagina | richiede | da cosa |
 |---|---|---|
-| home | **~851px** | player a 434 + 381 di altezza, più aria sotto |
-| `/works` | ~792px | banda a 628 + ~111 di scheda + piede |
+| `/works` | **~792px** | banda a 628 + ~111 di scheda + piede |
 | `/works/[slug]` | ~767px | base 614 + sporgenza 99 + piede |
 | `/timeline` | ~733px | voci fino a 503 dall'alto, pannello 230 dal basso |
-| `/about` | ~624px | apparato a 316 + tre paragrafi + piede |
+| `/about` (scheda) | ~624px | apparato a 316 + tre paragrafi + piede |
+| home | ~520px | il player è centrato: gli serve solo di non toccare i bordi |
 
-Il massimo è la **home, ~851px**. `--rif-altezza: 980` sembra quindi
-sovrastimato di circa 130px: su una finestra alta 900 la scala scende a 14,7px
-invece di restare a 16, pur essendoci lo spazio.
+Il massimo è ora `/works`, **~792px**: la home è scesa da ~851 a ~520 da quando
+il player si centra invece di stare appeso a una quota dall'alto. `980` sembra
+quindi sovrastimato di circa 190px — su una finestra alta 900 la scala scende a
+14,7px invece di restare a 16, pur essendoci lo spazio.
 
-**Non l'ho cambiato.** Sono misure calcolate dai fogli, non lette da un browser,
-e il valore è una manopola d'autore: 980 potrebbe essere deliberato per lasciare
-margine a contenuti non ancora scritti. Ma se 851 è la verità, portarlo a ~870
-restituisce la scala piena a tutte le finestre fra 870 e 980.
+**Non l'ho cambiato.** Sono misure calcolate dai fogli e non lette da un
+browser, e il valore è una manopola d'autore: 980 potrebbe essere deliberato
+per lasciare margine a contenuti non ancora scritti. Da rimisurare quando
+`/works` avrà la sua parte interattiva, che è la pagina che fissa il massimo.
 
-Va rimisurato dopo aver deciso della quota del player qui sopra: è la home a
-fissare il massimo.
+## Il rosso è anche superficie: il §2.3 va riscritto
 
-## L'archivio dichiara 26 opere, ne contiene 21
+Il §2.3 dice che «il rosso sta nel taglio, non colora l'interfaccia». Da
+`f5f59a4` non è più vero alla lettera: la chiusura di `/about` è una schermata
+intera di rosso pieno.
 
-`lib/opere.ts` progetta «una sequenza unica 01→26» (§3.3) e il numero più alto
-in `OPERE` è 21. Il segnaposto di `/about` diceva «Ventisei opere»; adesso la
-pagina conta `OPERE.length` e dice ventuno, quindi non può più mentire — ma
-restano **cinque opere da inserire**, ed è curatela, non codice.
+L'eccezione è dichiarata e circoscritta — la formulazione aggiornata sta accanto
+a `ROSSO` in `lib/movimento.ts`, che è dove chiunque voglia usare l'accento
+guarda per primo. Due casi ammessi, la tenda e la chiusura; tutto il resto no,
+compreso il riquadro del copia, che avrebbe avuto contrasto sufficiente e usa
+l'inchiostro proprio per non spendere l'accento una terza volta.
+
+Quando la guida tornerà sotto mano, **il §2.3 va riscritto per dire questo**
+invece di essere contraddetto dal codice.
+
+## Le note legali sono una bozza
+
+`/legali` esiste e dice cose vere, ma **non è stata letta da un legale** e la
+pagina stessa lo dichiara in testa.
+
+Due parti meritano attenzione vera prima della pubblicazione:
+
+- **Persone ritratte.** Il sito pubblica ritratti di persone identificabili;
+  l'art. 96 L. 633/1941 richiede il consenso della persona ritratta. La pagina
+  afferma che ogni ritratto è pubblicato con quel consenso e offre un canale per
+  chiederne la rimozione. **Quell'affermazione va resa vera**, cioè le
+  liberatorie vanno raccolte e conservate: in caso di contestazione è chi
+  pubblica a dover provare di avere l'autorizzazione.
+- **Natura dei contenuti.** La pagina dichiara che alcune opere contengono
+  nudità artistica e che nessuna ritrae minorenni in quel contesto. Va
+  verificato contro l'archivio reale, opera per opera, prima di andare online.
+
+Le affermazioni sui dati invece sono **verificate nel codice**: nessuna
+analitica, nessuna terza parte, nessun modulo, e una sola chiave in
+`localStorage` per la preferenza del suono della timeline. Se arriva
+un'analitica, un modulo o un servizio esterno, quella pagina va riscritta per
+prima.
+
+## Recapiti ancora da avere
+
+`/about` ha telefono, email e i due profili social. Mancano ancora, se servono:
+un indirizzo postale e — se un giorno ci sarà una partita IVA o una ragione
+sociale — la riga che nel riferimento stava in fondo e che qui è occupata dalla
+citazione di Luisa Casati.
 
 ---
 

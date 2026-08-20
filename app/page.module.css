@@ -15,6 +15,10 @@
   --x: 1.125rem; /* 18px */
   --margine: calc(var(--x) * 2); /* 36px */
 
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+
   background: var(--avorio);
   color: var(--inchiostro);
   font-family: var(--font-pp-object-sans), "Helvetica Neue", Arial, sans-serif;
@@ -25,11 +29,17 @@
    è ancorata ai bordi ma centrata: nav e player stanno sull'asse verticale
    della pagina. È l'unica delle quattro schermate che si comporta così, e ha
    senso che sia proprio la soglia. */
+/* Il player sta al centro esatto della finestra, nei due sensi. Prima era
+   ancorato a una quota dall'alto ereditata da quando la nav gli stava sopra:
+   quella quota derivava da un elemento che dal refactor dell'header non c'è
+   più, e lasciava un vuoto in cima che nella bozza non esisteva. */
 .soglia {
-  min-height: 100vh;
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 0 var(--margine);
 }
 
@@ -40,7 +50,6 @@
    l'header e sta in cima, ma la composizione della soglia resta quella
    dell'artboard. */
 .player {
-  margin-top: 27.125rem; /* 434px */
   width: 35.75rem; /* 572px */
 }
 
@@ -52,10 +61,17 @@
   background: var(--grigio);
 }
 
+/* Ancorato al bordo come nelle altre pagine, invece di seguire la soglia nel
+   flusso: da lì spingeva la finestra a scorrere di una cinquantina di pixel
+   per niente, e con un player centrato "al centro della finestra" sarebbe
+   diventata un'espressione ambigua. */
 .piede {
+  position: absolute;
+  bottom: var(--margine);
+  left: var(--margine);
+  right: var(--margine);
   display: flex;
   justify-content: space-between;
-  padding: 0 var(--margine) var(--margine);
   font-size: 0.875rem; /* 14px */
   line-height: 1.2;
 }

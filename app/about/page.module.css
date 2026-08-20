@@ -308,3 +308,14 @@
   opacity: 0.55;
   white-space: nowrap;
 }
+
+/* I rimandi della chiusura. Sottolineatura sottile e nessun colore, come le
+   voci del nastro che hanno una route: il rimando è un fatto, non un invito —
+   e su questa tinta un colore diverso sarebbe comunque il rosso, che è
+   dell'accento e non dell'interfaccia. */
+.rimando {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+  text-decoration-thickness: 1px;
+}
