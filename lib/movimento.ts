@@ -155,3 +155,26 @@ export const SOGLIA = {
    *  sta ancora dividendo, non dopo che si è fermata. */
   tVideo: 2.15,
 } as const;
+
+/** ── L'uscita dall'archivio ────────────────────────────────────────────────
+ *  Cliccando un lavoro in `/works`, la pagina si svuota attorno a quello
+ *  scelto prima di lasciarlo andare:
+ *
+ *    1. la tenda copre la striscia, e sotto di lei tutte le altre lastre
+ *       spariscono — l'opera scelta resta SOPRA il rosso e non viene toccata;
+ *    2. insieme, i testi si dissolvono: il rosso toglie le immagini, la
+ *       dissolvenza toglie le parole;
+ *    3. la tenda si ritira e resta una pagina con una lastra sola;
+ *    4. dopo una sosta breve parte la navigazione, e da lì è la dissolvenza
+ *       generica fra pagine a portare via anche quella.
+ *
+ *  La tenda gira a `scalaRisposta` e non al tempo cerimoniale: risponde a un
+ *  clic. Il conto totale è circa un secondo dal clic alla pagina nuova, contro
+ *  i 0,25s della navigazione nuda — è tanto, ed è speso dove il sito ha
+ *  qualcosa da dire: entrare in un'opera è l'atto principale dell'archivio,
+ *  non un cambio di sezione. */
+export const USCITA = {
+  /** Quanto resta sola l'opera scelta prima che la navigazione parta. Poco
+   *  basta: serve a far registrare che è rimasta lei, non a farla ammirare. */
+  sosta: 0.2,
+} as const;

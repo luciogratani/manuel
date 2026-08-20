@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { OPERE, RAPPORTO, formato, numerato } from "@/lib/opere";
+import { Uscita } from "./uscita";
 import styles from "./page.module.css";
 
 // L'indice: la griglia numerata. È la spina dorsale del sito, la pagina che
@@ -33,6 +34,10 @@ export default function Page() {
 
   return (
     <div className={styles.pagina}>
+      {/* L'uscita avvolge tutta la pagina perché deve toccarne tre parti — le
+          celle, la banda, il piede — e non rende alcun contenitore: aggiunge
+          solo la tenda come sorella. */}
+      <Uscita>
       <div className={styles.binario}>
         <div className={styles.griglia}>
           {OPERE.map((opera, i) => {
@@ -97,6 +102,7 @@ export default function Page() {
           <li>other stuff</li>
         </ul>
       </footer>
+      </Uscita>
     </div>
   );
 }

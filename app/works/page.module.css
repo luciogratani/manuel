@@ -230,3 +230,38 @@
   text-decoration: none;
 }
 
+
+/* ── L'uscita dall'archivio ───────────────────────────────────────────────────
+   La tenda che, al clic su un lavoro, svuota la pagina attorno a quello scelto.
+   Sorella della striscia e non figlia: dentro `.binario` scorrerebbe con la
+   griglia, e il rosso deve stare fermo mentre le lastre spariscono sotto.
+
+   Copre la sola banda della striscia: le parole non le tocca, se ne vanno con
+   la dissolvenza. Il rosso toglie le immagini, la dissolvenza toglie le
+   parole. */
+.tendaUscita {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--x);
+  right: var(--x);
+  z-index: 2;
+
+  background: var(--tenda-rosso);
+  transform: scaleX(0);
+  transform-origin: left center;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* La cella scelta viene sollevata SOPRA la tenda: il rosso le passa sotto
+   senza toccarla, e il buco nella copertura è disegnato dall'ordine di
+   impilamento invece che da un ritaglio da calcolare.
+
+   `position: relative` perché lo `z-index` abbia effetto — `.pagina` è fissa e
+   quindi è lei il contesto di impilamento, mentre `.binario` non ne apre uno
+   suo. */
+.cella[data-scelta] {
+  position: relative;
+  z-index: 3;
+}
