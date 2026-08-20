@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/lib/gsap";
 import { TENDA, motoRidotto } from "@/lib/movimento";
@@ -53,10 +53,6 @@ export function Tenda({
   const contenitoreRef = useRef<HTMLDivElement>(null);
   const contenutoRef = useRef<HTMLDivElement>(null);
   const tendaRef = useRef<HTMLDivElement>(null);
-  /** PROVVISORIO, solo per la messa a punto: un clic la fa ripassare, così
-   *  non serve ricaricare la pagina ad ogni taratura. Via quando i tempi
-   *  sono decisi. */
-  const [replay, riparti] = useState(0);
 
   useGSAP(
     () => {
@@ -95,7 +91,7 @@ export function Tenda({
         tl.kill();
       };
     },
-    { dependencies: [chiave, asse, ritardo, scala, replay], scope: contenitoreRef },
+    { dependencies: [chiave, asse, ritardo, scala], scope: contenitoreRef },
   );
 
   return (
@@ -103,7 +99,6 @@ export function Tenda({
       ref={contenitoreRef}
       className={`${styles.contenitore}${className ? ` ${className}` : ""}`}
       style={{ "--tenda-rosso": TENDA.rosso } as CSSProperties}
-      onClick={() => riparti((n) => n + 1)}
     >
       <div ref={contenutoRef} className={styles.contenuto}>
         {children}
