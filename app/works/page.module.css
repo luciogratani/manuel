@@ -229,3 +229,108 @@
   color: inherit;
   text-decoration: none;
 }
+
+/* ── L'ingresso ───────────────────────────────────────────────────────────────
+   L'archivio si srotola. Le lastre salgono dalla linea di base su cui già
+   appoggiano, a onda da sinistra verso destra — che è il verso in cui avanza
+   la numerazione. Il foglio dichiarava già che «la differenza di formato si
+   legge come differenza di altezza sopra quella linea»: farle salire da lì fa
+   VEDERE la regola invece di lasciarla implicita, ed è lo stesso mestiere che
+   sulla timeline fanno i dentini che scendono dall'asse.
+
+   Salgono con un RITAGLIO e non con una scala: contengono foto in `cover`, e
+   uno `scaleY` le schiaccerebbe. Stessa ragione per cui l'asse della timeline
+   si allunga ritagliandosi.
+
+   Tutto in CSS, nessun JavaScript: il ritardo si ricava da `--i` — la
+   posizione nella sequenza, scritta dal Server Component che l'indice ce l'ha
+   già — e la pagina resta quella senza una riga di client che è sempre stata.
+
+   ── L'onda si misura in COLONNE, non in indici ────────────────────────────
+   La griglia scorre per colonna: due celle affiancate verticalmente, poi la
+   colonna dopo. Con il ritardo sull'indice quelle due partirebbero sfalsate e
+   si leggerebbe come un difetto, non come un'onda. `round(down, …)` fa la
+   divisione intera che serve; se un motore non la conoscesse, `--attacco`
+   diventa invalido, l'`animation` cade, e le lastre sono semplicemente lì —
+   che è il modo giusto di fallire. */
+.pagina {
+  --onda: 0.045s; /* per colonna */
+  --sale: 0.4s;
+  --dietro: 0.12s; /* quanto il numero sta dietro la propria lastra */
+  --ease-ingresso: cubic-bezier(0.33, 1, 0.68, 1); /* power2.out */
+
+  /* Quando l'onda ha finito. Derivato e non scritto: con ventuno opere sono
+     dieci colonne e mezza, con ventisei tredici, e il conto si aggiorna da sé.
+     La mezza colonna di scarto vale venti millisecondi — meno di un fotogramma
+     e mezzo — quindi non serve arrotondare. */
+  --coda: calc(
+    (var(--opere) / var(--righe) - 1) * var(--onda) + var(--sale)
+  );
+}
+
+.cella {
+  --attacco: calc(round(down, var(--i) / var(--righe), 1) * var(--onda));
+}
+
+.lastra {
+  animation: lastra-sale var(--sale) var(--ease-ingresso) var(--attacco) backwards;
+}
+
+/* `backwards` e non `both`: dopo l'ingresso il valore animato deve smettere di
+   valere, o resterebbe a sovrascrivere il gioco di `:has(:hover)` che sposta
+   la cornice della selezione. Prima dell'attacco invece serve, o le lastre si
+   vedrebbero per un istante prima di salire. */
+.numero {
+  animation: apparato-arriva var(--sale) var(--ease-ingresso)
+    calc(var(--attacco) + var(--dietro)) backwards;
+}
+
+/* La cornice arriva per ultima, quando tutto si è posato: l'archivio si monta,
+   e alla fine dice «questa». È l'unico rosso della pagina, ed è un filetto di
+   un pixel — l'accento speso al minimo e nel momento in cui conta di più. */
+.cella[data-selezionata] .lastra {
+  animation:
+    lastra-sale var(--sale) var(--ease-ingresso) var(--attacco) backwards,
+    cornice-arriva var(--sale) linear var(--coda) backwards;
+}
+
+/* La banda descrive la selezionata, quindi arriva quando arriva la cornice. */
+.banda,
+.piede {
+  animation: apparato-arriva var(--sale) var(--ease-ingresso) var(--coda) backwards;
+}
+
+/* Nessun fotogramma finale dichiarato: quello implicito è il valore che
+   l'elemento ha già, quindi il numero torna al suo 0,55 e la cornice al suo
+   rosso senza che nessuno dei due sia scritto due volte. */
+@keyframes lastra-sale {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes apparato-arriva {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes cornice-arriva {
+  from {
+    outline-color: transparent;
+  }
+}
+
+/* §9.4: stesso stato finale, nessun percorso per arrivarci. */
+@media (prefers-reduced-motion: reduce) {
+  .lastra,
+  .numero,
+  .banda,
+  .piede,
+  .cella[data-selezionata] .lastra {
+    animation: none;
+  }
+}

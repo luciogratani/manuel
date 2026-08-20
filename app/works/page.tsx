@@ -32,7 +32,10 @@ export default function Page() {
   const selezionata = OPERE[SELEZIONATA];
 
   return (
-    <div className={styles.pagina}>
+    // `--opere` serve all'ingresso per sapere quanto dura la propria onda
+    // senza che il numero sia scritto due volte: il conteggio è di `OPERE`,
+    // e le righe restano un fatto del foglio (vedi `--righe`).
+    <div className={styles.pagina} style={{ "--opere": OPERE.length } as CSSProperties}>
       <div className={styles.binario}>
         <div className={styles.griglia}>
           {OPERE.map((opera, i) => {
@@ -44,6 +47,10 @@ export default function Page() {
                 className={styles.cella}
                 href={`/works/${opera.slug}`}
                 data-selezionata={i === SELEZIONATA ? "" : undefined}
+                // La posizione nella sequenza. Il foglio ne ricava la colonna,
+                // che è l'unità in cui si misura l'onda d'ingresso: qui non
+                // si sa quante righe ci sono, ed è giusto così.
+                style={{ "--i": i } as CSSProperties}
               >
                 <span className={styles.numero}>{numerato(opera.numero)}</span>
                 <span
