@@ -5,8 +5,8 @@ riguardano più file, o perché sono domande ancora aperte.
 
 Quello che invece riguarda un punto solo sta accanto a quel punto, com'è lo
 stile di questo repo: ogni pagina dichiara da sé cosa le manca (`/works` ha la
-selezione ancora da fare in JS, `/works/[slug]` ha lo scroll nativo come
-ponteggio, il §8 dei video è dichiarato irrisolto). Quelle non si ripetono qui.
+selezione che avanza scorrendo ancora da fare, il §8 dei video è dichiarato
+irrisolto). Quelle non si ripetono qui.
 
 ---
 
