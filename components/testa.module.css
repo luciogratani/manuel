@@ -9,6 +9,13 @@
    e non il contenitore di una pagina. */
 
 .testa {
+  /* Un nome proprio per la transizione fra pagine. Senza, l'header finisce nel
+     gruppo `root` — che raccoglie tutto ciò che un nome non ce l'ha — e riceve
+     la dissolvenza predefinita insieme al resto: si vedeva sfumare anche lui,
+     che è esattamente ciò che non deve fare. Con un nome suo esce da `root` e
+     il foglio può congelarlo (vedi `app/globals.css`). */
+  view-transition-name: testa;
+
   --x: 1.125rem; /* 18px */
   /* La carta del sito, ripetuta qui come `--x` e `--margine`: l'header vive
      nel layout e non eredita i token che ogni pagina dichiara su `.pagina`. */

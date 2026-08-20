@@ -140,10 +140,56 @@ html {
   }
 }
 
-/* §9.4: stesso stato finale, nessun percorso per arrivarci. */
+/* ── Ciò che non deve muoversi ────────────────────────────────────────────────
+   L'header non transisce, ed è il motivo per cui il cambio pagina è una
+   dissolvenza e non un taglio: se resta fermo, non si esce da nessuna parte.
+
+   Metterlo fuori dal `<ViewTransition>` non bastava. Il browser cattura
+   l'intero documento, e tutto ciò che non ha un nome proprio finisce nel
+   gruppo `root`, che riceve l'animazione predefinita: l'header sfumava
+   insieme al resto. Con un nome suo (`view-transition-name` in
+   testa.module.css) esce da `root` e qui lo si congela.
+
+   `display: none` sul fotogramma vecchio e non `animation: none`: senza, i due
+   header — identico l'uno all'altro — resterebbero sovrapposti per la durata
+   della transizione, e due copie a piena opacità di una riga di testo si
+   leggono come un ispessimento. */
+::view-transition-group(testa) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(testa) {
+  display: none;
+}
+
+::view-transition-new(testa) {
+  animation: none;
+}
+
+/* Stesso trattamento per ciò che resta in `root`: il fondo del documento e
+   nient'altro. Congelarlo non toglie niente — è avorio prima e avorio dopo —
+   e chiude la porta a sorprese quando qualcosa di nuovo verrà aggiunto fuori
+   dalle pagine. */
+::view-transition-group(root) {
+  animation: none;
+}
+
+::view-transition-old(root) {
+  display: none;
+}
+
+::view-transition-new(root) {
+  animation: none;
+}
+
+/* §9.4: stesso stato finale, nessun percorso per arrivarci. Scritto con `*` e
+   non elencando i nomi, così vale anche per quelli che arriveranno. */
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(.pagina),
-  ::view-transition-new(.pagina) {
-    animation: none;
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }
