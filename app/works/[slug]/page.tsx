@@ -9,11 +9,10 @@ import styles from "./page.module.css";
 // La work page. La mensola: le lastre attraversano una linea di base condivisa,
 // la corrente rompe il registro ed è quella raccontata dal testo.
 //
-// Lo scorrimento orizzontale è ancora quello nativo: è un ponteggio. Quando
-// entra GSAP la striscia viene trascinata da una timeline circolare — per
-// questo `.fila` deve restare un unico elemento con le lastre come figli
-// diretti, tutte nel flusso, che è l'unica forma che l'helper del loop sa
-// misurare.
+// Lo scorrimento è guidato da `mensola.tsx`: un anello continuo che avvolge le
+// posizioni, con la corrente che si sposta sotto la linea di lettura. `.fila`
+// deve restare un unico elemento con le lastre come figli diretti, tutte nel
+// flusso: è da lì che il motore prende le misure, una volta sola.
 //
 // Il modo ravvicinato sta a /works/[slug]/[n]: mettere l'indice della foto
 // nell'URL è ciò che tiene lo stato SOPRA le due viste, e quindi permette di
