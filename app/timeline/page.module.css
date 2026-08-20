@@ -294,7 +294,6 @@
 
 /* ── Testa e piede ────────────────────────────────────────────────────────────
    Identici alle altre pagine: ancorati ai bordi a `2x`. */
-.testa,
 .piede {
   position: absolute;
   left: var(--margine);
@@ -305,17 +304,12 @@
   line-height: 1;
 }
 
-.testa {
-  top: 1.75rem;
-  font-size: 1.125rem; /* 18px */
-}
 
 .piede {
   bottom: var(--margine);
   font-size: 0.875rem; /* 14px */
 }
 
-.testa a,
 .piede a {
   color: inherit;
   text-decoration: none;

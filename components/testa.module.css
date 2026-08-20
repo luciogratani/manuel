@@ -1,0 +1,64 @@
+/* L'header del sito. Uno solo, nel layout: non si rimonta cambiando pagina,
+   ed è questo — non un'animazione — a fare sì che durante una transizione
+   resti fermo mentre il corpo cambia. Non c'è niente da far scattare perché
+   non c'è niente che cambi.
+
+   Le quote sono quelle che le sei pagine avevano già ciascuna per sé
+   (`top: 1.75rem`, margini a `2x`): l'header non introduce misure nuove, le
+   raccoglie. `fixed` e non `absolute` perché ora il riferimento è il viewport
+   e non il contenitore di una pagina. */
+
+.testa {
+  --x: 1.125rem; /* 18px */
+  --margine: calc(var(--x) * 2); /* 36px */
+
+  position: fixed;
+  top: 1.75rem;
+  left: var(--margine);
+  right: var(--margine);
+  z-index: 2;
+
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.125rem; /* 18px */
+  line-height: 1;
+  /* Sulla soglia la riga trasla per due secondi buoni; altrove è ferma. */
+  will-change: transform;
+}
+
+.testa a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.marchio {
+  font-weight: 800;
+}
+
+.rotte {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* La corrente è marcata, non evidenziata: il rosso è del taglio e non colora
+   l'interfaccia (§2.3). Resta l'opacità, che è la stessa gerarchia con cui il
+   nastro della timeline distingue ciò che si legge da ciò che sta intorno. */
+.rotta {
+  opacity: 0.45;
+}
+
+.rotta[aria-current="page"] {
+  opacity: 1;
+}
+
+/* Solo sulla soglia il marchio e le rotte partono invisibili, perché solo lì
+   c'è una sequenza che deve scoprirli. Altrove l'header è già al suo posto e
+   nasconderlo in attesa dell'idratazione sarebbe un lampo gratuito.
+   `scripting: enabled` vale già al primo paint; senza JS la regola non si
+   applica affatto e l'header è semplicemente lì. */
+@media (scripting: enabled) {
+  .testa[data-soglia] .marchio,
+  .testa[data-soglia] .rotta {
+    opacity: 0;
+  }
+}

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import styles from "./page.module.css";
 
 // Segnaposto. Esiste perché la nav non abbia link morti; il contenuto lo
@@ -7,11 +6,6 @@ import styles from "./page.module.css";
 export default function Page() {
   return (
     <div className={styles.pagina}>
-      <header className={styles.testa}>
-        <Link href="/">manuel</Link>
-        <p className={styles.percorso}>about</p>
-      </header>
-
       <div className={styles.corpo}>
         <h1 className={styles.titolo}>Manuel Casati</h1>
         <p className={styles.testo}>
@@ -22,12 +16,7 @@ export default function Page() {
       </div>
 
       <footer className={styles.piede}>
-        <Link href="/">
-          <span className={styles.freccia} aria-hidden="true">
-            ←
-          </span>
-          home
-        </Link>
+        <p className={styles.percorso}>about</p>
         <p>Manuel Casati</p>
       </footer>
     </div>

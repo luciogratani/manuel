@@ -121,7 +121,6 @@
 /* ── Testa e piede ────────────────────────────────────────────────────────────
    Ancorati ai bordi della viewport, non alla composizione: sono la cornice
    elastica. Tutto il resto ha posizioni fisse dall'alto. */
-.testa,
 .piede {
   position: absolute;
   left: var(--margine);
@@ -134,15 +133,11 @@
   line-height: 1;
 }
 
-.testa {
-  top: 1.75rem;
-}
 
 .piede {
   bottom: var(--margine);
 }
 
-.testa a,
 .piede a {
   color: inherit;
   text-decoration: none;

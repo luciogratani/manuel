@@ -1,0 +1,48 @@
+/* La tenda — vedi `lib/movimento.ts` per la grammatica.
+
+   Tre elementi e nessuna misura: il contenitore prende la taglia dal
+   contenuto, così la tenda si applica tanto a un riquadro con una dimensione
+   dichiarata (il player della home) quanto a una riga di testo che si misura
+   da sé. Chi la usa passa la propria classe al contenitore. */
+
+.contenitore {
+  position: relative;
+  overflow: hidden;
+}
+
+.contenuto {
+  position: relative;
+  z-index: 0;
+}
+
+/* `inset: -1px` e non `0`: alla copertura piena la tenda deve coprire davvero,
+   e un rettangolo scalato può lasciare un capello di subpixel sul bordo. Il
+   millimetro in più lo mangia l'`overflow: hidden` del contenitore.
+
+   Nessuna `opacity` qui e nessuna in JS: la tenda esce a larghezza zero. */
+.tenda {
+  position: absolute;
+  inset: -1px;
+  z-index: 1;
+  background: var(--tenda-rosso);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* Verticale: stessa meccanica sull'altro asse. Entra dall'alto e si ritira
+   verso il basso. */
+.tenda[data-asse="verticale"] {
+  transform: scaleY(0);
+  transform-origin: center top;
+}
+
+/* Il contenuto è nascosto solo se c'è JS per riscoprirlo. `scripting: enabled`
+   vale già al primo paint, prima dell'idratazione: senza, il contenuto si
+   vedrebbe per un istante e poi sparirebbe sotto la tenda — un lampo al
+   contrario. Senza JS la regola non si applica affatto e il contenuto è
+   semplicemente lì, che è lo stato di riposo giusto. */
+@media (scripting: enabled) {
+  .contenuto {
+    opacity: 0;
+  }
+}

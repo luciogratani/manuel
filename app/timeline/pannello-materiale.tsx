@@ -34,7 +34,7 @@ import styles from "./page.module.css";
 // sotto di lei (nello stesso `useGSAP`, quindi prima del paint — nessun lampo
 // del contenuto nuovo scoperto), poi si ritira rivelandolo. `.lama`, figlia
 // della maschera, sta sul suo bordo che rivela: si muove con lei gratis, deve
-// solo sparire dopo `TAGLIO.anticipoRosso`.
+// solo sparire — a corsa avviata, dove la fessura si vede (`TAGLIO.rossoInizio`).
 //
 // A riposo (nessuna voce in evidenza) il pannello è invisibile: uscirne è una
 // dissolvenza, non un taglio — non è un nuovo stato che si apre, è
@@ -109,9 +109,16 @@ export function PannelloMateriale() {
       gsap.set(maschera, { xPercent: 0 });
       gsap.set(lama, { opacity: 1 });
 
+      // La maschera detta il tempo; la lama ci si appende. Il rosso non parte
+      // da 0 ma da `rossoInizio`, dove la corsa è entrata nel suo tratto
+      // veloce: agganciato all'inizio si spegneva mentre la lama era ancora
+      // ferma sul bordo, e il taglio si vedeva senza il suo rosso.
       const tl = gsap.timeline();
-      tl.to(lama, { opacity: 0, duration: TAGLIO.anticipoRosso, ease: "none" })
-        .to(maschera, { xPercent: -100, duration: TAGLIO.durata, ease: TAGLIO.ease }, 0);
+      tl.to(maschera, { xPercent: -100, duration: TAGLIO.durata, ease: TAGLIO.ease }, 0).to(
+        lama,
+        { opacity: 0, duration: TAGLIO.durata * TAGLIO.rossoDurata, ease: "none" },
+        TAGLIO.durata * TAGLIO.rossoInizio,
+      );
 
       return () => {
         tl.kill();

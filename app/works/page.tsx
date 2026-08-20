@@ -64,11 +64,6 @@ export default function Page() {
         </div>
       </div>
 
-      <header className={styles.testa}>
-        <Link href="/">manuel</Link>
-        <p className={styles.percorso}>progetti / archivio</p>
-      </header>
-
       {/* Tre colonne: la scheda della selezione, i tag, l'indicatore. */}
       <div className={styles.banda}>
         <div className={styles.scheda}>
@@ -89,7 +84,7 @@ export default function Page() {
       </div>
 
       <footer className={styles.piede}>
-        <Link href="/">home</Link>
+        <p className={styles.percorso}>progetti / archivio</p>
         <p>meta-voice</p>
         <ul className={styles.categorie}>
           <li>work-category-x</li>

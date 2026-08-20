@@ -103,13 +103,6 @@ export default async function Page({
         </div>
       </div>
 
-      <header className={styles.testa}>
-        <Link href="/">manuel</Link>
-        <p className={styles.percorso}>
-          {numerato(opera.numero)} / {opera.titolo.toLowerCase()} / archivio
-        </p>
-      </header>
-
       <div className={styles.scheda}>
         <p className={styles.numero}>({numerato(opera.numero)})</p>
         <h1 className={styles.titolo}>{opera.titolo}</h1>
@@ -143,12 +136,9 @@ export default async function Page({
       </p>
 
       <footer className={styles.piede}>
-        <Link href="/works">
-          <span className={styles.freccia} aria-hidden="true">
-            ←
-          </span>
-          archivio
-        </Link>
+        <p className={styles.percorso}>
+          {numerato(opera.numero)} / {opera.titolo.toLowerCase()} / archivio
+        </p>
       </footer>
     </div>
   );

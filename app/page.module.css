@@ -33,28 +33,21 @@
   padding: 0 var(--margine);
 }
 
-.nav {
-  display: flex;
-  gap: 1.5rem;
-  margin-top: 22.3125rem; /* 357px */
-  font-size: 1.125rem; /* 18px */
-  line-height: 1;
-}
-
-.nav a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.marchio {
-  font-weight: 800;
-}
-
 /* Il player. Rettangolo 3:2, largo 572px sulla viewport di riferimento.
-   Non scala con la finestra: come tutto il resto del sito, ha una taglia. */
+   Non scala con la finestra: come tutto il resto del sito, ha una taglia.
+
+   La quota parte da dove finiva la nav (357 + 18 + 59): la riga adesso è
+   l'header e sta in cima, ma la composizione della soglia resta quella
+   dell'artboard. */
 .player {
-  margin-top: 3.6875rem; /* 59px */
+  margin-top: 27.125rem; /* 434px */
   width: 35.75rem; /* 572px */
+}
+
+/* Il grigio sta qui e non sul contenitore: prima che la tenda passi non deve
+   esserci niente da vedere, e un fondo sul contenitore resterebbe visibile
+   sotto una tenda ancora larga zero. */
+.telaio {
   aspect-ratio: 3 / 2;
   background: var(--grigio);
 }

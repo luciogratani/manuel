@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import Link from "next/link";
 import { perSlug } from "@/lib/opere";
 import {
   ANNI,
@@ -110,20 +109,15 @@ export default function Page() {
           </>
         }
       >
-        <header className={styles.testa}>
-          <Link href="/">manuel</Link>
+        {/* Il percorso scende nel piede. In testa c'era anche `manuel`, che
+            ora è dell'header condiviso; e il percorso non poteva salirci
+            perché `AnnoCorrente` legge il contesto del motore, che vive solo
+            dentro questa pagina. Il piede è il posto dove la posizione può
+            restare locale. */}
+        <footer className={styles.piede}>
           <p className={styles.percorso}>
             <AnnoCorrente /> / timeline
           </p>
-        </header>
-
-        <footer className={styles.piede}>
-          <Link href="/">
-            <span className={styles.freccia} aria-hidden="true">
-              ←
-            </span>
-            home
-          </Link>
           <p className={styles.legenda}>
             <span aria-hidden="true">scroll  ·  ← →</span>
             <span className={styles.soloLettori}>
