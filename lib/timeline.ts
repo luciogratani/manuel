@@ -73,6 +73,13 @@ export const MOMENTO_DECADIMENTO = 0.05;
  *  continuare a scemare all'infinito. */
 export const MOMENTO_SOGLIA = 0.01;
 
+/** Sotto questo scarto fra obiettivo e posizione, in anni, il nastro è fermo.
+ *  0,001 anni sono meno di un quarto di pixel a `PASSO` 240: l'inseguimento
+ *  smorzato non arriva mai esattamente a zero, quindi "fermo" va definito, non
+ *  aspettato. Serve a sapere quando il fling è finito e la voce sotto il
+ *  puntatore va riagganciata. */
+export const FERMO_SOGLIA = 0.001;
+
 /** Il tick sonoro si intona leggermente con la direzione: più acuto andando
  *  avanti nel tempo, più grave tornando indietro — non una soglia che
  *  sospende, un colore che segue il movimento. `TICK_DETUNE_CENTI` è il

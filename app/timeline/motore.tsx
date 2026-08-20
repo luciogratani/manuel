@@ -15,6 +15,7 @@ import {
   RITARDO_NASCONDI_MS,
   MOMENTO_DECADIMENTO,
   MOMENTO_SOGLIA,
+  FERMO_SOGLIA,
   PASSO_TASTIERA,
   TRASCINAMENTO_ATTIVO,
   TICK_DETUNE_CENTI,
@@ -214,6 +215,14 @@ export function MotoreTimeline({
   const larghezzaBinarioRef = useRef(0);
   const elementiRef = useRef<ElementoNastro[]>([]);
 
+  // Il riaggancio dopo il fling (vedi `contesto.ts`). Il puntatore sta in un
+  // ref e non in uno stato: si aggiorna ad ogni movimento del mouse, e farne
+  // stato sarebbe un render per pixel.
+  const puntatoreRef = useRef<{ x: number; y: number } | null>(null);
+  const inMotoRef = useRef(false);
+  const [riaggancio, setRiaggancio] = useState(0);
+  const puntatore = useCallback(() => puntatoreRef.current, []);
+
   // L'obiettivo del motore è un ref, non uno stato: `vaiA` è il solo modo in
   // cui il resto della pagina può muoverlo (oggi il focus da tastiera, domani
   // un'ancora o un indice). Il ticker ci arriva smorzato come da qualunque
@@ -381,6 +390,20 @@ export function MotoreTimeline({
     // due link. `ignore` protegge comunque link e bottoni.
     const pagina = binario.closest<HTMLElement>(`.${styles.pagina}`) ?? binario;
 
+    // Solo mouse, e solo la posizione: il tocco non ha un hover da
+    // riagganciare. `pointerleave` sul documento azzera, altrimenti uscendo
+    // dalla finestra resterebbe memorizzato un punto che non indica più
+    // niente.
+    const onPointerMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      puntatoreRef.current = { x: e.clientX, y: e.clientY };
+    };
+    const onPointerLeave = () => {
+      puntatoreRef.current = null;
+    };
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    document.addEventListener("pointerleave", onPointerLeave);
+
     // `pointer` è il trascinamento col mouse, spento perché non tarato
     // (TRASCINAMENTO_ATTIVO); `touch` è il dito, ed è l'unico ingresso che
     // esiste su un telefono — spegnerlo insieme al mouse rendeva la pagina
@@ -446,6 +469,15 @@ export function MotoreTimeline({
 
       visibileRef.current +=
         (obiettivoRef.current - visibileRef.current) * (ridotto ? 1 : smorza(SMORZAMENTO, dt));
+
+      // Il nastro è fermo quando non ha più momento E ha finito di inseguire
+      // l'obiettivo. Sul fronte di salita moto→fermo le voci ricontrollano se
+      // il puntatore è finito dentro di loro mentre scorrevano.
+      const fermo =
+        velocitaRef.current === 0 &&
+        Math.abs(obiettivoRef.current - visibileRef.current) < FERMO_SOGLIA;
+      if (inMotoRef.current && fermo) setRiaggancio((n) => n + 1);
+      inMotoRef.current = !fermo;
 
       const posizioneAnnoPx = origineAnnoRef.current + (visibileRef.current - inizio) * pxPerAnnoRef.current;
       const dx = puntoLetturaRef.current - posizioneAnnoPx;
@@ -524,6 +556,8 @@ export function MotoreTimeline({
     return () => {
       window.removeEventListener("resize", misura);
       window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerleave", onPointerLeave);
       observer.kill();
       gsap.ticker.remove(tick);
     };
@@ -643,7 +677,17 @@ export function MotoreTimeline({
 
   return (
     <ContestoTimeline.Provider
-      value={{ corrente, voceInEvidenza, mostraVoce, nascondiVoce, vaiA, muto, setMuto }}
+      value={{
+        corrente,
+        voceInEvidenza,
+        mostraVoce,
+        nascondiVoce,
+        riaggancio,
+        puntatore,
+        vaiA,
+        muto,
+        setMuto,
+      }}
     >
       <div ref={binarioRef} className={styles.binario}>
         <div ref={pistaRef} className={styles.pista} style={stilePista}>

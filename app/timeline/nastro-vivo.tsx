@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties, FocusEvent } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import type { VoceTimeline } from "@/lib/timeline";
 import { useTimeline } from "./contesto";
@@ -41,7 +42,30 @@ export function VoceInterattiva({
   voce: VoceTimeline;
   stile: CSSProperties;
 }) {
-  const { mostraVoce, nascondiVoce, vaiA } = useTimeline();
+  const { mostraVoce, nascondiVoce, vaiA, riaggancio, puntatore } = useTimeline();
+
+  // Il riaggancio dopo il fling. La prova la fa la voce e non il motore
+  // perché è la voce ad avere il proprio dato: il motore conosce le ascisse
+  // di tutto il nastro ma non saprebbe che oggetto passare a `mostraVoce`, e
+  // farglielo sapere significherebbe duplicare le voci sul lato client.
+  //
+  // Dodici `getBoundingClientRect` una volta sola, a nastro fermo: non è il
+  // giro per frame che il motore evita con cura, è un controllo che accade
+  // quando tutto si è già posato.
+  const elementoRef = useRef<HTMLElement | null>(null);
+  const prendi = useCallback((el: HTMLElement | null) => {
+    elementoRef.current = el;
+  }, []);
+
+  useEffect(() => {
+    const el = elementoRef.current;
+    const p = puntatore();
+    if (!el || !p) return;
+    const r = el.getBoundingClientRect();
+    if (p.x >= r.left && p.x <= r.right && p.y >= r.top && p.y <= r.bottom) {
+      mostraVoce(voce);
+    }
+  }, [riaggancio, puntatore, mostraVoce, voce]);
 
   // La coordinata è quella del §3.3 — numero e anno insieme — ma il numero è
   // quello vero dell'opera, risolto da `lib/opere.ts`, non la posizione nella
@@ -78,6 +102,7 @@ export function VoceInterattiva({
   // e quanto deve essere leggibile, senza misurarla ad ogni frame.
   return voce.href ? (
     <Link
+      ref={prendi}
       className={styles.voce}
       href={voce.href}
       data-t={voce.anno}
@@ -88,7 +113,14 @@ export function VoceInterattiva({
       {contenuto}
     </Link>
   ) : (
-    <span className={styles.voce} data-t={voce.anno} style={stile} tabIndex={0} {...eventi}>
+    <span
+      ref={prendi}
+      className={styles.voce}
+      data-t={voce.anno}
+      style={stile}
+      tabIndex={0}
+      {...eventi}
+    >
       {contenuto}
     </span>
   );

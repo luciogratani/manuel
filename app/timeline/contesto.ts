@@ -16,6 +16,25 @@ export type StatoTimeline = {
    *  era il bug segnalato con l'hover rapido. */
   mostraVoce: (voce: VoceTimeline) => void;
   nascondiVoce: () => void;
+  /** Cresce di uno ogni volta che il nastro si ferma dopo essersi mosso.
+   *  Serve a un bug che il solo hover non può vedere: durante un fling il
+   *  nastro scorre sotto un puntatore immobile, la voce che stava lì sotto se
+   *  ne va (e `mouseleave` chiude il pannello), ma quando l'inerzia finisce
+   *  la voce che è arrivata al suo posto non riceve nessun `mouseenter` —
+   *  il puntatore non si è mosso. Il pannello resta vuoto con il cursore
+   *  visibilmente sopra un titolo. Ad ogni scatto di questo contatore le voci
+   *  ricontrollano se il puntatore è dentro di loro.
+   *
+   *  È un contatore e non un booleano perché due arresti consecutivi devono
+   *  essere due eventi distinti. */
+  riaggancio: number;
+  /** L'ultima posizione nota del puntatore, o `null` se non c'è mai stato un
+   *  mouse o se è uscito dalla finestra. Solo mouse: il tocco non ha un
+   *  hover, e riagganciare sull'ultimo punto toccato aprirebbe il pannello su
+   *  una voce che nessuno sta indicando. Una funzione e non uno stato — viene
+   *  letta solo al momento del riaggancio, e farne stato significherebbe un
+   *  render ad ogni movimento del mouse. */
+  puntatore: () => { x: number; y: number } | null;
   /** Porta il nonio su un anno passando per la fisica del motore, non con un
    *  salto scritto a mano. Serve al focus da tastiera — una voce messa a
    *  fuoco fuori schermo era irraggiungibile — e sarà l'aggancio di
