@@ -89,14 +89,20 @@ html {
    uno solo che conta. La dissolvenza non racconta il passaggio: lo smussa, e
    lascia che sia l'ingresso della pagina a farsi vedere.
 
-   Durata e curva sono quelle di `DISSOLVENZA` in lib/movimento.ts — le stesse
-   con cui il pannello della timeline cambia voce. Una costante, non due.
+   Durata e curva NON sono quelle di `DISSOLVENZA` in lib/movimento.ts, e la
+   divergenza è voluta. Il pannello della timeline cambia voce dentro un
+   riquadro di 225×150: lì 0,25s sono giusti. Qui la stessa durata copre una
+   schermata intera, e un'area grande percorsa nello stesso tempo si legge come
+   più veloce, non uguale. Un po' più lunga, e con una curva simmetrica invece
+   che in sola uscita: smorzata ai due capi, così non parte di scatto né si
+   inchioda alla fine.
 
    `--avorio` arriva dall'elemento radice (vedi `app/layout.tsx`): questi
    pseudo-elementi stanno fuori dall'albero e non ereditano da nessuna pagina. */
 :root {
-  --dissolvenza: 0.25s;
-  --dissolvenza-ease: cubic-bezier(0.5, 1, 0.89, 1);
+  --dissolvenza: 0.36s;
+  /* `power1.inOut` nella notazione GSAP che il resto del progetto usa. */
+  --dissolvenza-ease: cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 /* A metà strada le due pagine sono entrambe a mezza opacità, e sotto di loro

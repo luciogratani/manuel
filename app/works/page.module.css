@@ -229,26 +229,3 @@
   color: inherit;
   text-decoration: none;
 }
-
-
-/* ── L'uscita dall'archivio ───────────────────────────────────────────────────
-   Al clic su un lavoro, ogni ALTRA lastra viene cancellata dal proprio taglio.
-   Non un sipario sulla pagina: ventuno tagli distinti, tutti nello stesso
-   istante. Sfalsati sarebbero ventuno eventi in fila — simultanei sono un
-   gesto solo, e l'archivio si legge come cancellato opera per opera invece
-   che coperto in blocco.
-
-   Il taglio sta DENTRO la lastra, che ha già `position: relative` e
-   `overflow: hidden`: prende esattamente la sua forma, formato compreso, senza
-   che nessuno debba misurarla. Ed è la ragione per cui a copertura piena non
-   si spegne la lastra ma il suo contenuto — spegnere la lastra spegnerebbe
-   anche il taglio, che le è figlio. */
-.taglio {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-
-  background: var(--accento);
-  transform: scaleX(0);
-  transform-origin: left center;
-}
