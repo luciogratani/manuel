@@ -4,9 +4,13 @@ Cose decise, valutate o misurate che **non hanno un posto nel codice** — perch
 riguardano più file, o perché sono domande ancora aperte.
 
 Quello che invece riguarda un punto solo sta accanto a quel punto, com'è lo
-stile di questo repo: ogni pagina dichiara da sé cosa le manca (`/works` ha la
-selezione che avanza scorrendo ancora da fare, il §8 dei video è dichiarato
-irrisolto). Quelle non si ripetono qui.
+stile di questo repo: ogni pagina dichiara da sé cosa le manca — oggi resta il
+§8 dei video, dichiarato irrisolto in `app/page.tsx`. Quelle non si ripetono
+qui.
+
+Per lo stato di una singola sessione — cos'è appena cambiato, cosa va guardato
+a mano, chi ha deciso cosa — c'è `HANDOFF.md`, che è datato e si consuma. Qui
+sta solo ciò che resta vero nel tempo.
 
 ---
 
@@ -96,10 +100,12 @@ prima.
 
 ## Recapiti ancora da avere
 
-`/about` ha telefono, email e i due profili social. Mancano ancora, se servono:
-un indirizzo postale e — se un giorno ci sarà una partita IVA o una ragione
-sociale — la riga che nel riferimento stava in fondo e che qui è occupata dalla
-citazione di Luisa Casati.
+`/about` ha email e i due profili social, veri. Il **telefono è ancora un
+segnaposto sicuro** — prefisso 000, che non è assegnabile a nessuno — e va
+sostituito prima della pubblicazione. Mancano anche, se servono: un indirizzo
+postale e, se un giorno ci sarà una partita IVA o una ragione sociale, la riga
+che nel riferimento stava in fondo e che qui è occupata dalla citazione di
+Luisa Casati.
 
 ---
 

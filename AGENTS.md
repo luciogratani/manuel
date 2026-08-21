@@ -17,4 +17,6 @@ fidarti di un `§`**, soprattutto prima di usarne uno per giustificare una
 decisione.
 
 Ciò che è stato deciso, valutato o misurato e non ha un posto nel codice sta in
-`APERTI.md`.
+`APERTI.md`. Lo stato dell'ultima sessione — cos'è appena cambiato, chi ha
+deciso cosa, cosa va guardato a mano — sta in `HANDOFF.md`. **Leggi quello per
+primo.**

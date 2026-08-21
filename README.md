@@ -39,6 +39,7 @@ components/     componenti condivisi fra pagine (header, tenda)
 lib/            utilities e configurazioni condivise
 public/         asset statici serviti as-is
 APERTI.md       lavori aperti: deciso, valutato o misurato ma non ancora fatto
+HANDOFF.md      stato dell'ultima sessione: cosa è cambiato, cosa controllare
 ```
 
 ## Decisioni sulle versioni
