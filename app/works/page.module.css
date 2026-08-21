@@ -70,14 +70,10 @@
   bottom: 0;
   left: var(--x);
   right: var(--x);
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none;
-}
-
-.binario::-webkit-scrollbar {
-  display: none;
+  /* `hidden` e non `auto`: la griglia la sposta `motore.tsx`, e con lo
+     scorrimento nativo acceso le due posizioni si sommerebbero. Senza JS resta
+     ferma sulla prima colonna, come il binario della timeline. */
+  overflow: hidden;
 }
 
 /* `column` e non `row`: la sequenza scende lungo la colonna e poi passa alla
@@ -103,6 +99,13 @@
   justify-content: space-between;
   color: inherit;
   text-decoration: none;
+}
+
+/* La griglia si sposta di quel poco che può — nove pixel oggi, duecento con
+   l'archivio pieno — e lo fa smorzata, perché il motore le scrive un
+   `transform` a ogni frame. */
+.griglia {
+  will-change: transform;
 }
 
 .numero {
@@ -139,15 +142,12 @@
   outline-color: var(--accento);
 }
 
-/* Al passaggio del mouse la selezione si sposta: quella di partenza si spegne
-   finché il puntatore è sulla griglia. Tutto in CSS, nessun JavaScript. */
-.griglia:has(.cella:hover) .cella[data-selezionata] .lastra {
-  outline-color: transparent;
-}
-
-.griglia:has(.cella:hover) .cella:hover .lastra {
-  outline-color: var(--accento);
-}
+/* Il gioco di `:has(:hover)` che spegneva la selezione al passaggio del mouse
+   è sparito. Faceva la cosa giusta finché la selezione era solo una cornice,
+   ma adesso la banda ne racconta i testi: con due padroni che non si conoscono
+   — il foglio e il motore — la cornice avrebbe detto una cosa e il testo
+   un'altra. Decide `motore.tsx`, che ascolta sia lo scorrimento sia l'hover e
+   scrive un solo `data-selezionata`. */
 
 /* ── La banda sotto la griglia ────────────────────────────────────────────────
    Tre colonne: la scheda della selezione, i tag, l'indicatore. Una riga sola,

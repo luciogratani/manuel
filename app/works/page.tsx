@@ -2,6 +2,8 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { OPERE, RAPPORTO, formato, numerato } from "@/lib/opere";
+import { Banda, type Scheda } from "./banda";
+import { MotoreIndice } from "./motore";
 import styles from "./page.module.css";
 
 // L'indice: la griglia numerata. È la spina dorsale del sito, la pagina che
@@ -12,12 +14,15 @@ import styles from "./page.module.css";
 // decisione di presentazione, reversibile, e il punto focale per foto si
 // aggiungerà ai dati senza rigenerare niente.
 //
-// La selezione al passaggio del mouse è CSS puro (`:has`), quindi è già il
-// comportamento definitivo. Manca la parte che richiede JavaScript:
-//   · la selezione che avanza SCORRENDO, non solo col mouse
-//   · header e scheda che seguono la selezione (in CSS si sposta una cornice,
-//     non si riscrive del testo altrove)
-//   · lo scorrimento con la rotella (ora solo trackpad)
+// La selezione ha adesso una sorgente sola, `motore.tsx`, che ascolta sia lo
+// scorrimento sia l'hover. Prima erano due e non si conoscevano: il
+// `data-selezionata` del server e un gioco di `:has(:hover)` nel foglio.
+//
+// La griglia non scorre quasi — ventuno opere fanno 1.413px contro i 1.404
+// disponibili, e anche con le ventisei definitive sarebbero 258 — quindi «la
+// selezione che avanza scorrendo» non vuol dire una striscia che scorre: è lo
+// scorrimento a muovere un cursore lungo la sequenza, e la griglia si sposta di
+// quel poco che può per tenere visibile ciò che è selezionato.
 
 // Il numero di righe NON sta qui: vive in `--righe` nel CSS, insieme a tutta
 // l'aritmetica che ne discende — altezza della riga, altezza della lastra,
@@ -25,70 +30,60 @@ import styles from "./page.module.css";
 // sorgenti per lo stesso numero, e appena hanno smesso di essere d'accordo la
 // griglia ha disegnato tre righe con le misure calcolate per due.
 
-/** La selezione di partenza. Diventerà stato quando la striscia si muoverà. */
+/** La selezione di partenza. Da qui in poi è stato, e vive nel motore. */
 const SELEZIONATA = 0;
 
+/** MOCK: i tag sono ancora quelli dell'artboard, uguali per tutte le opere.
+ *  Diventeranno un campo di `lib/opere.ts` quando la curatela li scriverà. */
+const TAG = "tags / tags / tags";
+
 export default function Page() {
-  const selezionata = OPERE[SELEZIONATA];
+  // I testi di TUTTE le opere: la banda ne mostra uno per volta, ma può
+  // mostrarli tutti, e passarglieli dal server evita che `lib/opere.ts` finisca
+  // nel bundle client per essere riletto lì.
+  const schede: Scheda[] = OPERE.map((opera) => ({
+    coordinata: `${numerato(opera.numero)} — ${opera.anno}`,
+    titolo: opera.titolo,
+    // MOCK: da scrivere con la curatela, come nelle altre viste.
+    descrizione:
+      "descrizione del progetto — due o tre righe che dicono cos'è l'opera, quando, dove, e perché sta in questa sequenza.",
+  }));
 
   return (
     // `--opere` serve all'ingresso per sapere quanto dura la propria onda
     // senza che il numero sia scritto due volte: il conteggio è di `OPERE`,
     // e le righe restano un fatto del foglio (vedi `--righe`).
     <div className={styles.pagina} style={{ "--opere": OPERE.length } as CSSProperties}>
-      <div className={styles.binario}>
-        <div className={styles.griglia}>
-          {OPERE.map((opera, i) => {
-            const copertina = opera.scatti[0];
-            const f = formato(copertina.w, copertina.h);
-            return (
-              <Link
-                key={opera.slug}
-                className={styles.cella}
-                href={`/works/${opera.slug}`}
-                data-selezionata={i === SELEZIONATA ? "" : undefined}
-                // La posizione nella sequenza. Il foglio ne ricava la colonna,
-                // che è l'unità in cui si misura l'onda d'ingresso: qui non
-                // si sa quante righe ci sono, ed è giusto così.
-                style={{ "--i": i } as CSSProperties}
-              >
-                <span className={styles.numero}>{numerato(opera.numero)}</span>
-                <span
-                  className={styles.lastra}
-                  style={{ "--ar": RAPPORTO[f] } as CSSProperties}
-                >
-                  <Image
-                    src={copertina.src}
-                    alt={opera.titolo}
-                    fill
-                    sizes="200px"
-                    className={styles.foto}
-                  />
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Tre colonne: la scheda della selezione, i tag, l'indicatore. */}
-      <div className={styles.banda}>
-        <div className={styles.scheda}>
-          <p className={styles.coordinata}>
-            {numerato(selezionata.numero)} — {selezionata.anno}
-          </p>
-          <h2 className={styles.titolo}>{selezionata.titolo}</h2>
-          <p className={styles.descrizione}>
-            descrizione del progetto — due o tre righe che dicono cos&apos;è
-            l&apos;opera, quando, dove, e perché sta in questa sequenza.
-          </p>
-        </div>
-
-        <p className={styles.tag}>tags / tags / tags</p>
-
-        {/* Segnaposto dell'artboard, decorativo: non deriva dal layout. */}
-        <p className={styles.indicatore}>(1–3)</p>
-      </div>
+      <MotoreIndice
+        quante={OPERE.length}
+        iniziale={SELEZIONATA}
+        banda={<Banda schede={schede} tag={TAG} />}
+      >
+        {OPERE.map((opera, i) => {
+          const copertina = opera.scatti[0];
+          const f = formato(copertina.w, copertina.h);
+          return (
+            <Link
+              key={opera.slug}
+              className={styles.cella}
+              href={`/works/${opera.slug}`}
+              data-selezionata={i === SELEZIONATA ? "" : undefined}
+              style={{ "--i": i } as CSSProperties}
+            >
+              <span className={styles.numero}>{numerato(opera.numero)}</span>
+              <span className={styles.lastra} style={{ "--ar": RAPPORTO[f] } as CSSProperties}>
+                <Image
+                  src={copertina.src}
+                  alt={opera.titolo}
+                  fill
+                  sizes="200px"
+                  className={styles.foto}
+                />
+              </span>
+            </Link>
+          );
+        })}
+      </MotoreIndice>
 
       <footer className={styles.piede}>
         <p>progetti / archivio</p>
