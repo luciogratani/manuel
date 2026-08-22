@@ -55,10 +55,21 @@
 
 /* Il grigio sta qui e non sul contenitore: prima che la tenda passi non deve
    esserci niente da vedere, e un fondo sul contenitore resterebbe visibile
-   sotto una tenda ancora larga zero. */
+   sotto una tenda ancora larga zero. Resta anche da sotto il video, come
+   fondo mentre carica il primo frame. */
 .telaio {
+  position: relative;
   aspect-ratio: 3 / 2;
   background: var(--grigio);
+  overflow: hidden;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Ancorato al bordo come nelle altre pagine, invece di seguire la soglia nel

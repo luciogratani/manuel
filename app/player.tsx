@@ -18,7 +18,18 @@ export function Player() {
       className={styles.player}
       ritardo={ATTERRATO_SULLA_SOGLIA ? SOGLIA.attesa + SOGLIA.tVideo : 0}
     >
-      <div className={styles.telaio} />
+      <div className={styles.telaio}>
+        {/* Muto e in loop: è lo sfondo della soglia, non un video da guardare
+            con l'audio — nessun controllo, nessuna UI di player. */}
+        <video
+          className={styles.video}
+          src="/media/home/hero.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      </div>
     </Tenda>
   );
 }

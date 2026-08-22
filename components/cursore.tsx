@@ -3,9 +3,12 @@
 import { useEffect, useRef } from "react";
 import styles from "./cursore.module.css";
 
-// Il cursore custom: un cerchio rosso che sostituisce il puntatore di sistema
-// — spento in app/globals.css, che spiega perché lì e non qui — e si apre in
-// anello sopra un cliccabile.
+// Il cursore custom: sostituisce il puntatore di sistema — spento in
+// app/globals.css, che spiega perché lì e non qui — e si apre in anello sopra
+// un cliccabile. `mix-blend-mode: difference` (in cursore.module.css) lo
+// tiene leggibile su qualunque fondo senza doverlo dichiarare punto per
+// punto: si inverte rispetto a ciò che ha sotto invece di restare un rosso
+// fisso che sparirebbe sul rosso della chiusura di /about.
 //
 // Nessuno stato React: la posizione si scrive direttamente sul nodo a ogni
 // `pointermove`, stesso principio del riquadro che segue il cursore in

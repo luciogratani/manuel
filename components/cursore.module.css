@@ -2,7 +2,14 @@
    transizione — deve seguire il puntatore, non rincorrerlo. Il cerchio dentro
    è un nodo separato apposta: è lui solo a transitare quando si espande, così
    la scrittura di posizione per-frame non convive con una `transition` sulla
-   stessa proprietà. */
+   stessa proprietà.
+
+   `mix-blend-mode` sta QUI e non su `.cerchio`: un `transform` non-`none` (che
+   il JS scrive su questo nodo a ogni frame) crea di per sé un nuovo stacking
+   context, e un blend dichiarato su un discendente si mescolerebbe solo
+   dentro quel contesto isolato — cioè con niente — invece che con la pagina
+   vera. Dichiarato sull'elemento che il transform lo riceve, blenda invece col
+   contenuto della pagina sotto, come deve. */
 .cursore {
   position: fixed;
   left: 0;
@@ -10,8 +17,14 @@
   z-index: 1000;
   pointer-events: none;
   will-change: transform;
+  mix-blend-mode: difference;
 }
 
+/* Bianco pieno e non ROSSO: con `difference` il colore di partenza non è
+   quello che si vede — è la pagina sotto a deciderlo per sottrazione — e il
+   bianco dà l'inversione più netta (255 − fondo) su qualunque tinta, invece
+   di un rosso che se ne uscirebbe con una tonalità imprevedibile a seconda
+   dello sfondo. */
 .cerchio {
   position: absolute;
   top: -5px;
@@ -19,7 +32,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #c1121c; /* ROSSO */
+  background: #fff;
   border: 1.5px solid transparent;
   opacity: 0;
 }
@@ -48,7 +61,7 @@
   width: 28px;
   height: 28px;
   background: transparent;
-  border-color: #c1121c;
+  border-color: #fff;
 }
 
 /* Solo desktop con puntatore fine. Su touch, o senza scripting, il cursore di
