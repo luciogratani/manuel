@@ -20,21 +20,31 @@
   --margine: calc(var(--x) * 2); /* 36px */
 
   /* La mensola. Tre registri d'altezza e una linea di base condivisa.
-     La lastra corrente è l'unica che la rompe, e la rompe da tutt'e due i lati:
-     è centrata sull'asse del registro alto. */
+     La lastra corrente è l'unica che la rompe, e la rompe da tutt'e due i lati. */
   --base: 38.375rem; /* 614px — dove appoggiano tutte le lastre */
-  --sporgenza: 6.1875rem; /* 99px — quanto la corrente scende sotto la base */
   --alta: 11.375rem; /* 182px */
   --media: 8.5625rem; /* 137px */
   --bassa: 4.25rem; /* 68px */
 
-  /* Quanto cresce la corrente, in proporzione al PROPRIO registro invece che a
-     una quota fissa. Nell'artboard la corrente era 380px contro i 182 del
-     registro alto: 2,1 volte. Preso come fattore, quel numero vale anche per
-     gli altri due registri, dove una quota fissa produceva schegge — una foto
-     verticale in registro basso è larga 54px, e a 380 di altezza diventava una
-     stecca. */
-  --fattore-corrente: 2.1;
+  /* L'altezza assoluta della corrente — uguale per ogni registro di partenza,
+     non più un fattore del registro (chi guarda deve vedere la stessa foto
+     "in prima fila" a prescindere da dove stava prima). Stesso numero di
+     `CORRENTE_H` in lib/mensola.ts: due linguaggi, un solo valore, come
+     `LETTURA` e `.scheda { left }` qui sotto. */
+  --corrente-h: 23.875rem; /* 382px — torna l'artboard sul registro alto */
+
+  /* Quanto la corrente scende sotto la base: il caso peggiore, non un numero
+     a piacere. Registro basso (68px) verso `--corrente-h` (382px) è la
+     crescita più grande fra i tre, e la sporgenza deve poterla contenere
+     tutta o la lastra si taglierebbe. */
+  --sporgenza: calc((var(--corrente-h) - var(--bassa)) / 2); /* 157px */
+
+  /* Un passo, dall'inizio alla fine: la CSS transition dell'ingombro e il
+     tween GSAP dello scorrimento (mensola.tsx) condividono questa durata,
+     così finiscono insieme pur restando due animazioni distinte. */
+  --corrente-durata: 0.36s;
+  --corrente-ease: cubic-bezier(0.45, 0, 0.55, 1); /* power1.inOut */
+
   --fuga: 0.75rem; /* 12px — la distanza fra due lastre */
 
   position: fixed;
@@ -115,30 +125,32 @@
 }
 
 /* La corrente rompe il registro: cresce verso l'alto e scende sotto la linea
-   di base. Cambia l'ALTEZZA e non `--h`, e la differenza è tutto:
+   di base, e adesso cresce anche in LARGHEZZA — prima restava quella del
+   registro apposta, per non dover rimisurare l'anello a ogni cambio (vedi il
+   commento in mensola.tsx). Con lo scorrimento a passi discreti il motore
+   ricalcola comunque un bersaglio esatto a ogni passo, quindi la larghezza
+   può finalmente seguire l'altezza come fa ovunque nel sito: la cornice ha il
+   formato dichiarato, la foto la riempie.
 
-   `--h` decide anche la larghezza, e una lastra che si allarga spinge le
-   vicine. Con la striscia che scorre le posizioni cambierebbero sotto i piedi
-   dell'anello ad ogni cambio di corrente — l'aritmetica da rifare ogni volta, e
-   la riga che sussulta. Così invece il ritmo orizzontale non si sposta mai e
-   l'anello si misura una volta sola. Il taglio della foto cambia, ed è una
-   decisione di presentazione che questa pagina già rivendica.
-
-   La transizione perché la corrente adesso si sposta scorrendo: senza, ad ogni
-   fotografia che passa sotto la linea di lettura ci sarebbe uno scatto. */
+   La transizione è sullo stesso orologio del tween di scorrimento
+   (`--corrente-durata`, condivisa con mensola.tsx via lib/mensola.ts): senza,
+   l'ingombro e la posizione arriverebbero in tempi diversi e la mensola
+   sussulterebbe. */
 .lastra {
   transition:
-    height 0.28s cubic-bezier(0.45, 0, 0.55, 1),
-    margin-bottom 0.28s cubic-bezier(0.45, 0, 0.55, 1);
+    height var(--corrente-durata) var(--corrente-ease),
+    width var(--corrente-durata) var(--corrente-ease),
+    margin-bottom var(--corrente-durata) var(--corrente-ease);
 }
 
 /* Cresce ugualmente verso l'alto e verso il basso — «la rompe da tutt'e due i
    lati» — quindi la sporgenza è metà della crescita e non un numero a parte.
-   Sul registro alto torna esattamente l'artboard: 182 → 382 di altezza, 100 di
-   sporgenza contro i 99 misurati. */
+   Un'altezza sola per ogni registro: chi guarda deve vedere la stessa foto
+   "in prima fila" a prescindere da dove stava. */
 .lastra[data-corrente] {
-  height: calc(var(--h) * var(--fattore-corrente));
-  margin-bottom: calc(var(--h) * (var(--fattore-corrente) - 1) / -2);
+  height: var(--corrente-h);
+  width: calc(var(--corrente-h) * var(--ar));
+  margin-bottom: calc((var(--corrente-h) - var(--h)) / -2);
 }
 
 /* ── Testa e piede ────────────────────────────────────────────────────────────

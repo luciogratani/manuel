@@ -27,6 +27,9 @@
 
   --riga: 8.5rem; /* 136px — la quota dei contenuti, condivisa col resto */
   --apparato: 19.75rem; /* 316px — dove attaccano le tre colonne */
+  /* Dove attacca l'apparato dal basso, nel layout a L: sopra `.piede`
+     (che sta a `var(--margine)`) con un respiro proprio. */
+  --apparato-basso: calc(var(--margine) + 3rem); /* 84px dal bordo inferiore */
 
   /* Non più `fixed`: la pagina adesso scorre, perché le schermate sono due.
      Le quote della scheda restano riferite alla PROPRIA schermata — è
@@ -53,13 +56,14 @@
    qui prende il ruolo. Resta `preload: false` — è una faccia sola su una pagina
    sola, e `display: swap` copre l'attesa.
 
-   Larga due colonne più la fuga: a corpo 28 una riga di 400px sarebbe di sei
-   parole, e una dichiarazione spezzata ogni sei parole non è una voce. */
+   A due colonne piene (884px) la frase entrava in due righe: troppo poco per
+   una voce, si legge come una didascalia lunga. Ristretta a una via di mezzo
+   fra una colonna e due, va su tre. */
 .voce {
   position: absolute;
   top: var(--riga);
   left: var(--margine);
-  width: calc(var(--colonna) * 2 + var(--fuga)); /* 884px */
+  width: 40rem; /* 640px — tarata per tre righe col testo attuale */
   font-family: var(--font-pp-hatton), Georgia, "Times New Roman", serif;
   font-size: 1.75rem; /* 28px */
   line-height: 1.25;
@@ -92,64 +96,27 @@
   margin-top: 1.75rem;
 }
 
-/* ── L'invito alla chiusura ───────────────────────────────────────────────────
-   Sta sulla riga dei contenuti, nella terza colonna: la voce ne occupa due, e
-   la terza a quell'altezza è vuota. Un'insegna che dice cosa c'è sotto senza
-   inventarsi una posizione nuova — usa un posto che la griglia aveva già.
-
-   Allineato al margine destro come l'archivio che gli sta sotto, così le due
-   cose della colonna destra si incolonnano fra loro. */
-.invito {
-  position: absolute;
-  top: var(--riga);
-  left: calc(var(--margine) + var(--passo) * 2);
-  width: var(--colonna);
-
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.5rem;
-
-  color: inherit;
-  text-decoration: none;
-  font-size: 0.875rem; /* 14px */
-  line-height: 1.2;
-}
-
-/* La freccia è disegnata e non scritta: il subset di Object Sans ha solo le
-   U+2190 e U+2192 recuperate per la legenda della timeline, e la U+2193 non è
-   mai stata usata in questo progetto — cioè non è mai stata verificata. Una
-   parola con un tofu accanto è peggio di nessuna freccia. */
-.giu {
-  /* Dimensionata in ALTEZZA e non in larghezza: deve misurarsi col testo che
-     le sta accanto, non con sé stessa. A 14px la larghezza scende a 5,6px e
-     il filetto da 1,5 unità di viewBox si rende a poco più di un pixel — la
-     stessa consistenza dei filetti del resto del sito. */
-  height: 0.875rem; /* 14px */
-  width: auto;
-  aspect-ratio: 8 / 20;
-  flex: none;
-}
-
-/* ── Colonne 2 e 3 — l'apparato ───────────────────────────────────────────── */
-
+/* ── L'apparato — layout a L ───────────────────────────────────────────────
+   Prima stavano allineati in alto (`top: var(--apparato)`, colonne 2 e 3),
+   nella stessa riga di `.dichiarazione`. Spostati in basso e in colonna 1/2:
+   libera colonna 2+3 dall'alto, dove in futuro arriverà un ritratto — vedi
+   `HANDOFF.md`. Ancorati dal basso con lo stesso pattern di `.piede`, ma su
+   una quota propria che lascia il piede della pagina respirare sotto. */
 .dati,
 .archivio {
   position: absolute;
-  top: var(--apparato);
+  bottom: var(--apparato-basso);
   width: var(--colonna);
   font-size: 0.875rem; /* 14px */
   line-height: 1.2;
 }
 
 .dati {
-  left: calc(var(--margine) + var(--passo));
+  left: var(--margine);
 }
 
-/* Allineata al margine destro, come la nota delle work page. */
 .archivio {
-  left: calc(var(--margine) + var(--passo) * 2);
-  text-align: right;
+  left: calc(var(--margine) + var(--passo));
 }
 
 /* Le work page usano un flex con una fuga di 4px, e va bene perché le loro
@@ -193,6 +160,18 @@
   justify-content: space-between;
   font-size: 0.875rem; /* 14px */
   line-height: 1;
+}
+
+/* "contact" vive qui adesso, al posto dell'arco di anni che l'archivio già
+   dice più sopra — comparire due volte nella stessa schermata non aggiungeva
+   niente. Nessuna icona, nessuna animazione: un rimando è un fatto, non un
+   invito enfatico — stessa sottolineatura sottile dei rimandi nella
+   chiusura (`.rimando` più sotto), non un trattamento a parte. */
+.invito {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+  text-decoration-thickness: 1px;
 }
 
 /* ── La chiusura ──────────────────────────────────────────────────────────────

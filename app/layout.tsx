@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import { AVORIO } from "@/lib/movimento";
+import { Cursore } from "@/components/cursore";
 import { Testa } from "@/components/testa";
 import { fontVariables } from "@/lib/fonts";
 import "./globals.css";
@@ -28,6 +29,10 @@ export default function RootLayout({
           perché non ha niente da far scattare. */}
       <body>
         <Testa />
+        {/* Fuori da `<ViewTransition>` per la stessa ragione dell'header: resta
+            fermo e non ha niente da far scattare cambiando rotta. Il gruppo
+            `root` che lo riceve è già congelato in app/globals.css. */}
+        <Cursore />
         {/* Il cambio pagina (§3.4): una dissolvenza, non un taglio. L'header
             sta FUORI ed è la ragione per cui: è la stessa riga su tutte le
             pagine, quindi cambiando rotta non si esce da nessuna parte, ed è

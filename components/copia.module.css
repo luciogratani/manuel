@@ -1,6 +1,8 @@
 /* Un valore che si copia al clic. Nessun colore addosso al valore, nessuna
    icona: resta scritto com'era, e l'unica aggiunta è un riquadro che compare
-   accanto al cursore. Il resto lo dice il cursore stesso. */
+   accanto al cursore. Il resto lo dice il cursore custom (components/cursore.tsx),
+   che si apre in anello passandoci sopra — non serve più un `cursor: copy` di
+   sistema qui. */
 
 .copia {
   padding: 0;
@@ -9,7 +11,6 @@
   color: inherit;
   font: inherit;
   text-align: inherit;
-  cursor: copy;
 }
 
 /* Il riquadro che segue il cursore.

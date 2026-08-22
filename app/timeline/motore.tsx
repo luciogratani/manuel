@@ -411,11 +411,17 @@ export function MotoreTimeline({
     const daTocco = (e: Event) =>
       e.type.startsWith("touch") || (e as PointerEvent).pointerType === "touch";
 
-    const observer = Observer.create({
+    // ── Due Observer, non uno ───────────────────────────────────────────────
+    // `ignore: "a, button"` protegge il tap-per-navigare da un drag che parte
+    // per sbaglio sopra un link: serve solo al trascinamento. La rotella non
+    // attiva mai una navigazione, quindi ignorarla sui link era un bug — il
+    // nastro restava fermo scorrendo col cursore sopra il titolo di una voce,
+    // che è quasi tutta la superficie cliccabile della pista. GSAP Observer
+    // non differenzia `ignore` per tipo di evento nella stessa istanza, quindi
+    // sono due istanze sullo stesso target invece di una.
+    const osservatoreRotella = Observer.create({
       target: pagina,
-      type: TRASCINAMENTO_ATTIVO ? "wheel,touch,pointer" : "wheel,touch",
-      ignore: "a, button",
-      dragMinimum: 6,
+      type: "wheel",
       preventDefault: true,
       onWheel: (self) => {
         const asseX = Math.abs(self.deltaX) > Math.abs(self.deltaY);
@@ -425,6 +431,14 @@ export function MotoreTimeline({
         sensibilitaMomentoRef.current = SENSIBILITA_GENERALE;
         velocitaRef.current = ridotto ? 0 : velocitaPx / pxPerAnnoRef.current;
       },
+    });
+
+    const osservatoreTocco = Observer.create({
+      target: pagina,
+      type: TRASCINAMENTO_ATTIVO ? "touch,pointer" : "touch",
+      ignore: "a, button",
+      dragMinimum: 6,
+      preventDefault: true,
       onDrag: (self) => {
         const sensibilita = daTocco(self.event) ? SENSIBILITA_TOCCO : SENSIBILITA_GENERALE;
         spingi(-self.deltaX / pxPerAnnoRef.current, sensibilita);
@@ -558,7 +572,8 @@ export function MotoreTimeline({
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("pointerleave", onPointerLeave);
-      observer.kill();
+      osservatoreRotella.kill();
+      osservatoreTocco.kill();
       gsap.ticker.remove(tick);
     };
   }, { scope: binarioRef });

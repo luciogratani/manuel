@@ -1,0 +1,61 @@
+/* Il punto fisso: posizione sola nel `transform`, scritta a ogni frame senza
+   transizione — deve seguire il puntatore, non rincorrerlo. Il cerchio dentro
+   è un nodo separato apposta: è lui solo a transitare quando si espande, così
+   la scrittura di posizione per-frame non convive con una `transition` sulla
+   stessa proprietà. */
+.cursore {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.cerchio {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #c1121c; /* ROSSO */
+  border: 1.5px solid transparent;
+  opacity: 0;
+}
+
+.cursore[data-visibile] .cerchio {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cerchio {
+    transition:
+      width 0.18s cubic-bezier(0.45, 0, 0.55, 1),
+      height 0.18s cubic-bezier(0.45, 0, 0.55, 1),
+      top 0.18s cubic-bezier(0.45, 0, 0.55, 1),
+      left 0.18s cubic-bezier(0.45, 0, 0.55, 1),
+      background 0.18s cubic-bezier(0.45, 0, 0.55, 1),
+      opacity 0.18s cubic-bezier(0.45, 0, 0.55, 1);
+  }
+}
+
+/* Sopra un cliccabile: si apre in anello. Solo contorno, per non coprire ciò
+   che sta indicando. */
+.cursore[data-espanso] .cerchio {
+  top: -14px;
+  left: -14px;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border-color: #c1121c;
+}
+
+/* Solo desktop con puntatore fine. Su touch, o senza scripting, il cursore di
+   sistema resta acceso — vedi il gate gemello in app/globals.css — e questo
+   nodo non ha ragione di occupare spazio. */
+@media not all and (hover: hover) and (pointer: fine) {
+  .cursore {
+    display: none;
+  }
+}

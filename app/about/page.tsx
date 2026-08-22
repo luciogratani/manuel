@@ -94,6 +94,7 @@ export default function Page() {
             tre sia stata l&apos;origine di un lavoro.
           </p>
           <p className={styles.paragrafo}>Testo da scrivere con la curatela.</p>
+          <p className={styles.paragrafo}>Testo da scrivere con la curatela.</p>
         </div>
 
         {/* La persona, nell'idioma dell'apparato delle work page. */}
@@ -117,29 +118,16 @@ export default function Page() {
           <p className={styles.medium}>{MEDIUM.join(", ")}</p>
         </div>
 
-        {/* L'invito alla seconda schermata. È un àncora vero e non un
-            ornamento: cliccandolo la pagina ci arriva, e chi naviga col tab lo
-            trova come qualunque link. Senza, due schermate senza alcun segnale
-            che ce ne sia una seconda. */}
-        <a className={styles.invito} href="#contatti">
-          contact
-          <svg
-            className={styles.giu}
-            viewBox="0 0 8 20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            aria-hidden="true"
-          >
-            <path d="M4 0 V18 M0.5 14 L4 18 L7.5 14" />
-          </svg>
-        </a>
-
+        {/* L'invito alla seconda schermata vive nel piede, al posto
+            dell'arco di anni che l'archivio già dice qui sopra. È un àncora
+            vero e non un ornamento: cliccandolo la pagina ci arriva, e chi
+            naviga col tab lo trova come qualunque link. Senza, due schermate
+            senza alcun segnale che ce ne sia una seconda. */}
         <footer className={styles.piede}>
           <p>about</p>
-          <p>
-            {INIZIO} — {FINE}
-          </p>
+          <a className={styles.invito} href="#contatti">
+            contact
+          </a>
         </footer>
       </section>
 

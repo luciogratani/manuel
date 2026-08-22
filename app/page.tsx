@@ -1,4 +1,5 @@
 import { Player } from "./player";
+import { PiedeHome } from "./piede-home";
 import styles from "./page.module.css";
 
 // La soglia. Una schermata sola e ferma, come le altre: la home a due
@@ -26,15 +27,11 @@ export default function Page() {
 
       {/* §2.1: `manuel` non compare mai in una schermata dove `Manuel Casati`
           non sia leggibile da qualche parte. In alto c'è il marchio, quindi
-          l'anagrafe sta qui — e proprio per questo il piede non è animato: è
-          l'unica cosa già presente mentre il marchio deve ancora comparire,
-          che è il solo modo di tenere la regola vera anche durante
-          l'ingresso. */}
-      <footer className={styles.piede}>
-        <p>Manuel Casati</p>
-        <p>ITA, 1986</p>
-        <p>2010 — 2026</p>
-      </footer>
+          l'anagrafe sta qui. Il piede ha un ingresso suo — vedi
+          `piede-home.tsx` — che arriva dopo la sequenza dell'header e non
+          prima: la regola resta vera perché non parte mai da opacità zero,
+          solo più enfatizzata a fine sequenza. */}
+      <PiedeHome />
     </div>
   );
 }

@@ -75,3 +75,15 @@
   font-size: 0.875rem; /* 14px */
   line-height: 1.2;
 }
+
+/* Lo stato di partenza dell'ingresso (app/piede-home.tsx), scritto qui e non
+   solo in JS: `scripting: enabled` vale già al primo paint, prima
+   dell'idratazione, quindi il piede non lampeggia a piena opacità per poi
+   scendere quando GSAP prende il controllo. Senza JS la regola non si applica
+   affatto ed è semplicemente al suo posto — §9.4. */
+@media (scripting: enabled) {
+  .piede {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}

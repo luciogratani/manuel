@@ -14,15 +14,14 @@ import styles from "./page.module.css";
 // decisione di presentazione, reversibile, e il punto focale per foto si
 // aggiungerà ai dati senza rigenerare niente.
 //
-// La selezione ha adesso una sorgente sola, `motore.tsx`, che ascolta sia lo
-// scorrimento sia l'hover. Prima erano due e non si conoscevano: il
-// `data-selezionata` del server e un gioco di `:has(:hover)` nel foglio.
+// Scorrimento e hover non hanno più bisogno di conoscersi (`motore.tsx`): il
+// primo sposta la griglia, il secondo — puro `:has(:hover)` nel foglio —
+// attenua le opere non in hover e dice alla banda cosa raccontare.
 //
 // La griglia non scorre quasi — ventuno opere fanno 1.413px contro i 1.404
-// disponibili, e anche con le ventisei definitive sarebbero 258 — quindi «la
-// selezione che avanza scorrendo» non vuol dire una striscia che scorre: è lo
-// scorrimento a muovere un cursore lungo la sequenza, e la griglia si sposta di
-// quel poco che può per tenere visibile ciò che è selezionato.
+// disponibili, e anche con le ventisei definitive sarebbero 258 — quindi il
+// motore non muove una striscia che scorre: sposta un cursore lungo la
+// sequenza, e la griglia si sposta di quel poco che può per tenerlo visibile.
 
 // Il numero di righe NON sta qui: vive in `--righe` nel CSS, insieme a tutta
 // l'aritmetica che ne discende — altezza della riga, altezza della lastra,
@@ -30,12 +29,16 @@ import styles from "./page.module.css";
 // sorgenti per lo stesso numero, e appena hanno smesso di essere d'accordo la
 // griglia ha disegnato tre righe con le misure calcolate per due.
 
-/** La selezione di partenza. Da qui in poi è stato, e vive nel motore. */
-const SELEZIONATA = 0;
+/** Il cursore di scorrimento parte da qui. Da qui in poi è stato, e vive nel
+ *  motore. */
+const INIZIALE = 0;
 
-/** MOCK: i tag sono ancora quelli dell'artboard, uguali per tutte le opere.
- *  Diventeranno un campo di `lib/opere.ts` quando la curatela li scriverà. */
-const TAG = "tags / tags / tags";
+/** MOCK: tre voci reali del vocabolario di `lib/opere.ts` (il campo
+ *  `medium`), uguali per tutte le opere. Diventeranno un campo dedicato
+ *  quando la curatela lo scriverà, con un tag per opera invece che gli stessi
+ *  tre ovunque — l'interazione (selezione singola, un radio button ciascuna)
+ *  è pronta da ora, il filtro vero no: vedi il commento in `banda.tsx`. */
+const TAG = ["performance", "fotografia", "editoriale"];
 
 export default function Page() {
   // I testi di TUTTE le opere: la banda ne mostra uno per volta, ma può
@@ -56,8 +59,8 @@ export default function Page() {
     <div className={styles.pagina} style={{ "--opere": OPERE.length } as CSSProperties}>
       <MotoreIndice
         quante={OPERE.length}
-        iniziale={SELEZIONATA}
-        banda={<Banda schede={schede} tag={TAG} />}
+        iniziale={INIZIALE}
+        banda={<Banda schede={schede} tags={TAG} />}
       >
         {OPERE.map((opera, i) => {
           const copertina = opera.scatti[0];
@@ -67,7 +70,6 @@ export default function Page() {
               key={opera.slug}
               className={styles.cella}
               href={`/works/${opera.slug}`}
-              data-selezionata={i === SELEZIONATA ? "" : undefined}
               style={{ "--i": i } as CSSProperties}
             >
               <span className={styles.numero}>{numerato(opera.numero)}</span>
@@ -84,21 +86,6 @@ export default function Page() {
           );
         })}
       </MotoreIndice>
-
-      <footer className={styles.piede}>
-        <p>progetti / archivio</p>
-        <p>meta-voice</p>
-        <ul className={styles.categorie}>
-          <li>work-category-x</li>
-          <li>work-category-y</li>
-          <li>work-category-y</li>
-        </ul>
-        <ul className={styles.categorie}>
-          <li>some stuff</li>
-          <li>other thing</li>
-          <li>other stuff</li>
-        </ul>
-      </footer>
     </div>
   );
 }

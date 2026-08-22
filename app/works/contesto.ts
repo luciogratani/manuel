@@ -3,11 +3,11 @@
 import { createContext, useContext } from "react";
 
 export type StatoIndice = {
-  /** L'indice dell'opera selezionata, 0-based. La cornice la marca in griglia
-   *  e la banda ne racconta i testi: una sorgente sola per due letture, che
-   *  prima erano due — `data-selezionata` nel foglio e `:has(:hover)` accanto,
-   *  senza che nessuna delle due sapesse dell'altra. */
-  selezionata: number;
+  /** L'indice dell'opera in hover, o `null`. L'attenuazione delle altre è
+   *  pura CSS (`:has(:hover)` su `.griglia`, in page.module.css): questo
+   *  stato serve solo alla banda, che deve sapere QUALE testo mostrare — e,
+   *  quando non c'è hover, che non ne deve mostrare nessuno. */
+  hover: number | null;
 };
 
 export const ContestoIndice = createContext<StatoIndice | null>(null);

@@ -60,6 +60,30 @@ html {
   }
 }
 
+/* ── Il cursore custom ────────────────────────────────────────────────────────
+   Sostituisce il puntatore di sistema con un cerchio (`components/cursore.tsx`
+   disegna l'anello che appare sopra i cliccabili). Spento su touch (niente
+   hover) e, con lo stesso `@media (scripting: enabled)` usato altrove nel
+   sito, quando JS non gira: senza il componente che lo disegna, un cursore di
+   sistema nascosto sarebbe un cursore invisibile e basta. */
+@media (hover: hover) and (pointer: fine) and (scripting: enabled) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}
+
+/* ── Selezione testo ──────────────────────────────────────────────────────────
+   Terzo e quarto caso del rosso, insieme al cursore qui sopra — vedi il
+   commento accanto a `ROSSO` in lib/movimento.ts, aggiornato nello stesso
+   giro. Valori letterali perché `::selection` è fuori dall'albero React e non
+   legge le custom property impostate via JSX sui singoli componenti. */
+::selection {
+  background: #c1121c; /* ROSSO */
+  color: #f5f5f0; /* AVORIO */
+}
+
 @theme inline {
   --font-hatton: var(--font-pp-hatton);
   --font-frama: var(--font-pp-frama);
@@ -93,14 +117,21 @@ html {
    divergenza è voluta. Il pannello della timeline cambia voce dentro un
    riquadro di 225×150: lì 0,25s sono giusti. Qui la stessa durata copre una
    schermata intera, e un'area grande percorsa nello stesso tempo si legge come
-   più veloce, non uguale. Un po' più lunga, e con una curva simmetrica invece
-   che in sola uscita: smorzata ai due capi, così non parte di scatto né si
-   inchioda alla fine.
+   più veloce, non uguale.
 
    `--avorio` arriva dall'elemento radice (vedi `app/layout.tsx`): questi
-   pseudo-elementi stanno fuori dall'albero e non ereditano da nessuna pagina. */
+   pseudo-elementi stanno fuori dall'albero e non ereditano da nessuna pagina.
+
+   ── Uscita poi entrata, non le due insieme ──────────────────────────────────
+   Prima versione: `pagina-via` e `pagina-qui` correvano insieme, sovrapposte
+   per l'intera finestra — un vero crossfade. Si leggeva come un'unica
+   dissolvenza sfocata invece di due pagine con un proprio ritmo. Ora la vecchia
+   sparisce nella prima quota della finestra, la nuova compare nella seconda: lo
+   `animation-delay` della entrata è la durata dell'uscita. Restano scomposte
+   per poterle tarare separatamente, ma la somma è la durata totale percepita. */
 :root {
-  --dissolvenza: 0.36s;
+  --dissolvenza-via: 0.19s;
+  --dissolvenza-qui: 0.25s;
   /* `power1.inOut` nella notazione GSAP che il resto del progetto usa. */
   --dissolvenza-ease: cubic-bezier(0.45, 0, 0.55, 1);
 }
@@ -118,20 +149,19 @@ html {
      schiarisce fino al bianco a metà transizione: un lampo, in un movimento
      che esiste per non farsi notare. */
   mix-blend-mode: normal;
-  animation-duration: var(--dissolvenza);
   animation-timing-function: var(--dissolvenza-ease);
   animation-fill-mode: both;
 }
 
-/* Insieme e non in sequenza: le due pagine si attraversano per un istante,
-   che è ciò che rende lo scambio uno solo invece di un'uscita seguita da
-   un'entrata con del vuoto in mezzo. */
 ::view-transition-old(.pagina) {
   animation-name: pagina-via;
+  animation-duration: var(--dissolvenza-via);
 }
 
 ::view-transition-new(.pagina) {
   animation-name: pagina-qui;
+  animation-duration: var(--dissolvenza-qui);
+  animation-delay: var(--dissolvenza-via);
 }
 
 @keyframes pagina-via {

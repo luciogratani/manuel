@@ -16,20 +16,24 @@ import { motoRidotto } from "@/lib/movimento";
 import { ContestoIndice } from "./contesto";
 import styles from "./page.module.css";
 
-// Il motore dell'indice. Fa avanzare la selezione lungo la sequenza mentre si
-// scorre, e sposta la griglia di quel poco che può per tenerla visibile.
+// Il motore dell'indice. Sposta la griglia di quel poco che può per tenerla
+// visibile mentre si scorre.
 //
 // Il markup pesante resta server-renderizzato e arriva come `children`: le
 // ventuno celle con le loro `<Image>` non hanno ragione di finire nel bundle
 // client. Stessa scelta del nastro della timeline e della mensola.
 //
-// ── Una sorgente sola per la selezione ──────────────────────────────────────
-// Prima erano due, e non si conoscevano: `data-selezionata` scritto dal server
-// e un gioco di `:has(:hover)` nel foglio che lo spegneva al passaggio del
-// mouse. Con la banda che adesso segue la selezione, due padroni
-// significherebbe una cornice che dice una cosa e un testo che ne dice
-// un'altra. Qui decide il motore, che ascolta entrambi: l'hover vince finché
-// il puntatore è sulla griglia, lo scorrimento quando non c'è.
+// ── Scorrimento e hover non si conoscono più ────────────────────────────────
+// Prima una sola "selezione" doveva rispondere sia allo scorrimento sia
+// all'hover, ed era complicato: chi vince quando arrivano insieme, cosa
+// succede uscendo dalla griglia. Adesso sono due cose separate, perché
+// rispondono a due domande diverse:
+//
+//   · Dove si sposta la griglia? Lo decide solo lo scorrimento — fisica
+//     continua, invariata qui sotto.
+//   · Quale opera è "in evidenza"? Lo decide solo l'hover, ed è tutto qui:
+//     l'attenuazione delle altre è pura CSS (`:has(:hover)`, niente scritto a
+//     mano), e la banda mostra il testo dell'opera in hover o niente affatto.
 //
 // L'hover si ascolta sul contenitore e non sulle celle, che sono
 // server-renderizzate e non possono chiamare niente.
@@ -59,17 +63,14 @@ export function MotoreIndice({
   const binarioRef = useRef<HTMLDivElement>(null);
   const grigliaRef = useRef<HTMLDivElement>(null);
 
-  const [selezionata, setSelezionata] = useState(iniziale);
+  const [hover, setHover] = useState<number | null>(null);
+  const hoverRef = useRef<number | null>(null);
 
-  /** Il cursore, in opere e con la virgola: `posizione` insegue `obiettivo`, e
-   *  la selezione è il suo arrotondamento. Tenere il continuo sotto il discreto
-   *  è ciò che permette a un gesto piccolo di non far scattare niente. */
+  /** Il cursore, in opere e con la virgola: `posizione` insegue `obiettivo`,
+   *  e la posizione della griglia è il suo arrotondamento. */
   const posizioneRef = useRef(iniziale);
   const obiettivoRef = useRef(iniziale);
   const velocitaRef = useRef(0);
-  /** L'opera sotto il puntatore, o -1. Vince sullo scorrimento finché c'è. */
-  const sottoPuntatoreRef = useRef(-1);
-  const selezionataRef = useRef(iniziale);
 
   useGSAP(
     () => {
@@ -84,7 +85,7 @@ export function MotoreIndice({
       const pagina = binario.closest<HTMLElement>(`.${styles.pagina}`) ?? binario;
 
       /** Le colonne: la griglia scorre per colonna, quindi a spostarsi è la
-       *  colonna dell'opera selezionata e non l'opera. Misurate a
+       *  colonna dell'opera raggiunta e non l'opera. Misurate a
        *  trasformazione azzerata, o la seconda lettura vedrebbe la prima. */
       let colonne: number[] = [];
       let scorrimentoMax = 0;
@@ -122,15 +123,23 @@ export function MotoreIndice({
           });
 
       /** L'hover: si ascolta sul contenitore perché le celle sono
-       *  server-renderizzate. `pointerleave` sulla griglia restituisce la
-       *  parola allo scorrimento. */
+       *  server-renderizzate. `hoverRef` evita un render ad ogni movimento
+       *  del mouse — solo un vero cambio di cella (o l'uscita) tocca lo
+       *  stato React, che è quello che la banda legge. */
       const alPuntatore = (e: PointerEvent) => {
         if (e.pointerType !== "mouse") return;
         const cella = (e.target as Element | null)?.closest<HTMLElement>(`.${styles.cella}`);
-        sottoPuntatoreRef.current = cella ? celle.indexOf(cella) : -1;
+        const i = cella ? celle.indexOf(cella) : null;
+        if (i !== hoverRef.current) {
+          hoverRef.current = i;
+          setHover(i);
+        }
       };
       const fuoriDallaGriglia = () => {
-        sottoPuntatoreRef.current = -1;
+        if (hoverRef.current !== null) {
+          hoverRef.current = null;
+          setHover(null);
+        }
       };
       griglia.addEventListener("pointermove", alPuntatore, { passive: true });
       griglia.addEventListener("pointerleave", fuoriDallaGriglia);
@@ -160,22 +169,10 @@ export function MotoreIndice({
         posizioneRef.current +=
           (obiettivoRef.current - posizioneRef.current) * (ridotto ? 1 : smorza(SMORZAMENTO, dt));
 
-        // L'hover vince finché c'è: è un'indicazione deliberata, lo
-        // scorrimento è una posizione.
         const daScorrimento = Math.min(limite, Math.max(0, Math.round(posizioneRef.current)));
-        const scelta =
-          sottoPuntatoreRef.current >= 0 ? sottoPuntatoreRef.current : daScorrimento;
-
-        if (scelta !== selezionataRef.current) {
-          const prima = celle[selezionataRef.current];
-          if (prima) delete prima.dataset.selezionata;
-          celle[scelta].dataset.selezionata = "";
-          selezionataRef.current = scelta;
-          setSelezionata(scelta);
-        }
 
         // La griglia si sposta di quel poco che può per tenere visibile la
-        // colonna selezionata: nove pixel oggi, duecento con l'archivio pieno.
+        // colonna raggiunta: nove pixel oggi, duecento con l'archivio pieno.
         // Il `clamp` è ciò che rende la stessa regola vera a ogni taglia.
         const desiderato = colonne[daScorrimento] ?? 0;
         const x = -Math.min(scorrimentoMax, Math.max(0, desiderato));
@@ -196,7 +193,7 @@ export function MotoreIndice({
   );
 
   return (
-    <ContestoIndice.Provider value={{ selezionata }}>
+    <ContestoIndice.Provider value={{ hover }}>
       <div ref={binarioRef} className={styles.binario}>
         <div ref={grigliaRef} className={styles.griglia}>
           {children}
