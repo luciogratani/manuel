@@ -1,182 +1,147 @@
-# Handoff — 21 agosto 2026
+# Handoff — 25 agosto 2026
 
-Fine di una sessione lunga. Branch `dopo-helper`, tutto pushato su
-`origin/dopo-helper`, albero pulito, `npm run build` verde.
+Sessione breve e mirata: la soglia compatta. Branch `dopo-helper`, non
+pushato, albero pulito, `npm run build`/`typecheck`/`lint` verdi.
 
-Questo documento è **datato e si consuma**: dice cos'è successo, chi ha deciso
-cosa, e cosa va guardato a mano. Le cose aperte che restano vere nel tempo
-stanno in `APERTI.md` e non si ripetono qui.
+Questo documento è **datato e si consuma**. Le cose aperte che restano vere
+nel tempo stanno in `APERTI.md`.
 
 ---
 
 ## 1. Cosa è cambiato
 
-**Il sito ha finito di essere fermo.** All'inizio della sessione solo la
-timeline aveva un motore; adesso ce l'hanno tutte le pagine interattive, il
-cambio pagina ha una grammatica, e `/about` e `/legali` esistono per davvero.
+**Il sito ha smesso di essere solo desktop.** Fino a ieri l'unico meccanismo
+"responsive" era lo scaling uniforme in `app/globals.css`: sotto
+`--pavimento` la composizione smetteva di rimpicciolire e restava tagliata,
+non reimpaginata. Il commento nel foglio lo diceva già da sessioni fa — "è
+il punto in cui prima o poi entrerà un impianto mobile a sé" — ed era vero
+alla lettera: su un telefono, crediti e nota della pagina opera cadevano
+fuori dal viewport (per le venti opere a foto singola anche titolo e
+descrizione), la banda di `/works` non mostrava mai nulla su touch
+(`pointerType !== "mouse"`), le colonne di `/about` uscivano dallo schermo.
+Non erano difetti estetici: era contenuto vero, irraggiungibile.
 
-### La grammatica del movimento
+### La soglia
 
-- **La tenda** (`components/tenda.tsx`) è il primitivo del taglio: un
-  rettangolo rosso che entra, copre e si ritira. Due tempi, un solo verso di
-  marcia, nessuna dissolvenza sul rosso. Nasce dal player di `/home` e serve
-  anche la preview della timeline, a tempo più corto.
-- **Il cambio pagina è una DISSOLVENZA, non un taglio.** L'header non se ne va
-  mai — è la stessa riga su tutte le pagine — quindi cambiando rotta non si
-  esce da nessuna parte: è variazione interna e non passaggio di stato (§3.2).
-  Fatto con `<ViewTransition>` di React dietro `experimental.viewTransition`.
-- **Ogni pagina ha un ingresso suo**, e la dissolvenza li lascia parlare invece
-  di mettercisi davanti. La pagina nuova si monta MENTRE la dissolvenza corre,
-  quindi il suo ingresso è già avviato quando finisce.
+`SOGLIA_COMPATTA` (`lib/movimento.ts`) è 860px, condivisa fra CSS
+(`@media (max-width: 860px)`, letterale in ogni foglio — il progetto non ha
+un plugin per le custom media query) e JS (`compattoAttivo()`). Sotto la
+soglia:
 
-### L'header
+- **`/timeline`** — il nastro (canvas orizzontale) lascia il posto a un
+  elenco verticale delle stesse voci.
+- **`/works`** — la griglia con scorrimento smorzato lascia il posto a una
+  griglia che si impila, col titolo sempre leggibile sotto la lastra invece
+  che in una banda che si accende solo in hover.
+- **`/works/[slug]`** — la mensola (o l'unica foto) lascia il posto alla
+  sequenza intera in pila verticale; scheda, crediti e nota tornano in
+  flusso normale.
+- **`/works/[slug]/[n]`** — restava già scrollabile nativamente: qui è solo
+  un aggiustamento di larghezze (l'apparato non sta più al 40% fisso) e un
+  riordino via `order` (back e didascalia prima delle foto, non dopo).
+- **`/about`** — le tre colonne della scheda e le quattro della chiusura si
+  impilano; l'ordine del DOM era già quello di lettura.
+- **`/`, `/legali`, l'header** — non toccati: erano già a posto (verificato,
+  non presunto — vedi §3).
 
-Vive in `app/layout.tsx`, identico su tutte le pagine, e **nasce sulla soglia**:
-atterrando su `/` si compone in quattro tempi, ovunque altro c'è già. Porta il
-marchio SVG (`components/marchio.tsx`), si rovescia in avorio sopra una tinta
-piena, e non transisce mai.
+### Perché gli Observer si spengono, non solo il CSS
 
-### Le pagine
-
-| | |
-|---|---|
-| `/` | player al centro esatto, scoperto dalla tenda |
-| `/timeline` | zona di lettura, fuoco additivo, ingresso che costruisce lo strumento dal nonio |
-| `/works` | motore nuovo: la selezione avanza scorrendo, la banda la segue |
-| `/works/[slug]` | la mensola gira davvero: anello continuo, corrente che segue lo scorrimento |
-| `/works/[slug]/[n]` | ingresso proprio |
-| `/about` | due schermate: la scheda e la chiusura rossa |
-| `/legali` | nuova, bozza in attesa di revisione legale |
+I tre motori (`app/works/motore.tsx`, `app/timeline/motore.tsx`,
+`app/works/[slug]/mensola.tsx`) agganciano il loro GSAP `Observer` a
+`.pagina` intera, non al solo canvas — per non perdere la rotella quando il
+puntatore è sopra testa o piede. Nascondere il canvas via CSS non basta:
+l'Observer resterebbe comunque lì a intercettare wheel/touch, impedendo lo
+scroll nativo del layout compatto sotto di lui. `compattoAttivo()` letta una
+volta al montaggio (stesso compromesso di `motoRidotto()`/
+`ATTERRATO_SULLA_SOGLIA`: un resize che attraversa la soglia — rotazione di
+un tablet — non fa ripartire il motore a pagina già caricata).
 
 ---
 
 ## 2. Decisioni, e di chi sono
 
-### Prese da Lucio
+Presa da Claude, vale la pena poterla contestare:
 
-- **La home a due schermate è cancellata.** Il player va al centro esatto.
-- **Il taglio fra pagine non va**: invadente. Prima provata la tenda rossa,
-  poi quella di carta, poi scartate entrambe per la dissolvenza.
-- **L'uscita coreografata da `/works` è scartata**: riempiva troppo. Cliccando
-  un lavoro succede quello che succede ovunque.
-- **La dissolvenza fra pagine più morbida.**
-- **`/about`**: la chiusura rossa modellata sul riferimento, i contatti che si
-  copiano al clic, l'invito `contact ↓`.
-- **La citazione** e il testo dei legali: delegati a Claude con istruzione
-  esplicita.
-
-### Prese da Claude, e perché
-
-Sono decisioni che vale la pena poter contestare, quindi sono elencate.
-
-- **Il rosso è anche superficie, non solo taglio.** La chiusura di `/about` è
-  una schermata rossa piena: contraddice il §2.3 alla lettera. L'eccezione è
-  scritta accanto a `ROSSO` in `lib/movimento.ts`, ed è circoscritta a due casi.
-- **La citazione di Luisa Casati** — «Voglio essere un'opera d'arte vivente» —
-  scelta fra le due proposte perché è un manifesto di una riga e regge sotto il
-  marchio. L'altra è un paragrafo e sarebbe diventata una didascalia.
-- **La quarta colonna della chiusura** porta l'origine del cognome invece di una
-  newsletter che non esiste. È anche ciò che prepara la citazione.
-- **PP Hatton prende il ruolo di «voce»** su `/about`, che `lib/fonts.ts` le
-  teneva in caldo. Reversibile in una riga.
-- **`/legali` è una pagina e non una colonna**, e dichiara in testa di essere
-  una bozza: un testo che desse per risolto ciò che non lo è darebbe una falsa
-  sicurezza dove serve quella vera.
-- **La corrente della mensola cambia altezza e non larghezza**, e cresce in
-  proporzione al proprio registro (fattore 2,1, che è l'artboard). Una lastra
-  che si allarga spinge le vicine e l'anello andrebbe rimisurato ad ogni cambio.
-- **Sull'indice niente anello, sulla mensola sì.** Le opere hanno un ordine che
-  significa qualcosa, le fotografie di un'opera no.
-- **Ogni lastra della mensola è un rimando**, non solo la corrente: con la
-  corrente che si sposta, il rimando sarebbe un bersaglio in movimento.
-- **`Observer` ovunque, mai `Draggable`.** Un solo modello d'ingresso.
+- **860px come soglia unica**, non due (mobile e tablet separati). Scelta
+  perché anche un iPad in verticale (768-834px reali) ha lo stesso problema
+  di fondo — colonne pensate per 1440px che non ci stanno — non solo il
+  telefono. Non è una misura da un foglio come `--rif-altezza`: è una
+  soglia scelta a occhio e verificata su 375/820/1440px. Se si vuole una
+  fascia tablet intermedia, oggi non esiste.
+- **Niente reflow delle composizioni esistenti**: per ogni pagina a canvas
+  fisso, sotto la soglia c'è una seconda vista — stessi dati, markup
+  diverso, non le stesse coordinate ripiegate con media query. Il
+  ragionamento: le pagine sono composizioni ad artboard (1440px, posizioni
+  assolute), non documenti che scorrono — provare a far reimpaginare
+  elementi assoluti con breakpoint avrebbe dato un risultato raffazzonato.
+  `/legali`, l'unica pagina già in flusso normale, era già corretta: è il
+  modello seguito.
+- **La mensola non prova a diventare mobile**: sotto la soglia sparisce
+  (Observer spento, striscia nascosta) e le stesse foto tornano in una pila
+  verticale nativa. Nessun tentativo di adattare l'anello a schermi stretti.
 
 ---
 
 ## 3. Da controllare a mano
 
-Le animazioni le ho verificate con Chrome headless (vedi §5), ma **il giudizio
-è di chi guarda**. In ordine di quanto conta:
+Verificato con Chrome headless via CDP (`Emulation.setDeviceMetricsOverride`,
+non `--window-size` da riga di comando — vedi §5) a 375×812, 820×1180,
+1440×900. **Il giudizio resta di chi guarda**:
 
-1. **La sequenza della soglia** su `/` — atterrandoci a freddo, non navigandoci.
-   Il marchio si materializza al centro, scivola, le rotte escono da sotto di
-   lui, la riga si apre e sale nell'header. ~2,7s.
-2. **Il cambio pagina**: 0,36s di dissolvenza, l'header fermo. Si vede meglio
-   passando a `/timeline`, che ha un ingresso lungo.
-3. **La mensola** su `/works/funeral-rave`: rotella, anello continuo, la
-   corrente che cambia sotto la linea di lettura. **È l'unica opera con una
-   mensola** — le altre venti hanno uno scatto solo.
-4. **L'indice** su `/works`: scorrendo la selezione avanza, la cornice si
-   sposta, la banda e l'indicatore la seguono. La griglia si muove di nove
-   pixel soli, e non è un difetto (vedi `APERTI.md`).
-5. **Il riaggancio dopo il fling** sulla timeline: spingi, rilascia, e senza
-   muovere il mouse la voce che arriva sotto il cursore riaccende il pannello.
-6. **`/about`**: il click-to-copy col riquadro che segue il cursore, e la
-   chiusura rossa — avorio su rosso dà 5,70:1, l'inchiostro dava 3,12 ed era
-   bocciato.
-7. **Le finestre basse.** Tutto è a quote fisse su una viewport di riferimento,
-   e il freno di `globals.css` rimpicciolisce. Vedi la voce `--rif-altezza` in
-   `APERTI.md`: c'è un sospetto di sovrastima.
-8. **Senza JavaScript** (`scripting: disabled` nei devtool): ogni ingresso ha un
-   default che vale "nessun effetto", e va confermato che resti vero.
+1. Il testo segnaposto della sezione compatta di `/works/[slug]` e
+   `/timeline` è duplicato da quello desktop (stessi dati, stesso markup
+   scritto due volte in JSX): quando la curatela scriverà i testi veri,
+   vanno aggiornati in entrambi i punti finché non si estrae un componente
+   condiviso.
+2. Il breakpoint a 860px è una scelta, non una misura: se un domani arriva
+   un tablet reference (artboard dedicato), va rivista.
+3. Non testato su un dispositivo touch reale — solo emulazione
+   `Emulation.setTouchEmulationEnabled` e `mobile:true`.
 
 ---
 
 ## 4. Cosa manca
 
-**Codice.** Una cosa sola, ed è grande: **il video** (§8), che il commento in
-`app/page.tsx` chiama «il problema irrisolto del progetto». Il player della
-home è ancora un rettangolo grigio e `media-chrome` è installato e mai usato.
+Non cambiato da questa sessione: il video (§8), i venti testi segnaposto, i
+tag/filtro dell'indice, la revisione legale, il telefono ancora un
+segnaposto. Vedi `APERTI.md`.
 
-**Curatela**, che è la parte più lunga:
-
-- i testi segnaposto di `/about` (la frase in Hatton, due paragrafi, `base: —`)
-- le descrizioni delle opere e le didascalie degli scatti
-- i tag, `meta-voice`, le categorie del piede di `/works`
-- **le cinque opere mancanti** — `APERTI.md` dice dove cercarle
-- il numero di telefono in `/about` è ancora un segnaposto sicuro (prefisso 000)
-
-**Decisioni che aspettano Lucio**: le tre voci di `APERTI.md` — `--rif-altezza`,
-la revisione legale con le liberatorie, e la riscrittura del §2.3 nella guida.
-
-**Pulizia**: `lenis` è installato e mai importato. Serviva alla home a due
-schermate, che è stata cancellata, e adesso nessuna pagina ha uno scorrimento
-verticale che valga uno smoothing. Probabilmente si disinstalla.
+**Nuovo**: nessuna pagina compatta ha un proprio artboard di riferimento —
+sono state disegnate da questa sessione in continuità stilistica (stessi
+font, stesso rosso, stesso ritmo verticale di `/legali`), non da un
+disegno approvato. Se la guida di progetto (fuori da questo repo) ha
+opinioni sul layout mobile, vale più di quanto costruito qui.
 
 ---
 
-## 5. Due cose da sapere prima di lavorare qui
+## 5. Una cosa imparata su come testare qui
 
-**Il CSS globale si serve stantio.** Le modifiche a `app/globals.css` non
-finiscono nel chunk servito finché non si ferma il dev server, si fa
-`rm -rf .next` e si riparte. I CSS Modules invece si aggiornano normalmente. Mi
-ha portato due volte a diagnosticare male.
+**Chrome headless via `--window-size=WxH --screenshot=out.png URL` in
+un'unica invocazione non è affidabile per verificare layout stretti**: in
+più di un caso la pagina è stata renderizzata a una larghezza diversa da
+quella richiesta (osservato ~500px invece di 375px) e lo screenshot veniva
+comunque ritagliato a 375×812, dando l'impressione di un overflow
+orizzontale che non esisteva. Il modo affidabile è pilotare Chrome via CDP
+(`--remote-debugging-port`, poi `Emulation.setDeviceMetricsOverride` prima
+di navigare) — più lento da mettere in piedi ma l'unico che ha dato misure
+coerenti con `document.documentElement.scrollWidth`.
 
-**Le animazioni si possono provare davvero**, con Chrome headless:
+**Riusare a lungo la stessa scheda per navigazioni ripetute rompe il lazy
+loading di `next/image`**: dopo una decina di navigazioni consecutive nella
+stessa scheda via `Page.navigate`, le immagini smettevano di caricare
+(nessuna richiesta di rete, `IntersectionObserver` apparentemente muto) —
+non riproducibile su una scheda aperta fresca. Se un test mostra immagini
+mancanti dopo molte navigazioni, prima di sospettare il codice aprire una
+scheda nuova.
 
-```
-CH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-"$CH" --headless=new --disable-gpu --hide-scrollbars --no-sandbox \
-      --window-size=1440,900 --screenshot=out.png http://localhost:3000/works
-```
-
-Con due trappole: `--virtual-time-budget` **non** guida le animazioni CSS (per
-vederne una a metà bisogna rallentarne le durate nel foglio), e
-`--force-prefers-reduced-motion=0` **accende** il moto ridotto invece di
-spegnerlo — che è il modo più rapido di catturare lo stato a riposo.
-
-Questo metodo ha trovato tre bug veri che il codice non mostrava: il rientro
-che girava dentro l'anello, la corrente che diventava una scheggia, e l'onda
-d'ingresso ordinata al contrario.
+Restano valide le due note della sessione precedente (CSS globale stantio
+su Turbopack, `--force-prefers-reduced-motion=0` per lo stato a riposo).
 
 ---
 
 ## 6. E la cosa più importante
 
-**La guida di progetto è fuori da questo repository.** Ogni `§` citato nei
-commenti è una parafrasi scritta da una sessione precedente, non la fonte —
-vale anche per gli artboard. Ha retto perché le parafrasi sono buone, ma se una
-è imprecisa l'errore si propaga senza segnali. È scritto anche in `AGENTS.md`,
-che viene caricato ad ogni sessione.
-
-**Chiedi la guida prima di fidarti di un `§`.**
+**La guida di progetto è fuori da questo repository.** Nessuno dei `§`
+consultati in questa sessione parla esplicitamente di mobile — la strategia
+del §2 sopra è dedotta dal resto del sito, non dalla guida. **Chiedi la
+guida prima di fidarti di un `§`.**

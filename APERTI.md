@@ -98,6 +98,21 @@ analitica, nessuna terza parte, nessun modulo, e una sola chiave in
 un'analitica, un modulo o un servizio esterno, quella pagina va riscritta per
 prima.
 
+## La soglia compatta non ha un artboard
+
+Da `f9c8302` le pagine a canvas fisso hanno una seconda vista sotto 860px
+(`SOGLIA_COMPATTA` in `lib/movimento.ts`) — vedi `HANDOFF.md` del 25 agosto
+2026 per il dettaglio. **Nessuna delle due cose è stata misurata da un
+disegno**: la soglia di 860px è scelta a occhio (copre un iPad in verticale,
+non solo il telefono) e verificata su tre larghezze, non calcolata come
+`--rif-altezza`; le composizioni compatte sono state disegnate in continuità
+stilistica col resto del sito, non da un artboard dedicato.
+
+Se un giorno arriva un riferimento visivo per il mobile — o la guida di
+progetto (fuori da questo repo) dice qualcosa di esplicito sul tema — **va
+riconfrontato con quanto costruito qui**, che è una prima risposta e non una
+misura.
+
 ## Recapiti ancora da avere
 
 `/about` ha email e i due profili social, veri. Il **telefono è ancora un
