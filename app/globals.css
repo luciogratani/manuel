@@ -31,7 +31,17 @@
                       in cui prima o poi entrerà un impianto mobile a sé.
 
    Nota: questo sovrascrive la dimensione di testo predefinita del browser, che
-   è una preferenza d'accessibilità. Lo zoom continua a funzionare. */
+   è una preferenza d'accessibilità. Lo zoom continua a funzionare.
+
+   ── L'impianto mobile, arrivato ──────────────────────────────────────────
+   Sotto `--pavimento` la composizione smette di rimpicciolire: da sola questa
+   regola non basta più. Le pagine a schermata unica (`/`, `/timeline`,
+   `/works`, `/works/[slug]`) e `/about` dichiarano un secondo layout, in
+   flusso verticale invece che a canvas fisso, dentro `@media (max-width:
+   860px)` nel proprio foglio — letterale e ripetuto in ognuno, perché il
+   progetto non ha un plugin per le custom media query. Lo stesso numero vive
+   in `SOGLIA_COMPATTA` (lib/movimento.ts), che spegne gli Observer dei tre
+   motori quando il layout compatto è attivo: vedi il commento lì accanto. */
 :root {
   --rif-larghezza: 1440;
   --rif-altezza: 980;

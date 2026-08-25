@@ -32,7 +32,7 @@ import {
   BORDO_ENFASI_PICCO,
   type VoceTimeline,
 } from "@/lib/timeline";
-import { motoRidotto } from "@/lib/movimento";
+import { compattoAttivo, motoRidotto } from "@/lib/movimento";
 import { useSuonoBreve } from "@/lib/suono";
 import { ContestoTimeline } from "./contesto";
 import { PannelloMateriale } from "./pannello-materiale";
@@ -280,6 +280,12 @@ export function MotoreTimeline({
     const pista = pistaRef.current;
     const testina = testinaRef.current;
     if (!binario || !pista || !testina) return;
+    // Sotto la soglia compatta il nastro è una lista in flusso verticale
+    // (vedi il blocco `.compatta` in page.tsx): l'Observer sotto resterebbe
+    // comunque agganciato a `.pagina` — vedi SOGLIA_COMPATTA in
+    // lib/movimento.ts. `elementiRef` resta `[]`, quindi anche il secondo
+    // `useGSAP` (l'ingresso) si ferma da sé sul suo stesso controllo.
+    if (compattoAttivo()) return;
 
     // Letta una volta al montaggio (vedi `motoRidotto()`): niente momento
     // residuo, nessun inseguimento smorzato, elastico che non oltrepassa il
@@ -595,6 +601,7 @@ export function MotoreTimeline({
       const pista = pistaRef.current;
       const testina = testinaRef.current;
       if (!binario || !pista || !testina) return;
+      if (compattoAttivo()) return;
 
       const asse = pista.querySelector<HTMLElement>(`.${styles.asse}`);
       const elementi = elementiRef.current;

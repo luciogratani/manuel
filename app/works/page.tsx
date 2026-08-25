@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { OPERE, RAPPORTO, formato, numerato } from "@/lib/opere";
 import { Banda, type Scheda } from "./banda";
+import { IndiceCompatta } from "./indice-compatta";
 import { MotoreIndice } from "./motore";
 import styles from "./page.module.css";
 
@@ -57,35 +58,39 @@ export default function Page() {
     // senza che il numero sia scritto due volte: il conteggio è di `OPERE`,
     // e le righe restano un fatto del foglio (vedi `--righe`).
     <div className={styles.pagina} style={{ "--opere": OPERE.length } as CSSProperties}>
-      <MotoreIndice
-        quante={OPERE.length}
-        iniziale={INIZIALE}
-        banda={<Banda schede={schede} tags={TAG} />}
-      >
-        {OPERE.map((opera, i) => {
-          const copertina = opera.scatti[0];
-          const f = formato(copertina.w, copertina.h);
-          return (
-            <Link
-              key={opera.slug}
-              className={styles.cella}
-              href={`/works/${opera.slug}`}
-              style={{ "--i": i } as CSSProperties}
-            >
-              <span className={styles.numero}>{numerato(opera.numero)}</span>
-              <span className={styles.lastra} style={{ "--ar": RAPPORTO[f] } as CSSProperties}>
-                <Image
-                  src={copertina.src}
-                  alt={opera.titolo}
-                  fill
-                  sizes="200px"
-                  className={styles.foto}
-                />
-              </span>
-            </Link>
-          );
-        })}
-      </MotoreIndice>
+      <div className={styles.motoreDesktop}>
+        <MotoreIndice
+          quante={OPERE.length}
+          iniziale={INIZIALE}
+          banda={<Banda schede={schede} tags={TAG} />}
+        >
+          {OPERE.map((opera, i) => {
+            const copertina = opera.scatti[0];
+            const f = formato(copertina.w, copertina.h);
+            return (
+              <Link
+                key={opera.slug}
+                className={styles.cella}
+                href={`/works/${opera.slug}`}
+                style={{ "--i": i } as CSSProperties}
+              >
+                <span className={styles.numero}>{numerato(opera.numero)}</span>
+                <span className={styles.lastra} style={{ "--ar": RAPPORTO[f] } as CSSProperties}>
+                  <Image
+                    src={copertina.src}
+                    alt={opera.titolo}
+                    fill
+                    sizes="200px"
+                    className={styles.foto}
+                  />
+                </span>
+              </Link>
+            );
+          })}
+        </MotoreIndice>
+      </div>
+
+      <IndiceCompatta opere={OPERE} />
     </div>
   );
 }

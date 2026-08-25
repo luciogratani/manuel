@@ -12,7 +12,7 @@ import {
   SENSIBILITA_TOCCO,
   SMORZAMENTO,
 } from "@/lib/indice";
-import { motoRidotto } from "@/lib/movimento";
+import { compattoAttivo, motoRidotto } from "@/lib/movimento";
 import { ContestoIndice } from "./contesto";
 import styles from "./page.module.css";
 
@@ -77,6 +77,11 @@ export function MotoreIndice({
       const binario = binarioRef.current;
       const griglia = grigliaRef.current;
       if (!binario || !griglia) return;
+      // Sotto la soglia compatta l'indice è una lista in flusso verticale
+      // (vedi indice-compatta.tsx): niente da spostare, e l'Observer sotto
+      // resterebbe comunque agganciato a `.pagina` — vedi il commento
+      // accanto a SOGLIA_COMPATTA in lib/movimento.ts.
+      if (compattoAttivo()) return;
 
       const ridotto = motoRidotto();
       const celle = gsap.utils.toArray<HTMLElement>(`.${styles.cella}`, griglia);

@@ -137,6 +137,64 @@ export default async function Page({
           {numerato(opera.numero)} / {opera.titolo.toLowerCase()} / archivio
         </p>
       </footer>
+
+      {/* ── Sotto la soglia compatta ─────────────────────────────────────────
+          `.scheda`/`.crediti`/`.nota` sono posizioni assolute misurate
+          sull'artboard: sotto la soglia cadono fuori dal viewport per
+          ENTRAMBE le densità — non solo `--corrente-h`, anche `--colonna`
+          nella variante minima. La mensola (o l'unica foto) resta nascosta
+          con lei: niente anello, solo la sequenza in pila, verticale come
+          già fa la vista ravvicinata. Vedi app/globals.css. */}
+      <div className={styles.compatta}>
+        <p className={styles.compattaNumero}>({numerato(opera.numero)})</p>
+        <h1 className={styles.compattaTitolo}>{opera.titolo}</h1>
+        <p className={styles.compattaDescrizione}>
+          descrizione dell&apos;opera — cosa succede, quando, dove, e perché sta
+          in questa sequenza. Testo da scrivere con la curatela.
+        </p>
+
+        <div className={styles.compattaFoto}>
+          {opera.scatti.map((scatto, i) => (
+            <div
+              key={scatto.src}
+              className={styles.compattaLastra}
+              style={{ "--ar": RAPPORTO[formato(scatto.w, scatto.h)] } as CSSProperties}
+            >
+              <Image
+                src={scatto.src}
+                alt={i === 0 ? opera.titolo : ""}
+                fill
+                sizes="100vw"
+                priority={i === 0}
+                className={styles.foto}
+              />
+            </div>
+          ))}
+        </div>
+
+        <dl className={styles.compattaCrediti}>
+          <div className={styles.credito}>
+            <dt>anno:</dt>
+            <dd>{opera.anno}</dd>
+          </div>
+          <div className={styles.credito}>
+            <dt>medium:</dt>
+            <dd>{opera.medium}</dd>
+          </div>
+          <div className={styles.credito}>
+            <dt>luogo:</dt>
+            <dd>{opera.luogo}</dd>
+          </div>
+          <div className={styles.credito}>
+            <dt>scatti:</dt>
+            <dd>{opera.scatti.length}</dd>
+          </div>
+        </dl>
+
+        <p className={styles.compattaNota}>
+          note sull&apos;opera, il making of e i materiali collegati
+        </p>
+      </div>
     </div>
   );
 }

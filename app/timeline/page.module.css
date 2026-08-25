@@ -342,3 +342,77 @@
   padding: 0;
   cursor: pointer;
 }
+
+/* ── Sotto la soglia compatta (vedi app/globals.css) ──────────────────────────
+   Il nastro è un canvas letto scorrendo in orizzontale: sotto la soglia
+   niente lo muove più (l'Observer si spegne da sé — vedi `compattoAttivo()`
+   in motore.tsx, che lascerebbe altrimenti asse e dentini fermi nel loro
+   stato di partenza invisibile, `--ingresso: 0`) e la sua geometria non ha un
+   modo onesto di stare in un layout che si impila. `.compatta` è la stessa
+   sequenza (`voci`, già calcolata in page.tsx) in un elenco verticale. */
+.compatta {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .pagina {
+    position: static;
+    overflow: visible;
+    min-height: 100dvh;
+  }
+
+  .binario,
+  .testina,
+  .materiale,
+  .piede {
+    display: none;
+  }
+
+  .compatta {
+    display: block;
+    padding: 5rem var(--margine) calc(var(--margine) + 1rem);
+  }
+
+  .compattaEtichetta {
+    font-size: 0.75rem;
+    opacity: 0.55;
+    margin-bottom: 1.5rem;
+  }
+
+  .compattaLista {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .compattaVoce {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.875rem 0;
+    border-top: 1px solid rgba(9, 13, 22, 0.12);
+  }
+
+  .compattaVoce:last-child {
+    border-bottom: 1px solid rgba(9, 13, 22, 0.12);
+  }
+
+  .compattaAnno {
+    flex: none;
+    width: 3rem;
+    font-size: 0.75rem;
+    opacity: 0.55;
+  }
+
+  .compattaTitoloLink,
+  .compattaTitoloVoce {
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: inherit;
+  }
+
+  .compattaTitoloLink {
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+    text-decoration-thickness: 1px;
+  }
+}

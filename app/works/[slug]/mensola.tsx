@@ -11,7 +11,7 @@ import {
   SENSIBILITA_TOCCO,
   SOGLIA_STEP,
 } from "@/lib/mensola";
-import { motoRidotto } from "@/lib/movimento";
+import { compattoAttivo, motoRidotto } from "@/lib/movimento";
 import styles from "./page.module.css";
 
 // Il motore della mensola. Sostituisce lo scorrimento nativo della striscia —
@@ -126,6 +126,11 @@ export function Mensola({ children }: { children: ReactNode }) {
       const striscia = strisciaRef.current;
       const fila = filaRef.current;
       if (!striscia || !fila) return;
+      // Sotto la soglia compatta la pagina mostra una pila verticale delle
+      // foto (vedi il blocco `.compatta` in page.tsx): l'Observer sotto
+      // resterebbe comunque agganciato a `.pagina` — vedi SOGLIA_COMPATTA in
+      // lib/movimento.ts.
+      if (compattoAttivo()) return;
 
       const ridotto = motoRidotto();
 

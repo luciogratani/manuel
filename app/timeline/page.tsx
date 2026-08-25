@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import { perSlug } from "@/lib/opere";
 import {
   ANNI,
@@ -127,6 +128,32 @@ export default function Page() {
           <InterruttoreSuono />
         </footer>
       </MotoreTimeline>
+
+      {/* ── Sotto la soglia compatta ──────────────────────────────────────────
+          Il nastro è un canvas fisso letto scorrendo in orizzontale: sotto la
+          soglia niente lo sposta più (l'Observer si spegne da sé, vedi
+          `compattoAttivo()` in motore.tsx) e la sua geometria — un asse largo
+          quanto tutta la cronologia — non ha un modo onesto di stare in un
+          layout che si impila. La stessa sequenza, in un elenco verticale:
+          niente fuoco né zona di lettura, ma ogni voce resta leggibile e
+          raggiungibile. Vedi app/globals.css. */}
+      <div className={styles.compatta}>
+        <p className={styles.compattaEtichetta}>timeline</p>
+        <ol className={styles.compattaLista}>
+          {voci.map((voce) => (
+            <li key={voce.titolo} className={styles.compattaVoce}>
+              <span className={styles.compattaAnno}>{voce.anno}</span>
+              {voce.href ? (
+                <Link href={voce.href} className={styles.compattaTitoloLink}>
+                  {voce.titolo}
+                </Link>
+              ) : (
+                <span className={styles.compattaTitoloVoce}>{voce.titolo}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
   );
 }

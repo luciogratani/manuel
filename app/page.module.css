@@ -51,6 +51,11 @@
    dell'artboard. */
 .player {
   width: 35.75rem; /* 572px */
+  /* Rete di sicurezza sotto la soglia compatta (vedi app/globals.css): senza,
+     un telaio 3:2 largo 572px scalati resterebbe più largo di una viewport
+     molto stretta prima che `--pavimento` lo fermi. Il resto della soglia non
+     ha bisogno di un layout compatto — è già centrata e senza colonne. */
+  max-width: 100%;
 }
 
 /* Il grigio sta qui e non sul contenitore: prima che la tenda passi non deve

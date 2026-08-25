@@ -340,3 +340,89 @@
     transition: none;
   }
 }
+
+/* ── Sotto la soglia compatta (vedi app/globals.css) ──────────────────────────
+   `.scheda`, `.crediti`, `.nota` sono quote assolute sull'artboard 1440px, e
+   la variante minima le sposta ma non le rende relative: in entrambi i casi
+   cadono fuori dal viewport molto prima della soglia (`--colonna: 50rem`
+   nella minima, `left: 51-68rem` nella piena). La mensola condivide lo stesso
+   problema in un altro modo — l'anello ha senso solo se c'è spazio per
+   scorrere, e qui non ce n'è.
+
+   Il blocco `.compatta` (in page.tsx) ripete lo stesso contenuto in flusso
+   verticale: la sequenza intera delle foto in pila, senza anello — lo stesso
+   principio con cui la vista ravvicinata già scorre in verticale. */
+.compatta {
+  display: none;
+}
+
+/* `position` fuori dalla media query, non condizionale come il resto: React
+   avverte se il parente di un'`<Image fill>` non è posizionato, e sopra la
+   soglia questo contenitore esiste comunque nel DOM — solo nascosto da
+   `display:none` su `.compatta`, non smontato. */
+.compattaLastra {
+  position: relative;
+}
+
+@media (max-width: 860px) {
+  .pagina {
+    position: static;
+    overflow: visible;
+    min-height: 100dvh;
+  }
+
+  .striscia,
+  .scheda,
+  .crediti,
+  .nota,
+  .piede {
+    display: none;
+  }
+
+  .compatta {
+    display: block;
+    padding: 5rem var(--margine) calc(var(--margine) + 1rem);
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+
+  .compattaNumero {
+    opacity: 0.55;
+  }
+
+  .compattaTitolo {
+    margin-top: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 800;
+  }
+
+  .compattaDescrizione {
+    margin-top: 1rem;
+  }
+
+  .compattaFoto {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .compattaLastra {
+    width: 100%;
+    aspect-ratio: var(--ar);
+    background: var(--inchiostro);
+    overflow: hidden;
+  }
+
+  .compattaCrediti {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .compattaNota {
+    margin-top: 1.5rem;
+    opacity: 0.7;
+  }
+}

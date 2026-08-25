@@ -234,3 +234,65 @@
     animation: none;
   }
 }
+
+/* ── Sotto la soglia compatta (vedi app/globals.css) ──────────────────────────
+   Le due colonne sono in rapporto 6/10-4/10 della viewport: sotto una certa
+   larghezza il 40% dell'apparato diventa più stretto dei 280px fissi di
+   `.corpo`, che trabocca lateralmente. Qui l'apparato scende sotto la
+   colonna delle immagini invece di stare a fianco — unica vista
+   dell'archivio dove il movimento era già verticale, quindi impilare non
+   tradisce niente del gesto.
+
+   `.corpo` passa da flex a blocco: i tre `.vuoto` erano spaziatori elastici
+   fra un'altezza minima e una massima, tarati su un contenitore alto quanto
+   la finestra meno la testa — che qui non c'è più. Un'altezza fissa modesta
+   li sostituisce. */
+@media (max-width: 860px) {
+  .pagina {
+    position: static;
+    overflow: visible;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Nel DOM la colonna delle immagini viene prima dell'apparato — non
+     importava finché stavano sovrapposti ad assoluto. In flusso normale
+     `order` li scambia senza spostare niente nel markup: il back e la
+     didascalia si leggono prima di scendere fra le foto. */
+  .colonna {
+    position: static;
+    overflow-y: visible;
+    order: 2;
+  }
+
+  .apparato {
+    position: static;
+    width: auto;
+    height: auto;
+    order: 1;
+  }
+
+  .testa {
+    position: static;
+    padding: var(--margine) var(--margine) 0;
+  }
+
+  .indietro {
+    left: 0;
+  }
+
+  .corpo {
+    position: static;
+    display: block;
+    width: auto;
+    max-width: 100%;
+    padding: 2rem var(--margine) calc(var(--margine) + 1rem);
+  }
+
+  .vuoto {
+    flex: none;
+    height: 2rem;
+    max-height: none;
+  }
+}

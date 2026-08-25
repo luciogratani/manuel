@@ -51,6 +51,36 @@ export function motoRidotto() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+/** ── La soglia compatta ────────────────────────────────────────────────────
+ *  Sotto questa larghezza le pagine a schermata unica (`/`, `/timeline`,
+ *  `/works`, `/works/[slug]`) smettono di essere un canvas fisso con un
+ *  motore a scorrimento orizzontale e passano a un flusso verticale nativo —
+ *  lo stesso principio con cui `/legali` è già scritta. Vedi APERTI.md: il
+ *  sito non aveva mai avuto un impianto mobile, solo lo scaling uniforme in
+ *  app/globals.css, che sotto `--pavimento` smette di rimpicciolire e taglia
+ *  invece di reimpaginare.
+ *
+ *  Lo stesso numero vive anche nei fogli di stile (`@media (max-width:
+ *  860px)`, letterale perché il progetto non ha un plugin per le custom
+ *  media query): qui serve a spegnere gli Observer e le misure a runtime dei
+ *  tre motori (`app/works/motore.tsx`, `app/timeline/motore.tsx`,
+ *  `app/works/[slug]/mensola.tsx`). Senza, l'Observer resterebbe agganciato
+ *  a `.pagina` — è così che i tre motori sono scritti, per non perdere la
+ *  rotella quando il puntatore è sopra testa o piede — e intercetterebbe
+ *  wheel/touch anche quando la composizione che dovrebbe muovere è nascosta,
+ *  impedendo lo scroll nativo del layout compatto sotto di lei. */
+export const SOGLIA_COMPATTA = 860;
+
+/** Letta una volta al montaggio, come `motoRidotto()`: un resize che
+ *  attraversa la soglia (rotazione di un tablet) non fa ripartire il motore
+ *  a pagina già caricata — lo stesso compromesso di `ATTERRATO_SULLA_SOGLIA`. */
+export function compattoAttivo() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia(`(max-width: ${SOGLIA_COMPATTA}px)`).matches
+  );
+}
+
 /** ── La tenda ─────────────────────────────────────────────────────────────
  *  Il taglio, per come è nato: non un filetto sul bordo di una maschera, ma
  *  un rettangolo rosso che entra, si prende tutta l'area, e poi si ritira

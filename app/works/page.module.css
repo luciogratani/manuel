@@ -319,3 +319,73 @@
     animation: none;
   }
 }
+
+/* ── Sotto la soglia compatta (vedi app/globals.css) ──────────────────────────
+   La griglia scorre in orizzontale per costruzione (`grid-auto-flow: column`,
+   `width: max-content`): sotto la soglia non c'è un motore che la sposti — lo
+   spegne `compattoAttivo()` in motore.tsx, perché l'Observer resterebbe
+   comunque agganciato a `.pagina` e intercetterebbe lo scroll che serve al
+   layout qui sotto. E anche scorrendo, la banda non risponde al touch: è per
+   design che non mostra niente senza hover (banda.tsx), design che sul
+   telefono lascerebbe la selezione perennemente muta.
+
+   `IndiceCompatta` (indice-compatta.tsx) è la stessa sequenza in una griglia
+   che si impila, col titolo sempre leggibile sotto la lastra invece che in
+   una banda che nessun tocco può accendere. */
+.motoreDesktop {
+  display: contents;
+}
+
+.indiceCompatta {
+  display: none;
+}
+
+/* `position` fuori dalla media query: vedi lo stesso commento in
+   app/works/[slug]/page.module.css. */
+.compattaLastra {
+  position: relative;
+}
+
+@media (max-width: 860px) {
+  .pagina {
+    position: static;
+    overflow: visible;
+    min-height: 100dvh;
+  }
+
+  .motoreDesktop {
+    display: none;
+  }
+
+  .indiceCompatta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 1rem;
+    padding: 5rem var(--margine) 3rem;
+  }
+
+  .compattaCella {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .compattaNumero {
+    font-size: 0.75rem;
+    opacity: 0.55;
+  }
+
+  .compattaLastra {
+    width: 100%;
+    aspect-ratio: var(--ar);
+    background: var(--inchiostro);
+    overflow: hidden;
+  }
+
+  .compattaTitolo {
+    font-size: 0.8125rem;
+    line-height: 1.3;
+  }
+}
