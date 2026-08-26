@@ -1,10 +1,46 @@
-# Handoff — 25 agosto 2026
+# Handoff — 26 agosto 2026
 
-Sessione breve e mirata: la soglia compatta. Branch `dopo-helper`, non
-pushato, albero pulito, `npm run build`/`typecheck`/`lint` verdi.
+Sessione breve e mirata: la soglia compatta, e il giorno dopo tre correzioni
+trovate provando da un telefono vero. Branch `dopo-helper`, non pushato,
+albero pulito, `npm run build`/`typecheck`/`lint` verdi.
 
 Questo documento è **datato e si consuma**. Le cose aperte che restano vere
 nel tempo stanno in `APERTI.md`.
+
+---
+
+## 0. Il seguito del 26 agosto
+
+Lucio ha provato la soglia compatta (§1 sotto) su un telefono vero e ha
+trovato tre cose che Chrome headless non aveva mostrato (commit `457bca1`):
+
+- **Il piede di `/about` sezione 1** era finito in flusso statico invece che
+  ancorato al fondo — l'avevo scritto `position: static; margin-top: 0.5rem`
+  nella soglia compatta, perdendo l'ancoraggio che aveva da `position:
+  absolute` sopra la soglia. `margin-top: auto` sul flex column lo rimette
+  in fondo senza tornare ad `absolute` (che avrebbe sovrapposto un
+  contenuto più alto della schermata, se mai capitasse).
+- **`100dvh` cambia live** quando la barra degli indirizzi del browser si
+  nasconde scorrendo — è quello che Lucio vedeva come "la sezione che
+  cresce". L'avevo usato pensando fosse la scelta più corretta (si adatta
+  alla viewport vera), ma è proprio l'adattarsi in tempo reale a leggersi
+  come un salto. Sostituito con `100svh` — la misura MINIMA, con la barra
+  sempre visibile, che non cambia mai — in tutti i punti dove compariva
+  (`/about`, `/works`, `/works/[slug]`, `/works/[slug]/[n]`, `/timeline`),
+  più un secondo `vh` semplice rimasto nell'altezza del marchio della
+  chiusura di `/about`.
+- **L'email di `/about` sezione 2** copiava negli appunti anche sotto la
+  soglia compatta — comportamento pensato per desktop, dove un `mailto:`
+  apre spesso il programma sbagliato (vedi il commento originale in
+  `page.tsx`). Su un telefono `mailto:` apre quasi sempre la app di posta
+  giusta: sotto la soglia un `<a href="mailto:...">` vero sostituisce il
+  componente `Copia`, mostrato/nascosto via CSS allo stesso breakpoint. Il
+  numero resta copiabile su entrambe le soglie — un `tel:` non
+  aggiungerebbe nulla che il copia-e-incolla in un dialer non faccia già.
+
+Nessuna delle tre era visibile nei test con Chrome headless di ieri: la
+lezione è che un provino su un telefono vero resta necessario, non solo
+un'emulazione via CDP.
 
 ---
 
