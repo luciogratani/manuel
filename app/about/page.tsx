@@ -159,7 +159,18 @@ export default function Page() {
               <Copia valore={TELEFONO} azione="il numero" />
             </p>
             <p>
-              <Copia valore={EMAIL} azione="l'email" />
+              {/* Da desktop un `mailto:` apre spesso il programma sbagliato
+                  (o nessuno) — copiare l'indirizzo è più affidabile, quindi
+                  resta l'unico comportamento sopra la soglia compatta. Su un
+                  telefono un `mailto:` apre la app di posta configurata, che
+                  lì è quasi sempre quella giusta: sotto la soglia il link
+                  vero sostituisce la copia, il numero resta invariato — è
+                  già utile com'è, un `tel:` non aggiungerebbe niente che il
+                  copia-e-incolla in un dialer non faccia già. */}
+              <Copia valore={EMAIL} azione="l'email" className={styles.emailCopia} />
+              <a className={styles.emailMobile} href={`mailto:${EMAIL}`}>
+                {EMAIL}
+              </a>
             </p>
           </div>
 

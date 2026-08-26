@@ -302,6 +302,17 @@
   text-decoration-thickness: 1px;
 }
 
+/* L'email ha due presentazioni, una sola visibile alla volta: sopra la
+   soglia il copia (come il numero), sotto un `mailto:` vero — vedi il
+   commento accanto in page.tsx. Non uno stile suo: eredita da `.copia` in
+   copia.module.css (nessun colore, nessuna sottolineatura), così il cambio
+   di comportamento non si vede come un cambio di aspetto. */
+.emailMobile {
+  display: none;
+  color: inherit;
+  text-decoration: none;
+}
+
 /* ── Sotto la soglia compatta (vedi app/globals.css) ──────────────────────────
    Le tre colonne dell'apparato e le quattro della chiusura sono quote fisse
    pensate per un artboard largo 1440px: sotto `--pavimento` restavano quote
@@ -318,7 +329,7 @@
   .scheda,
   .chiusura {
     height: auto;
-    min-height: 100dvh;
+    min-height: 100svh;
     box-sizing: border-box;
   }
 
@@ -344,8 +355,21 @@
     font-size: 1.375rem; /* 22px — 28px era tarato per tre righe su 640px */
   }
 
+  /* `margin-top: auto` e non `position: absolute`: la scheda è un flex
+     column a `min-height: 100svh`, quindi il piede resta ancorato al fondo
+     sia che il contenuto sia corto (spinge giù) sia che superi la
+     viewport (semplicemente lo segue, invece di sovrapporsi come farebbe
+     un `position: absolute` con contenuto più alto della schermata). */
   .piede {
-    margin-top: 0.5rem;
+    margin-top: auto;
+  }
+
+  .emailCopia {
+    display: none;
+  }
+
+  .emailMobile {
+    display: inline;
   }
 
   .colonne {
@@ -358,7 +382,7 @@
   .insegna {
     position: static;
     display: block;
-    height: min(16vh, 5rem);
+    height: min(16svh, 5rem);
     width: auto;
     margin: 0 auto 2.5rem;
     transform: none;
