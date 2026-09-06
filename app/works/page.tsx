@@ -38,11 +38,13 @@ const INDICE = [...OPERE].reverse();
  *  con la più recente a sinistra. Da qui in poi è stato, e vive nel motore. */
 const INIZIALE = 0;
 
-/** MOCK: tre voci reali del vocabolario di `lib/opere.ts` (il campo
- *  `medium`), uguali per tutte le opere. Diventeranno un campo dedicato
- *  quando la curatela lo scriverà, con un tag per opera invece che gli stessi
- *  tre ovunque — l'interazione (selezione singola, un radio button ciascuna)
- *  è pronta da ora, il filtro vero no: vedi il commento in `banda.tsx`. */
+/** MOCK: tre voci reali del vocabolario di `lib/opere.ts` (il campo `medium`).
+ *  Il meccanismo È collegato — sceglierne una nella banda attenua le opere
+ *  con un `medium` diverso e scorre alla prima che combacia (`motore.tsx`) —
+ *  ma il criterio è provvisorio: `medium` è «in che forma si è concretizzata
+ *  l'opera», non «di che tipo è», e quasi tutte le opere hanno `medium: "—"`.
+ *  Quando la curatela scrive un tag per opera, si cambia `data-medium` con
+ *  quello e questa lista con le categorie vere. */
 const TAG = ["performance", "fotografia", "editoriale"];
 
 export default function Page() {
@@ -72,6 +74,7 @@ export default function Page() {
                 key={opera.slug}
                 className={styles.cella}
                 href={`/works/${opera.slug}`}
+                data-medium={opera.medium}
                 style={{ "--i": i } as CSSProperties}
               >
                 <span className={styles.numero}>{numerato(opera.numero)}</span>

@@ -54,13 +54,13 @@ function Testo({ scheda }: { scheda: Scheda }) {
 }
 
 export function Banda({ schede, tags }: { schede: Scheda[]; tags: string[] }) {
-  const { hover } = useIndice();
-  /** Interazione pronta, filtro assente: `lib/opere.ts` non ha ancora un
-   *  campo `tags` reale — quando la curatela lo scriverà, questo stato
-   *  locale si collega al contesto della griglia per filtrare `OPERE`. Nessun
-   *  tag selezionato di base: tutti e tre pesano uguale finché non se ne
-   *  sceglie uno. */
-  const [tagSelezionato, setTagSelezionato] = useState<number | null>(null);
+  const { hover, categoria, scegliCategoria } = useIndice();
+  // La categoria vive nel motore (contesto.ts): serve lì per attenuare le
+  // celle e scorrere. Qui la banda la mostra e la commuta.
+  //
+  // MOCK: `tags` sono tre valori di `medium`, uguali per ogni opera finché
+  // `lib/opere.ts` non ha un tag curato per opera — vedi il commento in
+  // `page.tsx`. Ri-cliccare la categoria attiva la spegne.
 
   // `vivo` è la scheda in scena, `scia` quella che sta uscendo. Si aggiornano
   // in coppia, durante il render, quando `hover` è cambiato davvero: è il
@@ -137,22 +137,24 @@ export function Banda({ schede, tags }: { schede: Scheda[]; tags: string[] }) {
 
       <div
         className={styles.tag}
-        data-selezione={tagSelezionato !== null ? "" : undefined}
-        role="radiogroup"
-        aria-label="tag"
+        data-selezione={categoria !== null ? "" : undefined}
+        role="group"
+        aria-label="categoria"
       >
-        {tags.map((etichetta, i) => (
-          <button
-            key={etichetta}
-            type="button"
-            role="radio"
-            aria-checked={i === tagSelezionato}
-            data-selezionato={i === tagSelezionato ? "" : undefined}
-            onClick={() => setTagSelezionato(i)}
-          >
-            {etichetta}
-          </button>
-        ))}
+        {tags.map((etichetta) => {
+          const attiva = etichetta === categoria;
+          return (
+            <button
+              key={etichetta}
+              type="button"
+              aria-pressed={attiva}
+              data-selezionato={attiva ? "" : undefined}
+              onClick={() => scegliCategoria(attiva ? null : etichetta)}
+            >
+              {etichetta}
+            </button>
+          );
+        })}
       </div>
 
       <p className={styles.indicatore}>

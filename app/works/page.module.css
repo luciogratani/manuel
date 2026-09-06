@@ -108,12 +108,30 @@
 /* In hover su un'opera, le altre si attenuano — `:has()` legge lo stato reale
    del DOM (`:hover`), niente scritto a mano. Senza hover, o col puntatore
    fuori dalla griglia, tutte tornano piene: non c'è un "ultima vista" che
-   resta a mezza opacità, l'evidenza è solo di chi è in hover ORA. */
-.griglia:has(.cella:hover) .cella {
+   resta a mezza opacità, l'evidenza è solo di chi è in hover ORA.
+
+   Solo quando NON c'è una categoria scelta: con una lente attiva l'enfasi è
+   già quella, e attenuare anche in hover sarebbe rumore. */
+.griglia:not([data-categoria]):has(.cella:hover) .cella {
   opacity: 0.45;
 }
 
-.griglia:has(.cella:hover) .cella:hover {
+.griglia:not([data-categoria]):has(.cella:hover) .cella:hover {
+  opacity: 1;
+}
+
+/* Con una categoria scelta nella banda, le opere fuori si attenuano — più
+   dell'hover, perché qui l'attenuazione è la risposta principale. Il motore
+   scrive `data-fuoricategoria` (non `:has()`: non c'è un pseudo-stato nativo
+   per "appartiene alla categoria"). Restano al loro posto: è una lente, non
+   un taglio. */
+.griglia[data-categoria] .cella[data-fuoricategoria] {
+  opacity: 0.3;
+}
+
+/* Ma quella che punti si accende comunque: la si guarda, e la banda la
+   mostra — la lente non è un lucchetto. */
+.griglia[data-categoria] .cella[data-fuoricategoria]:hover {
   opacity: 1;
 }
 
@@ -199,14 +217,12 @@
   grid-area: 1 / 1;
 }
 
-/* I tre radio button: di base pesano tutti uguale. Solo quando UNO è
-   selezionato gli altri si attenuano — stesso 0.45 di `.rotta` in
-   testa.module.css, mai il grassetto: l'opacità sola basta a dire "questo,
-   non quelli". `data-selezione` sul contenitore (non `:has()`, a differenza
-   della griglia sopra): qui la selezione è già stato React, non un
-   `:hover` nativo da leggere — scriverla è più diretto che farla dedurre al
-   CSS. Interazione pronta, filtro ancora assente: vedi il commento in
-   banda.tsx. */
+/* Le tre categorie: di base pesano tutte uguale. Scelta UNA, le altre si
+   attenuano — stesso 0.45 di `.rotta` in testa.module.css, mai il grassetto:
+   l'opacità sola basta a dire "questa, non quelle". `data-selezione` e
+   `data-selezionato` sono scritti da React (stato, non un `:hover` nativo da
+   leggere): più diretto che farlo dedurre al CSS. Sono bottoni a due stati
+   (`aria-pressed`), non radio — ri-cliccare quello attivo lo spegne. */
 .tag {
   display: flex;
   gap: 0.75rem;

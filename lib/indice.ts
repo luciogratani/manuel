@@ -41,3 +41,9 @@ export const RILASSAMENTO_BORDO = 0.12;
  *  cambio è una dissolvenza che riparte. Uscire dalla striscia non è una
  *  spazzata e non aspetta. */
 export const RITARDO_BANDA = 80;
+
+/** Lo scorrimento gentile fino alla prima opera di una categoria appena
+ *  scelta nella banda: più lento e più deliberato di un colpo di rotella —
+ *  è il sito che porta qualcosa in vista, non l'utente che spinge. Un input
+ *  manuale lo annulla (vedi `spingi` in motore.tsx). */
+export const VAI_A_CATEGORIA = { durata: 0.7, ease: "power3.inOut" } as const;
