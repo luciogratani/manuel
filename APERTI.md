@@ -33,6 +33,27 @@ Il repo non dice quali siano. Dice però dove cercarle:
 Le due liste possono sovrapporsi: una delle immagini orfane potrebbe essere
 proprio L'Affair o BDSM.
 
+## `/works` legge dalla più recente, e i tag aspettano
+
+Dal 6 settembre 2026 l'indice è **una riga sola che scorre in orizzontale**,
+letta dalla più recente (a sinistra) alla più vecchia. `lib/opere.ts` resta in
+ordine cronologico 01→26; il verso di lettura lo decide `page.tsx`
+(`INDICE = [...OPERE].reverse()`). Prima era a due righe riempite per colonna,
+con le opere consecutive impilate.
+
+Due cose restano aperte:
+
+- **I tre tag** (`performance`, `fotografia`, `editoriale`) sono ancora un MOCK:
+  l'interazione c'è (un radio ciascuno, gli altri si attenuano) ma `lib/opere.ts`
+  non ha un campo `tags` reale e non filtrano niente. Quando la curatela scrive
+  il campo, `Banda` collega lo stato al contesto della griglia — vedi i commenti
+  in `banda.tsx` e `page.tsx`. Da decidere anche **come** il filtro agisce sulla
+  striscia: nasconde le opere fuori tag, le attenua, o le salta col cursore.
+- Nella banda la **coordinata** mostra il numero d'archivio dell'opera (`006`),
+  l'**indicatore** la sua posizione nella striscia (`(16—21)`): rovesciando
+  l'ordine i due numeri divergono. È coerente col resto del sito (numero ≠
+  posizione), ma se dà fastidio l'indicatore è in `banda.tsx`.
+
 ## `--rif-altezza` — i numeri, rimisurati
 
 `app/globals.css` frena la scala del sito su `--rif-altezza: 980`, e il suo
@@ -44,21 +65,23 @@ Altezza calcolata dai fogli, dal contenuto più alto al piede:
 
 | pagina | richiede | da cosa |
 |---|---|---|
-| `/works` | **~792px** | banda a 628 + ~111 di scheda + piede |
 | `/works/[slug]` | ~767px | base 614 + sporgenza 99 + piede |
 | `/timeline` | ~733px | voci fino a 503 dall'alto, pannello 230 dal basso |
+| `/works` | ~707px | banda a 596 (alto 128 + zona 352 + stacco 116) + ~111 di scheda |
 | `/about` (scheda) | ~624px | apparato a 316 + tre paragrafi + piede |
 | home | ~520px | il player è centrato: gli serve solo di non toccare i bordi |
 
-Il massimo è ora `/works`, **~792px**: la home è scesa da ~851 a ~520 da quando
-il player si centra invece di stare appeso a una quota dall'alto. `980` sembra
-quindi sovrastimato di circa 190px — su una finestra alta 900 la scala scende a
-14,7px invece di restare a 16, pur essendoci lo spazio.
+Il massimo è ora `/works/[slug]`, **~767px**. `/works` è sceso a ~707 col
+passaggio alla riga singola (6 settembre 2026): la striscia è più alta (`--zona`
+da 24 a 22rem, ma una riga sola invece di due) e la banda sale di conseguenza.
+`980` resta sovrastimato di ~210px — su una finestra alta 900 la scala scende a
+14,1px invece di restare a 16, pur essendoci lo spazio.
 
 **Non l'ho cambiato.** Sono misure calcolate dai fogli e non lette da un
 browser, e il valore è una manopola d'autore: 980 potrebbe essere deliberato
-per lasciare margine a contenuti non ancora scritti. Da rimisurare quando
-`/works` avrà la sua parte interattiva, che è la pagina che fissa il massimo.
+per lasciare margine a contenuti non ancora scritti. Con la riga singola la
+striscia di `/works` sta alta nel canvas e sotto resta molto vuoto — se si
+decide di ricentrarla, `--alto` è la manopola.
 
 ## Il rosso è anche superficie: il §2.3 va riscritto
 

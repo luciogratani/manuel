@@ -15,38 +15,36 @@
   --margine: calc(var(--x) * 2); /* 36px */
 
   /* ── La griglia ─────────────────────────────────────────────────────────────
-     Le colonne sono tutte larghe uguale: è l'ALTEZZA che cambia col formato, e
-     le lastre appoggiano su una linea di base condivisa — come la mensola della
-     work page.
+     Una RIGA sola, che scorre in orizzontale: l'archivio si legge da sinistra
+     a destra, dalla più recente alla più vecchia (l'ordine è rovesciato in
+     page.tsx, non qui). Le lastre sono tutte larghe uguale — è l'ALTEZZA che
+     cambia col formato — e appoggiano su una linea di base condivisa, come la
+     mensola della work page.
 
-     Tutto discende da `--righe`, e la catena è vincolata da un capo all'altro:
+     Tutto discende da `--righe` (oggi 1), e la catena è vincolata da un capo
+     all'altro:
 
        l'altezza della riga viene dalla zona disponibile
        l'altezza massima della lastra viene dalla riga
        la LARGHEZZA della colonna viene dall'altezza, perché il formato più alto
        ammesso è 2:3 — se ci sta lui ci stanno tutti
 
-     Da cui il motivo per cui questa pagina è a DUE righe e non a tre.
-
-     Da cui anche il motivo per cui questa pagina e a DUE righe e non a tre: a
-     tre le colonne verrebbero troppo strette perche ventuno opere riempiano la
-     viewport, e allargarle richiederebbe righe piu alte, che a tre non ci
-     starebbero in altezza.
-
-     Con i valori attuali: righe da 184px, lastre fino a 148, colonne da 99.
-     Ventuno opere fanno undici colonne, 1.413px contro i 1.404 disponibili —
-     riempie appena. Con le 26 opere definitive diventano tredici colonne e
-     1.662px, e lo scorrimento ha davvero qualcosa da scorrere. */
-  --righe: 2;
-  --zona: 24rem; /* 384px — lo spazio verticale della griglia */
+     Con i valori attuali: riga da 352px, lastre fino a 330, colonne da 220.
+     Ventuno opere fanno ventuno colonne, ~5.100px contro i ~1.404 visibili:
+     lo scorrimento smorzato ha finalmente una striscia vera da percorrere, e
+     un centinaio di pixel di rotella (`PASSO`) avanzano di un'opera per volta.
+     Prima era a due righe che si riempivano per colonna, con le opere
+     consecutive impilate: si leggeva a zig-zag, e nove pixel di corsa. */
+  --righe: 1;
+  --zona: 22rem; /* 352px — lo spazio verticale della griglia */
   --fuga: 1.60rem; /* 25,6px — fra due colonne */
-  --fuga-riga: 1rem; /* 16px */
+  --fuga-riga: 1rem; /* 16px — resta per la catena di calcolo, con una riga non morde */
   --alto: 8rem; /* 128px — dove comincia la griglia */
 
   --riga: calc(
     (var(--zona) - var(--fuga-riga) * (var(--righe) - 1)) / var(--righe)
   );
-  --lastra: calc(var(--riga) - 2.25rem); /* meno il numero e la sua fuga (36px) */
+  --lastra: calc(var(--riga) - 1.375rem); /* meno il numero (12px) e la sua fuga (10px) */
   --colonna: calc(var(--lastra) * 2 / 3); /* il formato più alto è 2:3 */
 
   /* Lo stacco fra la griglia e la banda. La quota della banda non è più un
@@ -76,8 +74,8 @@
   overflow: hidden;
 }
 
-/* `column` e non `row`: la sequenza scende lungo la colonna e poi passa alla
-   successiva, così scorrendo verso destra la numerazione avanza sempre. */
+/* `column`: ogni opera è una colonna, e la riga unica scorre verso destra —
+   una striscia orizzontale, non una griglia che va a capo. */
 .griglia {
   display: grid;
   grid-auto-flow: column;
@@ -90,13 +88,16 @@
   width: max-content;
 }
 
-/* Numero in alto, lastra in basso: le lastre di una riga appoggiano tutte
-   sulla stessa linea, e la differenza di formato si legge come differenza di
-   altezza sopra quella linea. */
+/* Numero appena sopra la propria lastra, non in cima alla riga: la striscia
+   si scorre e si scansiona in orizzontale, quindi ogni numero deve stare
+   addosso all'immagine che nomina. Le lastre appoggiano tutte sulla stessa
+   linea di base in basso, e la differenza di formato si legge come differenza
+   di altezza — e di quota del numero — sopra quella linea. */
 .cella {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 0.625rem; /* 10px — fra il numero e la lastra */
   color: inherit;
   text-decoration: none;
 
@@ -116,9 +117,8 @@
   opacity: 1;
 }
 
-/* La griglia si sposta di quel poco che può — nove pixel oggi, duecento con
-   l'archivio pieno — e lo fa smorzata, perché il motore le scrive un
-   `transform` a ogni frame. */
+/* La striscia scorre smorzata: il motore le riscrive un `transform` a ogni
+   frame. */
 .griglia {
   will-change: transform;
 }
@@ -249,13 +249,10 @@
    posizione nella sequenza, scritta dal Server Component che l'indice ce l'ha
    già — e la pagina resta quella senza una riga di client che è sempre stata.
 
-   ── L'onda si misura in COLONNE, non in indici ────────────────────────────
-   La griglia scorre per colonna: due celle affiancate verticalmente, poi la
-   colonna dopo. Con il ritardo sull'indice quelle due partirebbero sfalsate e
-   si leggerebbe come un difetto, non come un'onda. `round(down, …)` fa la
-   divisione intera che serve; se un motore non la conoscesse, `--attacco`
-   diventa invalido, l'`animation` cade, e le lastre sono semplicemente lì —
-   che è il modo giusto di fallire. */
+   Con una riga sola `--i` È la colonna, e `round(down, --i / --righe, 1)` si
+   riduce a `--i`: la formula regge se un domani si torna a due righe. Se un
+   motore non conoscesse `round()`, `--attacco` diventa invalido, l'`animation`
+   cade, e le lastre sono semplicemente lì — che è il modo giusto di fallire. */
 .pagina {
   --onda: 0.045s; /* per colonna */
   --sale: 0.4s;

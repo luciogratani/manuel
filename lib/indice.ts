@@ -2,15 +2,14 @@
 // selezione. Le costanti stanno qui come quelle della timeline in
 // lib/timeline.ts e quelle della mensola in lib/mensola.ts.
 //
-// ── Perché la selezione e non la striscia ───────────────────────────────────
-// La griglia non scorre quasi: ventuno opere fanno 1.413px contro i 1.404
-// disponibili — nove pixel — e anche con le ventisei definitive sarebbero 258,
-// due colonne e mezza. Una striscia che scorre, qui, non esiste.
-//
-// Quindi è la SELEZIONE ad avanzare: lo scorrimento muove un cursore lungo la
-// sequenza 01→21, e la griglia si sposta solo di quel poco che può per tenere
-// visibile ciò che è selezionato. Vale a nove pixel come a duecento, e vale
-// anche il giorno in cui l'archivio sarà lungo il doppio.
+// ── Un cursore lungo una striscia ───────────────────────────────────────────
+// L'archivio è una riga sola che scorre in orizzontale — ventuno opere fanno
+// più di cinquemila pixel contro i ~1.400 visibili. Lo scorrimento non
+// trascina la striscia pixel per pixel: muove un CURSORE lungo la sequenza (un
+// centinaio di pixel di rotella = un'opera, vedi `PASSO`), e la striscia si
+// porta all'ascissa dell'opera raggiunta. Così sfogliare resta discreto — si
+// passa da un'opera alla successiva — invece di essere un trascinamento
+// continuo, e la regola vale a ogni lunghezza dell'archivio.
 
 /** Quanti pixel di rotella per passare da un'opera alla successiva. Uno scatto
  *  di rotella tipico ne muove un centinaio, quindi il gesto naturale avanza di

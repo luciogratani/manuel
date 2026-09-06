@@ -16,8 +16,9 @@ import { compattoAttivo, motoRidotto } from "@/lib/movimento";
 import { ContestoIndice } from "./contesto";
 import styles from "./page.module.css";
 
-// Il motore dell'indice. Sposta la griglia di quel poco che può per tenerla
-// visibile mentre si scorre.
+// Il motore dell'indice. Scorre la striscia orizzontale delle opere e tiene un
+// cursore lungo la sequenza: un centinaio di pixel di rotella avanzano di
+// un'opera per volta (`PASSO`), con l'elastico ai due capi.
 //
 // Il markup pesante resta server-renderizzato e arriva come `children`: le
 // ventuno celle con le loro `<Image>` non hanno ragione di finire nel bundle
@@ -89,9 +90,9 @@ export function MotoreIndice({
 
       const pagina = binario.closest<HTMLElement>(`.${styles.pagina}`) ?? binario;
 
-      /** Le colonne: la griglia scorre per colonna, quindi a spostarsi è la
-       *  colonna dell'opera raggiunta e non l'opera. Misurate a
-       *  trasformazione azzerata, o la seconda lettura vedrebbe la prima. */
+      /** L'ascissa di ogni opera dentro la striscia: è lì che il cursore la
+       *  porta a filo del bordo sinistro. Misurate a trasformazione azzerata,
+       *  o la seconda lettura vedrebbe la prima. */
       let colonne: number[] = [];
       let scorrimentoMax = 0;
       const misura = () => {
@@ -116,8 +117,11 @@ export function MotoreIndice({
             type: "wheel,touch",
             ignore: "a, button",
             onChange: (self) => {
+              // Rotella e dito, stesso verso del nastro della timeline: scorrere
+              // GIÙ (o trascinare il dito a SINISTRA su una striscia orizzontale)
+              // avanza nell'archivio — dalla più recente verso le più vecchie.
               const tocco = self.event.type.startsWith("touch");
-              const grezzo = -(self.deltaX || self.deltaY);
+              const grezzo = tocco ? -self.deltaX : self.deltaY;
               const delta = (grezzo / PASSO) * (tocco ? SENSIBILITA_TOCCO : 1);
               spingi(delta);
               velocitaRef.current = delta * 60;
@@ -176,9 +180,10 @@ export function MotoreIndice({
 
         const daScorrimento = Math.min(limite, Math.max(0, Math.round(posizioneRef.current)));
 
-        // La griglia si sposta di quel poco che può per tenere visibile la
-        // colonna raggiunta: nove pixel oggi, duecento con l'archivio pieno.
-        // Il `clamp` è ciò che rende la stessa regola vera a ogni taglia.
+        // La striscia si porta all'ascissa dell'opera raggiunta, a filo del
+        // bordo sinistro, senza mai scoprire il vuoto oltre l'ultima: il
+        // `clamp` a `scorrimentoMax` è ciò che rende la regola vera a ogni
+        // taglia e a ogni lunghezza dell'archivio.
         const desiderato = colonne[daScorrimento] ?? 0;
         const x = -Math.min(scorrimentoMax, Math.max(0, desiderato));
         griglia.style.transform = `translateX(${x.toFixed(1)}px)`;
