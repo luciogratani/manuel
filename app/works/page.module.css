@@ -159,11 +159,17 @@
 }
 
 /* ── La banda sotto la griglia ────────────────────────────────────────────────
-   Tre colonne: la scheda della selezione, i tag, l'indicatore. Una riga sola,
-   allineata in alto, così le tre colonne partono dalla stessa quota anche se
-   hanno altezze diverse.
+   Tre colonne: la scheda della selezione, i tag, l'indicatore. Partono tutte
+   dalla stessa quota in alto — quella è ancorata (`top` fisso, sotto), il
+   contenuto scende da lì.
 
-   La scheda cambierà con la selezione — quella parte richiede JavaScript: in
+   `align-items: flex-start` e non `flex-end`: la scheda è alta zero senza
+   hover e ~94px con, e allineandosi al fondo trascinava tag e indicatore giù
+   di quegli 80px ad ogni hover. Al top invece la scheda cresce verso il
+   basso e gli altri due non si muovono — tag e indicatore restano su una
+   riga con la coordinata dell'opera.
+
+   La scheda cambia con la selezione — quella parte richiede JavaScript: in
    CSS si può spostare una cornice, non riscrivere del testo altrove. */
 .banda {
   position: absolute;
@@ -175,7 +181,7 @@
 
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: var(--margine);
   font-size: 0.875rem; /* 14px */
   line-height: 1.2;
@@ -219,11 +225,12 @@
 }
 
 /* `(NN—21)` è sempre la stessa forma. Riservarne la larghezza anche da vuoto
-   tiene i tag fermi: senza, comparendo all'hover li spingeva di mezza sua
-   larghezza — `.banda` è `space-between`, e lo spazio libero che si accorcia
-   si divide fra i due vuoti. */
+   tiene i tag fermi in orizzontale: senza, comparendo all'hover si prendeva
+   ~3,35rem sulla destra e — `.banda` è `space-between` — lo spazio libero che
+   si accorciava spingeva i tag di metà di quello, a sinistra. (Il salto
+   verticale, più vistoso, lo toglie `align-items: flex-start` su `.banda`.) */
 .indicatore {
-  min-width: 3.25rem; /* 52px — la stringa misura ~47 */
+  min-width: 3.5rem; /* la stringa ne occupa ~3,35 */
   text-align: right;
 }
 
