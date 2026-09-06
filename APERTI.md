@@ -49,10 +49,19 @@ un'opera (era il bug già corretto su timeline e mensola). **Non c'è ancora**
 né trascinamento col mouse né navigazione da tastiera: col `Tab` il fuoco
 passa da un link all'altro ma la striscia non lo segue.
 
-Tre cose restano aperte:
+La banda sotto la striscia riceve un hover **ritardato** (`RITARDO_BANDA`) e
+fa un **crossfade** fra un'opera e l'altra (`banda.tsx`): spazzando il mouse
+non insegue più le opere di passaggio e non sfarfalla.
+
+Restano aperte:
 
 - **Frecce ←/→ e drag col mouse** da aggiungere: senza, le opere fuori
   schermo non si raggiungono senza rotella. Buon momento prima dei filtri.
+- **La banda resta indietro dopo uno scroll con la rotella**: il mouse è
+  fermo ma sotto è passata un'altra opera, e la banda si aggiorna solo se
+  muovi il puntatore. La timeline lo risolve ri-controllando la posizione
+  del puntatore quando il moto si ferma (`setRiaggancio` in `timeline/
+  motore.tsx`).
 - **I tre tag** (`performance`, `fotografia`, `editoriale`) sono ancora un MOCK:
   l'interazione c'è (un radio ciascuno, gli altri si attenuano) ma `lib/opere.ts`
   non ha un campo `tags` reale e non filtrano niente. Quando la curatela scrive

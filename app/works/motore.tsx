@@ -7,6 +7,7 @@ import {
   ELASTICO_PX,
   FATTORE_ROTELLA,
   RILASSAMENTO_BORDO,
+  RITARDO_BANDA,
   SENSIBILITA_TOCCO,
   SMORZAMENTO,
 } from "@/lib/indice";
@@ -39,6 +40,12 @@ import styles from "./page.module.css";
 //     delle altre è pura CSS (`:has(:hover)`), e la banda mostra il testo
 //     dell'opera in hover o niente. L'hover si ascolta sul contenitore
 //     perché le celle sono server-renderizzate.
+//
+// L'hover che arriva alla banda è RITARDATO (`RITARDO_BANDA`): spazzando il
+// mouse lungo la striscia si passa sopra molte opere al secondo, e senza
+// l'attesa la banda le inseguirebbe tutte, riavviando una dissolvenza ogni
+// volta. Chi passa non conta; chi si ferma sì. Uscire dalla striscia è
+// immediato — non è una spazzata.
 
 /** Il fattore di smorzamento indipendente dal frame rate. */
 function smorza(fattore: number, dt: number) {
@@ -64,8 +71,12 @@ export function MotoreIndice({
   const binarioRef = useRef<HTMLDivElement>(null);
   const grigliaRef = useRef<HTMLDivElement>(null);
 
+  /** L'opera in evidenza per la banda, già ritardata. `sottoRef` è invece
+   *  quella FISICAMENTE sotto il puntatore ora, senza attesa: serve a non
+   *  riarmare il timer quando il puntatore si muove dentro la stessa cella. */
   const [hover, setHover] = useState<number | null>(null);
-  const hoverRef = useRef<number | null>(null);
+  const sottoRef = useRef<number | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /** Lo scorrimento in pixel: `posizione` insegue `obiettivo`, e la striscia
    *  è traslata di `-posizione`. */
@@ -132,23 +143,39 @@ export function MotoreIndice({
             },
           });
 
-      /** L'hover: `hoverRef` evita un render ad ogni movimento del mouse —
-       *  solo un vero cambio di cella (o l'uscita) tocca lo stato React, che
-       *  è quello che la banda legge. */
+      /** Posa l'evidenza sulla banda: dopo `RITARDO_BANDA` se è un'opera,
+       *  subito se è l'uscita. Il timer pendente si annulla ad ogni cambio,
+       *  così una spazzata veloce non lascia dietro di sé una fila di
+       *  aggiornamenti in coda. */
+      const posa = (i: number | null) => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        if (i === null) {
+          setHover(null);
+          return;
+        }
+        timerRef.current = setTimeout(() => setHover(i), RITARDO_BANDA);
+      };
+
+      /** `sottoRef` è la cella sotto il puntatore ORA — muoversi dentro la
+       *  stessa non riarma niente.
+       *
+       *  Sopra una fuga fra due lastre il puntatore non è dentro nessuna
+       *  `.cella`: si tiene l'ultima invece di svuotare la banda, o spazzando
+       *  la striscia si vedrebbe un lampo a vuoto fra un'opera e l'altra. Si
+       *  svuota solo uscendo dalla griglia (`pointerleave`, qui sotto). */
       const alPuntatore = (e: PointerEvent) => {
         if (e.pointerType !== "mouse") return;
         const cella = (e.target as Element | null)?.closest<HTMLElement>(`.${styles.cella}`);
-        const i = cella ? celle.indexOf(cella) : null;
-        if (i !== hoverRef.current) {
-          hoverRef.current = i;
-          setHover(i);
-        }
+        if (!cella) return;
+        const i = celle.indexOf(cella);
+        if (i === sottoRef.current) return;
+        sottoRef.current = i;
+        posa(i);
       };
       const fuoriDallaGriglia = () => {
-        if (hoverRef.current !== null) {
-          hoverRef.current = null;
-          setHover(null);
-        }
+        if (sottoRef.current === null) return;
+        sottoRef.current = null;
+        posa(null);
       };
       griglia.addEventListener("pointermove", alPuntatore, { passive: true });
       griglia.addEventListener("pointerleave", fuoriDallaGriglia);
@@ -180,6 +207,7 @@ export function MotoreIndice({
         window.removeEventListener("resize", misura);
         griglia.removeEventListener("pointermove", alPuntatore);
         griglia.removeEventListener("pointerleave", fuoriDallaGriglia);
+        if (timerRef.current) clearTimeout(timerRef.current);
         osservatoreRotella?.kill();
         osservatoreTocco?.kill();
         gsap.ticker.remove(tick);

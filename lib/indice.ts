@@ -34,3 +34,10 @@ export const ELASTICO_PX = 140;
 /** Quanto in fretta la molla riporta l'obiettivo dentro i capi quando l'input
  *  si ferma, per frame. Senza, resterebbe teso in attesa di un altro evento. */
 export const RILASSAMENTO_BORDO = 0.12;
+
+/** Millisecondi che il puntatore deve posarsi su un'opera prima che la banda
+ *  la mostri. Spazzando la striscia l'hover cambia ogni pochi millisecondi:
+ *  senza questa attesa la scheda inseguirebbe ogni opera di passaggio, e ogni
+ *  cambio è una dissolvenza che riparte. Uscire dalla striscia non è una
+ *  spazzata e non aspetta. */
+export const RITARDO_BANDA = 80;

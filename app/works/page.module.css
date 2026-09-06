@@ -181,8 +181,16 @@
   line-height: 1.2;
 }
 
+/* Durante il crossfade fra un'opera e l'altra (banda.tsx) ne vivono due copie:
+   la griglia a cella unica le impila senza che nessuna sia `absolute`, così
+   l'altezza della banda resta quella del contenuto e non un numero indovinato. */
 .scheda {
   width: 25rem; /* 400px */
+  display: grid;
+}
+
+.schedaStrato {
+  grid-area: 1 / 1;
 }
 
 /* I tre radio button: di base pesano tutti uguale. Solo quando UNO è

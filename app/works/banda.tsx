@@ -7,7 +7,7 @@ import { DISSOLVENZA, motoRidotto } from "@/lib/movimento";
 import { useIndice } from "./contesto";
 import styles from "./page.module.css";
 
-// La banda sotto la griglia: la scheda dell'opera in hover, i tag,
+// La banda sotto la striscia: la scheda dell'opera in hover, i tag,
 // l'indicatore.
 //
 // È la parte che il CSS non poteva fare, e il foglio lo diceva da sé: «in CSS
@@ -18,19 +18,40 @@ import styles from "./page.module.css";
 //
 // Senza hover non mostra niente — né titolo né descrizione né indicatore —
 // non un'opera di scorta: prima ricadeva sulla posizione di scorrimento, ma
-// quella è una posizione, non un'indicazione, e mostrarla come se lo fosse
-// era proprio ciò che rendeva la banda poco comprensibile.
+// quella è una posizione, non un'indicazione.
 //
-// Il cambio fra un'opera e l'altra è una DISSOLVENZA e non un taglio: variazione
-// interna a uno stato stabilito, §3.2 — stessa scelta del pannello della
-// timeline quando cambia voce. Sparire non ha bisogno di una dissolvenza sua:
-// è la fine di un'indicazione, non un nuovo stato da annunciare.
+// ── Il passaggio fra un'opera e l'altra non sfarfalla più ───────────────────
+// Due accorgimenti, perché spazzando il mouse lungo la striscia si passa
+// sopra molte opere al secondo:
+//
+//   · Il RITARDO vive nel motore (`RITARDO_BANDA`, motore.tsx): `hover` arriva
+//     già settato, la banda non vede le opere di passaggio.
+//   · Il CROSSFADE è qui: la nuova scheda sale da zero SOVRAPPOSTA alla
+//     vecchia che scende (`scia`), così la banda non tocca mai il vuoto fra
+//     un'opera e l'altra. Prima ogni cambio era un `fromTo(0 → 1)` che,
+//     ripartendo più in fretta di quanto durasse, teneva la scheda
+//     perennemente semitrasparente.
+//
+// §3.2: il cambio di opera è variazione interna a uno stato già stabilito —
+// una dissolvenza, non un taglio. Uscire dalla banda lo stesso.
 
 export type Scheda = {
   coordinata: string;
   titolo: string;
   descrizione: string;
 };
+
+/** Un solo posto in cui è scritto il markup della scheda: ne vivono due copie
+ *  sovrapposte durante il crossfade. */
+function Testo({ scheda }: { scheda: Scheda }) {
+  return (
+    <>
+      <p className={styles.coordinata}>{scheda.coordinata}</p>
+      <h2 className={styles.titolo}>{scheda.titolo}</h2>
+      <p className={styles.descrizione}>{scheda.descrizione}</p>
+    </>
+  );
+}
 
 export function Banda({ schede, tags }: { schede: Scheda[]; tags: string[] }) {
   const { hover } = useIndice();
@@ -40,35 +61,77 @@ export function Banda({ schede, tags }: { schede: Scheda[]; tags: string[] }) {
    *  tag selezionato di base: tutti e tre pesano uguale finché non se ne
    *  sceglie uno. */
   const [tagSelezionato, setTagSelezionato] = useState<number | null>(null);
-  const schedaRef = useRef<HTMLDivElement>(null);
 
+  // `vivo` è la scheda in scena, `scia` quella che sta uscendo. Si aggiornano
+  // in coppia, durante il render, quando `hover` è cambiato davvero: è il
+  // pattern React per adeguare uno stato al variare di una prop senza un
+  // effetto di mezzo.
+  const bersaglio = hover !== null ? schede[hover] : null;
+  const [scena, setScena] = useState<{ vivo: Scheda | null; scia: Scheda | null }>(() => ({
+    vivo: bersaglio,
+    scia: null,
+  }));
+  if (bersaglio?.titolo !== scena.vivo?.titolo) {
+    setScena({ vivo: bersaglio, scia: scena.vivo });
+  }
+
+  const vivoRef = useRef<HTMLDivElement>(null);
+  const sciaRef = useRef<HTMLDivElement>(null);
+
+  // La nuova scheda entra: sale da zero. Riparte solo quando cambia davvero
+  // l'opera in scena, non quando la scia si spegne.
   useGSAP(
     () => {
-      const scheda = schedaRef.current;
-      if (!scheda || hover === null || motoRidotto()) return;
-      const dissolvenza = gsap.fromTo(
-        scheda,
+      const v = vivoRef.current;
+      if (!v || !scena.vivo) return;
+      const tw = gsap.fromTo(
+        v,
         { opacity: 0 },
-        { opacity: 1, duration: DISSOLVENZA.durata, ease: DISSOLVENZA.ease },
+        {
+          opacity: 1,
+          duration: motoRidotto() ? 0 : DISSOLVENZA.durata,
+          ease: DISSOLVENZA.ease,
+        },
       );
       return () => {
-        dissolvenza.kill();
+        tw.kill();
       };
     },
-    { dependencies: [hover] },
+    { dependencies: [scena.vivo?.titolo] },
   );
 
-  const s = hover !== null ? schede[hover] : null;
+  // La scia esce: scende a zero e poi si smonta. `onComplete` è una callback
+  // asincrona, non il corpo dell'effetto: lì lo `setScena` è lecito.
+  useGSAP(
+    () => {
+      const sc = sciaRef.current;
+      if (!sc || !scena.scia) return;
+      gsap.set(sc, { opacity: 1 });
+      const tw = gsap.to(sc, {
+        opacity: 0,
+        duration: motoRidotto() ? 0 : DISSOLVENZA.durata,
+        ease: DISSOLVENZA.ease,
+        onComplete: () => setScena((p) => (p.scia ? { ...p, scia: null } : p)),
+      });
+      return () => {
+        tw.kill();
+      };
+    },
+    { dependencies: [scena.scia?.titolo] },
+  );
 
   return (
     <div className={styles.banda}>
-      <div ref={schedaRef} className={styles.scheda}>
-        {s && (
-          <>
-            <p className={styles.coordinata}>{s.coordinata}</p>
-            <h2 className={styles.titolo}>{s.titolo}</h2>
-            <p className={styles.descrizione}>{s.descrizione}</p>
-          </>
+      <div className={styles.scheda}>
+        {scena.scia && (
+          <div ref={sciaRef} className={styles.schedaStrato} aria-hidden>
+            <Testo scheda={scena.scia} />
+          </div>
+        )}
+        {scena.vivo && (
+          <div ref={vivoRef} className={styles.schedaStrato}>
+            <Testo scheda={scena.vivo} />
+          </div>
         )}
       </div>
 
@@ -93,7 +156,8 @@ export function Banda({ schede, tags }: { schede: Scheda[]; tags: string[] }) {
       </div>
 
       <p className={styles.indicatore}>
-        {s && `(${String(hover! + 1).padStart(2, "0")}—${String(schede.length).padStart(2, "0")})`}
+        {hover !== null &&
+          `(${String(hover + 1).padStart(2, "0")}—${String(schede.length).padStart(2, "0")})`}
       </p>
     </div>
   );
