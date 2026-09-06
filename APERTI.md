@@ -75,6 +75,26 @@ l'inchiostro proprio per non spendere l'accento una terza volta.
 Quando la guida tornerà sotto mano, **il §2.3 va riscritto per dire questo**
 invece di essere contraddetto dal codice.
 
+## Il marchio del header è il lockup intero, non più la sola `manuel`
+
+Il §2.2 descrive il wordmark come `manuel` a proporzione 6,05:1. Dal 6 settembre
+2026 (scelta di Lucio) **l'header porta `manuel casati`** — il lockup completo,
+rapporto ~11,7:1 — e con lui la sequenza della soglia, che lo misura a runtime e
+si adatta senza numeri scritti a mano.
+
+Il componente `components/marchio.tsx` tiene le due forme: `manuel` è il default
+(lo usa ancora la chiusura di `/about`), `manuel casati` è la prop `esteso`. Le
+coordinate di `manuel` non cambiano fra le due — `casati` si aggiunge a destra
+nello stesso `viewBox` allargato. La sorgente è
+`01-assets/svg/manuel-wide-web.svg` (fuori dal repo), che contiene entrambi i
+gruppi.
+
+**Quando la guida tornerà sotto mano**: il §2.2 va aggiornato per dire quale
+forma vale dove, e va deciso cosa fa il header sotto la soglia compatta — oggi
+non è adattato (come `/` e `/legali`) e `manuel casati` + le tre voci a 375px
+stanno strette. Il `data-letter` di `casati` è in ordine di lettura come quello
+di `manuel`, ma non è mai stato verificato contro un taglio lettera per lettera.
+
 ## Le note legali sono una bozza
 
 `/legali` esiste e dice cose vere, ma **non è stata letta da un legale** e la

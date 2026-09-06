@@ -208,7 +208,7 @@ export function Testa() {
       data-sopra-colore={sopraColore ? "" : undefined}
     >
       <Link ref={marchioRef} className={styles.marchio} href="/">
-        <Marchio className={styles.segno} />
+        <Marchio className={styles.segno} esteso />
       </Link>
       <nav ref={rotteRef} className={styles.rotte}>
         {ROTTE.map(([voce, href]) => (

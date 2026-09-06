@@ -74,8 +74,12 @@
 
 /* 14px di altezza: nel marchio l'ascendente della `l` arriva al bordo alto del
    riquadro, quindi questa quota si confronta con l'ascendente delle voci
-   accanto, non col loro corpo. La larghezza viene dal rapporto del viewBox
-   (~6:1), non dichiarata: il segno ha una proporzione sola. */
+   accanto, non col loro corpo. La larghezza viene dal rapporto del viewBox,
+   non dichiarata: il segno ha una proporzione sola.
+
+   Qui l'header porta il lockup intero `manuel casati` (prop `esteso` in
+   `Marchio`): rapporto ~11,7:1, non il ~6:1 della sola `manuel` che chiude
+   /about. */
 .segno {
   display: block;
   height: 0.875rem; /* 14px */
@@ -84,8 +88,8 @@
      SVG inline il rapporto intrinseco è onorato dai browser attuali ma non è
      una garanzia, e la conseguenza di un fallimento sarebbe un marchio largo
      300px (la taglia di riserva degli elementi rimpiazzati) in cima a ogni
-     pagina. Sono gli stessi numeri del `viewBox`. */
-  aspect-ratio: 1970.53 / 325.69;
+     pagina. Sono gli stessi numeri del `viewBox` di `esteso`. */
+  aspect-ratio: 3817.3 / 325.7;
 }
 
 .rotte {
