@@ -113,14 +113,13 @@ progetto (fuori da questo repo) dice qualcosa di esplicito sul tema — **va
 riconfrontato con quanto costruito qui**, che è una prima risposta e non una
 misura.
 
-## Recapiti ancora da avere
+## Recapiti
 
-`/about` ha email e i due profili social, veri. Il **telefono è ancora un
-segnaposto sicuro** — prefisso 000, che non è assegnabile a nessuno — e va
-sostituito prima della pubblicazione. Mancano anche, se servono: un indirizzo
-postale e, se un giorno ci sarà una partita IVA o una ragione sociale, la riga
-che nel riferimento stava in fondo e che qui è occupata dalla citazione di
-Luisa Casati.
+`/about` ha email e i due profili social, veri. Il **telefono è stato tolto**
+del tutto (6 settembre 2026, scelta di Lucio): i canali di contatto sono email
+e social, non un numero. Mancano ancora, se serviranno: un indirizzo postale e,
+se un giorno ci sarà una partita IVA o una ragione sociale, la riga che nel
+riferimento stava in fondo e che qui è occupata dalla citazione di Luisa Casati.
 
 ---
 

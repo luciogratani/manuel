@@ -49,7 +49,7 @@ export function PiedeHome() {
   return (
     <footer ref={piedeRef} className={styles.piede}>
       <p>Manuel Casati</p>
-      <p>ITA, 1986</p>
+      <p>ITA</p>
       <p>2010 — 2026</p>
     </footer>
   );

@@ -303,7 +303,7 @@
 }
 
 /* L'email ha due presentazioni, una sola visibile alla volta: sopra la
-   soglia il copia (come il numero), sotto un `mailto:` vero — vedi il
+   soglia il copia, sotto un `mailto:` vero — vedi il
    commento accanto in page.tsx. Non uno stile suo: eredita da `.copia` in
    copia.module.css (nessun colore, nessuna sottolineatura), così il cambio
    di comportamento non si vede come un cambio di aspetto. */

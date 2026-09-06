@@ -40,8 +40,8 @@ const MEDIUM = [...new Set(OPERE.map((o) => o.medium))].filter(
 );
 
 const DATI: [string, string][] = [
-  ["nato", "ITA, 1986"],
-  ["base", "—"],
+  ["nato", "ITA"],
+  ["base", "Sassari"],
   ["pratica", "moda, sartoria, performance"],
   [
     "formazione",
@@ -49,7 +49,6 @@ const DATI: [string, string][] = [
   ],
 ];
 
-const TELEFONO = "+39 345 871 9638";
 const EMAIL = "hello@manuelcasati.it";
 
 const PROFILI: [string, string][] = [
@@ -151,22 +150,13 @@ export default function Page() {
         <div className={styles.colonne}>
           <div className={styles.colonna}>
             <p className={styles.etichetta}>contatti</p>
-            {/* Si copiano al clic invece di aprire il telefono o il client di
-                posta: da desktop un `tel:` non porta da nessuna parte e un
-                `mailto:` apre spesso il programma sbagliato, mentre il numero
-                negli appunti serve sempre. */}
-            <p>
-              <Copia valore={TELEFONO} azione="il numero" />
-            </p>
             <p>
               {/* Da desktop un `mailto:` apre spesso il programma sbagliato
                   (o nessuno) — copiare l'indirizzo è più affidabile, quindi
                   resta l'unico comportamento sopra la soglia compatta. Su un
                   telefono un `mailto:` apre la app di posta configurata, che
                   lì è quasi sempre quella giusta: sotto la soglia il link
-                  vero sostituisce la copia, il numero resta invariato — è
-                  già utile com'è, un `tel:` non aggiungerebbe niente che il
-                  copia-e-incolla in un dialer non faccia già. */}
+                  vero sostituisce la copia. */}
               <Copia valore={EMAIL} azione="l'email" className={styles.emailCopia} />
               <a className={styles.emailMobile} href={`mailto:${EMAIL}`}>
                 {EMAIL}

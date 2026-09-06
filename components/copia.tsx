@@ -42,7 +42,7 @@ export function Copia({
   className,
 }: {
   valore: string;
-  /** Cosa si sta copiando, per il nome accessibile: "il numero", "l'email". */
+  /** Cosa si sta copiando, per il nome accessibile: "l'email", "l'indirizzo". */
   azione: string;
   className?: string;
 }) {

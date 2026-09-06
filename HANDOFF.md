@@ -2,7 +2,7 @@
 
 Sessione breve e mirata: la soglia compatta, e il giorno dopo tre correzioni
 trovate provando da un telefono vero. Branch `dopo-helper`, non pushato,
-albero pulito, `npm run build`/`typecheck`/`lint` verdi.
+albero pulito, `pnpm build`/`typecheck`/`lint` verdi.
 
 Questo documento è **datato e si consuma**. Le cose aperte che restano vere
 nel tempo stanno in `APERTI.md`.
