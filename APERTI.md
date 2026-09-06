@@ -41,8 +41,18 @@ ordine cronologico 01→26; il verso di lettura lo decide `page.tsx`
 (`INDICE = [...OPERE].reverse()`). Prima era a due righe riempite per colonna,
 con le opere consecutive impilate.
 
-Due cose restano aperte:
+Lo scorrimento (`motore.tsx`) è **continuo**, non più a passi: rotella e dito
+trascinano la striscia in pixel, con l'elastico ai capi (costanti in
+`lib/indice.ts`). Due Observer sullo stesso target — uno rotella senza
+`ignore`, uno tocco con `ignore` — così si scorre anche col cursore sopra
+un'opera (era il bug già corretto su timeline e mensola). **Non c'è ancora**
+né trascinamento col mouse né navigazione da tastiera: col `Tab` il fuoco
+passa da un link all'altro ma la striscia non lo segue.
 
+Tre cose restano aperte:
+
+- **Frecce ←/→ e drag col mouse** da aggiungere: senza, le opere fuori
+  schermo non si raggiungono senza rotella. Buon momento prima dei filtri.
 - **I tre tag** (`performance`, `fotografia`, `editoriale`) sono ancora un MOCK:
   l'interazione c'è (un radio ciascuno, gli altri si attenuano) ma `lib/opere.ts`
   non ha un campo `tags` reale e non filtrano niente. Quando la curatela scrive

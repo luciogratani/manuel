@@ -34,8 +34,8 @@ import styles from "./page.module.css";
  *  cronologico; il verso di lettura è una decisione di questa pagina. */
 const INDICE = [...OPERE].reverse();
 
-/** Il cursore di scorrimento parte da qui — la prima della striscia, cioè la
- *  più recente. Da qui in poi è stato, e vive nel motore. */
+/** Lo scorrimento parte da qui: zero pixel, la striscia al suo posto naturale
+ *  con la più recente a sinistra. Da qui in poi è stato, e vive nel motore. */
 const INIZIALE = 0;
 
 /** MOCK: tre voci reali del vocabolario di `lib/opere.ts` (il campo
@@ -63,11 +63,7 @@ export default function Page() {
     // e le righe restano un fatto del foglio (vedi `--righe`).
     <div className={styles.pagina} style={{ "--opere": OPERE.length } as CSSProperties}>
       <div className={styles.motoreDesktop}>
-        <MotoreIndice
-          quante={OPERE.length}
-          iniziale={INIZIALE}
-          banda={<Banda schede={schede} tags={TAG} />}
-        >
+        <MotoreIndice iniziale={INIZIALE} banda={<Banda schede={schede} tags={TAG} />}>
           {INDICE.map((opera, i) => {
             const copertina = opera.scatti[0];
             const f = formato(copertina.w, copertina.h);

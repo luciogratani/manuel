@@ -31,10 +31,10 @@
 
      Con i valori attuali: riga da 352px, lastre fino a 330, colonne da 220.
      Ventuno opere fanno ventuno colonne, ~5.100px contro i ~1.404 visibili:
-     lo scorrimento smorzato ha finalmente una striscia vera da percorrere, e
-     un centinaio di pixel di rotella (`PASSO`) avanzano di un'opera per volta.
-     Prima era a due righe che si riempivano per colonna, con le opere
-     consecutive impilate: si leggeva a zig-zag, e nove pixel di corsa. */
+     lo scorrimento smorzato (`motore.tsx`) trascina la striscia in continuo,
+     con l'elastico ai due capi. Prima era a due righe che si riempivano per
+     colonna, con le opere consecutive impilate: si leggeva a zig-zag, e nove
+     pixel di corsa. */
   --righe: 1;
   --zona: 22rem; /* 352px — lo spazio verticale della griglia */
   --fuga: 1.60rem; /* 25,6px — fra due colonne */

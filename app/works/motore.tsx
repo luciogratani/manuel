@@ -4,10 +4,8 @@ import { useRef, useState, type ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, Observer } from "@/lib/gsap";
 import {
-  ELASTICO_OPERE,
-  MOMENTO_DECADIMENTO,
-  MOMENTO_SOGLIA,
-  PASSO,
+  ELASTICO_PX,
+  FATTORE_ROTELLA,
   RILASSAMENTO_BORDO,
   SENSIBILITA_TOCCO,
   SMORZAMENTO,
@@ -16,28 +14,31 @@ import { compattoAttivo, motoRidotto } from "@/lib/movimento";
 import { ContestoIndice } from "./contesto";
 import styles from "./page.module.css";
 
-// Il motore dell'indice. Scorre la striscia orizzontale delle opere e tiene un
-// cursore lungo la sequenza: un centinaio di pixel di rotella avanzano di
-// un'opera per volta (`PASSO`), con l'elastico ai due capi.
+// Il motore dell'indice. Trascina la striscia orizzontale delle opere in
+// CONTINUO: la rotella muove un obiettivo in pixel, la posizione lo insegue
+// smorzata, e ai due capi c'è un elastico. Nessun cursore che salta di opera
+// in opera — quella era la mensola, dove il passo serve ad allineare ogni
+// foto alla lettura; qui non c'è niente da allineare.
 //
 // Il markup pesante resta server-renderizzato e arriva come `children`: le
-// ventuno celle con le loro `<Image>` non hanno ragione di finire nel bundle
-// client. Stessa scelta del nastro della timeline e della mensola.
+// celle con le loro `<Image>` non hanno ragione di finire nel bundle client.
+// Stessa scelta del nastro della timeline e della mensola.
 //
-// ── Scorrimento e hover non si conoscono più ────────────────────────────────
-// Prima una sola "selezione" doveva rispondere sia allo scorrimento sia
-// all'hover, ed era complicato: chi vince quando arrivano insieme, cosa
-// succede uscendo dalla griglia. Adesso sono due cose separate, perché
-// rispondono a due domande diverse:
+// ── Due Observer, non uno ───────────────────────────────────────────────────
+// Ogni cella è un `<Link>`, e GSAP Observer con `ignore: "a, button"` scarta
+// OGNI evento — rotella inclusa — il cui target sia dentro un `<a>`: scorrere
+// col cursore sopra un'opera non muoveva niente (stesso bug già visto sulla
+// timeline e sulla mensola). La rotella non attiva mai una navigazione,
+// quindi non c'è ragione di ignorarla lì; il tocco sì, o un tap-per-navigare
+// rischierebbe di partire come trascinamento. Due istanze sullo stesso
+// target: una per la rotella senza `ignore`, una per il tocco con `ignore`.
 //
-//   · Dove si sposta la griglia? Lo decide solo lo scorrimento — fisica
-//     continua, invariata qui sotto.
-//   · Quale opera è "in evidenza"? Lo decide solo l'hover, ed è tutto qui:
-//     l'attenuazione delle altre è pura CSS (`:has(:hover)`, niente scritto a
-//     mano), e la banda mostra il testo dell'opera in hover o niente affatto.
-//
-// L'hover si ascolta sul contenitore e non sulle celle, che sono
-// server-renderizzate e non possono chiamare niente.
+// ── Scorrimento e hover non si conoscono ────────────────────────────────────
+//   · Dove si sposta la striscia? Lo decide solo lo scorrimento.
+//   · Quale opera è "in evidenza"? Lo decide solo l'hover: l'attenuazione
+//     delle altre è pura CSS (`:has(:hover)`), e la banda mostra il testo
+//     dell'opera in hover o niente. L'hover si ascolta sul contenitore
+//     perché le celle sono server-renderizzate.
 
 /** Il fattore di smorzamento indipendente dal frame rate. */
 function smorza(fattore: number, dt: number) {
@@ -46,19 +47,18 @@ function smorza(fattore: number, dt: number) {
 
 /** La resistenza oltre i capi: cresce con lo sconfinamento, così il primo e
  *  l'ultimo si sentono senza essere un muro. */
-function frena(eccesso: number) {
-  return 1 / (1 + Math.abs(eccesso) / ELASTICO_OPERE);
+function frena(oltre: number) {
+  return 1 / (1 + oltre / ELASTICO_PX);
 }
 
 export function MotoreIndice({
   children,
   banda,
-  quante,
   iniziale,
 }: {
   children: ReactNode;
   banda: ReactNode;
-  quante: number;
+  /** Posizione di partenza in pixel — zero, la striscia al suo posto naturale. */
   iniziale: number;
 }) {
   const binarioRef = useRef<HTMLDivElement>(null);
@@ -67,11 +67,10 @@ export function MotoreIndice({
   const [hover, setHover] = useState<number | null>(null);
   const hoverRef = useRef<number | null>(null);
 
-  /** Il cursore, in opere e con la virgola: `posizione` insegue `obiettivo`,
-   *  e la posizione della griglia è il suo arrotondamento. */
+  /** Lo scorrimento in pixel: `posizione` insegue `obiettivo`, e la striscia
+   *  è traslata di `-posizione`. */
   const posizioneRef = useRef(iniziale);
   const obiettivoRef = useRef(iniziale);
-  const velocitaRef = useRef(0);
 
   useGSAP(
     () => {
@@ -90,51 +89,52 @@ export function MotoreIndice({
 
       const pagina = binario.closest<HTMLElement>(`.${styles.pagina}`) ?? binario;
 
-      /** L'ascissa di ogni opera dentro la striscia: è lì che il cursore la
-       *  porta a filo del bordo sinistro. Misurate a trasformazione azzerata,
-       *  o la seconda lettura vedrebbe la prima. */
-      let colonne: number[] = [];
+      /** Quanto la striscia può scorrere: la sua larghezza vera meno la
+       *  finestra visibile. Misurata a trasformazione azzerata. */
       let scorrimentoMax = 0;
       const misura = () => {
         gsap.set(griglia, { x: 0 });
-        const rGriglia = griglia.getBoundingClientRect();
-        colonne = celle.map((c) => c.getBoundingClientRect().left - rGriglia.left);
         scorrimentoMax = Math.max(0, griglia.scrollWidth - binario.clientWidth);
       };
       misura();
       window.addEventListener("resize", misura);
 
-      const spingi = (delta: number) => {
-        const p = obiettivoRef.current;
-        const eccesso = p < 0 ? -p : p > quante - 1 ? p - (quante - 1) : 0;
-        obiettivoRef.current += delta * (eccesso > 0 ? frena(eccesso) : 1);
+      /** Sposta l'obiettivo di `dpx`, con l'elastico se è già oltre un capo. */
+      const spingi = (dpx: number) => {
+        const o = obiettivoRef.current;
+        const oltre = o < 0 ? -o : o > scorrimentoMax ? o - scorrimentoMax : 0;
+        obiettivoRef.current += dpx * (oltre > 0 ? frena(oltre) : 1);
       };
 
-      const observer = ridotto
+      const osservatoreRotella = ridotto
         ? null
         : Observer.create({
             target: pagina,
-            type: "wheel,touch",
-            ignore: "a, button",
-            onChange: (self) => {
-              // Rotella e dito, stesso verso del nastro della timeline: scorrere
-              // GIÙ (o trascinare il dito a SINISTRA su una striscia orizzontale)
-              // avanza nell'archivio — dalla più recente verso le più vecchie.
-              const tocco = self.event.type.startsWith("touch");
-              const grezzo = tocco ? -self.deltaX : self.deltaY;
-              const delta = (grezzo / PASSO) * (tocco ? SENSIBILITA_TOCCO : 1);
-              spingi(delta);
-              velocitaRef.current = delta * 60;
-            },
-            onStop: () => {
-              velocitaRef.current = 0;
+            type: "wheel",
+            onWheel: (self) => {
+              // Scorrere GIÙ (o due dita verso sinistra) avanza nell'archivio,
+              // dalla più recente verso le più vecchie: stesso verso del
+              // nastro della timeline.
+              const asseX = Math.abs(self.deltaX) > Math.abs(self.deltaY);
+              const grezzo = asseX ? self.deltaX : self.deltaY;
+              spingi(grezzo * FATTORE_ROTELLA);
             },
           });
 
-      /** L'hover: si ascolta sul contenitore perché le celle sono
-       *  server-renderizzate. `hoverRef` evita un render ad ogni movimento
-       *  del mouse — solo un vero cambio di cella (o l'uscita) tocca lo
-       *  stato React, che è quello che la banda legge. */
+      const osservatoreTocco = ridotto
+        ? null
+        : Observer.create({
+            target: pagina,
+            type: "touch",
+            ignore: "a, button",
+            onChange: (self) => {
+              spingi(-self.deltaX * SENSIBILITA_TOCCO);
+            },
+          });
+
+      /** L'hover: `hoverRef` evita un render ad ogni movimento del mouse —
+       *  solo un vero cambio di cella (o l'uscita) tocca lo stato React, che
+       *  è quello che la banda legge. */
       const alPuntatore = (e: PointerEvent) => {
         if (e.pointerType !== "mouse") return;
         const cella = (e.target as Element | null)?.closest<HTMLElement>(`.${styles.cella}`);
@@ -156,21 +156,14 @@ export function MotoreIndice({
       const tick = () => {
         const dt = gsap.ticker.deltaRatio(60) / 60;
 
-        if (Math.abs(velocitaRef.current) > MOMENTO_SOGLIA / PASSO) {
-          spingi(velocitaRef.current * dt);
-          velocitaRef.current *= Math.pow(MOMENTO_DECADIMENTO, dt);
-        } else {
-          velocitaRef.current = 0;
-        }
-
         // Rilassamento continuo verso il capo: se l'obiettivo è oltre i confini
         // e non arriva altro input, la molla torna da sola invece di restare
         // tesa in attesa. A moto ridotto il capo è un muro.
-        const limite = quante - 1;
         if (ridotto) {
-          obiettivoRef.current = Math.min(limite, Math.max(0, obiettivoRef.current));
-        } else if (obiettivoRef.current > limite) {
-          obiettivoRef.current -= (obiettivoRef.current - limite) * smorza(RILASSAMENTO_BORDO, dt);
+          obiettivoRef.current = Math.min(scorrimentoMax, Math.max(0, obiettivoRef.current));
+        } else if (obiettivoRef.current > scorrimentoMax) {
+          obiettivoRef.current -=
+            (obiettivoRef.current - scorrimentoMax) * smorza(RILASSAMENTO_BORDO, dt);
         } else if (obiettivoRef.current < 0) {
           obiettivoRef.current -= obiettivoRef.current * smorza(RILASSAMENTO_BORDO, dt);
         }
@@ -178,15 +171,7 @@ export function MotoreIndice({
         posizioneRef.current +=
           (obiettivoRef.current - posizioneRef.current) * (ridotto ? 1 : smorza(SMORZAMENTO, dt));
 
-        const daScorrimento = Math.min(limite, Math.max(0, Math.round(posizioneRef.current)));
-
-        // La striscia si porta all'ascissa dell'opera raggiunta, a filo del
-        // bordo sinistro, senza mai scoprire il vuoto oltre l'ultima: il
-        // `clamp` a `scorrimentoMax` è ciò che rende la regola vera a ogni
-        // taglia e a ogni lunghezza dell'archivio.
-        const desiderato = colonne[daScorrimento] ?? 0;
-        const x = -Math.min(scorrimentoMax, Math.max(0, desiderato));
-        griglia.style.transform = `translateX(${x.toFixed(1)}px)`;
+        griglia.style.transform = `translateX(${(-posizioneRef.current).toFixed(1)}px)`;
       };
 
       gsap.ticker.add(tick);
@@ -195,7 +180,8 @@ export function MotoreIndice({
         window.removeEventListener("resize", misura);
         griglia.removeEventListener("pointermove", alPuntatore);
         griglia.removeEventListener("pointerleave", fuoriDallaGriglia);
-        observer?.kill();
+        osservatoreRotella?.kill();
+        osservatoreTocco?.kill();
         gsap.ticker.remove(tick);
       };
     },
