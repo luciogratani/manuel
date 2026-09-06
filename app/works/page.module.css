@@ -218,7 +218,12 @@
   opacity: 0.45;
 }
 
+/* `(NN—21)` è sempre la stessa forma. Riservarne la larghezza anche da vuoto
+   tiene i tag fermi: senza, comparendo all'hover li spingeva di mezza sua
+   larghezza — `.banda` è `space-between`, e lo spazio libero che si accorcia
+   si divide fra i due vuoti. */
 .indicatore {
+  min-width: 3.25rem; /* 52px — la stringa misura ~47 */
   text-align: right;
 }
 
