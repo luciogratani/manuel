@@ -194,6 +194,10 @@ export const VOCI: Voce[] = [
   { titolo: "L'Affair", anno: 2021, medium: "video performance", luogo: "Acre — Lume Occupato, Milano", slug: "l-affair" },
   { titolo: "Le Rêve Lever", anno: 2022, medium: "—", luogo: "—", slug: "le-reve-lever" },
   { titolo: "Funeral Rave", anno: 2023, medium: "—", luogo: "—", slug: "funeral-rave" },
+  // Mancava, ed era una svista: Feral ha una pagina, un numero e undici
+  // fotografie, ma in cronologia non c'era. Trovata il 7 settembre 2026
+  // confrontando gli slug di `lib/opere.ts` con quelli di qui.
+  { titolo: "Feral", anno: 2024, medium: "performance", luogo: "Maison du Sabotage, Sassari", slug: "feral" },
   { titolo: "Don Giovanni", anno: 2025, medium: "—", luogo: "—", slug: "don-giovanni" },
   { titolo: "Sauvage", anno: 2025, medium: "video", luogo: "Sassari", slug: "sauvage" },
   { titolo: "BDSM", anno: 2025, medium: "video", luogo: "—" },
@@ -212,6 +216,19 @@ export const VOCI: Voce[] = [
   { titolo: "Retrospettiva", anno: 2024, medium: "mostra personale", luogo: "Gebaude Gallery, Sassari" },
   { titolo: "Ombre Corte", anno: 2026, medium: "performance", luogo: "MAST, San Teodoro" },
 ];
+
+// THE MISSING ed EDITORIAL BLANKA non sono qui, e non è una dimenticanza.
+// `anno` è un numero e la cronologia colloca sull'asse a partire da quello:
+// una voce senza anno non ha un punto in cui stare. Tutt'e due in
+// `lib/opere.ts` hanno `anno: "—"`, quindi finché la data non c'è la
+// cronologia non può ospitarle — la loro assenza da qui È il modo in cui il
+// sito dichiara che quella data manca.
+//
+// Cercata il 7 settembre 2026, e non basta: le date di modifica dei file
+// danno novembre 2019 per The Missing e dicembre 2016 per Editorial Blanka,
+// ma sono date di copia, non di scatto, e quella di Blanka contraddice la
+// posizione dell'opera nella sequenza d'archivio (numero 12, fra il 2019 e il
+// 2020). Da chiedere a Manuel invece che dedurre.
 
 export const ANNI = Array.from({ length: FINE - INIZIO + 1 }, (_, i) => INIZIO + i);
 
