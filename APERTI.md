@@ -151,6 +151,49 @@ segno di quella volta**: contiene sei opere su quindici. Non è stato
 ricostruito, perché rifarlo vuol dire riderivare 334 fotografie; le misure in
 `lib/opere.ts` restano quelle giuste, è il referto a essere monco.
 
+## Il CV di Manuel, e quello che dice all'archivio
+
+**7 settembre 2026.** Il curriculum è entrato nel sito (`/cv`, il file in
+`public/cv/manuel-casati-cv.pdf`). È un documento formale, datato 2 settembre
+2026, e **risponde a mezza dozzina di domande che stavano aperte qui** — ma su
+tre punti contraddice l'archivio, e nessuno dei tre l'ho toccato.
+
+**Risposte.** I due `luogo: "da chiarire"` non lo sono più: **Feral** è
+«Maison du Sabotage, Sassari», **Don Giovanni** «Teatro Genova, Sassari».
+A Boy's Closet ha un arco, non una data sola: **9 ottobre – 14 novembre 2020**,
+Rehearsal, Milano — il 9 ottobre ricavato dal nome della cartella era giusto.
+Apoteosi è «Lo Quarter, Alghero, 29 maggio 2017».
+
+**Due opere che l'archivio non ha.** La sezione «Le opere che mancano» chiede
+da giorni quali siano le tre che porterebbero a 26. Il CV ne nomina due che
+qui non esistono: **RETROSPETTIVA** (23 novembre 2024, mostra personale,
+Gebaude Gallery, Sassari) e **OMBRE CORTE** (20 giugno 2026, live performance,
+MAST, San Teodoro). Sono da chiedere a Manuel, non da inserire a scatola
+chiusa: del materiale non si sa niente.
+
+**Tre contraddizioni da sciogliere.**
+
+- **L'Affair.** L'archivio la dà 2021, Alghero, e la cartella si chiama
+  `L'AFFAIR video performance 20-07-021` — 20 luglio. Il CV dice **26 novembre
+  2021, Acre – Lume Occupato, Milano**. Data e città diverse.
+- **Corsa Futurista.** Il CV e la bio dicono «2015/2024». In archivio le
+  edizioni sono I 2015, II 2016, III 2018, IV 2019, VI 2023: la V manca e il
+  2024 non c'è. O mancano edizioni, o l'arco è sbagliato in tutt'e due i
+  documenti.
+- **La scuola d'arte.** La bio dice «Istituto d'Arte Filippo Figari», il CV
+  «**Liceo** Artistico Filippo Figari», diploma in Arti Applicate 2008–2013.
+  Il CV dà anche una formazione che la bio non nomina: **laurea triennale in
+  Comunicazione e Didattica dell'Arte, Accademia di Belle Arti Mario Sironi,
+  2023–2026**. È quella che sta ora in `formazione` su `/about`, ed è da
+  confermare che il titolo sia conseguito: l'arco finisce quest'anno.
+
+**Due cose prima di pubblicare `/cv`.** Il PDF porta in testa un indirizzo
+email **personale** (`manuelcasati89@gmail.com`), diverso da quello che il sito
+usa ovunque, e una **fotografia di Manuel**. Pubblicando la pagina si
+pubblicano tutti e due. Il file servito è stato rinominato — la sorgente si
+chiama `Manuel_Delogu_CV.pdf` e il §2.1 dice che l'anagrafe non va in pagina —
+ma il contenuto è quello che è, e va deciso guardandolo.
+
 ## La mensola: i registri sono larghezze, e due opere restano ferme
 
 **7 settembre 2026.** I tre registri della mensola — alta, media, bassa — erano

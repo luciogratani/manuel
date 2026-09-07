@@ -498,7 +498,8 @@ export const OPERE: Opera[] = [
     ),
   },
   // La data viene dal nome della cartella («09-10-020», che nel formato delle
-  // altre — gg-mm-aa — è il 9 ottobre 2020 con uno zero di troppo), non da un
+  // altre — gg-mm-aa — è il 9 ottobre 2020 con uno zero di troppo); il CV
+  // (`public/cv/`) conferma quella data e dà la chiusura, 14 novembre. Non da un
   // documento: i due PDF sono un comunicato e un testo di progetto, e nessuno
   // dei due porta una data.
   //
@@ -526,7 +527,7 @@ export const OPERE: Opera[] = [
       "Il guardaroba di un adolescente per la mostra di Stefano Serusi, che ne " +
       "rievoca la stanza come una fiaba. Gli abiti, in una rilettura punk, " +
       "prendono fogge e colori dal manierismo italiano del Cinquecento. " +
-      "9 ottobre 2020.",
+      "Dal 9 ottobre al 14 novembre 2020.",
     crediti: [
       ["mostra di", "Stefano Serusi"],
       ["produzione", "Rehearsal Project, con Contemporary Attitude"],
@@ -685,7 +686,9 @@ export const OPERE: Opera[] = [
     titolo: "Feral",
     anno: "2024",
     medium: "performance",
-    luogo: "—",
+    // Dal CV (`public/cv/`), 7 settembre 2026: era un trattino perché nessun
+    // documento della cartella dava il luogo.
+    luogo: "Maison du Sabotage, Sassari",
     densita: "piena",
     descrizione:
       "Una performance che esplora le zone d'ombra della psiche. Inquadrature " +
@@ -737,7 +740,9 @@ export const OPERE: Opera[] = [
     titolo: "Don Giovanni",
     anno: "2025",
     medium: "performance",
-    luogo: "—",
+    // Dal CV (`public/cv/`), 7 settembre 2026: era un trattino perché nessun
+    // documento della cartella dava il luogo.
+    luogo: "Teatro Genova, Sassari",
     densita: "piena",
     descrizione:
       "Regia e scrittura di Manuel Casati e Stefano Serusi, per la rassegna Senza " +

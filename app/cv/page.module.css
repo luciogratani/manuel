@@ -1,0 +1,132 @@
+/* Il curriculum.
+
+   Come `/legali`, è una pagina fatta per essere LETTA e quindi scorre: un
+   documento di due pagine A4 non si impagina su una schermata sola. Il resto è
+   l'idioma di sempre — margini a `2x`, apparato a 14px, la riga dei contenuti
+   a 136px.
+
+   La colonna è quella di `/legali` (34rem): qui il testo è poco, ma la misura
+   deve essere la stessa delle altre pagine di lettura, se no due pagine sorelle
+   si leggono a due larghezze diverse senza motivo. */
+
+.pagina {
+  --avorio: #f5f5f0;
+  --inchiostro: #090d16;
+
+  --x: 1.125rem; /* 18px */
+  --margine: calc(var(--x) * 2); /* 36px */
+
+  min-height: 100vh;
+  background: var(--avorio);
+  color: var(--inchiostro);
+  font-family: var(--font-pp-object-sans), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+}
+
+.corpo {
+  padding: 8.5rem var(--margine) 0; /* 136px in alto, la quota condivisa */
+  width: 34rem; /* 544px */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.titolo {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.testo {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* Il record del file. Stessa griglia dei dati di /about: l'etichetta in una
+   colonna dichiarata, così i valori non si scalano l'uno rispetto all'altro. */
+.scheda {
+  margin-top: 2.5rem;
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
+
+.riga {
+  display: grid;
+  grid-template-columns: 6.25rem 1fr; /* 100px */
+  gap: 0.25rem;
+}
+
+.riga + .riga {
+  margin-top: 0.5rem;
+}
+
+.etichetta {
+  opacity: 0.55;
+}
+
+.scarico {
+  margin-top: 2.5rem;
+}
+
+/* L'unico bottone pieno del sito fuori da `contact`. Inchiostro e non rosso:
+   il §2.3 tiene l'accento per il taglio e per le due eccezioni dichiarate, e
+   scaricare un PDF non è una di quelle — vedi il commento accanto a `ROSSO` in
+   lib/movimento.ts. */
+.bottone {
+  display: inline-block;
+  padding: 0.625rem 1rem;
+  background: var(--inchiostro);
+  color: var(--avorio);
+  font-size: 0.875rem;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.rimando {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+  text-decoration-thickness: 1px;
+}
+
+/* Il visore. Alto quanto una pagina A4 alla larghezza che ha: il rapporto
+   viene dal PDF stesso (594.96 x 841.92 pt), non da un numero a piacere, così
+   la prima pagina si vede intera senza barra di scorrimento interna.
+
+   Largo quanto il canvas meno i margini, non quanto la colonna del testo: un
+   A4 stretto in 544px sarebbe illeggibile, e questa è l'unica cosa della
+   pagina che si guarda invece di leggersi. */
+.visore {
+  display: block;
+  margin: 3.5rem var(--margine) 0;
+  width: calc(100% - var(--margine) * 2);
+  max-width: 56rem; /* 896px */
+  aspect-ratio: 594.96 / 841.92;
+  border: 1px solid var(--inchiostro);
+  background: var(--avorio);
+}
+
+/* Nel flusso e non ancorato al bordo, come in `/legali`: la pagina scorre, e
+   un piede fisso coprirebbe l'ultima riga proprio mentre la si legge. */
+.piede {
+  margin-top: 7rem; /* 112px */
+  padding: 0 var(--margine) var(--margine);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+}
+
+/* Sotto la soglia compatta il visore incorporato non serve a nessuno: molti
+   browser mobili non rendono i PDF in pagina, e quelli che lo fanno danno una
+   finestrella che si scorre col dito dentro una pagina che si scorre col dito.
+   Resta lo scarico, che lì è anche il gesto giusto. */
+@media (max-width: 860px) {
+  .corpo {
+    padding-top: 5.5rem;
+  }
+
+  .visore {
+    display: none;
+  }
+}

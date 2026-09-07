@@ -242,8 +242,18 @@ export default function Page() {
             ))}
           </div>
 
+          {/* Il curriculum sta qui e non nella navigazione principale: non è
+              una quarta sezione accanto ad archivio, timeline e about — è un
+              allegato della bio, e chi arriva in fondo a questa pagina è
+              esattamente chi lo cerca. Accanto alle note legali perché sono la
+              stessa specie di rimando: documenti, non opere. */}
           <div className={styles.colonna}>
-            <p className={styles.etichetta}>legali</p>
+            <p className={styles.etichetta}>documenti</p>
+            <p>
+              <Link className={styles.rimando} href="/cv">
+                Curriculum
+              </Link>
+            </p>
             <p>
               <Link className={styles.rimando} href="/legali">
                 Note legali
