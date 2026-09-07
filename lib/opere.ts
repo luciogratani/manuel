@@ -624,8 +624,6 @@ export const OPERE: Opera[] = [
       ["a cura di", "Eleonora Angiolini"],
       ["testi", "Francesco Tola"],
       ["display", "Angelo Castucci"],
-      ["video", "Alessandro Di Palma"],
-      ["performer", "l'accidia"],
       ["produzione", "studioamatoriale, con Contemporary Attitude"],
     ],
   },
