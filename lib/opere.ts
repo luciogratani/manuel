@@ -465,10 +465,8 @@ export const OPERE: Opera[] = [
     // La copertina è il file che Manuel ha marcato verde.
     descrizione:
       "Una capsule di quattro ensemble ispirata all'ultimo decennio del " +
-      "Settecento, negli anni che precedono la Rivoluzione francese: un omaggio " +
-      "a Marie Antoinette e ai suoi abiti chiari del Trianon. L'altro " +
-      "riferimento è Picnic ad Hanging Rock, e il bianco che rende eteree le " +
-      "protagoniste. Fotografie di Giuseppe Esposito.",
+      "Settecento: un omaggio a Marie Antoinette e ai suoi abiti chiari del " +
+      "Trianon, con un forte riferimento a Picnic ad Hanging Rock.",
     scatti: foto("the-missing",
       ["01", 1200, 800], ["02", 1200, 800], ["03", 800, 1200],
       ["04", 800, 1200], ["05", 800, 1200], ["06", 1200, 800],
@@ -487,8 +485,8 @@ export const OPERE: Opera[] = [
     luogo: "—",
     densita: "documentata",
     descrizione:
-      "Servizio editoriale fotografato da Blanka Meccanica. La cartella non porta " +
-      "documenti né una data: restano le diciannove fotografie.",
+      "Servizio editoriale fotografato da Blanka Meccanica.",
+    crediti: [["foto", "Blanka Meccanica"]],
     scatti: foto("editorial-blanka",
       ["01", 787, 1181], ["02", 1181, 787], ["03", 1181, 787],
       ["04", 1181, 787], ["05", 787, 1181], ["06", 787, 1181],
@@ -717,6 +715,9 @@ export const OPERE: Opera[] = [
     descrizione:
       "Video di presentazione per la seconda serata di Sauvage, di Technoroom, " +
       "a Sassari. Maggio 2025.",
+    crediti: [
+      ["in collaborazione con", "Technoroom"],
+    ],
     // Fermo immagine da 0:36. Il derivato è RITAGLIATO: la sorgente porta due
     // bande nere verticali impresse da un export sbagliato, e sotto di esse
     // l'immagine vera è 4:3, non 16:9 — vedi `scripts/filmati.sh`.
@@ -745,10 +746,7 @@ export const OPERE: Opera[] = [
       ["regia e scrittura", "Manuel Casati e Stefano Serusi"],
       ["performer", "Manuel Casati, Antonio Cabras, Alex Ilushenka, Simone Righi"],
       ["props", "Stefano Serusi"],
-      // PROVVISORIO: il documento sorgente dice solo «lucio», senza cognome.
-      ["artwork e luci", "Lucio"],
       ["foto", "Irene Stefanini"],
-      ["rassegna", "Senza Sipario, a cura di Simone Gelsomino"],
     ],
   },
   {
