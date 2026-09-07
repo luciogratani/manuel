@@ -134,13 +134,19 @@ export default async function Page({
             <p className={styles.descrizione}>{descrizioneDi(opera)}</p>
           </div>
 
+          {/* Qui c'era «note sull'opera, il making of e i materiali
+              collegati», su tutte e trecentosessanta le viste. Non era il
+              segnaposto di un campo vuoto: era la descrizione di una funzione
+              che non esiste in nessun punto del progetto — nessun campo,
+              nessun dato, nessuno che la stesse costruendo. Tolta l'8 settembre
+              2026 su decisione di Lucio, con la stessa logica delle
+              didascalie.
+
+              Il vuoto qui sopra vale 351 e non più 278: assorbe la riga (34) e
+              il vuoto che la separava dalla nota vera (39). Così la nota e i
+              crediti restano alla quota dell'artboard — è stato tolto un
+              elemento, non ricomposta la pagina. */}
           <div className={styles.vuoto} data-vuoto="1" />
-
-          <p className={styles.nota}>
-            note sull&apos;opera, il making of e i materiali collegati
-          </p>
-
-          <div className={styles.vuoto} data-vuoto="2" />
 
           <p className={styles.nota}>
             {indice} di {M.length} — {opera.anno} · {opera.medium}

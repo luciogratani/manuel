@@ -121,14 +121,16 @@
   flex-shrink: 0;
 }
 
-.vuoto[data-vuoto="1"] {
-  flex-grow: 278;
-  max-height: 17.375rem; /* 278px */
-}
+/* 351 = 278 dell'artboard + 34 della riga tolta + 39 del vuoto che la separava
+   dalla nota. Togliendo un elemento non si ricompone la pagina: si assorbe il
+   suo ingombro, così la nota e i crediti restano alla quota per cui erano
+   stati disegnati.
 
-.vuoto[data-vuoto="2"] {
-  flex-grow: 39;
-  max-height: 2.4375rem; /* 39px */
+   Il `data-vuoto="2"` non esiste più — era il respiro fra le due note, e di
+   note ne è rimasta una. */
+.vuoto[data-vuoto="1"] {
+  flex-grow: 351;
+  max-height: 21.9375rem; /* 351px */
 }
 
 .vuoto[data-vuoto="3"] {
