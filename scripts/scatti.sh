@@ -40,6 +40,18 @@ QUALITA=5   # -q:v di ffmpeg: 2 è il massimo, 31 il minimo. 5 ≈ 200 KB a 1600
 # `Sketch for Casati Project` e `Biglietto da visita` restano fuori: non sono
 # opere. Delle cinque sottocartelle di `ph Veronica Diaz…` ne vale una sola,
 # OSER SAVOIR — le altre quattro sono rosse.
+#
+# A BOY'S CLOSET è l'unica voce della tabella che NON viene da una selezione.
+# Quella cartella non porta nessun tag del Finder: niente rossi da escludere,
+# ma nemmeno un verde che dica qual è la copertina. Gli otto file ci sono
+# tutti — sono pochi e nessuno è scarto — mentre l'ordine e la copertina li ha
+# scelti una sessione guardando i derivati. Copertina `image00005`, l'unica
+# delle tre inquadrature d'ambiente che regga la misura piccola dell'indice:
+# nelle due più larghe gli abiti diventano un punto. Da rivedere con Manuel.
+#
+# NB: qui dentro non si scrivono commenti. La tabella è una stringa fra apici
+# singoli letta riga per riga: un `#` diventerebbe uno slug, e un apostrofo
+# chiuderebbe la stringa (per questo «Boy'"'"'s» è scritto così).
 TABELLA='
 ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319435_911359268957829_198592860_n.jpg
 ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12305885_911064522320637_1360306086_n.jpg
@@ -164,6 +176,14 @@ fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Editor
 fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Editorial.jpg
 fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/New editorial coming soon.jpg
 fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Photo Davide Fanton.jpg
+a-boys-closet|A Boy'"'"'s Closet Guardaroba di un ragazzo 09-10-020/image00005.jpeg
+a-boys-closet|A Boy'"'"'s Closet Guardaroba di un ragazzo 09-10-020/image00003.jpeg
+a-boys-closet|A Boy'"'"'s Closet Guardaroba di un ragazzo 09-10-020/image00007.jpeg
+a-boys-closet|A Boy'"'"'s Closet Guardaroba di un ragazzo 09-10-020/image00004.jpeg
+a-boys-closet|A Boy'"'"'s Closet Guardaroba di un ragazzo 09-10-020/image00006.jpeg
+a-boys-closet|A Boy'"'"'s Closet Guardaroba di un ragazzo 09-10-020/image00002.jpeg
+a-boys-closet|A Boy'"'"'s Closet Guardaroba di un ragazzo 09-10-020/image00001.jpeg
+a-boys-closet|A Boy'"'"'s Closet Guardaroba di un ragazzo 09-10-020/image00008.jpeg
 la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/1603461384152_DSCT8334-min.jpg
 la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8199-min.jpg
 la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT82181603106428758-min.jpg
@@ -375,7 +395,18 @@ apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mos
 apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/ph bacstage/Creazione di una Musa Alghero (42).jpg
 '
 
-: > "$OUT/scatti.txt"
+# Il referto si azzera SOLO in una passata intera. Con degli slug in riga di
+# comando si tolgono le righe di quelli e basta: prima non era così, e un
+# `./scripts/scatti.sh apoteosi` cancellava dal referto le misure di tutte le
+# altre opere senza dirlo. Il file committato con `eb79aad` porta il segno di
+# quella volta — sei opere su quindici — e non è stato ricostruito qui perché
+# rifarlo vuol dire riderivare 334 fotografie.
+if [ $# -eq 0 ]; then
+  : > "$OUT/scatti.txt"
+elif [ -f "$OUT/scatti.txt" ]; then
+  resta=$(grep -v -E "^($(printf '%s|' "$@" | sed 's/|$//'))\|" "$OUT/scatti.txt" || true)
+  printf '%s\n' "$resta" | grep -v '^$' > "$OUT/scatti.txt" || true
+fi
 
 echo "$TABELLA" | grep -v '^$' | {
   precedente=""

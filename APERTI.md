@@ -107,6 +107,50 @@ compilato «BDSM» compare come riferimento culturale della collezione 1780/89,
 non come titolo. La voce 2025 di `lib/timeline.ts` è senza sorgente. Da
 chiarire con Manuel: è un'opera, o è un attributo di un'altra?
 
+## A Boy's Closet, e la fine delle copertine d'indice
+
+**7 settembre 2026 — A Boy's Closet è popolata.** Otto fotografie derivate
+dalla cartella sorgente, `medium: "guardaroba"`, `luogo: "Rehearsal, Milano"`,
+due crediti, e la densità passata da `minima` a `documentata`. La data —
+9 ottobre 2020 — viene dal nome della cartella (`09-10-020`, che nel formato
+delle altre è gg-mm-aa con uno zero di troppo): i due PDF sono un comunicato
+stampa e un testo di progetto, e nessuno dei due è datato.
+
+**L'ordine e la copertina non li ha scelti Manuel.** Quella cartella è l'unica
+della tabella di `scatti.sh` che non porta **nessun tag del Finder**: niente
+rossi da escludere, ma nemmeno un verde che dica qual è la copertina. Gli otto
+file sono entrati tutti — sono pochi e nessuno è scarto — mentre la sequenza è
+stata composta guardando i derivati: la copertina è `image00005`, l'unica delle
+tre inquadrature d'ambiente che regga la misura piccola dell'indice, perché
+nelle due più larghe gli abiti diventano un punto. **Da rivedere con Manuel**
+come le altre selezioni.
+
+**Cyb_God non è fra i crediti, ed è una domanda aperta.** Il testo di progetto
+lo dà come performer che indosserà gli abiti per le immagini documentative e
+aggiungerà grafica 3D in postproduzione — ma è scritto **al futuro**, in un
+documento che dichiara i suoi stessi pezzi «ancora in fase di sviluppo», e
+nelle otto fotografie della cartella **non c'è nessuno che indossi gli abiti**:
+sono appesi alla scultura a orecchio o stesi a terra. Da chiedere a Manuel: la
+partecipazione c'è stata, e in quali immagini?
+
+**Era l'ultima opera con la copertina d'indice.** `indice()` — la scorciatoia
+che dava a un'opera non ancora curata la copertina singola pescata da
+`bozze-media.sh` — è stata tolta da `lib/opere.ts`: adesso **ogni opera
+dell'archivio ha fotografie derivate dalle sorgenti** con `scripts/scatti.sh`.
+I ventiquattro file di `public/media/indice/` non li guarda più nessuno.
+Restano su disco insieme alle copertine delle opere uscite dall'archivio, e
+vanno tolti in blocco quando si decide di farlo — è una cancellazione, non una
+rifinitura.
+
+**Un bug di `scatti.sh`, trovato usandolo.** Lo script azzerava
+`public/media/scatti.txt` a ogni avvio, **anche in una passata parziale**:
+`./scripts/scatti.sh apoteosi` cancellava dal referto le misure di tutte le
+altre opere senza dirlo. Corretto — ora con degli slug in riga di comando
+toglie solo le righe di quelli. **Il file committato con `eb79aad` porta già il
+segno di quella volta**: contiene sei opere su quindici. Non è stato
+ricostruito, perché rifarlo vuol dire riderivare 334 fotografie; le misure in
+`lib/opere.ts` restano quelle giuste, è il referto a essere monco.
+
 ## `/works` legge dalla più recente, e i tag aspettano
 
 Dal 6 settembre 2026 l'indice è **una riga sola che scorre in orizzontale**,

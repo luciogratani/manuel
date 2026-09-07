@@ -140,11 +140,14 @@ const fermo = (slug: string, w: number, h: number): Scatto[] => [
   { src: `/media/${slug}/01.jpg`, w, h, fermoImmagine: true },
 ];
 
-const indice = (n: string, w: number, h: number): Scatto => ({
-  src: `/media/indice/${n}.jpg`,
-  w,
-  h,
-});
+// `indice()` è stato tolto il 7 settembre 2026, con A Boy's Closet: era la
+// scorciatoia che dava a un'opera non ancora curata la copertina singola
+// pescata da `bozze-media.sh` in /media/indice/, e A Boy's Closet era l'ultima
+// a usarla. Adesso OGNI opera dell'archivio ha fotografie derivate dalle
+// sorgenti con `scripts/scatti.sh`. I ventiquattro file di
+// `public/media/indice/` non li guarda più nessuno: restano su disco, come le
+// copertine delle opere uscite dall'archivio, e vanno tolti in blocco quando
+// si decide di farlo — vedi `APERTI.md`.
 
 /** Sotto questa durata `scripts/filmati.sh` non genera l'anteprima. Il numero
  *  è scritto in due posti — qui e là — perché sono due linguaggi; se cambia,
@@ -152,8 +155,8 @@ const indice = (n: string, w: number, h: number): Scatto => ({
 const ANTEPRIMA_SOGLIA = 30;
 
 /** I tre derivati di `scripts/filmati.sh`, che stanno tutti in
- *  /media/filmati/ e prendono il nome dallo slug dell'opera. Come `indice()` e
- *  `fr()`: la convenzione sta qui una volta sola, non ventisei. */
+ *  /media/filmati/ e prendono il nome dallo slug dell'opera. Come `foto()`: la
+ *  convenzione sta qui una volta sola, non ventisei. */
 const film = (
   slug: string,
   w: number,
@@ -496,21 +499,45 @@ export const OPERE: Opera[] = [
       ["19", 1186, 787],
     ),
   },
+  // La data viene dal nome della cartella («09-10-020», che nel formato delle
+  // altre — gg-mm-aa — è il 9 ottobre 2020 con uno zero di troppo), non da un
+  // documento: i due PDF sono un comunicato e un testo di progetto, e nessuno
+  // dei due porta una data.
+  //
+  // `medium: "guardaroba"` è la parola che usano tutte e due le fonti («il
+  // guardaroba del ragazzo, realizzato attraverso la collaborazione con il
+  // fashion designer Manuel Casati»), e dice meglio di «collezione» che cosa
+  // ci ha messo Manuel dentro la mostra di un altro.
+  //
+  // Cyb_God NON è fra i crediti, ed è una scelta. Il testo di progetto lo dà
+  // come performer che indosserà gli abiti per le immagini documentative — ma
+  // è scritto al futuro, in un documento che dichiara i suoi stessi pezzi
+  // «ancora in fase di sviluppo», e nelle otto fotografie della cartella non
+  // c'è nessuno che li indossi: gli abiti sono appesi o stesi. Un credito che
+  // il materiale non conferma è una cosa da chiedere a Manuel, non da
+  // scrivere.
   {
     numero: 13,
     slug: "a-boys-closet",
     titolo: "A Boy's Closet — Guardaroba di un ragazzo",
     anno: "2020",
-    medium: "—",
-    luogo: "—",
-    densita: "minima",
+    medium: "guardaroba",
+    luogo: "Rehearsal, Milano",
+    densita: "documentata",
     descrizione:
-      "I capi nascono dalla collaborazione con Stefano Serusi, per la sua mostra " +
-      "A boy's closet alla galleria Rehearsal di Milano, a cura di Contemporary " +
-      "Attitude. Serusi rievoca la stanza di un adolescente come una fiaba; gli " +
-      "abiti, in una rilettura punk, prendono fogge e colori dal manierismo " +
-      "italiano del Cinquecento.",
-    scatti: [indice("017", 900, 596)],
+      "Il guardaroba di un adolescente per la mostra di Stefano Serusi, che ne " +
+      "rievoca la stanza come una fiaba. Gli abiti, in una rilettura punk, " +
+      "prendono fogge e colori dal manierismo italiano del Cinquecento. " +
+      "9 ottobre 2020.",
+    crediti: [
+      ["mostra di", "Stefano Serusi"],
+      ["produzione", "Rehearsal Project, con Contemporary Attitude"],
+    ],
+    scatti: foto("a-boys-closet",
+      ["01", 1600, 1060], ["02", 1600, 1060], ["03", 1600, 1060],
+      ["04", 1600, 1060], ["05", 1060, 1600], ["06", 1600, 1060],
+      ["07", 1600, 1060], ["08", 1600, 1060],
+    ),
   },
   // L'anno viene dai timestamp dentro i nomi dei file (1603461384152 →
   // 23 ottobre 2020), non da un documento: due file coerenti, ottobre 2020.
