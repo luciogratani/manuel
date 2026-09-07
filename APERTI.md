@@ -242,6 +242,34 @@ firmata «Kismet_» che parla di 85 immagini e ringrazia per la collaborazione.
 Delle due l'una: o Kismet Habble è il nome d'arte di Veronica Diaz, o il
 credito è sbagliato. Da chiedere.
 
+## Quanto testo regge la work page
+
+Misurato in Chrome a 1440×900 su tutte e ventuno le opere, l'8 settembre 2026.
+
+L'apparato ha **169px verticali**: la colonna del testo attacca a 136 e le
+fotografie a 305. Con la colonna larga 280px — la misura dell'artboard — ci
+stanno cinque righe, cioè **~250 battute**. Finché il testo era il segnaposto
+(120 battute) il disegno reggeva; con i testi di curatela veri, da 350 a 490
+battute, **quattordici opere su ventuno avevano il testo sopra le fotografie**.
+Su Glamour Confusion erano sei righe illeggibili sull'immagine.
+
+Sistemato così, e sono tre cose distinte:
+
+- **La colonna del testo è larga 416px** invece di 280. Da 282 arriva a 698, e
+  la seconda colonna attacca a 817: lo spazio c'era. Le stesse battute passano
+  da undici righe a sette.
+- **La terza colonna parte da 136** e non più da 226, cioè dalla quota del
+  titolo invece che da quella della descrizione. I sei crediti di Don Giovanni
+  finivano 161px dentro le fotografie.
+- **I testi hanno un tetto: ~330 battute.** Non è una regola di stile, è
+  (305 − 226) / 17px di riga. Otto testi sono stati accorciati per rientrarci.
+
+**Chi scriverà i prossimi testi deve saperlo**: oltre le ~330 battute il testo
+finisce sulle fotografie, e non c'è niente nel codice che lo impedisca — non è
+un contenitore che taglia, è una posizione assoluta che non se ne accorge. Se
+un'opera meritasse un testo più lungo, la strada non è stringere la scrittura
+ma abbassare la mensola, e quella è una decisione sull'artboard.
+
 ## Manuel Delogu è Manuel Casati — confermato
 
 Il comunicato di Glamour Confusion, nella cartella sorgente

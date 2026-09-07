@@ -207,13 +207,10 @@ export const OPERE: Opera[] = [
     densita: "piena",
     descrizione:
       "Un evento nato dal connubio fra l'arte e la storia del costume, a Villa " +
-      "Sant'Elia — Villa Mimosa — di Sassari, domenica 4 maggio 2014, per " +
-      "Monumenti Aperti. L'abito perde la sua natura funzionale e diventa il " +
-      "protagonista della scena: ispirazioni dalla seconda metà del Settecento " +
-      "agli anni Trenta, con riferimenti a Maria Antonietta, alla contessa di " +
-      "Castiglione, a Elisabetta d'Austria e alla marchesa Luisa Casati. Nella " +
-      "scelta dei capi è determinante il riuso di abiti dismessi e " +
-      "l'accostamento di tessuti pregiati con altri più poveri.",
+      "Sant'Elia di Sassari, il 4 maggio 2014, per Monumenti Aperti. L'abito " +
+      "perde la sua natura funzionale e diventa il protagonista della scena: " +
+      "dal tardo Settecento agli anni Trenta, fra Maria Antonietta e la " +
+      "marchesa Luisa Casati, con abiti dismessi rimessi in gioco.",
     scatti: foto("glamour-confusion",
       ["01", 960, 585], ["02", 582, 960], ["03", 960, 662],
       ["04", 960, 831], ["05", 960, 620], ["06", 609, 960],
@@ -267,11 +264,9 @@ export const OPERE: Opera[] = [
     // sono i file che Manuel ha marcato verdi.
     descrizione:
       "La collezione Marchesa Casati: una capsule, o meglio un sarcofago decorato " +
-      "che racchiude un istante di decadente simbolismo estetico. Antichi pizzi, " +
-      "seta, pelliccia, broccato, aigrettes di piume. Musa principale Luisa " +
-      "Casati Amman e il suo mondo — un mondo che cerca nei fantasmi gotici e " +
-      "nelle teosofie orientali l'evasione dall'ordinario, e che varca per mano " +
-      "a una medium la soglia dell'inconsistente, danzando attorno a una " +
+      "che racchiude un istante di decadente simbolismo. Musa principale Luisa " +
+      "Casati Amman e il suo mondo, che cerca nei fantasmi gotici e nelle " +
+      "teosofie orientali l'evasione dall'ordinario, e danza attorno a una " +
       "tavoletta Ouija.",
     scatti: foto("oser-savoir",
       ["01", 1600, 975], ["02", 1067, 1600], ["03", 1600, 1509],
@@ -384,12 +379,11 @@ export const OPERE: Opera[] = [
     luogo: "Sassari e Alghero",
     densita: "piena",
     descrizione:
-      "Sfilata e performance in bilico tra rito pagano e passerella glamour: " +
-      "un'estetica che mette in comunione la solenne semplicità dell'arte greca " +
-      "arcaica e gli estremismi disturbanti della Wiener Aktionismus. Il lavoro " +
-      "è in tre parti — lo shooting per la locandina con la modella Raffaella " +
-      "Ariano, e due sfilate: la prima al Liceo Artistico Figari di Sassari, " +
-      "sabato 6 maggio 2017, la seconda ad Alghero, dentro la mostra a Lu Quarter.",
+      "Sfilata e performance in bilico tra rito pagano e passerella glamour: la " +
+      "solenne semplicità dell'arte greca arcaica e gli estremismi della Wiener " +
+      "Aktionismus. Tre parti — lo shooting per la locandina con Raffaella " +
+      "Ariano, la sfilata al Liceo Artistico Figari di Sassari il 6 maggio 2017, " +
+      "e quella nella mostra a Lu Quarter di Alghero.",
     scatti: foto("apoteosi",
       ["01", 820, 545], ["02", 1600, 1066], ["03", 1600, 1066],
       ["04", 1600, 1066], ["05", 545, 820], ["06", 545, 820],
@@ -459,13 +453,11 @@ export const OPERE: Opera[] = [
     densita: "documentata",
     // La copertina è il file che Manuel ha marcato verde.
     descrizione:
-      "Una capsule di quattro ensemble ispirata alla moda dell'ultimo decennio " +
-      "del Settecento, negli anni che precedono la Rivoluzione francese. Un " +
-      "omaggio a Marie Antoinette e alla sua predilezione per gli abiti " +
-      "semplici e chiari, come quelli raccomandati agli invitati della festa nei " +
-      "giardini del Trianon. L'altro riferimento è Picnic ad Hanging Rock, dove " +
-      "il bianco accecante degli abiti dà alle protagoniste una presenza eterea " +
-      "sullo sfondo di una natura aspra. Fotografie di Giuseppe Esposito.",
+      "Una capsule di quattro ensemble ispirata all'ultimo decennio del " +
+      "Settecento, negli anni che precedono la Rivoluzione francese: un omaggio " +
+      "a Marie Antoinette e ai suoi abiti chiari del Trianon. L'altro " +
+      "riferimento è Picnic ad Hanging Rock, e il bianco che rende eteree le " +
+      "protagoniste. Fotografie di Giuseppe Esposito.",
     scatti: foto("the-missing",
       ["01", 1200, 800], ["02", 1200, 800], ["03", 800, 1200],
       ["04", 800, 1200], ["05", 800, 1200], ["06", 1200, 800],
@@ -505,13 +497,11 @@ export const OPERE: Opera[] = [
     luogo: "—",
     densita: "minima",
     descrizione:
-      "I capi nascono dalla collaborazione con l'artista Stefano Serusi, per la " +
-      "sua mostra personale A boy's closet alla galleria Rehearsal di Milano, a " +
-      "cura di Contemporary Attitude. Serusi rievoca la stanza di un " +
-      "adolescente come una fiaba; gli abiti, in una rilettura punk, prendono " +
-      "fogge e colori dal manierismo italiano del Cinquecento, da Allori e dal " +
-      "Bronzino. A introdurre il progetto, una domanda: quanto di ciò che ora " +
-      "ami porterai con te nell'età adulta?",
+      "I capi nascono dalla collaborazione con Stefano Serusi, per la sua mostra " +
+      "A boy's closet alla galleria Rehearsal di Milano, a cura di Contemporary " +
+      "Attitude. Serusi rievoca la stanza di un adolescente come una fiaba; gli " +
+      "abiti, in una rilettura punk, prendono fogge e colori dal manierismo " +
+      "italiano del Cinquecento.",
     scatti: [indice("017", 900, 596)],
   },
   // L'anno viene dai timestamp dentro i nomi dei file (1603461384152 →
@@ -525,12 +515,10 @@ export const OPERE: Opera[] = [
     luogo: "Alghero",
     densita: "documentata",
     descrizione:
-      "Reinterpretazione fotografica di Boom di Joseph Losey (1968), realizzata " +
-      "ad Alghero nella stessa location del film, a sua volta tratto da " +
-      "Tennessee Williams. I due protagonisti sono archetipi calati in " +
-      "un'atmosfera tesa fra la violenza della natura e il camp più esasperato. " +
-      "Le immagini sono accompagnate da un testo narrativo di Stefano Serusi. " +
-      "Fotografie di Giuseppe Esposito.",
+      "Reinterpretazione fotografica di Boom di Joseph Losey (1968), realizzata ad " +
+      "Alghero nella stessa location del film, tratto da Tennessee Williams. Due " +
+      "archetipi in un'atmosfera tesa fra la violenza della natura e il camp. " +
+      "Testo di Stefano Serusi, fotografie di Giuseppe Esposito.",
     scatti: foto("la-distanza",
       ["01", 1067, 1600], ["02", 1067, 1600], ["03", 1067, 1600],
       ["04", 1600, 1067], ["05", 1067, 1600], ["06", 1067, 1600],
@@ -653,13 +641,11 @@ export const OPERE: Opera[] = [
     luogo: "—",
     densita: "piena",
     descrizione:
-      "Una performance che invita a mettere in discussione i valori tradizionali " +
-      "e a esplorare le zone d'ombra della psiche. Inquadrature strette, " +
-      "telecamere, l'atto di spiare: lo spettatore diventa parte dell'opera. Si " +
-      "mette in scena lo stereotipo maschile e femminile per rovesciarlo, fra " +
-      "pop art barocca e Nouvelle Vague, con tinte cyberpunk. Il kink come " +
-      "pratica identitaria. Un omaggio a Querelle de Brest di Fassbinder, dal " +
-      "romanzo di Jean Genet. Con Alex Akashi, per Sabotage.",
+      "Una performance che esplora le zone d'ombra della psiche. Inquadrature " +
+      "strette, telecamere, l'atto di spiare: lo spettatore diventa parte " +
+      "dell'opera. Lo stereotipo maschile e femminile messo in scena per " +
+      "rovesciarlo, e il kink come pratica identitaria. Un omaggio a Querelle " +
+      "de Brest di Fassbinder. Con Alex Akashi, per Sabotage.",
     scatti: foto("feral",
       ["01", 1200, 1600], ["02", 1600, 1068], ["03", 1600, 1068],
       ["04", 1200, 1600], ["05", 1200, 1600], ["06", 1200, 1600],
@@ -718,13 +704,11 @@ export const OPERE: Opera[] = [
     // passata a sé (scelta di Lucio, 7 settembre 2026).
     densita: "piena",
     descrizione:
-      "Il lavoro esplora il rapporto sessuale a pagamento attraverso la " +
-      "rappresentazione simbolica del letto, inteso come palcoscenico di " +
-      "interazioni intime e sociali. Nello spazio riservato al pubblico degli " +
-      "schermi proiettano ciò che avviene nella camera da letto; chi vuole può " +
-      "entrarvi, e trovare il performer che lo invita a un rapporto dietro " +
-      "un'offerta, deposta in una cassetta come quelle delle chiese. Il corpo " +
-      "in vendita e sacralizzato insieme. Teatro Genova, Sassari, 29 maggio 2026.",
+      "Il lavoro esplora il rapporto sessuale a pagamento attraverso il letto, " +
+      "inteso come palcoscenico di interazioni intime e sociali. Degli schermi " +
+      "proiettano ciò che avviene nella camera; chi vuole può entrarvi, e " +
+      "trovare il performer che lo invita a un rapporto dietro un'offerta. Il " +
+      "corpo in vendita e sacralizzato insieme.",
     scatti: foto("coucher-avec-moi",
       ["01", 1600, 1200], ["02", 1600, 1200], ["03", 1600, 1200],
       ["04", 1600, 1200], ["05", 1600, 1200], ["06", 1600, 1200],

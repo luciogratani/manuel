@@ -188,10 +188,19 @@
   line-height: 1.2;
 }
 
+/* La colonna del testo. Larga 416px e non più 280: con 280 un testo di
+   curatela da 450 battute occupava undici righe e finiva SOPRA la fotografia
+   corrente, che attacca a 305px — misurato su Glamour Confusion, dove le
+   ultime sei righe erano illeggibili sull'immagine. A 416px le stesse battute
+   stanno in sette righe. Lo spazio c'è: da 282 arriva a 698, e la seconda
+   colonna attacca a 817.
+
+   Resta un tetto oltre il quale il testo torna a sconfinare, ed è ~330
+   battute: non è un limite arbitrario, è (305 − 226) / 17px di riga. */
 .scheda {
   top: 8.5rem; /* 136px */
   left: 17.625rem; /* 282px — la colonna del testo */
-  width: 17.5rem; /* 280px — dove va a capo la descrizione */
+  width: 26rem; /* 416px */
 }
 
 .titolo {
@@ -204,9 +213,13 @@
   margin-top: 1.75rem;
 }
 
+/* I dati d'archivio. La larghezza serve a non sconfinare nella terza colonna:
+   senza, «capsule collection e performance» su una riga sola arrivava sotto i
+   crediti di Le Rêve — Lever. */
 .crediti {
   top: 14.125rem; /* 226px — allineati alla descrizione */
   left: 51.0625rem; /* 817px */
+  width: 16rem; /* 256px — 817 + 256 = 1073, la terza attacca a 1096 */
 }
 
 .credito {
@@ -220,7 +233,7 @@
    La larghezza la dà `.terza`. */
 .credito[data-persone] {
   flex-wrap: wrap;
-  margin-top: 0.5rem;
+  margin-top: 0.375rem;
 }
 
 .credito[data-persone] dd {
@@ -234,8 +247,13 @@
    Larga 272px e non più 160: da 1096 arriva a 1368, dentro il canvas di 1440.
    L'allineamento a destra della vecchia nota se ne va con la larghezza: una
    colonna di crediti allineata a destra non si legge. */
+/* La terza colonna parte più in alto delle altre due — dalla quota del
+   TITOLO, non da quella della descrizione. Non è un capriccio: i crediti di
+   Don Giovanni sono sei righe doppie, e partendo da 226 finivano 161px dentro
+   le fotografie. Da 136 ce n'è abbastanza per cinque crediti; oltre, sconfina
+   ancora, ed è un limite del disegno più che del foglio. */
 .terza {
-  top: 14.125rem; /* 226px — la quota delle altre due colonne */
+  top: 8.5rem; /* 136px */
   left: 68.5rem; /* 1096px */
   width: 17rem; /* 272px */
 }
@@ -294,14 +312,15 @@
 }
 
 .pagina[data-densita="minima"] .terza {
-  top: 26.875rem; /* 430px */
+  top: 32rem; /* 512px — era 430: con un testo di curatela la scheda ci arrivava */
   left: var(--colonna);
   width: 17.5rem;
 }
 
 .pagina[data-densita="minima"] .crediti {
-  top: 35rem; /* 560px */
+  top: 40rem; /* 640px — era 560, per lo stesso motivo della terza */
   left: var(--colonna);
+  width: 17.5rem;
 }
 
 /* ── L'ingresso ───────────────────────────────────────────────────────────────

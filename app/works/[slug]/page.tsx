@@ -176,9 +176,14 @@ export default async function Page({
           </dl>
         ) : null}
 
-        <p className={styles.nota}>
-          note sull&apos;opera, il making of e i materiali collegati
-        </p>
+        {/* Il segnaposto della nota si toglie di mezzo dove ci sono i crediti:
+            è una riga finta, e non vale i quaranta pixel che toglie a
+            un'informazione vera in una colonna che ne ha 169 in tutto. */}
+        {opera.crediti?.length ? null : (
+          <p className={styles.nota}>
+            note sull&apos;opera, il making of e i materiali collegati
+          </p>
+        )}
       </div>
 
       <footer className={styles.piede}>
