@@ -32,9 +32,13 @@ QUALITA=5   # -q:v di ffmpeg: 2 è il massimo, 31 il minimo. 5 ≈ 200 KB a 1600
 
 # ── La selezione: slug | percorso (relativo a $MEDIA)
 #
-# Le opere d'archivio non sono qui: si vedranno più avanti, e per ora tengono la
-# copertina singola generata da `bozze-media.sh`.
+# Le opere d'archivio si vedranno più avanti e per ora tengono la copertina
+# singola di `bozze-media.sh` — TRANNE due, dove quella copertina veniva da una
+# sottocartella marcata ROSSA, cioè da materiale escluso. Qui hanno un solo
+# file: la copertina giusta, non ancora una selezione.
 TABELLA='
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319435_911359268957829_198592860_n.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Martina 10 photos/_MG_0641.jpg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00057.jpeg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00035.jpeg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00042.jpeg

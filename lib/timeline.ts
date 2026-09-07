@@ -169,18 +169,22 @@ export type Voce = {
 
 // ATTENZIONE — dati provvisori, e volutamente incompleti.
 //
-// Sono le sole voci il cui anno è leggibile dai nomi delle cartelle in
-// 01-assets/media. Le altre non hanno una data che io possa ricavare senza
-// inventarla. Meglio dodici voci vere che ventisei con quattordici anni finti.
+// Sono le sole voci il cui anno è leggibile da una fonte: i nomi delle
+// cartelle in 01-assets/media, e — da Oser Savoir e Apoteosi in poi — i
+// documenti dentro le cartelle e il portfolio compilato. Le altre non hanno
+// una data che io possa ricavare senza inventarla. Meglio quattordici voci
+// vere che ventisei con dodici anni finti.
 //
 // Qui dentro finiranno anche le voci che opere non sono — formazione, appunti,
 // lavori esterni — che Manuel aggiungerà.
 export const VOCI: Voce[] = [
   { titolo: "Intervento per il Candide", anno: 2013, medium: "intervento", luogo: "Palazzo Guillot, Alghero", slug: "intervento-per-il-candide" },
   { titolo: "Glamour Confusion", anno: 2014, medium: "—", luogo: "—", slug: "glamour-confusion" },
+  { titolo: "Oser Savoir", anno: 2015, medium: "collezione", luogo: "—", slug: "oser-savoir" },
   { titolo: "Ph Shoot Anto", anno: 2015, medium: "—", luogo: "—", slug: "ph-shoot-anto" },
   { titolo: "Photo Editorial Design Scene", anno: 2015, medium: "editoriale", luogo: "—", slug: "photo-editorial-design-scene" },
   { titolo: "Corsa Futurista", anno: 2015, fine: 2024, medium: "—", luogo: "—", slug: "corsa-futurista" },
+  { titolo: "Apoteosi — Creazione di una Musa", anno: 2017, medium: "sfilata-performance", luogo: "—", slug: "apoteosi" },
   { titolo: "A Boy's Closet", anno: 2020, medium: "—", luogo: "—", slug: "a-boys-closet" },
   { titolo: "L'Affair", anno: 2021, medium: "video performance", luogo: "—" },
   { titolo: "Le Rêve Lever", anno: 2022, medium: "—", luogo: "—", slug: "le-reve-lever" },

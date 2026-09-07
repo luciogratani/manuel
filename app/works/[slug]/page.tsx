@@ -148,6 +148,17 @@ export default async function Page({
             <dd>{rigaFilmato.dd}</dd>
           </div>
         ) : null}
+
+        {/* Le persone dopo il materiale: prima cosa c'è, poi chi l'ha fatto.
+            `data-persone` le distingue dai dati d'archivio nel foglio — sono
+            righe lunghe e vanno a capo, gli altri crediti stanno su una riga
+            sola. */}
+        {opera.crediti?.map(([ruolo, nome]) => (
+          <div key={ruolo} className={styles.credito} data-persone="">
+            <dt>{ruolo}:</dt>
+            <dd>{nome}</dd>
+          </div>
+        ))}
       </dl>
 
       <p className={styles.nota}>
@@ -217,6 +228,13 @@ export default async function Page({
               <dd>{rigaFilmato.dd}</dd>
             </div>
           ) : null}
+
+          {opera.crediti?.map(([ruolo, nome]) => (
+            <div key={ruolo} className={styles.credito} data-persone="">
+              <dt>{ruolo}:</dt>
+              <dd>{nome}</dd>
+            </div>
+          ))}
         </dl>
 
         <p className={styles.compattaNota}>

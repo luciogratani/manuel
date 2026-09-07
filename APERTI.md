@@ -17,7 +17,15 @@ sta solo ciò che resta vero nel tempo.
 ## Le opere che mancano
 
 `lib/opere.ts` progetta «una sequenza unica 01→26» (§3.3) e contiene **diciotto**
-opere, numerate 01→18. Le pagine adesso contano invece di dichiarare, quindi
+opere, numerate 01→18.
+
+**7 settembre 2026, sera — la sequenza è stata riordinata.** Era cronologica
+solo a grandi linee: le quattro opere del 2015 stavano in un ordine qualunque.
+Con le date certe dei nomi di cartella e dei documenti — Oser Savoir 15 marzo,
+Corsa Futurista 1 maggio, Photo Editorial Design Scene 28 settembre, Ph Shoot
+Anto 25 novembre — adesso lo sono davvero, e Apoteosi ha l'anno che il
+portfolio le dà (29 maggio 2017). I numeri sono stati riassegnati di
+conseguenza: sono apparato, non identità, e gli slug non li contengono. Le pagine adesso contano invece di dichiarare, quindi
 nessuna mente — ma le cinque assenti restano da inserire, ed è curatela.
 
 Il repo non dice quali siano. Dice però dove cercarle:
@@ -52,6 +60,19 @@ Castiglioni e Stefano Raffo), **Love and Eat** (6:16, cinque performer, con un
 elaborato testuale di Manuel Delogu) e **Sauvage** (2:19, video di
 presentazione per la seconda serata di Sauvage di Technoroom, Sassari — la data
 manca). Entrare in archivio dipende dalla decisione sulla copertina, qui sotto.
+
+**L'opera 10 non era «Seduta spiritica».** La cartella sorgente si chiama
+`ph Veronica Diaz seduta spiritica e altro`, e dentro — tolte le quattro
+sottocartelle rosse, che sono Mumi Mumi, David Bowie Tribute, Gruppo in un
+interno e Me — resta una cosa sola: `OSER SAVOIR 15-03-015`, 111 fotografie.
+**Oser Savoir** è uno dei due titoli trovati nel portfolio compilato che in
+`opere.ts` non esistevano, e ha un testo curatoriale intero sulla collezione
+Marchesa Casati, le sedute spiritiche e la tavoletta Ouija — che nelle
+fotografie si vede, tavolo e Ouija compresi. La seduta è una scena dell'opera,
+non l'opera; «Veronica Diaz» è la fotografa e ora è un credito. Slug, titolo e
+anno (2015) aggiornati.
+
+Resta **Dark Romance**, l'altro titolo del portfolio senza corrispondenza.
 
 **«BDSM» invece non esiste**: nessuna cartella porta quel nome, e nel portfolio
 compilato «BDSM» compare come riferimento culturale della collezione 1780/89,
@@ -142,38 +163,39 @@ problema torna con lui.
 
 ### Cosa resta da chiarire
 
-- **Feral, `4734` non esiste.** In `After/` ci sono `_MG_4742`, `_MG_4373` e
-  `_MG_4374`. Ho incluso `_MG_4166` (segnalato come importante) e `_MG_4784`.
-- **Feral, due file verdi non nominati**: `Pictures/Carla Rudy/IMG_2258.JPG` e
-  `IMG_2263.JPG`. La regola del verde direbbe di includerli, la lista esplicita
-  non li nomina.
+- ~~Feral, il `4734` che non esiste e i due verdi di Carla Rudy.~~ **Chiuso**
+  da Lucio il 7 settembre 2026: Feral resta con gli undici scatti che ha.
 - **Coucher, il video verde da un'ora.** `video camera sinistra/20220101_015941A.mp4`
   è un rush a camera fissa di 3600 secondi, 1,1 GB. Non l'ho derivato: a CRF 25
   peserebbe centinaia di MB, ed è documentazione integrale più che opera. Le sei
   clip verdi brevi ci sono tutte.
 - **La copertina di Don Giovanni** è `_selected copyed/IMG_0542` per posizione,
   non per scelta: nessuno l'ha indicata.
-- **Le copertine d'archivio vengono da cartelle rosse.** `bozze-media.sh` pesca
-  il primo jpg in ordine alfabetico, e per **Ph Shoot Anto** e **Seduta
-  spiritica** ha pescato dentro `Nuova cartella` e `David Bowie Tribute
-  16-03-015`, entrambe marcate rosse. Sono in `lib/opere.ts` adesso. Vanno
-  rifatte, e allo script conviene insegnare a leggere i tag.
-- **I crediti veri non hanno un posto nel modello.** `Opera` ha `anno`,
-  `medium`, `luogo` e basta, ma i documenti danno molto di più — curatela,
-  performer, fotografia, artwork, musica, props. Per Funeral Rave: performer
-  Arturo Fraddi, Antonio Cabras, Simone Righi, Dimitri Ruiu, Giuseppe Hussein;
-  foto Blanka Meccanica; artwork Fabrizio Casu (in arte Tempesta); video
-  Tommaso Bentivegna. Per Don Giovanni: regia e scrittura Manuel e Stefano
-  Serusi; performer Manuel Casati, Antonio Cabras, Alex Ilushenka, Simone
-  Righi; foto Irene Stefanini; artwork e luci Lucio; props Stefano Serusi;
-  rassegna «Senza Sipario» di Simone Gelsomino. Per Feral: con Alex Akashi;
-  curatela Carla Carta e Stefania Mele per Sabotage; supporto tecnico Ivan Pes;
-  musica dal vivo Angela Colombino. Per Le Rêve — Lever: cura Eleonora
-  Angiolini, testi Francesco Tola, display Angelo Castucci, video Alessandro Di
-  Palma, prodotto da studioamatoriale con Contemporary Attitude. Per Coucher:
-  performer Edoardo Gabriel Cois, curatela Alice Zucca. **Oggi tutto questo non
-  ha dove stare.** Serve un campo `crediti` nel tipo, e una decisione su come
-  la work page lo mostra.
+- ~~Le copertine d'archivio vengono da cartelle rosse.~~ **Fatto** il 7
+  settembre 2026: Ph Shoot Anto prende la copertina da «immagini selezionate e
+  impaginate» (640px — la sorgente è quella, viene da un social), Oser Savoir
+  da `OSER SAVOIR 15-03-015`. Le due opere sono in `scripts/scatti.sh` con un
+  file solo: è la copertina giusta, non ancora una selezione. **Resta vero il
+  problema generale**: `bozze-media.sh` non sa niente dei tag e le altre
+  quindici copertine d'archivio non sono state ricontrollate una per una.
+- ~~I crediti veri non hanno un posto nel modello.~~ **Fatto** il 7 settembre
+  2026: `Credito` è una tupla `[ruolo, nome]`, `Opera.crediti` è opzionale, e
+  le righe stanno in coda alla `dl` dell'apparato — prima il materiale (anno,
+  medium, luogo, scatti, filmato), poi le persone. Le cinque opere recenti e
+  Oser Savoir hanno i crediti dai documenti sorgente; dove il documento tace,
+  la riga non c'è. Manuel non compare a meno che non abbia un ruolo che non si
+  dà per scontato — in Don Giovanni compare perché lì è anche performer.
+
+  **Due cose da sapere.** È l'unico punto in cui il foglio della work page è
+  stato toccato: `.credito[data-persone]` ha una larghezza di 16rem e va a
+  capo, perché «Arturo Fraddi, Antonio Cabras, Simone Righi, Dimitri Ruiu,
+  Giuseppe Hussein» su una riga sola correrebbe da 817px fin sotto la nota, che
+  attacca a 1096. E in `densita: "minima"` l'apparato parte da 560px: sei righe
+  di crediti ci stanno, dodici no — oggi nessuna opera minima ne ha tante, ma
+  il giorno che capita va guardato.
+
+  Ancora **PROVVISORIO**: l'artwork e le luci di Don Giovanni sono di «Lucio»,
+  perché il documento sorgente non dà il cognome.
 
 ## I video (§8): i dati ci sono, le pagine no
 

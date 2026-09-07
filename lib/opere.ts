@@ -72,6 +72,20 @@ export type Filmato = {
   didascalia?: string;
 };
 
+/** Una riga di crediti: chi ha fatto cosa. Tupla e non oggetto perché nei dati
+ *  se ne scrivono a decine e `["foto", "Irene Stefanini"]` si legge meglio di
+ *  `{ ruolo: "foto", nome: "Irene Stefanini" }` — la forma non aggiunge niente
+ *  al senso.
+ *
+ *  Il RUOLO è minuscolo come le altre etichette dell'apparato (`anno:`,
+ *  `medium:`), il nome porta le maiuscole che gli spettano. L'ordine è quello
+ *  in cui si leggono: prima chi ha fatto l'opera, poi chi l'ha documentata.
+ *
+ *  Manuel non compare fra i crediti a meno che non abbia un ruolo che non si
+ *  dà per scontato — è l'autore dell'archivio, non un collaboratore di sé
+ *  stesso. In Don Giovanni compare perché lì è anche performer. */
+export type Credito = readonly [ruolo: string, nome: string];
+
 /** Quanto materiale c'è. Il template si piega a questo, la gerarchia no. */
 export type Densita = "piena" | "documentata" | "minima";
 
@@ -90,6 +104,9 @@ export type Opera = {
   /** Assente nella quasi totalità dell'archivio: quattro opere su ventuno
    *  hanno un montato finito. Chi legge deve poter contare, non presumere. */
   filmati?: Filmato[];
+  /** Chi ha fatto cosa. Viene dai `descrizione.rtf` delle cartelle sorgente,
+   *  non da una ricostruzione: dove il documento tace, la riga non c'è. */
+  crediti?: Credito[];
 };
 
 /** Le opere che non hanno nemmeno una fotografia: solo filmati. Restano fuori
@@ -149,13 +166,22 @@ export const OPERE: Opera[] = [
   { numero: 1, slug: "istituto-darte-filippo-figari", titolo: "Istituto d'Arte Filippo Figari", anno: "2008–2013", medium: "formazione", luogo: "Sassari", densita: "minima", scatti: [indice("008", 900, 872)] },
   { numero: 2, slug: "intervento-per-il-candide", titolo: "Intervento per il Candide", anno: "2013", medium: "intervento", luogo: "Palazzo Guillot, Alghero", densita: "minima", scatti: [indice("007", 900, 600)] },
   { numero: 3, slug: "glamour-confusion", titolo: "Glamour Confusion", anno: "2014", medium: "—", luogo: "—", densita: "minima", scatti: [indice("006", 900, 539)], filmati: [film("glamour-confusion", 1600, 666, 179.18, true)] },
-  { numero: 4, slug: "ph-shoot-anto", titolo: "Ph Shoot Anto", anno: "2015", medium: "fotografia", luogo: "—", densita: "minima", scatti: [indice("012", 900, 600)] },
-  { numero: 5, slug: "photo-editorial-design-scene", titolo: "Photo Editorial Design Scene", anno: "2015", medium: "editoriale", luogo: "—", densita: "minima", scatti: [indice("013", 695, 900)] },
-  { numero: 6, slug: "corsa-futurista", titolo: "Corsa Futurista", anno: "2015–2024", medium: "—", luogo: "—", densita: "minima", scatti: [indice("004", 505, 900)] },
-  { numero: 7, slug: "apoteosi", titolo: "Apoteosi — Creazione di una Musa", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("001", 900, 600)] },
-  { numero: 8, slug: "la-distanza", titolo: "La Distanza", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("009", 600, 900)] },
-  { numero: 9, slug: "the-missing", titolo: "The Missing", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("015", 900, 600)] },
-  { numero: 10, slug: "seduta-spiritica", titolo: "Seduta spiritica", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("016", 600, 900)] },
+  // Era «Seduta spiritica», che è il nome informale della cartella sorgente
+  // («ph Veronica Diaz seduta spiritica e altro»): dentro, tolte le quattro
+  // sottocartelle rosse, resta una sola cosa — OSER SAVOIR, che nel portfolio
+  // compilato ha un testo curatoriale intero sulla collezione Marchesa Casati,
+  // le sedute spiritiche e la tavoletta Ouija. La seduta è una scena
+  // dell'opera, non l'opera. Veronica Diaz è la fotografa.
+  { numero: 4, slug: "oser-savoir", titolo: "Oser Savoir", anno: "2015", medium: "collezione", luogo: "—", densita: "minima", scatti: foto("oser-savoir", ["01", 1600, 1067]), crediti: [["foto", "Veronica Diaz"]] },
+  { numero: 5, slug: "corsa-futurista", titolo: "Corsa Futurista", anno: "2015–2024", medium: "—", luogo: "—", densita: "minima", scatti: [indice("004", 505, 900)] },
+  { numero: 6, slug: "photo-editorial-design-scene", titolo: "Photo Editorial Design Scene", anno: "2015", medium: "editoriale", luogo: "—", densita: "minima", scatti: [indice("013", 695, 900)] },
+  // La copertina di prima veniva da `Nuova cartella`, che Manuel ha marcato
+  // rossa: materiale escluso finito in prima pagina. Questa viene da «immagini
+  // selezionate e impaginate». È piccola (640px) perché la sorgente lo è.
+  { numero: 7, slug: "ph-shoot-anto", titolo: "Ph Shoot Anto", anno: "2015", medium: "fotografia", luogo: "—", densita: "minima", scatti: foto("ph-shoot-anto", ["01", 640, 960]) },
+  { numero: 8, slug: "apoteosi", titolo: "Apoteosi — Creazione di una Musa", anno: "2017", medium: "sfilata-performance", luogo: "—", densita: "minima", scatti: [indice("001", 900, 600)] },
+  { numero: 9, slug: "la-distanza", titolo: "La Distanza", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("009", 600, 900)] },
+  { numero: 10, slug: "the-missing", titolo: "The Missing", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("015", 900, 600)] },
   { numero: 11, slug: "blanka", titolo: "Blanka", anno: "—", medium: "fotografia", luogo: "—", densita: "minima", scatti: [indice("011", 900, 588)] },
   { numero: 12, slug: "a-boys-closet", titolo: "A Boy's Closet — Guardaroba di un ragazzo", anno: "2020", medium: "—", luogo: "—", densita: "minima", scatti: [indice("017", 900, 596)] },
   {
@@ -172,6 +198,17 @@ export const OPERE: Opera[] = [
       ["07", 1200, 1600],
     ),
     filmati: [film("le-reve-lever", 360, 640, 53.66, true, "Alessandro Di Palma")],
+    // Dal comunicato (`descrizione.jpeg`), che è il documento pubblicato. Il
+    // `descrizione.rtf` dà il performer come «Giorgi»: due fonti in disaccordo,
+    // e qui vince quella stampata.
+    crediti: [
+      ["a cura di", "Eleonora Angiolini"],
+      ["testi", "Francesco Tola"],
+      ["display", "Angelo Castucci"],
+      ["video", "Alessandro Di Palma"],
+      ["performer", "l'accidia"],
+      ["produzione", "studioamatoriale, con Contemporary Attitude"],
+    ],
   },
   {
     numero: 14,
@@ -190,6 +227,13 @@ export const OPERE: Opera[] = [
       ["07", 1600, 1600], ["08", 1600, 1600],
     ),
     filmati: [film("funeral-rave", 480, 848, 95.11, true, "Tommaso Bentivegna")],
+    crediti: [
+      ["performer", "Arturo Fraddi, Antonio Cabras, Simone Righi, Dimitri Ruiu, Giuseppe Hussein"],
+      ["dj", "Nazar"],
+      ["foto", "Blanka Meccanica"],
+      ["artwork", "Fabrizio Casu — Tempesta"],
+      ["video", "Tommaso Bentivegna"],
+    ],
   },
   { numero: 15, slug: "antropologia", titolo: "Antropologia", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("018", 854, 900)] },
   {
@@ -211,6 +255,12 @@ export const OPERE: Opera[] = [
       film("feral-teaser-2", 900, 1600, 9.47, true, "Alex Akashi"),
       film("feral-teaser-3", 900, 1600, 13.72, true, "Alex Akashi"),
     ],
+    crediti: [
+      ["in collaborazione con", "Alex Akashi"],
+      ["a cura di", "Carla Carta e Stefania Mele, per Sabotage"],
+      ["musica dal vivo", "Angela Colombino"],
+      ["supporto tecnico", "Ivan Pes"],
+    ],
   },
   {
     numero: 17,
@@ -227,6 +277,15 @@ export const OPERE: Opera[] = [
       ["10", 1200, 1600], ["11", 841, 1190],
     ),
     filmati: [film("don-giovanni", 720, 1280, 37.71, true, "Irene Stefanini")],
+    crediti: [
+      ["regia e scrittura", "Manuel Casati e Stefano Serusi"],
+      ["performer", "Manuel Casati, Antonio Cabras, Alex Ilushenka, Simone Righi"],
+      ["props", "Stefano Serusi"],
+      // PROVVISORIO: il documento sorgente dice solo «lucio», senza cognome.
+      ["artwork e luci", "Lucio"],
+      ["foto", "Irene Stefanini"],
+      ["rassegna", "Senza Sipario, a cura di Simone Gelsomino"],
+    ],
   },
   {
     numero: 18,
@@ -252,6 +311,11 @@ export const OPERE: Opera[] = [
       film("coucher-avec-moi-4", 640, 480, 19.47, true, "Irene Stefanini"),
       film("coucher-avec-moi-5", 640, 480, 8.37, true, "Irene Stefanini"),
       film("coucher-avec-moi-6", 640, 480, 10.77, true, "Irene Stefanini"),
+    ],
+    crediti: [
+      ["performer", "Edoardo Gabriel Cois"],
+      ["a cura di", "Alice Zucca"],
+      ["foto e video", "Irene Stefanini"],
     ],
   },
 ];

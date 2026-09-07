@@ -214,6 +214,28 @@
   gap: 0.25rem;
 }
 
+/* I crediti delle PERSONE, non i dati d'archivio. Sono l'unica riga
+   dell'apparato che può essere lunga — «Arturo Fraddi, Antonio Cabras, Simone
+   Righi, Dimitri Ruiu, Giuseppe Hussein» sono ~70 battute — e senza un limite
+   correrebbero da 817px fin sotto la nota, che attacca a 1096.
+
+   La larghezza è quella disponibile fra le due colonne, non una scelta
+   estetica: `--colonna-crediti` è 1096 − 817 = 279px, meno un respiro. Il
+   nome va a capo sotto il ruolo invece di stringersi in una colonna di due
+   parole per riga.
+
+   È l'unico punto in cui questo foglio è stato toccato per i crediti: le
+   quattro righe dei dati (anno, medium, luogo, scatti) restano come sono. */
+.credito[data-persone] {
+  flex-wrap: wrap;
+  width: 16rem; /* 256px — 279 disponibili meno il respiro dalla nota */
+  margin-top: 0.5rem;
+}
+
+.credito[data-persone] dd {
+  width: 100%;
+}
+
 .nota {
   top: 14.125rem;
   left: 68.5rem; /* 1096px */
