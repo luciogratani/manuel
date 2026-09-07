@@ -127,7 +127,7 @@ export type Opera = {
  *  nessuna cartella con quel nome, e nel portfolio compilato «BDSM» compare
  *  come riferimento culturale della collezione 1780/89, non come titolo. La
  *  voce 2025 in lib/timeline.ts resta lì in attesa che Manuel dica cos'è. */
-export const SENZA_IMMAGINI = ["L'Affair", "Love and Eat", "Sauvage"];
+export const SENZA_IMMAGINI = ["L'Affair", "Sauvage"];
 
 /** Gli scatti derivati da `scripts/scatti.sh`: una cartella per opera, i file
  *  numerati nell'ORDINE DI LETTURA della mensola — `01` è la copertina. Le
@@ -620,20 +620,6 @@ export const OPERE: Opera[] = [
   },
   {
     numero: 18,
-    slug: "antropologia",
-    titolo: "Antropologia",
-    anno: "—",
-    medium: "—",
-    luogo: "—",
-    densita: "minima",
-    descrizione:
-      "Di quest'opera l'archivio conserva una sola immagine e nessun documento: " +
-      "non c'è una cartella sorgente che le corrisponda. Titolo, anno e luogo " +
-      "restano da stabilire.",
-    scatti: [indice("018", 854, 900)],
-  },
-  {
-    numero: 19,
     slug: "feral",
     titolo: "Feral",
     anno: "2024",
@@ -665,7 +651,7 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 20,
+    numero: 19,
     slug: "don-giovanni",
     titolo: "Don Giovanni",
     anno: "2025",
@@ -690,6 +676,30 @@ export const OPERE: Opera[] = [
       ["artwork e luci", "Lucio"],
       ["foto", "Irene Stefanini"],
       ["rassegna", "Senza Sipario, a cura di Simone Gelsomino"],
+    ],
+  },
+  {
+    numero: 20,
+    slug: "love-and-eat",
+    titolo: "LOVE AND EAT",
+    anno: "2026",
+    medium: "video",
+    luogo: "—",
+    densita: "minima",
+    descrizione:
+      "Una ricerca sul cannibalismo come fame d'amore — la (dis)associazione " +
+      "di fame, sesso e sentimento che l'elaborato Cannibal Affection indaga " +
+      "dal rito azteco ai casi contemporanei. 12 febbraio 2026.",
+    // La copertina è un fermo immagine preso dal video a 2:05, che è anche il
+    // cartello del titolo. È la prima opera dell'archivio a entrare così: la
+    // via aperta dalla decisione di Lucio del 7 settembre 2026.
+    scatti: foto("love-and-eat", ["01", 1600, 900]),
+    // Il montato è l'opera, non la sua documentazione: qui la fotografia è il
+    // fermo immagine e il filmato è il materiale. È il primo caso in archivio
+    // in cui il rapporto fra i due si rovescia.
+    filmati: [film("love-and-eat", 1600, 900, 375.83, true)],
+    crediti: [
+      ["performer", "Irene Stefanini, Mattia Mennuti, Christopher Dicky, Francesca Malagesi, Martina Bazzoni"],
     ],
   },
   {

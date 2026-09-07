@@ -196,6 +196,7 @@ export const VOCI: Voce[] = [
   { titolo: "Funeral Rave", anno: 2023, medium: "—", luogo: "—", slug: "funeral-rave" },
   { titolo: "Don Giovanni", anno: 2025, medium: "—", luogo: "—", slug: "don-giovanni" },
   { titolo: "BDSM", anno: 2025, medium: "video", luogo: "—" },
+  { titolo: "LOVE AND EAT", anno: 2026, medium: "video", luogo: "—", slug: "love-and-eat" },
   { titolo: "Coucher avec moi", anno: 2026, medium: "—", luogo: "—", slug: "coucher-avec-moi" },
 ];
 

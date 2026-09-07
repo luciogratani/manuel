@@ -52,6 +52,7 @@ coucher-avec-moi-3|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 
 coucher-avec-moi-4|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2355.AVI|30
 coucher-avec-moi-5|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2361.AVI|30
 coucher-avec-moi-6|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2375.AVI|30
+love-and-eat|LOVE AND EAT 12-02-26/LOVE AND EAT.mp4|35
 '
 
 # ── Le ricette
@@ -82,6 +83,13 @@ ANTEPRIMA_LATO_MAX=1280
 # Sotto questa durata l'anteprima non si fa: dieci secondi presi da una clip di
 # otto sarebbero la clip stessa, cioè lo stesso file scaricato due volte.
 ANTEPRIMA_SOGLIA=30
+
+# Oltre questo, il frame rate scende. Un montato a 60 fps pesa quasi il doppio
+# di uno a 30 senza che si veda la differenza in una cornice di un archivio —
+# e Love and Eat, che è 1080p60 per sei minuti, senza questo non sarebbe
+# rientrato sotto il limite di GitHub. Le sorgenti già a 24, 25 o 30 non si
+# toccano: cambiare il loro passo sarebbe una modifica all'opera.
+FPS_MAX=30
 
 # Il tetto per file. Nel repo, quindi sotto il limite di GitHub (100 MB) con
 # margine. Se un derivato lo supera lo script non fallisce: lo dice, e la
@@ -123,9 +131,18 @@ echo "$TABELLA" | grep -v '^$' | while IFS='|' read -r slug rel offset; do
   # lati dispari).
   scala="scale='min($LATO_MAX,iw)':'min($LATO_MAX,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2"
 
+  # Il frame rate della sorgente, come frazione: `50/1`, `60000/1001`…
+  fps=$(ffprobe -v error -select_streams v:0 -show_entries stream=r_frame_rate \
+        -of default=noprint_wrappers=1:nokey=1 "$src")
+  giu=""
+  if awk -F/ -v m=$FPS_MAX 'BEGIN{ok=1} {if ($2+0>0 && $1/$2 > m+0.5) ok=0} END{exit ok}' <<< "$fps"; then
+    giu="-r $FPS_MAX"
+    echo "   ($fps fps → $FPS_MAX)"
+  fi
+
   echo "   intero…"
   ffmpeg -nostdin -v error -y -i "$src" \
-    -vf "$scala" \
+    -vf "$scala" $giu \
     -c:v libx264 -profile:v high -crf $CRF -preset slow -pix_fmt yuv420p \
     -c:a aac -b:a 128k -ac 2 \
     -movflags +faststart \

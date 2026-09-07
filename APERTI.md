@@ -227,13 +227,14 @@ problema torna con lui.
 
 ## Due opere senza sorgente, e un fotografo incerto
 
-**«Antropologia» non ha una cartella.** Come BDSM: è una voce di
-`lib/opere.ts` a cui in `01-assets/media` non corrisponde niente. La sua unica
-immagine è `indice/018`, derivata da `bozze-media.sh`, che pescava una foto per
-cartella — quindi quella copertina viene dalla cartella di **qualcun altro**, e
-non si sa quale. Il testo dell'opera adesso lo dice invece di nasconderlo, ma
-la voce va chiarita con Manuel: o ha una sorgente che non abbiamo trovato, o
-non è un'opera.
+~~«Antropologia» non ha una cartella.~~ **Risolto** l'8 settembre 2026: era il
+nome sbagliato di **LOVE AND EAT**, che una cartella ce l'ha eccome — con il
+montato, i performer e un elaborato testuale. L'opera ora si chiama col suo
+nome, porta la data (12 febbraio 2026) e ha il video.
+
+Resta vero il metodo che l'aveva fatta emergere: una voce di `lib/opere.ts`
+senza cartella corrispondente è un titolo da verificare, non un'opera. **BDSM**
+è ancora in quella condizione, in `lib/timeline.ts`.
 
 **Oser Savoir, chi ha fotografato?** Il credito dice «Veronica Diaz», che è il
 nome della cartella padre. Dentro però c'è una sottocartella
