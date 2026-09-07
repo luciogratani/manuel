@@ -178,7 +178,7 @@ export type Voce = {
 // Qui dentro finiranno anche le voci che opere non sono — formazione, appunti,
 // lavori esterni — che Manuel aggiungerà.
 export const VOCI: Voce[] = [
-  { titolo: "Intervento per il Candide", anno: 2013, medium: "intervento", luogo: "Palazzo Guillot, Alghero", slug: "intervento-per-il-candide" },
+  { titolo: "Candide a palazzo Guillot", anno: 2013, medium: "intervento", luogo: "Palazzo Guillot, Alghero", slug: "candide-a-palazzo-guillot" },
   { titolo: "Glamour Confusion", anno: 2014, medium: "—", luogo: "—", slug: "glamour-confusion" },
   { titolo: "Oser Savoir", anno: 2015, medium: "collezione", luogo: "—", slug: "oser-savoir" },
   { titolo: "Ph Shoot Anto", anno: 2015, medium: "—", luogo: "—", slug: "ph-shoot-anto" },
@@ -186,6 +186,7 @@ export const VOCI: Voce[] = [
   { titolo: "Corsa Futurista", anno: 2015, fine: 2024, medium: "—", luogo: "—", slug: "corsa-futurista" },
   { titolo: "Apoteosi — Creazione di una Musa", anno: 2017, medium: "sfilata-performance", luogo: "—", slug: "apoteosi" },
   { titolo: "A Boy's Closet", anno: 2020, medium: "—", luogo: "—", slug: "a-boys-closet" },
+  { titolo: "La Distanza", anno: 2020, medium: "fotografia", luogo: "Alghero", slug: "la-distanza" },
   { titolo: "L'Affair", anno: 2021, medium: "video performance", luogo: "—" },
   { titolo: "Le Rêve Lever", anno: 2022, medium: "—", luogo: "—", slug: "le-reve-lever" },
   { titolo: "Funeral Rave", anno: 2023, medium: "—", luogo: "—", slug: "funeral-rave" },

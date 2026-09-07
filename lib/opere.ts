@@ -163,9 +163,74 @@ const film = (
 });
 
 export const OPERE: Opera[] = [
-  { numero: 1, slug: "istituto-darte-filippo-figari", titolo: "Istituto d'Arte Filippo Figari", anno: "2008–2013", medium: "formazione", luogo: "Sassari", densita: "minima", scatti: [indice("008", 900, 872)] },
-  { numero: 2, slug: "intervento-per-il-candide", titolo: "Intervento per il Candide", anno: "2013", medium: "intervento", luogo: "Palazzo Guillot, Alghero", densita: "minima", scatti: [indice("007", 900, 600)] },
-  { numero: 3, slug: "glamour-confusion", titolo: "Glamour Confusion", anno: "2014", medium: "—", luogo: "—", densita: "minima", scatti: [indice("006", 900, 539)], filmati: [film("glamour-confusion", 1600, 666, 179.18, true)] },
+  {
+    numero: 1,
+    slug: "candide-a-palazzo-guillot",
+    titolo: "Candide a palazzo Guillot",
+    anno: "2013",
+    medium: "intervento",
+    luogo: "Palazzo Guillot, Alghero",
+    densita: "documentata",
+    scatti: foto("candide-a-palazzo-guillot",
+      ["01", 960, 640], ["02", 640, 960], ["03", 960, 640],
+      ["04", 640, 960], ["05", 960, 693], ["06", 960, 640],
+      ["07", 640, 960], ["08", 960, 640], ["09", 643, 960],
+      ["10", 640, 960], ["11", 960, 693], ["12", 640, 960],
+      ["13", 960, 640], ["14", 640, 960], ["15", 640, 960],
+      ["16", 960, 640], ["17", 1600, 1068], ["18", 960, 640],
+      ["19", 1600, 1068], ["20", 640, 960], ["21", 960, 640],
+      ["22", 640, 960], ["23", 960, 640], ["24", 640, 960],
+      ["25", 960, 640], ["26", 960, 640], ["27", 640, 960],
+      ["28", 960, 640], ["29", 693, 960], ["30", 640, 960],
+    ),
+    crediti: [["foto", "Blanka Meccanica"]],
+  },
+  // Dal comunicato nella cartella (`Glamour Confusion di Manuel Delogu 5.odt`),
+  // che è anche la fonte che scioglie il doppio nome: «L'idea di Manuel
+  // Delogu, in arte Manuel Casati».
+  {
+    numero: 2,
+    slug: "glamour-confusion",
+    titolo: "Glamour Confusion",
+    anno: "2014",
+    medium: "evento",
+    luogo: "Villa Sant'Elia, Sassari",
+    densita: "piena",
+    scatti: foto("glamour-confusion",
+      ["01", 960, 585], ["02", 582, 960], ["03", 960, 662],
+      ["04", 960, 831], ["05", 960, 620], ["06", 609, 960],
+      ["07", 696, 960], ["08", 624, 960], ["09", 792, 960],
+      ["10", 960, 916], ["11", 578, 960], ["12", 960, 637],
+      ["13", 960, 753], ["14", 761, 960], ["15", 960, 685],
+      ["16", 733, 960], ["17", 659, 960], ["18", 664, 960],
+      ["19", 561, 960], ["20", 960, 627], ["21", 960, 919],
+      ["22", 960, 616], ["23", 698, 960], ["24", 960, 730],
+      ["25", 960, 602], ["26", 960, 718], ["27", 960, 723],
+      ["28", 960, 602], ["29", 632, 960], ["30", 599, 960],
+      ["31", 960, 640], ["32", 960, 567], ["33", 640, 960],
+      ["34", 692, 960], ["35", 629, 960], ["36", 833, 960],
+      ["37", 593, 960], ["38", 630, 960], ["39", 601, 960],
+      ["40", 711, 960], ["41", 960, 640], ["42", 960, 640],
+      ["43", 960, 640], ["44", 960, 581], ["45", 960, 755],
+      ["46", 960, 782], ["47", 477, 960], ["48", 960, 640],
+      ["49", 960, 741], ["50", 960, 644], ["51", 960, 640],
+      ["52", 960, 650], ["53", 650, 960], ["54", 960, 625],
+      ["55", 794, 960], ["56", 960, 695], ["57", 719, 960],
+      ["58", 960, 637], ["59", 960, 695], ["60", 960, 669],
+      ["61", 886, 960], ["62", 511, 960], ["63", 640, 960],
+      ["64", 960, 709], ["65", 554, 960], ["66", 611, 960],
+      ["67", 677, 960], ["68", 808, 960], ["69", 610, 960],
+      ["70", 757, 960], ["71", 960, 634], ["72", 562, 960],
+      ["73", 632, 960], ["74", 667, 960], ["75", 960, 922],
+      ["76", 640, 960], ["77", 960, 575],
+    ),
+    filmati: [film("glamour-confusion", 1600, 666, 179.18, true)],
+    crediti: [
+      ["foto", "Chiara Cordeschi"],
+      ["testo", "Franca Mascolo"],
+      ["nell'ambito di", "Monumenti Aperti, con la Confindustria Nord Sardegna"],
+    ],
+  },
   // Era «Seduta spiritica», che è il nome informale della cartella sorgente
   // («ph Veronica Diaz seduta spiritica e altro»): dentro, tolte le quattro
   // sottocartelle rosse, resta una sola cosa — OSER SAVOIR, che nel portfolio
@@ -173,7 +238,7 @@ export const OPERE: Opera[] = [
   // le sedute spiritiche e la tavoletta Ouija. La seduta è una scena
   // dell'opera, non l'opera. Veronica Diaz è la fotografa.
   {
-    numero: 4,
+    numero: 3,
     slug: "oser-savoir",
     titolo: "Oser Savoir",
     anno: "2015",
@@ -183,22 +248,22 @@ export const OPERE: Opera[] = [
     // La copertina è quella scelta guardando un provino; le sedici che seguono
     // sono i file che Manuel ha marcato verdi.
     scatti: foto("oser-savoir",
-      ["01", 1600, 1067], ["02", 1067, 1600], ["03", 1600, 1509],
+      ["01", 1600, 975], ["02", 1067, 1600], ["03", 1600, 1509],
       ["04", 1600, 1067], ["05", 1600, 1067], ["06", 1062, 1600],
       ["07", 1067, 1600], ["08", 1600, 1000], ["09", 1067, 1600],
       ["10", 1067, 1600], ["11", 1148, 1600], ["12", 1600, 1067],
       ["13", 1100, 1600], ["14", 1600, 951], ["15", 1600, 835],
-      ["16", 1067, 1600], ["17", 1600, 975],
+      ["16", 1067, 1600],
     ),
     crediti: [["foto", "Veronica Diaz"]],
   },
-  { numero: 5, slug: "corsa-futurista", titolo: "Corsa Futurista", anno: "2015–2024", medium: "—", luogo: "—", densita: "minima", scatti: [indice("004", 505, 900)] },
+  { numero: 4, slug: "corsa-futurista", titolo: "Corsa Futurista", anno: "2015–2024", medium: "—", luogo: "—", densita: "minima", scatti: [indice("004", 505, 900)] },
   // Il titolo è quello che ha dato Lucio. Vale la pena sapere che le fonti
   // dicono altro: la cartella contiene le pagine dell'editoriale pubblicato su
   // Design Scene (28.09.15) sotto il titolo DARK ROMANCE, e «Dark Romance» è
   // anche una delle voci del portfolio compilato. Davide Fanton è il fotografo.
   {
-    numero: 6,
+    numero: 5,
     slug: "fanton-milano-fashion-week",
     titolo: "Fanton Milano Fashion Week",
     anno: "2015",
@@ -206,7 +271,11 @@ export const OPERE: Opera[] = [
     luogo: "—",
     densita: "documentata",
     scatti: foto("fanton-milano-fashion-week",
-      ["01", 768, 960], ["02", 640, 960], ["03", 1236, 1600],
+      ["01", 768, 960], ["02", 1236, 1600], ["03", 1236, 1600],
+      ["04", 1236, 1600], ["05", 1236, 1600], ["06", 1236, 1600],
+      ["07", 1236, 1600], ["08", 1236, 1600], ["09", 1236, 1600],
+      ["10", 1236, 1600], ["11", 1236, 1600], ["12", 960, 625],
+      ["13", 960, 728], ["14", 960, 960], ["15", 640, 960],
     ),
     crediti: [["foto", "Davide Fanton"]],
   },
@@ -214,7 +283,7 @@ export const OPERE: Opera[] = [
   // «immagini selezionate e impaginate». Sono tavole già impaginate, non scatti
   // sciolti, e piccole (640px) perché la sorgente lo è.
   {
-    numero: 7,
+    numero: 6,
     slug: "ph-shoot-anto",
     titolo: "Ph Shoot Anto",
     anno: "2015",
@@ -228,10 +297,9 @@ export const OPERE: Opera[] = [
       ["10", 960, 740],
     ),
   },
-  { numero: 8, slug: "apoteosi", titolo: "Apoteosi — Creazione di una Musa", anno: "2017", medium: "sfilata-performance", luogo: "—", densita: "minima", scatti: [indice("001", 900, 600)] },
-  { numero: 9, slug: "la-distanza", titolo: "La Distanza", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("009", 600, 900)] },
+  { numero: 7, slug: "apoteosi", titolo: "Apoteosi — Creazione di una Musa", anno: "2017", medium: "sfilata-performance", luogo: "—", densita: "minima", scatti: [indice("001", 900, 600)] },
   {
-    numero: 10,
+    numero: 8,
     slug: "the-missing",
     titolo: "The Missing",
     anno: "—",
@@ -249,7 +317,7 @@ export const OPERE: Opera[] = [
     crediti: [["foto", "Giuseppe Esposito"]],
   },
   {
-    numero: 11,
+    numero: 9,
     slug: "editorial-blanka",
     titolo: "Editorial Blanka",
     anno: "—",
@@ -266,9 +334,31 @@ export const OPERE: Opera[] = [
       ["19", 1186, 787],
     ),
   },
-  { numero: 12, slug: "a-boys-closet", titolo: "A Boy's Closet — Guardaroba di un ragazzo", anno: "2020", medium: "—", luogo: "—", densita: "minima", scatti: [indice("017", 900, 596)] },
+  { numero: 10, slug: "a-boys-closet", titolo: "A Boy's Closet — Guardaroba di un ragazzo", anno: "2020", medium: "—", luogo: "—", densita: "minima", scatti: [indice("017", 900, 596)] },
+  // L'anno viene dai timestamp dentro i nomi dei file (1603461384152 →
+  // 23 ottobre 2020), non da un documento: due file coerenti, ottobre 2020.
   {
-    numero: 13,
+    numero: 11,
+    slug: "la-distanza",
+    titolo: "La Distanza",
+    anno: "2020",
+    medium: "fotografia",
+    luogo: "Alghero",
+    densita: "documentata",
+    scatti: foto("la-distanza",
+      ["01", 1067, 1600], ["02", 1067, 1600], ["03", 1067, 1600],
+      ["04", 1600, 1067], ["05", 1067, 1600], ["06", 1067, 1600],
+      ["07", 1067, 1600], ["08", 1600, 1067], ["09", 1067, 1600],
+      ["10", 1067, 1600], ["11", 1600, 1067], ["12", 1600, 1067],
+      ["13", 1600, 1067],
+    ),
+    crediti: [
+      ["foto", "Giuseppe Esposito"],
+      ["testo", "Stefano Serusi"],
+    ],
+  },
+  {
+    numero: 12,
     slug: "le-reve-lever",
     titolo: "Le Rêve — Lever",
     anno: "2022",
@@ -294,7 +384,7 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 14,
+    numero: 13,
     slug: "funeral-rave",
     titolo: "Funeral Rave",
     anno: "2023",
@@ -318,9 +408,9 @@ export const OPERE: Opera[] = [
       ["video", "Tommaso Bentivegna"],
     ],
   },
-  { numero: 15, slug: "antropologia", titolo: "Antropologia", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("018", 854, 900)] },
+  { numero: 14, slug: "antropologia", titolo: "Antropologia", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("018", 854, 900)] },
   {
-    numero: 16,
+    numero: 15,
     slug: "feral",
     titolo: "Feral",
     anno: "2024",
@@ -346,7 +436,7 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 17,
+    numero: 16,
     slug: "don-giovanni",
     titolo: "Don Giovanni",
     anno: "2025",
@@ -371,7 +461,7 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 18,
+    numero: 17,
     slug: "coucher-avec-moi",
     titolo: "Coucher avec moi",
     anno: "2026",

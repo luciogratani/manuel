@@ -41,26 +41,6 @@ QUALITA=5   # -q:v di ffmpeg: 2 è il massimo, 31 il minimo. 5 ≈ 200 KB a 1600
 # opere. Delle cinque sottocartelle di `ph Veronica Diaz…` ne vale una sola,
 # OSER SAVOIR — le altre quattro sono rosse.
 TABELLA='
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Martina 10 photos/_MG_0641.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Francesca 8 photos/_MG_0599.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Martina 10 photos/_MG_0658-001.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Nonnora 9 photos/_MG_0546 - Copia.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Nonnora 9 photos/_MG_0554 - Copia.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Stefania 7 photos/_MG_0524.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Stefania 7 photos/_MG_0544.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Valeria 10 photos/_MG_0404.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Valeria 10 photos/_MG_0521 - Copia.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Valeria Abito nero 7 photos/_MG_0618.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/colloquio 12 photos/_MG_0415 - Copia.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/colloquio 12 photos/_MG_0425 - Copia.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/colloquio 12 photos/_MG_0434 - Copia.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/eleonora 10 photos/_MG_0346 - Copia.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/eleonora 10 photos/_MG_0359.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/eleonora 10 photos/_MG_0392.jpg
-oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/seduta 12 photos 6+6bw/_MG_0485.jpg
-fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Photo Davide Fanton Milano Fashion Week.jpg
-fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Photo Davide Fanton.jpg
-fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/22.jpg
 ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319435_911359268957829_198592860_n.jpg
 ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12305885_911064522320637_1360306086_n.jpg
 ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12308846_911064112320678_1059644038_n.jpg
@@ -153,6 +133,157 @@ coucher-avec-moi|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 
 coucher-avec-moi|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/foto/DSCN2380.JPG
 coucher-avec-moi|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/foto/DSCN2383.JPG
 coucher-avec-moi|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/foto/DSCN2388.JPG
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/seduta 12 photos 6+6bw/_MG_0485.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Francesca 8 photos/_MG_0599.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Martina 10 photos/_MG_0658-001.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Nonnora 9 photos/_MG_0546 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Nonnora 9 photos/_MG_0554 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Stefania 7 photos/_MG_0524.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Stefania 7 photos/_MG_0544.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Valeria 10 photos/_MG_0404.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Valeria 10 photos/_MG_0521 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Valeria Abito nero 7 photos/_MG_0618.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/colloquio 12 photos/_MG_0415 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/colloquio 12 photos/_MG_0425 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/colloquio 12 photos/_MG_0434 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/eleonora 10 photos/_MG_0346 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/eleonora 10 photos/_MG_0359.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/eleonora 10 photos/_MG_0392.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Photo Davide Fanton Milano Fashion Week.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/22.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/23.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/24.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/25.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/26.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/27.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/28.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/29.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/30.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/31.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Editorial Design Scene.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Editorial.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/New editorial coming soon.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Photo Davide Fanton.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/1603461384152_DSCT8334-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8199-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT82181603106428758-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8262-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8270-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8285-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8300-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8326-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8331-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8359-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8418-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8450-min.jpg
+la-distanza|archivio/LA DISTANZA/ph giuseppe esposito/DSCT8465-min.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1016511_601373343251254_1225950662_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1044265_507560252671098_136659531_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1186749_601375956584326_1843395711_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1231310_601374103251178_1009214640_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1233388_507563769337413_1398053138_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1233532_601373933251195_1734541522_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1233633_601374616584460_1191448038_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1234430_601376796584242_651711431_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1234498_507561106004346_89285915_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1235319_601374753251113_1835283328_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1235977_507567332670390_934237991_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1238043_601373833251205_1530736794_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1238292_601385869916668_267739827_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1239566_507565252670598_1567577467_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1239579_506972332729890_1039693257_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1240329_601376343250954_460523892_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1265105_507565282670595_397035388_o.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/12655_601372986584623_347435929_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1277159_506973142729809_2083624678_o.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/1375934_506972329396557_1517973716_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/44756_601376056584316_2122706823_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/554127_601374206584501_1317019922_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/554625_601375759917679_1895413631_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/561537_601373213251267_1447259262_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/578012_601374999917755_703674172_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/579091_601373443251244_1648308245_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/75037_601374346584487_1962438605_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/954786_601373629917892_1346022322_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/988648_507560069337783_1100210744_n.jpg
+candide-a-palazzo-guillot|archivio/Intervento per il Candide a palazzo Guillot, Alghero 21.09.13/ph blanka meccanica/993034_507564806003976_254257198_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10003913_10201989213267152_1073737992556055272_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/1012567_10201995429302549_6267519285621431813_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10153790_10201992583751412_6146149810869238279_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10153953_10201995432542630_4965903518183407972_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10153966_10201989205586960_7477715372127014096_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10157211_10201992582751387_5250180789182123363_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10167917_10201992587871515_6937757833944954328_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10167945_10201989230027571_6572176774138063952_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10170777_10201995427742510_6582808239036939800_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10170797_10201989217307253_1355273073961015229_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10171047_10201989215987220_6516002113057245126_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10171125_10201992583391403_6107680814722821146_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10171268_10201989210947094_7690157600478546199_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10171904_10201992588791538_5071196500551821909_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10172632_10201989210547084_2505247416742208758_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10173700_10201989226067472_5752050358042546836_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10174876_10201992584591433_4683328408012347610_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10176053_10201992586791488_6432839146020184333_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10176132_10201989214747189_2285338097862276630_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10177325_10201989214987195_8548240326269915825_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10247268_10201989215507208_910256561280604443_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10247381_10201992581111346_2109135099344923852_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10252018_10201992581511356_1296773703556794426_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10253748_10201989218667287_2101400532574871761_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10253926_10201989221507358_2525292267889547453_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10256533_10201992584071420_617811248541972420_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10258047_10201995428022517_5528352053925942248_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10258139_10201995431062593_4583710435463031558_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10259891_10201992587071495_4735608952952420668_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10259934_10201992585911466_5426448448938016329_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10259998_10201989207146999_7079195887783032053_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10262044_10201989223187400_6474170218447646674_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10262086_10201992582551382_6665085313506265284_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10262204_10201989227667512_3681227046052499167_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10268625_10201989212027121_6470587212110519778_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10269514_10201992588311526_3055205600109556405_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10269640_10201989209507058_8795463875891842856_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10270767_10201992589311551_3867850738709974159_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10271542_10201992583031394_8894348425979222649_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10275978_10201995428862538_8400312007525450109_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10277716_10201989217067247_3807646312272974228_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10277858_10201989210187075_3699001555062402421_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10291311_10201989224187425_6560883935993560323_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10291858_10201989213747164_173937928174021682_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10294265_10201995433102644_8518553207633697828_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10294387_10201989214467182_8854101522385965190_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10297567_10201995432342625_2448162992512725987_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10297719_10201989220387330_3946366716809763268_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10297751_10201995428302524_2006087892143618126_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10298753_10201995432502629_4100186830307603568_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10300774_10201989228707538_1424057472829603944_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10306482_10201992585071445_206945525513891476_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10306629_10201989219707313_3919566836704733802_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10309661_10201989207627011_7852400110766935455_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10310114_10201989204706938_7525461444957752037_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10313357_10201989219387305_3554227721858375563_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10313564_10201995430182571_5006135815074121387_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10313611_10201989230547584_2034685689367410585_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10314527_10201992585431454_8661225200670552159_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10314645_10201989220987345_8956032824433600592_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10320390_10201989226667487_8016139626741394666_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10325559_10201992587471505_5766312747888335311_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10325751_10201989224027421_6674211271337376429_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10330377_10201992586391478_7356962440430520514_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10330408_10201989209027046_5210938435135145488_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10334392_10201989225587460_1301793128948366231_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10337737_10201989228467532_6781766618626037975_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10341817_10201989225187450_4208205364315631047_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/10351580_10201992584751437_2021794140793989489_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/1499584_10201995430662583_7200204669272065646_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/1536627_10201989222347379_3291060979462958067_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/1781936_10201989211467107_4837855734224979216_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/1797625_10201989212387130_1617275611108610674_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/1798691_10201989215667212_5261149889357741270_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/1922078_10201989230747589_4814708745334848328_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/1922267_10201989229147549_8353014904538110841_n.jpg
+glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/locandina.jpg
 '
 
 : > "$OUT/scatti.txt"

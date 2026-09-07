@@ -213,6 +213,23 @@ problema torna con lui.
   Ancora **PROVVISORIO**: l'artwork e le luci di Don Giovanni sono di «Lucio»,
   perché il documento sorgente non dà il cognome.
 
+## Manuel Delogu è Manuel Casati — confermato
+
+Il comunicato di Glamour Confusion, nella cartella sorgente
+(`Glamour Confusion di Manuel Delogu 5.odt`), lo dice per esteso:
+**«L'idea di Manuel Delogu, in arte Manuel Casati»**. Non è più un'inferenza.
+
+Serve saperlo perché **Delogu compare come autore in tre punti dell'archivio**
+— il cartello di testa del videoclip di Glamour Confusion («a cura di Manuel
+Delogu»), `elaborato Manuel Delogu.mp4` in The Red White Horse, e
+`Elaborato Testuale - Manuel Delogu.pdf` in Love and Eat — e sono tutti e tre
+Manuel, non un collaboratore. Il §2.1 dice che il nome pubblico è **Manuel
+Casati**: l'anagrafe non va in pagina, ma chi cura l'archivio deve sapere che
+le due firme sono la stessa persona.
+
+«Casati» viene dalla Marchesa Luisa Casati, che è anche la musa dichiarata di
+Oser Savoir e la citazione in fondo a `/about`.
+
 ## I video (§8): i dati ci sono, le pagine no
 
 Dal 7 settembre 2026 il §8 non è più intero. **Quello che c'è:**
