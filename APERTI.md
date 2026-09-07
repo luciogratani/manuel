@@ -635,37 +635,51 @@ non è adattato (come `/` e `/legali`) e `manuel casati` + le tre voci a 375px
 stanno strette. Il `data-letter` di `casati` è in ordine di lettura come quello
 di `manuel`, ma non è mai stato verificato contro un taglio lettera per lettera.
 
-## La SEO c'è, ma il sito è chiuso ai motori — di proposito
+## La SEO c'è, e il sito si fa indicizzare — tranne le opere con nudo
 
 **7 settembre 2026.** Il sito non aveva niente: `description` vuota, nessun
 Open Graph, nessuna sitemap, e ventitré work page che si chiamavano tutte
-«Manuel Casati». Condiviso in chat mostrava l'URL nudo.
+«Manuel Casati». Condiviso in chat mostrava l'URL nudo. Adesso ha
+`metadataBase`, una descrizione vera, titoli e descrizioni per pagina,
+`og:image` per opera (la copertina, con le misure vere), la card 1200×630
+disegnata da Lucio, `robots.txt` e `sitemap.xml` derivata da `OPERE`.
 
-Adesso ha `metadataBase`, una descrizione vera, titoli e descrizioni per
-pagina, `og:image` per opera (la copertina, con le misure vere), una card
-1200×630 per la home, `robots.txt` e `sitemap.xml` derivata da `OPERE`.
+**8 settembre 2026 — correzione.** La prima versione bloccava tutto:
+`Disallow: /` e `noindex` su ogni pagina. **Quella scelta non era di Lucio, era
+una deduzione di chi scriveva** — dalla bozza legale e dai ritratti di persone
+identificabili — presentata come se fosse ovvia. Non lo era, ed è stata
+ribaltata: **home, about, cronologia, indice e curriculum sono pagine sicure e
+vanno trovate.**
 
-**E un `Disallow: /` che blocca l'indicizzazione.** Non è una precauzione
-generica: indicizzare vuol dire mandare le fotografie in Google Immagini, e
-questo archivio pubblica ritratti di persone identificabili. Finché le
-liberatorie non sono raccolte e `/legali` non è stata letta da un legale, il
-blocco resta. Il sito intanto è pienamente utilizzabile: chi ha il link lo
-apre, e un link si manda a un curatore o dentro una open call senza passare da
-un motore. Toglie solo la parte che non si può richiamare indietro — una
-fotografia entrata nella cache di un motore ci resta anche dopo.
+Era anche il modo tecnicamente sbagliato di ottenere quel risultato. Un
+`Disallow` impedisce la **scansione**, non l'indicizzazione: il robot non
+entra, quindi non legge il `noindex` scritto nella pagina, e può indicizzare
+l'indirizzo lo stesso se lo trova linkato altrove — una riga vuota senza
+titolo. E i robot delle anteprime (WhatsApp, X, Slack, Facebook) rispettano
+`robots.txt`: bloccandoli, la card non veniva nemmeno letta.
 
-**Come si toglie, il giorno che si decide**: due righe, in due file. In
-`app/robots.ts` il `disallow` torna `[]`, in `app/layout.tsx` sparisce
-`robots: { index: false }`. Tutto il resto è già scritto per quel giorno.
+**Fuori dai motori restano le singole opere con nudo**, dichiarate una per una
+con il campo `nudo` di `lib/opere.ts`. Portano `noindex, follow, noimageindex`
+sulla work page e sulle viste ravvicinate — il `noimageindex` è quello che
+conta, perché senza la copertina potrebbe finire in Google Immagini anche da
+una pagina non indicizzata — e non compaiono nella mappa del sito. **Nel sito
+non cambia niente**: si vedono come le altre.
 
-**Il dominio è un'ipotesi**: `https://manuelcasati.it`, ricavato
-dall'indirizzo email che il sito usa ovunque. Sta in `lib/sito.ts`, scritto una
-volta sola. Se è un altro, si cambia lì.
+### La lista è una prima passata, e va rivista
 
-Una nota tecnica che è costata un errore: `robots.ts` e `sitemap.ts` sono
-moduli a sé, e importando una costante da `app/layout.tsx` si tirano dietro
-font e fogli di stile — tutt'e due le rotte rispondevano 500. Per questo il
-dominio vive in `lib/sito.ts`, che non importa niente.
+Marcate: **Le Rêve Lever, La Distanza, Feral, Sauvage, Don Giovanni, Coucher
+avec moi**. Le prove sono diverse fra loro, e nessuna è un audit:
+
+- **Le Rêve Lever** è l'unica certa: le quattordici fotografie sono state
+  guardate una per una l'8 settembre, derivandole.
+- Le altre cinque vengono dalla sola **copertina** — un torso nudo, polsi
+  ammanettati, una figura in biancheria, una scena di letto.
+
+**Le copertine non bastano.** Le Rêve ha la copertina vestita e dentro ha nudo:
+se il criterio fosse stato la copertina, quella sarebbe sfuggita. Quindi dove
+il campo `nudo` manca **non vuol dire «non c'è», vuol dire «non guardato»** —
+restano diciassette opere e oltre trecento fotografie mai passate in rassegna
+con questo occhio. Va fatto da Manuel e Lucio, non dedotto.
 
 ## Le note legali sono una bozza
 

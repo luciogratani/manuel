@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -21,6 +22,29 @@ export function generateStaticParams() {
   return OPERE.flatMap((opera) =>
     materiali(opera).map((m) => ({ slug: opera.slug, n: String(m.n) })),
   );
+}
+
+/** Queste pagine non stanno nella mappa del sito — sono trecentotrentaquattro
+ *  e portano una fotografia ciascuna dentro la stessa cornice — ma un motore
+ *  ci arriva lo stesso seguendo i rimandi della mensola. Quindi il `noindex`
+ *  delle opere con nudo va ripetuto QUI: è dove la fotografia si vede grande,
+ *  ed è la pagina che si vorrebbe tenere fuori più della copertina.
+ *
+ *  Il titolo porta il numero del materiale perché due viste della stessa opera
+ *  non si chiamino allo stesso modo. */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; n: string }>;
+}): Promise<Metadata> {
+  const { slug, n } = await params;
+  const opera = perSlug(slug);
+  if (!opera) return {};
+
+  return {
+    title: `${opera.titolo} — ${numerato(Number(n))}`,
+    robots: opera.nudo ? { index: false, follow: true, noimageindex: true } : undefined,
+  };
 }
 
 export default async function Page({

@@ -8,17 +8,17 @@ import { Testa } from "@/components/testa";
 import { fontVariables } from "@/lib/fonts";
 import "./globals.css";
 
-// ── PERCHÉ IL SITO NON SI FA INDICIZZARE ────────────────────────────────────
-// `index: false` non è una svista né una precauzione generica: indicizzare
-// significa mandare le fotografie in Google Immagini, e questo archivio
-// pubblica ritratti di persone identificabili. L'art. 96 L. 633/1941 chiede il
-// consenso della persona ritratta, `APERTI.md` dice che le liberatorie non
-// sono ancora state raccolte, e `/legali` è una bozza mai letta da un legale.
+// Il sito SI FA INDICIZZARE. C'era un `robots: { index: false }` qui e un
+// `Disallow: /` in `app/robots.ts`, messi l'8 settembre 2026 ragionando sulla
+// bozza legale — ma era una deduzione, non una decisione di Lucio, e la
+// decisione è l'opposto: home, about, cronologia, indice e curriculum sono
+// pagine sicure e vanno trovate.
 //
-// Così il sito si può pubblicare e mandare a curatori e open call — chi ha il
-// link lo apre — senza che finisca nei motori. È una riga, e si toglie il
-// giorno in cui quella parte è chiusa. Il resto dei metadati è già pronto per
-// quel giorno: toglierla è l'unica cosa da fare.
+// A restare fuori dai motori sono le sole opere che contengono nudo, una per
+// una, con il campo `nudo` di `lib/opere.ts`. Il blocco totale, oltre a non
+// essere voluto, era anche tecnicamente sbagliato: impedendo la scansione
+// nessun robot leggeva il `noindex` della pagina, e i robot delle anteprime —
+// WhatsApp, X, Slack — non prendevano nemmeno la card.
 export const metadata: Metadata = {
   metadataBase: SITO,
   title: {
@@ -30,7 +30,6 @@ export const metadata: Metadata = {
   description:
     "Archivio di Manuel Casati: moda, sartoria, performance e ricerca sul " +
     "corpo. Ventitré opere dal 2013, in ordine cronologico.",
-  robots: { index: false, follow: false },
   openGraph: {
     type: "website",
     locale: "it_IT",

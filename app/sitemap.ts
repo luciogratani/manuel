@@ -32,7 +32,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: url("/about"), priority: 0.7, changeFrequency: "yearly" },
     { url: url("/cv"), priority: 0.6, changeFrequency: "yearly" },
     { url: url("/legali"), priority: 0.2, changeFrequency: "yearly" },
-    ...OPERE.map((opera) => ({
+    // Le opere con nudo restano fuori: la mappa è un invito, e non si invita
+    // un motore su una pagina che poi gli si chiede di non indicizzare. Il
+    // `noindex` sulla pagina resta comunque, perché a una pagina ci si arriva
+    // anche senza mappa.
+    ...OPERE.filter((opera) => !opera.nudo).map((opera) => ({
       url: url(`/works/${opera.slug}`),
       priority: 0.8,
       changeFrequency: "yearly" as const,

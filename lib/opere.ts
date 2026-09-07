@@ -121,6 +121,20 @@ export type Opera = {
    *  la curatela non ha ancora raccontato, invece di riempire il buco con una
    *  frase generica che sembra vera. */
   descrizione?: string;
+  /** L'opera contiene nudo. L'unico effetto è sui MOTORI DI RICERCA: la sua
+   *  pagina e le sue viste ravvicinate portano `noindex`, e restano fuori dalla
+   *  mappa del sito. Nel sito non cambia niente — si vedono come le altre.
+   *
+   *  Il resto dell'archivio si indicizza normalmente (decisione di Lucio,
+   *  8 settembre 2026): home, about, cronologia, indice e curriculum sono
+   *  pagine sicure e vanno trovate. Questo campo serve solo a tenere fuori dai
+   *  motori, e da Google Immagini, ciò che non si vuole ci finisca.
+   *
+   *  ATTENZIONE: la lista è una PRIMA PASSATA e va rivista opera per opera. Le
+   *  copertine non bastano a dirlo — Le Rêve Lever ha la copertina vestita e
+   *  dentro ha nudo — quindi dove il campo manca non vuol dire «non c'è», vuol
+   *  dire «non guardato». Vedi `APERTI.md`. */
+  nudo?: true;
 };
 
 /** Gli scatti derivati da `scripts/scatti.sh`: una cartella per opera, i file
@@ -557,6 +571,8 @@ export const OPERE: Opera[] = [
   {
     numero: 14,
     slug: "la-distanza",
+    // visto: la copertina e un torso nudo.
+    nudo: true,
     titolo: "La Distanza",
     anno: "2020",
     medium: "fotografia",
@@ -611,6 +627,8 @@ export const OPERE: Opera[] = [
   {
     numero: 16,
     slug: "le-reve-lever",
+    // visto: le fotografie derivate l'8 settembre mostrano il performer nudo.
+    nudo: true,
     titolo: "Le Rêve — Lever",
     anno: "2022",
     medium: "capsule collection e performance",
@@ -705,6 +723,8 @@ export const OPERE: Opera[] = [
   {
     numero: 19,
     slug: "feral",
+    // visto: la copertina e polsi ammanettati su pelle nuda, e il testo parla di kink.
+    nudo: true,
     titolo: "Feral",
     anno: "2024",
     medium: "performance",
@@ -739,6 +759,8 @@ export const OPERE: Opera[] = [
   {
     numero: 20,
     slug: "sauvage",
+    // visto: il fermo immagine e un torso nudo.
+    nudo: true,
     titolo: "Sauvage",
     anno: "2025",
     medium: "video",
@@ -759,6 +781,8 @@ export const OPERE: Opera[] = [
   {
     numero: 21,
     slug: "don-giovanni",
+    // visto: la copertina ritrae una figura in biancheria.
+    nudo: true,
     titolo: "Don Giovanni",
     anno: "2025",
     medium: "performance",
@@ -815,6 +839,8 @@ export const OPERE: Opera[] = [
   {
     numero: 23,
     slug: "coucher-avec-moi",
+    // visto: la copertina e una scena di letto.
+    nudo: true,
     titolo: "Coucher avec moi",
     anno: "2026",
     medium: "performance",

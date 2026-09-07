@@ -67,6 +67,11 @@ export async function generateMetadata({
   return {
     title: opera.titolo,
     description: descrizione,
+    // Le opere con nudo restano fuori dai motori — pagina e immagini. Il
+    // `noimageindex` è quello che conta davvero: senza, la copertina potrebbe
+    // finire in Google Immagini anche da una pagina non indicizzata.
+    // Nel sito non cambia niente: l'opera si vede come le altre.
+    robots: opera.nudo ? { index: false, follow: true, noimageindex: true } : undefined,
     openGraph: {
       type: "article",
       title: `${opera.titolo} — Manuel Casati`,

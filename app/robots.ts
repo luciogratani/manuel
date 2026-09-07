@@ -1,32 +1,29 @@
 import type { MetadataRoute } from "next";
 import { SITO } from "@/lib/sito";
 
-// ── IL SITO NON SI FA INDICIZZARE, ED È DELIBERATO ──────────────────────────
-// Indicizzare vuol dire mandare le fotografie in Google Immagini, e questo
-// archivio pubblica ritratti di persone identificabili. L'art. 96 L. 633/1941
-// chiede il consenso della persona ritratta; `APERTI.md` dice che le
-// liberatorie non sono ancora state raccolte, e `/legali` dichiara sé stessa
-// una bozza mai letta da un legale.
+// I motori possono entrare. Il blocco totale che c'era qui — `Disallow: /` —
+// non era una scelta di Lucio ma una mia deduzione dalla bozza legale, ed è
+// stato tolto l'8 settembre 2026.
 //
-// Il blocco lascia il sito perfettamente utilizzabile: chi ha il link lo apre,
-// e un link si manda a un curatore o dentro una open call senza passare da un
-// motore. Toglie solo la parte che non si può richiamare indietro — una
-// fotografia entrata nella cache di un motore ci resta anche dopo che l'hai
-// tolta dal sito.
+// Era anche il modo sbagliato di ottenere quello che sembrava servire. Un
+// `Disallow` impedisce la SCANSIONE, non l'indicizzazione: il robot non entra,
+// quindi non legge il `noindex` scritto nella pagina, e può indicizzare
+// l'indirizzo lo stesso se lo trova linkato altrove — una riga vuota senza
+// titolo. Per non farsi catalogare bisogna al contrario farsi leggere.
 //
-// ── COME SI TOGLIE ──────────────────────────────────────────────────────────
-// Due righe, in due file: qui `disallow` torna `[]`, e in `app/layout.tsx`
-// sparisce `robots: { index: false }`. Tutto il resto — sitemap, titoli per
-// opera, immagini delle anteprime — è già scritto per quel giorno e comincia a
-// funzionare da solo.
+// E i robot delle anteprime (WhatsApp, X, Slack, Facebook) rispettano questo
+// file: bloccandoli non prendevano la card, e i link condivisi mostravano
+// l'URL nudo.
 //
-// La sitemap resta dichiarata anche adesso: non invita nessuno a entrare
-// finché il `disallow` regge, ed è pronta quando cadrà.
+// Ciò che resta fuori dai motori sono le singole opere con nudo, dichiarate
+// nel campo `nudo` di `lib/opere.ts`: portano `noindex` nella loro pagina e
+// non compaiono nella mappa. È il posto giusto per quella decisione, perché è
+// una decisione per opera e non per sito.
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      disallow: "/",
+      allow: "/",
     },
     sitemap: new URL("/sitemap.xml", SITO).toString(),
   };
