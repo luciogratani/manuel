@@ -165,10 +165,19 @@ problema torna con lui.
 
 - ~~Feral, il `4734` che non esiste e i due verdi di Carla Rudy.~~ **Chiuso**
   da Lucio il 7 settembre 2026: Feral resta con gli undici scatti che ha.
-- **Coucher, il video verde da un'ora.** `video camera sinistra/20220101_015941A.mp4`
-  è un rush a camera fissa di 3600 secondi, 1,1 GB. Non l'ho derivato: a CRF 25
-  peserebbe centinaia di MB, ed è documentazione integrale più che opera. Le sei
-  clip verdi brevi ci sono tutte.
+- ~~Coucher, il video verde da un'ora.~~ **Chiuso** da Lucio il 7 settembre
+  2026: il rush a camera fissa (3600 secondi, 1,1 GB) **non va incluso**.
+
+  E vale in generale: **dove un'opera ha troppi video, il montaggio lo fa
+  Lucio** — Coucher e gli altri lavori con molte riprese, e anche il filmato
+  dell'hero della home. Quindi le sei clip brevi di Coucher che sono in
+  archivio adesso sono **provvisorie**: stanno lì finché non arriva il
+  montaggio, e allora si sostituiscono con quello. Lo stesso vale per
+  `public/media/home/hero.mp4`.
+
+  La conseguenza per chi lavora qui: non spendere tempo a curare la sequenza
+  delle clip di un'opera che aspetta un montaggio. Il montaggio è un file solo,
+  e quando arriva prende il posto di tutte.
 - **La copertina di Don Giovanni** è `_selected copyed/IMG_0542` per posizione,
   non per scelta: nessuno l'ha indicata.
 - ~~Le copertine d'archivio vengono da cartelle rosse.~~ **Fatto** il 7
