@@ -107,6 +107,11 @@ export type Opera = {
   /** Chi ha fatto cosa. Viene dai `descrizione.rtf` delle cartelle sorgente,
    *  non da una ricostruzione: dove il documento tace, la riga non c'è. */
   crediti?: Credito[];
+  /** Il testo dell'opera: cosa succede, quando, dove. Dove manca, la work page
+   *  mostra ancora il segnaposto — così si vede a colpo d'occhio quali opere
+   *  la curatela non ha ancora raccontato, invece di riempire il buco con una
+   *  frase generica che sembra vera. */
+  descrizione?: string;
 };
 
 /** Le opere che non hanno nemmeno una fotografia: solo filmati. Restano fuori

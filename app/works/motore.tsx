@@ -67,6 +67,36 @@ function frena(oltre: number) {
   return 1 / (1 + oltre / ELASTICO_PX);
 }
 
+/** Dove eravamo rimasti nell'indice. Entrare in un'opera e tornare indietro
+ *  rimandava la striscia a capo, e chi stava guardando il 2016 si ritrovava
+ *  sul 2026: l'archivio si sfoglia, e sfogliando non si riparte da capo.
+ *
+ *  `sessionStorage` e non `localStorage`: la posizione vale per la visita in
+ *  corso, non per la prossima settimana. Chiusa la scheda, l'indice riparte
+ *  dalla più recente — che è il suo stato naturale.
+ *
+ *  Ogni accesso è protetto: in una finestra privata, o con i dati di sito
+ *  bloccati, `sessionStorage` non legge e non scrive ma SOLLEVA, e non è
+ *  questo che deve impedire all'indice di funzionare. */
+const MEMORIA = "works:scorrimento";
+
+function leggiScorrimento(): number | null {
+  try {
+    const v = Number(sessionStorage.getItem(MEMORIA));
+    return Number.isFinite(v) && v > 0 ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+function scriviScorrimento(px: number) {
+  try {
+    sessionStorage.setItem(MEMORIA, String(Math.round(px)));
+  } catch {
+    /* senza memoria si riparte da capo: è il comportamento di prima. */
+  }
+}
+
 export function MotoreIndice({
   children,
   banda,
@@ -128,6 +158,17 @@ export function MotoreIndice({
       };
       misura();
       window.addEventListener("resize", misura);
+
+      // Si riprende da dove si era rimasti, ma dentro i limiti di ADESSO: la
+      // striscia potrebbe essere più corta di quando l'abbiamo lasciata (una
+      // finestra più larga, un'opera in meno).
+      const ripreso = leggiScorrimento();
+      if (ripreso !== null) {
+        const dove = Math.min(ripreso, scorrimentoMax);
+        posizioneRef.current = dove;
+        obiettivoRef.current = dove;
+        griglia.style.transform = `translateX(${-dove}px)`;
+      }
 
       /** Sposta l'obiettivo di `dpx`, con l'elastico se è già oltre un capo.
        *  Un input manuale annulla lo scorrimento verso una categoria: chi
@@ -226,6 +267,7 @@ export function MotoreIndice({
       gsap.ticker.add(tick);
 
       return () => {
+        scriviScorrimento(posizioneRef.current);
         window.removeEventListener("resize", misura);
         griglia.removeEventListener("pointermove", alPuntatore);
         griglia.removeEventListener("pointerleave", fuoriDallaGriglia);

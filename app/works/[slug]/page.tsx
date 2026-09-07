@@ -60,6 +60,12 @@ export default async function Page({
   // Un filmato solo si dice per nome («filmato: 1:35»); più di uno si conta,
   // perché sei durate in fila («0:13 · 0:07 · 0:24 · …») smettono di essere un
   // dato e diventano un elenco. Coucher avec moi ne ha sei.
+  // Il segnaposto resta dov'è finché la curatela non scrive: un'opera senza
+  // testo si deve VEDERE che non ce l'ha.
+  const descrizione =
+    opera.descrizione ??
+    "descrizione dell'opera — cosa succede, quando, dove, e perché sta in questa sequenza. Testo da scrivere con la curatela.";
+
   const filmati = opera.filmati ?? [];
   const durata = durataLeggibile(filmati.reduce((t, f) => t + f.durata, 0));
   const rigaFilmato =
@@ -115,10 +121,7 @@ export default async function Page({
       <div className={styles.scheda}>
         <p className={styles.numero}>({numerato(opera.numero)})</p>
         <h1 className={styles.titolo}>{opera.titolo}</h1>
-        <p className={styles.descrizione}>
-          descrizione dell&apos;opera — cosa succede, quando, dove, e perché sta
-          in questa sequenza. Testo da scrivere con la curatela.
-        </p>
+        <p className={styles.descrizione}>{descrizione}</p>
       </div>
 
       <dl className={styles.crediti}>
@@ -149,21 +152,34 @@ export default async function Page({
           </div>
         ) : null}
 
-        {/* Le persone dopo il materiale: prima cosa c'è, poi chi l'ha fatto.
-            `data-persone` le distingue dai dati d'archivio nel foglio — sono
-            righe lunghe e vanno a capo, gli altri crediti stanno su una riga
-            sola. */}
-        {opera.crediti?.map(([ruolo, nome]) => (
-          <div key={ruolo} className={styles.credito} data-persone="">
-            <dt>{ruolo}:</dt>
-            <dd>{nome}</dd>
-          </div>
-        ))}
       </dl>
 
-      <p className={styles.nota}>
-        note sull&apos;opera, il making of e i materiali collegati
-      </p>
+      {/* La terza colonna. Le persone stanno qui e non nella `dl` dei dati:
+          in Glamour Confusion la seconda colonna arrivava a toccare la linea
+          delle fotografie, perché i dati d'archivio sono cinque righe corte e
+          i crediti possono esserne altre sei lunghe. Due colonne, due
+          mestieri: là cosa c'è, qui chi l'ha fatto.
+
+          Nota e persone sono in FLUSSO dentro un contenitore assoluto, non
+          due assoluti a quote diverse: così la nota scende da sé quando i
+          crediti sono tanti, invece di richiedere un `top` calcolato a mano
+          che sarebbe sbagliato per la prima opera con una riga in più. */}
+      <div className={styles.terza}>
+        {opera.crediti?.length ? (
+          <dl className={styles.persone}>
+            {opera.crediti.map(([ruolo, nome]) => (
+              <div key={ruolo} className={styles.credito} data-persone="">
+                <dt>{ruolo}:</dt>
+                <dd>{nome}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+
+        <p className={styles.nota}>
+          note sull&apos;opera, il making of e i materiali collegati
+        </p>
+      </div>
 
       <footer className={styles.piede}>
         <p>
@@ -181,10 +197,7 @@ export default async function Page({
       <div className={styles.compatta}>
         <p className={styles.compattaNumero}>({numerato(opera.numero)})</p>
         <h1 className={styles.compattaTitolo}>{opera.titolo}</h1>
-        <p className={styles.compattaDescrizione}>
-          descrizione dell&apos;opera — cosa succede, quando, dove, e perché sta
-          in questa sequenza. Testo da scrivere con la curatela.
-        </p>
+        <p className={styles.compattaDescrizione}>{descrizione}</p>
 
         <div className={styles.compattaFoto}>
           {opera.scatti.map((scatto, i) => (

@@ -19,11 +19,14 @@ import styles from "./page.module.css";
 //
 // ── Cosa il sito fa davvero ─────────────────────────────────────────────────
 // Le affermazioni sui dati sono verificate nel codice, non promesse: non c'è
-// analitica, non ci sono terze parti, non ci sono moduli. L'unica cosa
-// memorizzata è la preferenza del suono della timeline, una chiave in
-// `localStorage` scritta da `app/timeline/motore.tsx`, che resta sul
-// dispositivo e non viene mai inviata. Se un giorno arriveranno analitica,
-// moduli o un servizio esterno, QUESTA PAGINA VA RISCRITTA per prima.
+// analitica, non ci sono terze parti, non ci sono moduli. Le sole cose
+// memorizzate sono DUE, entrambe sul dispositivo e mai inviate: la preferenza
+// del suono della timeline, una chiave in `localStorage` scritta da
+// `app/timeline/motore.tsx`; e la posizione dell'indice, una chiave in
+// `sessionStorage` scritta da `app/works/motore.tsx`, che serve a non far
+// ripartire la striscia da capo quando si torna indietro da un'opera e che
+// muore chiudendo la scheda. Se un giorno arriveranno analitica, moduli o un
+// servizio esterno, QUESTA PAGINA VA RISCRITTA per prima.
 
 export const metadata = {
   title: "Note legali — Manuel Casati",
@@ -123,14 +126,23 @@ export default function Page() {
             condivide nulla con servizi esterni.
           </p>
           <p className={styles.testo}>
-            L&apos;unica informazione memorizzata è la preferenza sul suono della{" "}
+            Le uniche informazioni memorizzate sono due, e servono entrambe a
+            far comportare il sito come chi lo consulta si aspetta. La
+            preferenza sul suono della{" "}
             <Link className={styles.rimando} href="/timeline">
               timeline
-            </Link>
-            , conservata nella memoria locale del browser perché il sito la
-            ricordi alla visita successiva. Resta sul dispositivo, non viene
-            trasmessa a nessuno e si cancella svuotando i dati del sito dalle
-            impostazioni del browser.
+            </Link>{" "}
+            è conservata nella memoria locale del browser perché il sito la
+            ricordi alla visita successiva. La posizione raggiunta
+            nell&apos;
+            <Link className={styles.rimando} href="/works">
+              archivio
+            </Link>{" "}
+            è conservata per la sola sessione, perché tornando indietro da
+            un&apos;opera la sequenza riprenda da dove era rimasta invece che
+            da capo: si cancella da sé chiudendo la scheda. Nessuna delle due
+            lascia il dispositivo, e si rimuovono svuotando i dati del sito
+            dalle impostazioni del browser.
           </p>
           <p className={styles.testo}>
             Scrivendo agli indirizzi indicati in queste pagine, il messaggio e i
