@@ -381,8 +381,38 @@ export const OPERE: Opera[] = [
       ["nell'ambito di", "Monumenti Aperti"],
     ],
   },
+  // La data viene dalla data di COPIA dei file (dicembre 2016), non da un
+  // documento e non dallo scatto: decisione di Lucio il 7 settembre 2026, presa
+  // sapendo cos'è. Vale come collocazione, non come datazione — per questo
+  // l'anno sta nel campo `anno` e NON nella descrizione, dove suonerebbe come
+  // un fatto accertato.
+  //
+  // È il motivo per cui questa voce è salita di quattro posti: la sequenza è
+  // cronologica per regola (§3.3), e datare un'opera la rimescola. Gli slug non
+  // contengono il numero, quindi nessun URL è cambiato.
   {
     numero: 8,
+    slug: "editorial-blanka",
+    titolo: "Editorial Blanka",
+    anno: "2016",
+    medium: "editoriale",
+    luogo: "—",
+    densita: "documentata",
+    descrizione:
+      "Servizio editoriale fotografato da Blanka Meccanica.",
+    crediti: [["foto", "Blanka Meccanica"]],
+    scatti: foto("editorial-blanka",
+      ["01", 787, 1181], ["02", 1181, 787], ["03", 1181, 787],
+      ["04", 1181, 787], ["05", 787, 1181], ["06", 787, 1181],
+      ["07", 1181, 787], ["08", 1181, 787], ["09", 1181, 787],
+      ["10", 1181, 787], ["11", 1181, 787], ["12", 787, 1181],
+      ["13", 1600, 1066], ["14", 1181, 787], ["15", 787, 1181],
+      ["16", 787, 1181], ["17", 787, 1181], ["18", 1181, 787],
+      ["19", 1186, 787],
+    ),
+  },
+  {
+    numero: 9,
     slug: "apoteosi",
     titolo: "Apoteosi — Creazione di una Musa",
     anno: "2017",
@@ -409,7 +439,7 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 9,
+    numero: 10,
     slug: "corsa-futurista-iii",
     titolo: "Corsa Futurista — III edizione",
     anno: "2018",
@@ -434,7 +464,7 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 10,
+    numero: 11,
     slug: "corsa-futurista-iv",
     titolo: "Corsa Futurista — IV edizione",
     anno: "2019",
@@ -454,11 +484,16 @@ export const OPERE: Opera[] = [
       ["nell'ambito di", "Monumenti Aperti"],
     ],
   },
+  // Come per Editorial Blanka: l'anno viene dalla data di COPIA dei file
+  // (novembre 2019), non da un documento e non dallo scatto. Decisione di Lucio
+  // il 7 settembre 2026. Vale come collocazione, non come datazione — per
+  // questo sta nel campo `anno` e NON nella descrizione, dove suonerebbe come
+  // un fatto accertato.
   {
-    numero: 11,
+    numero: 12,
     slug: "the-missing",
     titolo: "The Missing",
-    anno: "—",
+    anno: "2019",
     medium: "—",
     luogo: "—",
     densita: "documentata",
@@ -475,27 +510,6 @@ export const OPERE: Opera[] = [
       ["13", 800, 1200], ["14", 800, 1200], ["15", 800, 1200],
     ),
     crediti: [["foto", "Giuseppe Esposito"]],
-  },
-  {
-    numero: 12,
-    slug: "editorial-blanka",
-    titolo: "Editorial Blanka",
-    anno: "—",
-    medium: "editoriale",
-    luogo: "—",
-    densita: "documentata",
-    descrizione:
-      "Servizio editoriale fotografato da Blanka Meccanica.",
-    crediti: [["foto", "Blanka Meccanica"]],
-    scatti: foto("editorial-blanka",
-      ["01", 787, 1181], ["02", 1181, 787], ["03", 1181, 787],
-      ["04", 1181, 787], ["05", 787, 1181], ["06", 787, 1181],
-      ["07", 1181, 787], ["08", 1181, 787], ["09", 1181, 787],
-      ["10", 1181, 787], ["11", 1181, 787], ["12", 787, 1181],
-      ["13", 1600, 1066], ["14", 1181, 787], ["15", 787, 1181],
-      ["16", 787, 1181], ["17", 787, 1181], ["18", 1181, 787],
-      ["19", 1186, 787],
-    ),
   },
   // La data viene dal nome della cartella («09-10-020», che nel formato delle
   // altre — gg-mm-aa — è il 9 ottobre 2020 con uno zero di troppo); il CV

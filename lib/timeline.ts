@@ -215,20 +215,21 @@ export const VOCI: Voce[] = [
   // archivio la maiuscola integrale non è un dato del titolo.
   { titolo: "Retrospettiva", anno: 2024, medium: "mostra personale", luogo: "Gebaude Gallery, Sassari" },
   { titolo: "Ombre Corte", anno: 2026, medium: "performance", luogo: "MAST, San Teodoro" },
+  { titolo: "Editorial Blanka", anno: 2016, medium: "editoriale", luogo: "—", slug: "editorial-blanka" },
+  { titolo: "The Missing", anno: 2019, medium: "—", luogo: "—", slug: "the-missing" },
 ];
 
-// THE MISSING ed EDITORIAL BLANKA non sono qui, e non è una dimenticanza.
-// `anno` è un numero e la cronologia colloca sull'asse a partire da quello:
-// una voce senza anno non ha un punto in cui stare. Tutt'e due in
-// `lib/opere.ts` hanno `anno: "—"`, quindi finché la data non c'è la
-// cronologia non può ospitarle — la loro assenza da qui È il modo in cui il
-// sito dichiara che quella data manca.
+// The Missing ed Editorial Blanka adesso ci sono, e la loro data è una
+// COLLOCAZIONE e non una datazione: viene dalla data di copia dei file
+// (novembre 2019 e dicembre 2016), non da un documento e non dallo scatto.
+// Decisione di Lucio il 7 settembre 2026, presa sapendo cos'è — e per questo
+// l'anno vive solo nel campo `anno`, mai nella descrizione dell'opera.
 //
-// Cercata il 7 settembre 2026, e non basta: le date di modifica dei file
-// danno novembre 2019 per The Missing e dicembre 2016 per Editorial Blanka,
-// ma sono date di copia, non di scatto, e quella di Blanka contraddice la
-// posizione dell'opera nella sequenza d'archivio (numero 12, fra il 2019 e il
-// 2020). Da chiedere a Manuel invece che dedurre.
+// Quella di Blanka ha rimescolato la sequenza: da 2016 l'opera è salita di
+// quattro posti in `lib/opere.ts`, e con lei si sono rinumerate Apoteosi, la
+// III e la IV Corsa Futurista e The Missing. È la terza volta che succede, ed
+// è il §3.3 che funziona: il numero è apparato, lo slug è nome, e nessun URL
+// è cambiato.
 
 export const ANNI = Array.from({ length: FINE - INIZIO + 1 }, (_, i) => INIZIO + i);
 
