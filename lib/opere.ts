@@ -42,6 +42,12 @@ export type Scatto = {
   w: number;
   h: number;
   didascalia?: string;
+  /** Un fotogramma preso dal filmato, che esiste SOLO per fare da copertina:
+   *  l'indice e la cronologia leggono `scatti[0]` e un'opera solo-video non
+   *  avrebbe niente da mostrare lì. Non è materiale da guardare, e infatti
+   *  `materiali()` lo salta: nella mensola di un'opera solo-video c'è il
+   *  filmato e basta, non il filmato preceduto da un suo fotogramma. */
+  fermoImmagine?: true;
 };
 
 /** Il materiale in movimento (§8). Sta accanto agli scatti e non dentro: se
@@ -56,8 +62,11 @@ export type Scatto = {
  *  `w`/`h` si usano com'è. */
 export type Filmato = {
   src: string;
-  /** Dieci secondi muti: ciò che si può mostrare senza chiedere niente. */
-  anteprima: string;
+  /** Dieci secondi muti: ciò che si può mostrare senza chiedere niente.
+   *  ASSENTE sotto i trenta secondi di durata, perché lì `scripts/filmati.sh`
+   *  non la genera — dieci secondi presi da una clip di otto sarebbero la clip
+   *  stessa. Chi la usa deve ricadere su `src`, che in quei casi è già corto. */
+  anteprima?: string;
   /** Il fermo immagine. Finché il filmato non viene chiesto si vede questo, e
    *  non si scarica un byte di video. */
   poster: string;
@@ -140,11 +149,22 @@ const foto = (
   ...misure: [n: string, w: number, h: number][]
 ): Scatto[] => misure.map(([n, w, h]) => ({ src: `/media/${slug}/${n}.jpg`, w, h }));
 
+/** La copertina di un'opera solo-video: un fotogramma del filmato, che fa da
+ *  copertina e non compare fra i materiali. Vedi `Scatto.fermoImmagine`. */
+const fermo = (slug: string, w: number, h: number): Scatto[] => [
+  { src: `/media/${slug}/01.jpg`, w, h, fermoImmagine: true },
+];
+
 const indice = (n: string, w: number, h: number): Scatto => ({
   src: `/media/indice/${n}.jpg`,
   w,
   h,
 });
+
+/** Sotto questa durata `scripts/filmati.sh` non genera l'anteprima. Il numero
+ *  è scritto in due posti — qui e là — perché sono due linguaggi; se cambia,
+ *  cambia in entrambi. */
+const ANTEPRIMA_SOGLIA = 30;
 
 /** I tre derivati di `scripts/filmati.sh`, che stanno tutti in
  *  /media/filmati/ e prendono il nome dallo slug dell'opera. Come `indice()` e
@@ -158,7 +178,10 @@ const film = (
   di?: string,
 ): Filmato => ({
   src: `/media/filmati/${slug}.mp4`,
-  anteprima: `/media/filmati/${slug}-anteprima.mp4`,
+  // La soglia è la stessa dello script che i derivati li produce: sotto,
+  // l'anteprima non esiste su disco e dichiararla qui significherebbe mandare
+  // il browser a chiedere un file che non c'è.
+  anteprima: durata > ANTEPRIMA_SOGLIA ? `/media/filmati/${slug}-anteprima.mp4` : undefined,
   poster: `/media/filmati/${slug}-poster.jpg`,
   w,
   h,
@@ -690,10 +713,10 @@ export const OPERE: Opera[] = [
       "Una ricerca sul cannibalismo come fame d'amore — la (dis)associazione " +
       "di fame, sesso e sentimento che l'elaborato Cannibal Affection indaga " +
       "dal rito azteco ai casi contemporanei. 12 febbraio 2026.",
-    // La copertina è un fermo immagine preso dal video a 2:05, che è anche il
-    // cartello del titolo. È la prima opera dell'archivio a entrare così: la
-    // via aperta dalla decisione di Lucio del 7 settembre 2026.
-    scatti: foto("love-and-eat", ["01", 1600, 900]),
+    // Un fermo immagine preso dal video a 2:05, che è anche il cartello del
+    // titolo. Fa da copertina nell'indice e nella cronologia, e NON compare
+    // nella mensola: lì c'è il filmato, che è l'opera.
+    scatti: fermo("love-and-eat", 1600, 900),
     // Il montato è l'opera, non la sua documentazione: qui la fotografia è il
     // fermo immagine e il filmato è il materiale. È il primo caso in archivio
     // in cui il rapporto fra i due si rovescia.
@@ -742,6 +765,46 @@ export const OPERE: Opera[] = [
 ];
 
 export const perSlug = (slug: string) => OPERE.find((o) => o.slug === slug);
+
+/** Una cosa da guardare, ferma o in movimento. Le due viste dell'opera — la
+ *  mensola e il ravvicinato — scorrono QUESTA lista, non `scatti`, perché
+ *  altrimenti i filmati non avrebbero un posto in pagina.
+ *
+ *  L'unione vive qui e non nel tipo `Opera`: nei dati fotografie e filmati
+ *  restano separati, perché l'apparato deve poterli contare separatamente
+ *  (§3.3). Qui invece si guardano, e chi guarda vede una sequenza sola. */
+export type Materiale =
+  | { tipo: "foto"; n: number; scatto: Scatto }
+  | { tipo: "filmato"; n: number; filmato: Filmato };
+
+/** I filmati vanno IN CODA alle fotografie. È la risposta provvisoria alla
+ *  domanda che Lucio ha lasciato aperta — «il filmato è opera o
+ *  documentazione?» — e la si è presa così perché è quella che si può
+ *  guardare: se in una mensola il video deve stare in mezzo agli scatti, si
+ *  vedrà da questa, e allora l'ordine lo dichiarerà l'opera invece di
+ *  discenderlo dal tipo. */
+export function materiali(opera: Opera): Materiale[] {
+  // I fermi immagine restano fuori: sono copertine, non materiale. In un'opera
+  // solo-video la mensola mostra il filmato e basta.
+  const scatti = opera.scatti.filter((s) => !s.fermoImmagine);
+  const lista: Materiale[] = [
+    ...scatti.map((scatto, i) => ({ tipo: "foto" as const, n: i + 1, scatto })),
+    ...(opera.filmati ?? []).map((filmato, i) => ({
+      tipo: "filmato" as const,
+      n: scatti.length + i + 1,
+      filmato,
+    })),
+  ];
+  return lista;
+}
+
+/** Il rapporto con cui la cornice va disegnata. Per una fotografia è uno dei
+ *  cinque formati ammessi; per un filmato è il suo, esatto — vedi il commento
+ *  del tipo `Filmato`. */
+export const rapporto = (m: Materiale) =>
+  m.tipo === "foto"
+    ? RAPPORTO[formato(m.scatto.w, m.scatto.h)]
+    : m.filmato.w / m.filmato.h;
 
 export const numerato = (n: number) => String(n).padStart(3, "0");
 

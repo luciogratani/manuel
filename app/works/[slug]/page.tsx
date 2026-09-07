@@ -2,7 +2,8 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { OPERE, RAPPORTO, durataLeggibile, formato, numerato, perSlug } from "@/lib/opere";
+import { Muto } from "@/components/filmato";
+import { OPERE, durataLeggibile, materiali, numerato, perSlug, rapporto } from "@/lib/opere";
 import { Mensola } from "./mensola";
 import styles from "./page.module.css";
 
@@ -48,9 +49,12 @@ export default async function Page({
   // nella versione ferma, ma l'anello vero avvolge le POSIZIONI e non duplica
   // gli elementi: dei cloni verrebbero contati come lastre e la sequenza
   // avrebbe dei doppioni.
-  const lastre = opera.scatti.map((scatto, i) => ({
-    scatto,
-    n: i + 1,
+  // La mensola scorre i MATERIALI e non gli scatti: i filmati sono lastre
+  // come le altre, in coda alle fotografie (vedi `materiali()`).
+  const M = materiali(opera);
+  const lastre = M.map((m, i) => ({
+    m,
+    n: m.n,
     i,
     // Il primo non ha registro: è la corrente a riposo, e il registro glielo
     // toglie `data-corrente`. Gli altri prendono il ritmo dell'artboard.
@@ -81,19 +85,20 @@ export default async function Page({
       data-densita={opera.densita}
       // Quanto è lunga l'onda: metà sequenza, perché si apre dai due lati.
       // Derivato e non scritto, così resta vero quando gli scatti cambiano.
-      style={{ "--onda-max": Math.floor(opera.scatti.length / 2) } as CSSProperties}
+      style={{ "--onda-max": Math.floor(M.length / 2) } as CSSProperties}
     >
       <Mensola>
-        {lastre.map(({ scatto, n, i, registro }) => (
+        {lastre.map(({ m, n, i, registro }) => (
           <Link
-            key={scatto.src}
+            key={m.tipo === "foto" ? m.scatto.src : m.filmato.src}
             className={styles.lastra}
             data-registro={registro}
             data-corrente={n === 1 ? "" : undefined}
+            data-filmato={m.tipo === "filmato" ? "" : undefined}
             href={`/works/${opera.slug}/${n}`}
             style={
               {
-                "--ar": RAPPORTO[formato(scatto.w, scatto.h)],
+                "--ar": rapporto(m),
                 // Non la posizione nella sequenza ma la distanza NELL'ANELLO
                 // dalla prima lastra: `min(i, n - i)`. A riposo l'anello mette
                 // le ultime lastre subito a sinistra della prima, quindi con
@@ -102,18 +107,22 @@ export default async function Page({
                 // come un'onda. Con quella circolare l'onda si apre dalla
                 // corrente verso i due lati, che è dove le lastre stanno
                 // davvero.
-                "--i": Math.min(i, opera.scatti.length - i),
+                "--i": Math.min(i, M.length - i),
               } as CSSProperties
             }
           >
-            <Image
-              src={scatto.src}
-              alt={n === 1 ? opera.titolo : ""}
-              fill
-              sizes="45vw"
-              priority={n === 1}
-              className={styles.foto}
-            />
+            {m.tipo === "foto" ? (
+              <Image
+                src={m.scatto.src}
+                alt={n === 1 ? opera.titolo : ""}
+                fill
+                sizes="45vw"
+                priority={n === 1}
+                className={styles.foto}
+              />
+            ) : (
+              <Muto filmato={m.filmato} alt={`${opera.titolo} — filmato`} />
+            )}
           </Link>
         ))}
       </Mensola>
@@ -205,20 +214,24 @@ export default async function Page({
         <p className={styles.compattaDescrizione}>{descrizione}</p>
 
         <div className={styles.compattaFoto}>
-          {opera.scatti.map((scatto, i) => (
+          {M.map((m, i) => (
             <div
-              key={scatto.src}
+              key={m.tipo === "foto" ? m.scatto.src : m.filmato.src}
               className={styles.compattaLastra}
-              style={{ "--ar": RAPPORTO[formato(scatto.w, scatto.h)] } as CSSProperties}
+              style={{ "--ar": rapporto(m) } as CSSProperties}
             >
-              <Image
-                src={scatto.src}
-                alt={i === 0 ? opera.titolo : ""}
-                fill
-                sizes="100vw"
-                priority={i === 0}
-                className={styles.foto}
-              />
+              {m.tipo === "foto" ? (
+                <Image
+                  src={m.scatto.src}
+                  alt={i === 0 ? opera.titolo : ""}
+                  fill
+                  sizes="100vw"
+                  priority={i === 0}
+                  className={styles.foto}
+                />
+              ) : (
+                <Muto filmato={m.filmato} alt={`${opera.titolo} — filmato`} />
+              )}
             </div>
           ))}
         </div>

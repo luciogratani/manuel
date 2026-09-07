@@ -2,7 +2,8 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { OPERE, RAPPORTO, formato, numerato, perSlug } from "@/lib/opere";
+import { Intero } from "@/components/filmato";
+import { OPERE, materiali, numerato, perSlug, rapporto } from "@/lib/opere";
 import styles from "./page.module.css";
 
 // La vista ravvicinata: la stessa opera da vicino. La striscia diventa
@@ -18,7 +19,7 @@ import styles from "./page.module.css";
 
 export function generateStaticParams() {
   return OPERE.flatMap((opera) =>
-    opera.scatti.map((_, i) => ({ slug: opera.slug, n: String(i + 1) })),
+    materiali(opera).map((m) => ({ slug: opera.slug, n: String(m.n) })),
   );
 }
 
@@ -30,24 +31,27 @@ export default async function Page({
   const { slug, n } = await params;
   const opera = perSlug(slug);
   const indice = Number(n);
-  if (!opera || !Number.isInteger(indice) || indice < 1 || indice > opera.scatti.length) {
+  const M = opera ? materiali(opera) : [];
+  if (!opera || !Number.isInteger(indice) || indice < 1 || indice > M.length) {
     notFound();
   }
 
-  // Si entra sulla foto scelta, non sulla prima: la colonna comincia da lì.
-  const colonna = opera.scatti.slice(indice - 1);
+  // Si entra sul materiale scelto, non sul primo: la colonna comincia da lì.
+  const colonna = M.slice(indice - 1);
+  const corrente = colonna[0];
 
   return (
     <div className={styles.pagina}>
       <div className={styles.colonna}>
         <div className={styles.pila}>
-          {colonna.map((scatto, i) => (
+          {colonna.map((m, i) => (
             <div
-              key={scatto.src}
+              key={m.tipo === "foto" ? m.scatto.src : m.filmato.src}
               className={styles.piastra}
+              data-filmato={m.tipo === "filmato" ? "" : undefined}
               style={
                 {
-                  "--ar": RAPPORTO[formato(scatto.w, scatto.h)],
+                  "--ar": rapporto(m),
                   // La posizione nella colonna: al foglio serve per sfalsare
                   // l'ingresso, come `--i` nelle altre due viste
                   // dell'archivio.
@@ -55,13 +59,18 @@ export default async function Page({
                 } as CSSProperties
               }
             >
-              <Image
-                src={scatto.src}
-                alt={opera.titolo}
-                fill
-                sizes="60vw"
-                className={styles.foto}
-              />
+              {m.tipo === "foto" ? (
+                <Image
+                  src={m.scatto.src}
+                  alt={opera.titolo}
+                  fill
+                  sizes="60vw"
+                  className={styles.foto}
+                />
+              ) : (
+                /* L'unico posto del sito dove un filmato ha il suono. */
+                <Intero filmato={m.filmato} titolo={opera.titolo} />
+              )}
             </div>
           ))}
         </div>
@@ -86,9 +95,12 @@ export default async function Page({
           <div className={styles.scheda}>
             <p className={styles.numero}>({numerato(indice)})</p>
             <h1 className={styles.titolo}>{opera.titolo}</h1>
+            {/* Il segnaposto cambia parola secondo cosa si sta guardando:
+                «scatto» davanti a un filmato era una svista che si vedeva. */}
             <p className={styles.descrizione}>
-              didascalia dello scatto — cosa si vede, chi c&apos;è, in che
-              momento dell&apos;opera. Testo da scrivere con la curatela.
+              didascalia {corrente.tipo === "foto" ? "dello scatto" : "del filmato"} —
+              cosa si vede, chi c&apos;è, in che momento dell&apos;opera. Testo da
+              scrivere con la curatela.
             </p>
           </div>
 
@@ -101,7 +113,7 @@ export default async function Page({
           <div className={styles.vuoto} data-vuoto="2" />
 
           <p className={styles.nota}>
-            {indice} di {opera.scatti.length} — {opera.anno} · {opera.medium}
+            {indice} di {M.length} — {opera.anno} · {opera.medium}
           </p>
 
           <div className={styles.vuoto} data-vuoto="3" />

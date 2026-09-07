@@ -311,10 +311,26 @@ Dal 7 settembre 2026 il §8 non è più intero. **Quello che c'è:**
   entrambe le viste. The Red White Horse aveva un montato di 6:53 ed era la
   quarta: è uscita dall'archivio, e con lei i suoi derivati.
 
-**Quello che non c'è: nessuna pagina mostra ancora un filmato.** I dati sono
-pronti e inerti. Il player (media-chrome, installato dal primo giorno e mai
-importato), la lastra della mensola e la vista con audio restano da fare, e
-sono l'unica parte che tocca l'interazione — quindi vanno decise, non dedotte.
+**Dall'8 settembre 2026 il video si vede.** `components/filmato.tsx` ha due
+modi, e la differenza fra i due è una decisione di Lucio: `Muto` sta nella
+mensola — poster fermo, movimento all'hover, nessun controllo, nessun audio —
+e `Intero` sta nella vista ravvicinata, l'unico posto del sito dove un filmato
+suona. Il passaggio fermo → movimento è una dissolvenza (§3.2).
+
+Le due viste dell'opera scorrono `materiali()` e non `scatti`: l'unione di
+fotografie e filmati vive in `lib/opere.ts` come funzione, non come campo,
+perché nei dati i due devono restare separati (l'apparato li conta a parte) ma
+in pagina si guardano come una sequenza sola. I filmati stanno **in coda** alle
+fotografie — risposta provvisoria alla domanda «opera o documentazione?», presa
+così perché è quella che si può guardare.
+
+**I fermi immagine non entrano fra i materiali.** `Scatto.fermoImmagine` marca
+il fotogramma che esiste solo per fare da copertina: nella mensola di un'opera
+solo-video c'è il filmato e basta, non il filmato preceduto da un suo
+fotogramma (scelta di Lucio, 8 settembre 2026).
+
+`preload="none"` su ogni lastra: finché nessuno ci passa sopra non si scarica
+un byte, e ci sono opere con sei filmati.
 
 ### Le decisioni che mancano
 
