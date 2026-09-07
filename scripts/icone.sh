@@ -1,18 +1,22 @@
 #!/bin/bash
 # Deriva le icone del sito e le immagini di profilo dal ritratto stilizzato.
 #
-# Sorgente: 01-assets/webico/logo.psd, LIVELLO 2 — e il livello conta.
+# Sorgente: 01-assets/webico/svg.svg — il VETTORE, dal 7 settembre 2026.
 #
-# Il PSD ha quattro immagini dentro: il composito (`[0]`), il fondo avorio
-# (`[1]`), il disegno (`[2]`) e un livello nero (`[3]`). Solo il `[2]` porta
-# trasparenza vera: 1902x1894, angolo `srgba(0,0,0,0)`. Il composito è già
-# appiattito su avorio, e usarlo sembra funzionare finché non si prova a
-# ricolorare l'inchiostro — allora si colora tutta la tela, perché per il
-# programma «inchiostro» e «fondo» sono lo stesso pixel opaco. È successo, e
-# la versione rossa veniva fuori un quadrato vuoto.
+# Prima si partiva dal livello 2 del PSD, ed era una sorgente peggiore per due
+# ragioni. Il colore: nel PSD inchiostro e fondo sono pixel, e per ricolorarne
+# uno solo bisognava sperare che l'alfa fosse pulita — il composito era già
+# appiattito su avorio, e la prima versione rossa venne fuori un quadrato
+# vuoto. Nell'SVG i 56 tracciati non dichiarano `fill`, quindi lo ereditano
+# dalla radice: un attributo solo e l'inchiostro cambia tutto insieme. Il fondo
+# è un `<rect id="SFONDO">` a sé, che si ricolora o si toglie.
 #
-# `bw.png` accanto è lo stesso appiattimento: comodo da guardare, inutile come
-# sorgente, perché da un fondo non si torna indietro.
+# E la resa: ogni misura si RASTERIZZA a quella misura invece di rimpicciolire
+# un bitmap, quindi 32 e 48 pixel escono con i tratti puliti invece che
+# mediati. ImageMagick qui non ha il delegato rsvg, ma il suo renderer interno
+# su questo file è corretto — verificato contro Quick Look, resa identica.
+#
+# `logo.psd` e `bw.png` restano nella cartella come sorgenti storiche.
 #
 #   ./scripts/icone.sh
 #
@@ -49,7 +53,7 @@
 #   76%  icona `maskable` — la specifica PWA garantisce solo l'80% centrale
 set -e
 
-SORGENTE="/Users/lucio/Desktop/manuel-portfolio/01-assets/webico/logo.psd"
+SORGENTE="/Users/lucio/Desktop/manuel-portfolio/01-assets/webico/svg.svg"
 APP="/Users/lucio/Desktop/manuel-portfolio/04-site/app"
 SOCIAL="/Users/lucio/Desktop/manuel-portfolio/01-assets/webico/export"
 TMP=$(mktemp -d)
@@ -60,31 +64,48 @@ ROSSO="#C1121C"
 
 [ -f "$SORGENTE" ] || { echo "manca $SORGENTE" >&2; exit 1; }
 
-# Il composito del PSD, al vivo: da qui in poi si lavora sul solo inchiostro,
-# così i margini li decide questo script e non il file di Photoshop.
-magick "$SORGENTE[2]" -alpha on -trim +repage "$TMP/inchiostro.png"
-[ "$(magick "$TMP/inchiostro.png" -format %[opaque] info:)" = "False" ] || {
-  echo "il livello scelto non ha trasparenza: controlla gli indici del PSD" >&2
-  exit 1
-}
-echo "inchiostro: $(identify -format '%wx%h' "$TMP/inchiostro.png")"
+INCHIOSTRO="#090d16"   # l'inchiostro del sito, non il nero puro del disegno
 
-# lato | percentuale del contenuto | fondo | colore dell'inchiostro (vuoto = com'è) | uscita
-resa() {
-  local lato=$1 pc=$2 fondo=$3 inch=$4 uscita=$5
-  local c=$((lato * pc / 100))
-  if [ -n "$inch" ]; then
-    magick "$TMP/inchiostro.png" -channel RGB -fill "$inch" -colorize 100 +channel \
-      -resize "${c}x${c}" -background "$fondo" -gravity center -extent "${lato}x${lato}" \
-      -strip "$uscita"
+# Tre varianti dello STESSO vettore, ottenute riscrivendo due colori:
+#   · `.cls-1` è il fill del `<rect id="SFONDO">`, cioè la tela
+#   · il `fill` sulla radice `<svg>` lo ereditano i 56 tracciati, cioè l'inchiostro
+# La variante trasparente toglie il rect invece di ricolorarlo.
+variante() { # $1=tela ("" per nessuna) $2=inchiostro $3=uscita
+  local tela=$1 inch=$2 uscita=$3
+  if [ -n "$tela" ]; then
+    sed -e "s|\.cls-1{fill:#fff;}|.cls-1{fill:$tela;}|" \
+        -e "s|<svg |<svg fill=\"$inch\" |" "$SORGENTE" > "$uscita"
   else
-    magick "$TMP/inchiostro.png" \
-      -resize "${c}x${c}" -background "$fondo" -gravity center -extent "${lato}x${lato}" \
-      -strip "$uscita"
+    sed -e "s|<rect id=\"SFONDO\"[^/]*/>||" \
+        -e "s|<svg |<svg fill=\"$inch\" |" "$SORGENTE" > "$uscita"
   fi
 }
 
+variante "$AVORIO" "$INCHIOSTRO" "$TMP/avorio.svg"
+variante "$ROSSO"  "$AVORIO"     "$TMP/rosso.svg"
+variante ""        "$INCHIOSTRO" "$TMP/nudo.svg"
+echo "vettore: $(magick "$SORGENTE" -format '%wx%h' info:)"
+
+# lato | percentuale del contenuto | vettore già colorato | uscita
+#
+# Il vettore si rasterizza AL DOPPIO della misura del contenuto e poi si
+# riduce: il renderer interno di ImageMagick antialiasa poco, e un passaggio di
+# riduzione su un disegno di sole linee vale più di quanto costi.
+resa() {
+  local lato=$1 pc=$2 sorg=$3 uscita=$4
+  local c=$((lato * pc / 100))
+  local fondo
+  fondo=$(magick "$sorg" -format "%[pixel:p{2,2}]" info:)
+  magick -background none "$sorg" -density 300 -resize "$((c * 2))x$((c * 2))" \
+    -resize "${c}x${c}" -background "$fondo" -gravity center \
+    -extent "${lato}x${lato}" -strip "$uscita"
+}
+
 echo "── icone del sito (app/, convenzioni Next.js)"
+# Il vettore come favicon: i browser moderni lo preferiscono al PNG e lo
+# disegnano alla misura che vogliono, senza passare da nessuna riduzione.
+variante "$AVORIO" "$INCHIOSTRO" "$APP/icon.svg"
+
 # `favicon.ico` porta tre misure nello stesso file: 16 per la scheda, 32 per il
 # segnalibro, 48 per la scorciatoia sul desktop. Le tre sono costruite UNA PER
 # UNA e non con `auto-resize`, perché a 16 pixel il disegno va trattato.
@@ -97,34 +118,36 @@ echo "── icone del sito (app/, convenzioni Next.js)"
 #
 # Resta vero che a 16 pixel questo disegno dà il suo minimo: vedi il commento
 # in coda allo script.
-resa 48 92 "$AVORIO" "" "$TMP/ico48.png"
-resa 32 92 "$AVORIO" "" "$TMP/ico32.png"
-resa 128 92 "$AVORIO" "" "$TMP/ico-grande.png"
+resa 48 92 "$TMP/avorio.svg" "$TMP/ico48.png"
+resa 32 92 "$TMP/avorio.svg" "$TMP/ico32.png"
+resa 128 92 "$TMP/avorio.svg" "$TMP/ico-grande.png"
 magick "$TMP/ico-grande.png" -resize 16x16 -level 20%,80% "$TMP/ico16.png"
 magick "$TMP/ico48.png" "$TMP/ico32.png" "$TMP/ico16.png" "$APP/favicon.ico"
-resa 512 92 "$AVORIO" "" "$APP/icon.png"
+
+resa 512 92 "$TMP/avorio.svg" "$APP/icon.png"
 # Apple non tollera la trasparenza e arrotonda gli angoli da sé: fondo pieno e
 # nessun angolo disegnato.
-resa 180 82 "$AVORIO" "" "$APP/apple-icon.png"
+resa 180 82 "$TMP/avorio.svg" "$APP/apple-icon.png"
 
 echo "── propic e icone larghe ($SOCIAL)"
 mkdir -p "$SOCIAL"
-# Il master, l'unico file con l'alfa. Non si carica da nessuna parte.
-magick "$TMP/inchiostro.png" -resize 2048x2048 -background none -gravity center \
-  -extent 2048x2048 "$SOCIAL/master-trasparente.png"
+# Il master, gli unici due file con l'alfa. Non si caricano da nessuna parte.
+cp "$TMP/nudo.svg" "$SOCIAL/master-trasparente.svg"
+magick -background none "$TMP/nudo.svg" -resize 2048x2048 -background none \
+  -gravity center -extent 2048x2048 "$SOCIAL/master-trasparente.png"
 
 for lato in 1080 800 400 180; do
-  resa "$lato" 82 "$AVORIO" "" "$SOCIAL/propic-avorio-$lato.png"
-  resa "$lato" 82 "$ROSSO" "$AVORIO" "$SOCIAL/propic-rosso-$lato.png"
+  resa "$lato" 82 "$TMP/avorio.svg" "$SOCIAL/propic-avorio-$lato.png"
+  resa "$lato" 82 "$TMP/rosso.svg"  "$SOCIAL/propic-rosso-$lato.png"
 done
 
 # `maskable`: Android ritaglia questa icona con una forma che decide lui, e
 # garantisce solo il cerchio centrale all'80%. Fondo pieno fino al bordo.
-resa 512 76 "$AVORIO" "" "$SOCIAL/maskable-512.png"
+resa 512 76 "$TMP/avorio.svg" "$SOCIAL/maskable-512.png"
 
 echo
 echo "--- fatto ---"
-ls -1 "$APP"/favicon.ico "$APP"/icon.png "$APP"/apple-icon.png
+ls -1 "$APP"/favicon.ico "$APP"/icon.png "$APP"/icon.svg "$APP"/apple-icon.png
 ls -1 "$SOCIAL"
 
 # ── QUELLO CHE QUESTO SCRIPT NON PUÒ FARE ───────────────────────────────────
