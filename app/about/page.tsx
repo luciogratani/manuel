@@ -35,15 +35,18 @@ import styles from "./page.module.css";
 // qui: non è derivabile, ed è meglio un fatto dichiarato che un campo vuoto in
 // attesa di un'opera che non arriverà.
 //
-// La fonte è il CV (`/cv`), non la bio, e le due non dicono la stessa cosa: la
-// bio parla di «Istituto d'Arte Filippo Figari», il CV di «Liceo Artistico
-// Filippo Figari», diploma in Arti Applicate 2008–2013. Il CV dà anche una
-// formazione più alta e più recente che la bio non nomina — la laurea
-// triennale in Comunicazione e Didattica dell'Arte all'Accademia di Belle Arti
-// Mario Sironi, 2023–2026 — ed è quella che sta in questa riga: nell'apparato
-// di una persona `formazione` è il titolo più alto, non il primo in ordine di
-// tempo. L'arco 2023–2026 finisce quest'anno: se il titolo non è ancora
-// conseguito la riga va sfumata, ed è una cosa da chiedere a Manuel.
+// La fonte è il CV (`/cv`). La bio diceva «Istituto d'Arte Filippo Figari»; il
+// CV dice «Liceo Artistico Filippo Figari», diploma in Arti Applicate
+// 2008–2013, e vince il CV — deciso da Lucio il 7 settembre 2026. La bio qui
+// sotto è stata corretta di conseguenza, e adesso concorda anche con la
+// descrizione di Apoteosi, che il Liceo lo nominava già col nome giusto.
+//
+// Questa riga porta invece la formazione più alta, che la bio non nomina: la
+// laurea triennale in Comunicazione e Didattica dell'Arte all'Accademia di
+// Belle Arti Mario Sironi, 2023–2026. Nell'apparato di una persona
+// `formazione` è il titolo più alto, non il primo in ordine di tempo. L'arco
+// finisce quest'anno: se il titolo non è ancora conseguito la riga va
+// sfumata, ed è una cosa da chiedere a Manuel.
 
 /** I medium davvero presenti in archivio, meno la formazione — che nella
  *  colonna dei dati è già una riga a sé — e meno i `—` non ancora compilati. */
@@ -85,7 +88,7 @@ const BIO = [
     "di ciò che lo circonda. Il trasformismo e il teatro sono una scoperta " +
     "che sfocia nella realizzazione di costumi: dapprima un gioco, più tardi " +
     "un linguaggio espressivo.",
-  "Lo studio del costume all'Istituto d'Arte Filippo Figari di Sassari " +
+  "Lo studio del costume al Liceo Artistico Filippo Figari di Sassari " +
     "affina le sue conoscenze — il figurino, le tecniche di confezionamento " +
     "— e lo porta a organizzare sfilate con abiti dal forte impatto " +
     "teatrale. La sua formazione resta quasi interamente da autodidatta.",

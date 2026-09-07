@@ -191,7 +191,7 @@ export const VOCI: Voce[] = [
   { titolo: "Apoteosi — Creazione di una Musa", anno: 2017, medium: "sfilata-performance", luogo: "Sassari e Alghero", slug: "apoteosi" },
   { titolo: "A Boy's Closet", anno: 2020, medium: "—", luogo: "—", slug: "a-boys-closet" },
   { titolo: "La Distanza", anno: 2020, medium: "fotografia", luogo: "Alghero", slug: "la-distanza" },
-  { titolo: "L'Affair", anno: 2021, medium: "video performance", luogo: "Alghero", slug: "l-affair" },
+  { titolo: "L'Affair", anno: 2021, medium: "video performance", luogo: "Acre — Lume Occupato, Milano", slug: "l-affair" },
   { titolo: "Le Rêve Lever", anno: 2022, medium: "—", luogo: "—", slug: "le-reve-lever" },
   { titolo: "Funeral Rave", anno: 2023, medium: "—", luogo: "—", slug: "funeral-rave" },
   { titolo: "Don Giovanni", anno: 2025, medium: "—", luogo: "—", slug: "don-giovanni" },
@@ -199,6 +199,18 @@ export const VOCI: Voce[] = [
   { titolo: "BDSM", anno: 2025, medium: "video", luogo: "—" },
   { titolo: "LOVE AND EAT", anno: 2026, medium: "video", luogo: "—", slug: "love-and-eat" },
   { titolo: "Coucher avec moi", anno: 2026, medium: "—", luogo: "—", slug: "coucher-avec-moi" },
+  // Due opere che il CV (`public/cv/`) nomina e l'archivio non ha. Stanno qui
+  // SENZA `slug`, come BDSM: nella cronologia si vedono e si contano, ma non
+  // rimandano a niente e non portano copertina, perché di materiale non ce n'è.
+  // È il modo in cui questo repo documenta ciò che sa senza fingere di averlo:
+  // una voce senza slug dichiara la propria assenza meglio di una pagina
+  // vuota. Se il materiale arriva, prendono uno slug e diventano opere.
+  //
+  // I titoli sono normalizzati come è stato fatto per «FERAL» → Feral e «DON
+  // GIOVANNI» → Don Giovanni: il CV li scrive tutti in maiuscolo, e in questo
+  // archivio la maiuscola integrale non è un dato del titolo.
+  { titolo: "Retrospettiva", anno: 2024, medium: "mostra personale", luogo: "Gebaude Gallery, Sassari" },
+  { titolo: "Ombre Corte", anno: 2026, medium: "performance", luogo: "MAST, San Teodoro" },
 ];
 
 export const ANNI = Array.from({ length: FINE - INIZIO + 1 }, (_, i) => INIZIO + i);

@@ -571,12 +571,20 @@ export const OPERE: Opera[] = [
     titolo: "L'Affair",
     anno: "2021",
     medium: "video performance",
-    luogo: "Alghero",
+    // Il CV (`public/cv/`) dà «26/11/2021 — Acre - Lume Occupato, Milano»,
+    // mentre la cartella sorgente si chiama `L'AFFAIR video performance
+    // 20-07-021` e il testo diceva «girata ad Alghero nel luglio 2021». Non
+    // sono due versioni della stessa cosa in disaccordo: sono due momenti —
+    // le riprese a luglio in Sardegna, la presentazione a novembre a Milano.
+    // `luogo` porta il secondo, che è dove l'opera è stata mostrata; il primo
+    // resta nel testo, perché un archivio che tiene solo l'ultimo dei due
+    // perde la metà del lavoro.
+    luogo: "Acre — Lume Occupato, Milano",
     densita: "minima",
     descrizione:
       "Video performance girata ad Alghero nel luglio 2021, per la regia di " +
       "Giuseppe Esposito, con lo styling e la direzione artistica di Manuel " +
-      "Casati.",
+      "Casati. Presentata il 26 novembre 2021 ad Acre — Lume Occupato, Milano.",
     // Fermo immagine da 0:42. Il montato è l'opera: qui non c'è nient'altro.
     scatti: fermo("l-affair", 1600, 681),
     filmati: [film("l-affair", 1600, 680, 80.62, true, "Giuseppe Esposito")],
