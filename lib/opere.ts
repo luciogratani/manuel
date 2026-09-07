@@ -176,6 +176,10 @@ export const OPERE: Opera[] = [
     medium: "intervento",
     luogo: "Palazzo Guillot, Alghero",
     densita: "documentata",
+    descrizione:
+      "Intervento a Palazzo Guillot, ad Alghero, il 21 settembre 2013. " +
+      "Nessun documento accompagna questa cartella: restano le fotografie di " +
+      "Blanka Meccanica.",
     scatti: foto("candide-a-palazzo-guillot",
       ["01", 960, 640], ["02", 640, 960], ["03", 960, 640],
       ["04", 640, 960], ["05", 960, 693], ["06", 960, 640],
@@ -201,6 +205,15 @@ export const OPERE: Opera[] = [
     medium: "evento",
     luogo: "Villa Sant'Elia, Sassari",
     densita: "piena",
+    descrizione:
+      "Un evento nato dal connubio fra l'arte e la storia del costume, a Villa " +
+      "Sant'Elia — Villa Mimosa — di Sassari, domenica 4 maggio 2014, per " +
+      "Monumenti Aperti. L'abito perde la sua natura funzionale e diventa il " +
+      "protagonista della scena: ispirazioni dalla seconda metà del Settecento " +
+      "agli anni Trenta, con riferimenti a Maria Antonietta, alla contessa di " +
+      "Castiglione, a Elisabetta d'Austria e alla marchesa Luisa Casati. Nella " +
+      "scelta dei capi è determinante il riuso di abiti dismessi e " +
+      "l'accostamento di tessuti pregiati con altri più poveri.",
     scatti: foto("glamour-confusion",
       ["01", 960, 585], ["02", 582, 960], ["03", 960, 662],
       ["04", 960, 831], ["05", 960, 620], ["06", 609, 960],
@@ -252,6 +265,14 @@ export const OPERE: Opera[] = [
     densita: "documentata",
     // La copertina è quella scelta guardando un provino; le sedici che seguono
     // sono i file che Manuel ha marcato verdi.
+    descrizione:
+      "La collezione Marchesa Casati: una capsule, o meglio un sarcofago decorato " +
+      "che racchiude un istante di decadente simbolismo estetico. Antichi pizzi, " +
+      "seta, pelliccia, broccato, aigrettes di piume. Musa principale Luisa " +
+      "Casati Amman e il suo mondo — un mondo che cerca nei fantasmi gotici e " +
+      "nelle teosofie orientali l'evasione dall'ordinario, e che varca per mano " +
+      "a una medium la soglia dell'inconsistente, danzando attorno a una " +
+      "tavoletta Ouija.",
     scatti: foto("oser-savoir",
       ["01", 1600, 975], ["02", 1067, 1600], ["03", 1600, 1509],
       ["04", 1600, 1067], ["05", 1600, 1067], ["06", 1062, 1600],
@@ -296,6 +317,10 @@ export const OPERE: Opera[] = [
     medium: "editoriale",
     luogo: "—",
     densita: "documentata",
+    descrizione:
+      "Editoriale pubblicato su Design Scene Magazine il 28 settembre 2015, con " +
+      "le fotografie di Davide Fanton. Sulle pagine della rivista porta il " +
+      "titolo Dark Romance.",
     scatti: foto("fanton-milano-fashion-week",
       ["01", 768, 960], ["02", 1236, 1600], ["03", 1236, 1600],
       ["04", 1236, 1600], ["05", 1236, 1600], ["06", 1236, 1600],
@@ -316,6 +341,9 @@ export const OPERE: Opera[] = [
     medium: "fotografia",
     luogo: "—",
     densita: "documentata",
+    descrizione:
+      "Servizio fotografico del 25 novembre 2015, di cui restano le tavole già " +
+      "impaginate. Nessun documento accompagna la cartella.",
     scatti: foto("ph-shoot-anto",
       ["01", 640, 960], ["02", 960, 807], ["03", 960, 722],
       ["04", 960, 819], ["05", 640, 960], ["06", 640, 960],
@@ -430,6 +458,14 @@ export const OPERE: Opera[] = [
     luogo: "—",
     densita: "documentata",
     // La copertina è il file che Manuel ha marcato verde.
+    descrizione:
+      "Una capsule di quattro ensemble ispirata alla moda dell'ultimo decennio " +
+      "del Settecento, negli anni che precedono la Rivoluzione francese. Un " +
+      "omaggio a Marie Antoinette e alla sua predilezione per gli abiti " +
+      "semplici e chiari, come quelli raccomandati agli invitati della festa nei " +
+      "giardini del Trianon. L'altro riferimento è Picnic ad Hanging Rock, dove " +
+      "il bianco accecante degli abiti dà alle protagoniste una presenza eterea " +
+      "sullo sfondo di una natura aspra. Fotografie di Giuseppe Esposito.",
     scatti: foto("the-missing",
       ["01", 1200, 800], ["02", 1200, 800], ["03", 800, 1200],
       ["04", 800, 1200], ["05", 800, 1200], ["06", 1200, 800],
@@ -447,6 +483,9 @@ export const OPERE: Opera[] = [
     medium: "editoriale",
     luogo: "—",
     densita: "documentata",
+    descrizione:
+      "Servizio editoriale fotografato da Blanka Meccanica. La cartella non porta " +
+      "documenti né una data: restano le diciannove fotografie.",
     scatti: foto("editorial-blanka",
       ["01", 787, 1181], ["02", 1181, 787], ["03", 1181, 787],
       ["04", 1181, 787], ["05", 787, 1181], ["06", 787, 1181],
@@ -457,7 +496,24 @@ export const OPERE: Opera[] = [
       ["19", 1186, 787],
     ),
   },
-  { numero: 13, slug: "a-boys-closet", titolo: "A Boy's Closet — Guardaroba di un ragazzo", anno: "2020", medium: "—", luogo: "—", densita: "minima", scatti: [indice("017", 900, 596)] },
+  {
+    numero: 13,
+    slug: "a-boys-closet",
+    titolo: "A Boy's Closet — Guardaroba di un ragazzo",
+    anno: "2020",
+    medium: "—",
+    luogo: "—",
+    densita: "minima",
+    descrizione:
+      "I capi nascono dalla collaborazione con l'artista Stefano Serusi, per la " +
+      "sua mostra personale A boy's closet alla galleria Rehearsal di Milano, a " +
+      "cura di Contemporary Attitude. Serusi rievoca la stanza di un " +
+      "adolescente come una fiaba; gli abiti, in una rilettura punk, prendono " +
+      "fogge e colori dal manierismo italiano del Cinquecento, da Allori e dal " +
+      "Bronzino. A introdurre il progetto, una domanda: quanto di ciò che ora " +
+      "ami porterai con te nell'età adulta?",
+    scatti: [indice("017", 900, 596)],
+  },
   // L'anno viene dai timestamp dentro i nomi dei file (1603461384152 →
   // 23 ottobre 2020), non da un documento: due file coerenti, ottobre 2020.
   {
@@ -468,6 +524,13 @@ export const OPERE: Opera[] = [
     medium: "fotografia",
     luogo: "Alghero",
     densita: "documentata",
+    descrizione:
+      "Reinterpretazione fotografica di Boom di Joseph Losey (1968), realizzata " +
+      "ad Alghero nella stessa location del film, a sua volta tratto da " +
+      "Tennessee Williams. I due protagonisti sono archetipi calati in " +
+      "un'atmosfera tesa fra la violenza della natura e il camp più esasperato. " +
+      "Le immagini sono accompagnate da un testo narrativo di Stefano Serusi. " +
+      "Fotografie di Giuseppe Esposito.",
     scatti: foto("la-distanza",
       ["01", 1067, 1600], ["02", 1067, 1600], ["03", 1067, 1600],
       ["04", 1600, 1067], ["05", 1067, 1600], ["06", 1067, 1600],
@@ -488,6 +551,15 @@ export const OPERE: Opera[] = [
     medium: "capsule collection e performance",
     luogo: "studioamatoriale, Milano",
     densita: "piena",
+    descrizione:
+      "Un progetto in due livelli: il design di una capsule collection e un " +
+      "progetto performativo, presentato da studioamatoriale a Milano dal 21 al " +
+      "24 settembre 2022. I tre look della capsule Lever sviluppano lo studio " +
+      "filologico del costume e la sua riformulazione contemporanea. La " +
+      "performance, attivata a più riprese durante l'opening, fa parte della " +
+      "riflessione sul corpo, l'eroticità, la ritualità e il voyeurismo: lo " +
+      "spazio diventa il luogo privato di un performer che indossa i capi in " +
+      "una dimensione parallela a quella del pubblico.",
     scatti: foto("le-reve-lever",
       ["01", 919, 1600], ["02", 914, 1600], ["03", 901, 1600],
       ["04", 917, 1600], ["05", 919, 1600], ["06", 1200, 1600],
@@ -539,6 +611,11 @@ export const OPERE: Opera[] = [
     // Le prime sei sono la selezione di Manuel (foto di Blanka Meccanica), le
     // ultime due l'artwork di Fabrizio Casu. Le dodici di prima venivano da
     // `bozze-media.sh`, che pescava i primi dodici file in ordine alfabetico.
+    descrizione:
+      "Nata sul tema della legge anti-rave, la performance racconta le dinamiche " +
+      "di un rave condensate in una forma dal gusto berlinese, con il dj Nazar. " +
+      "È anche un omaggio a Kenneth Anger. Spazio Sabotage, in via Canopolo a " +
+      "Sassari, il 30 giugno 2023.",
     scatti: foto("funeral-rave",
       ["01", 1600, 1142], ["02", 1600, 1143], ["03", 1600, 1142],
       ["04", 1600, 1142], ["05", 1600, 1200], ["06", 1600, 1143],
@@ -553,7 +630,20 @@ export const OPERE: Opera[] = [
       ["video", "Tommaso Bentivegna"],
     ],
   },
-  { numero: 18, slug: "antropologia", titolo: "Antropologia", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("018", 854, 900)] },
+  {
+    numero: 18,
+    slug: "antropologia",
+    titolo: "Antropologia",
+    anno: "—",
+    medium: "—",
+    luogo: "—",
+    densita: "minima",
+    descrizione:
+      "Di quest'opera l'archivio conserva una sola immagine e nessun documento: " +
+      "non c'è una cartella sorgente che le corrisponda. Titolo, anno e luogo " +
+      "restano da stabilire.",
+    scatti: [indice("018", 854, 900)],
+  },
   {
     numero: 19,
     slug: "feral",
@@ -562,6 +652,14 @@ export const OPERE: Opera[] = [
     medium: "performance",
     luogo: "—",
     densita: "piena",
+    descrizione:
+      "Una performance che invita a mettere in discussione i valori tradizionali " +
+      "e a esplorare le zone d'ombra della psiche. Inquadrature strette, " +
+      "telecamere, l'atto di spiare: lo spettatore diventa parte dell'opera. Si " +
+      "mette in scena lo stereotipo maschile e femminile per rovesciarlo, fra " +
+      "pop art barocca e Nouvelle Vague, con tinte cyberpunk. Il kink come " +
+      "pratica identitaria. Un omaggio a Querelle de Brest di Fassbinder, dal " +
+      "romanzo di Jean Genet. Con Alex Akashi, per Sabotage.",
     scatti: foto("feral",
       ["01", 1200, 1600], ["02", 1600, 1068], ["03", 1600, 1068],
       ["04", 1200, 1600], ["05", 1200, 1600], ["06", 1200, 1600],
@@ -588,6 +686,9 @@ export const OPERE: Opera[] = [
     medium: "performance",
     luogo: "—",
     densita: "piena",
+    descrizione:
+      "Regia e scrittura di Manuel Casati e Stefano Serusi, per la rassegna Senza " +
+      "Sipario di Simone Gelsomino, il 30 maggio 2025.",
     scatti: foto("don-giovanni",
       ["01", 1200, 1600], ["02", 1200, 1600], ["03", 1200, 1600],
       ["04", 1200, 1600], ["05", 1200, 1600], ["06", 1200, 1600],
@@ -616,6 +717,14 @@ export const OPERE: Opera[] = [
     // selezione vera si fa più avanti — è l'opera più recente e merita una
     // passata a sé (scelta di Lucio, 7 settembre 2026).
     densita: "piena",
+    descrizione:
+      "Il lavoro esplora il rapporto sessuale a pagamento attraverso la " +
+      "rappresentazione simbolica del letto, inteso come palcoscenico di " +
+      "interazioni intime e sociali. Nello spazio riservato al pubblico degli " +
+      "schermi proiettano ciò che avviene nella camera da letto; chi vuole può " +
+      "entrarvi, e trovare il performer che lo invita a un rapporto dietro " +
+      "un'offerta, deposta in una cassetta come quelle delle chiese. Il corpo " +
+      "in vendita e sacralizzato insieme. Teatro Genova, Sassari, 29 maggio 2026.",
     scatti: foto("coucher-avec-moi",
       ["01", 1600, 1200], ["02", 1600, 1200], ["03", 1600, 1200],
       ["04", 1600, 1200], ["05", 1600, 1200], ["06", 1600, 1200],

@@ -225,6 +225,23 @@ problema torna con lui.
   Ancora **PROVVISORIO**: l'artwork e le luci di Don Giovanni sono di «Lucio»,
   perché il documento sorgente non dà il cognome.
 
+## Due opere senza sorgente, e un fotografo incerto
+
+**«Antropologia» non ha una cartella.** Come BDSM: è una voce di
+`lib/opere.ts` a cui in `01-assets/media` non corrisponde niente. La sua unica
+immagine è `indice/018`, derivata da `bozze-media.sh`, che pescava una foto per
+cartella — quindi quella copertina viene dalla cartella di **qualcun altro**, e
+non si sa quale. Il testo dell'opera adesso lo dice invece di nasconderlo, ma
+la voce va chiarita con Manuel: o ha una sorgente che non abbiamo trovato, o
+non è un'opera.
+
+**Oser Savoir, chi ha fotografato?** Il credito dice «Veronica Diaz», che è il
+nome della cartella padre. Dentro però c'è una sottocartella
+`Preview Kismet Habble`, e `Appunti Finali.txt` è una lettera della fotografa
+firmata «Kismet_» che parla di 85 immagini e ringrazia per la collaborazione.
+Delle due l'una: o Kismet Habble è il nome d'arte di Veronica Diaz, o il
+credito è sbagliato. Da chiedere.
+
 ## Manuel Delogu è Manuel Casati — confermato
 
 Il comunicato di Glamour Confusion, nella cartella sorgente
