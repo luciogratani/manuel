@@ -826,6 +826,22 @@ export const OPERE: Opera[] = [
 
 export const perSlug = (slug: string) => OPERE.find((o) => o.slug === slug);
 
+/** Il testo dell'opera, o il segnaposto se la curatela non l'ha ancora scritto.
+ *
+ *  Sta qui e non nelle pagine perché le due viste che lo mostrano — la work
+ *  page e la banda dell'indice — devono dire la STESSA cosa. Non era così: la
+ *  banda scriveva una stringa fissa, uguale per tutte e ventitré le opere,
+ *  mentre i testi di curatela esistevano già. Il segnaposto era pure diverso
+ *  fra le due («dell'opera» contro «del progetto»), quindi nemmeno il buco
+ *  combaciava.
+ *
+ *  Il segnaposto resta un segnaposto e si deve vedere: un'opera non raccontata
+ *  non si copre con una frase generica che sembra vera (§6.1). */
+export const descrizioneDi = (opera: Opera) =>
+  opera.descrizione ??
+  "descrizione dell'opera — cosa succede, quando, dove, e perché sta in questa " +
+    "sequenza. Testo da scrivere con la curatela.";
+
 /** Una cosa da guardare, ferma o in movimento. Le due viste dell'opera — la
  *  mensola e il ravvicinato — scorrono QUESTA lista, non `scatti`, perché
  *  altrimenti i filmati non avrebbero un posto in pagina.

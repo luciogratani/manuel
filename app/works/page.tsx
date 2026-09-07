@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { OPERE, RAPPORTO, formato, numerato } from "@/lib/opere";
+import { OPERE, RAPPORTO, descrizioneDi, formato, numerato } from "@/lib/opere";
 import { Banda, type Scheda } from "./banda";
 import { IndiceCompatta } from "./indice-compatta";
 import { MotoreIndice } from "./motore";
@@ -54,9 +54,11 @@ export default function Page() {
   const schede: Scheda[] = INDICE.map((opera) => ({
     coordinata: `${numerato(opera.numero)} — ${opera.anno}`,
     titolo: opera.titolo,
-    // MOCK: da scrivere con la curatela, come nelle altre viste.
-    descrizione:
-      "descrizione del progetto — due o tre righe che dicono cos'è l'opera, quando, dove, e perché sta in questa sequenza.",
+    // Lo STESSO testo della work page, dalla stessa funzione: erano due
+    // stringhe scritte a mano in due file, e questa era rimasta un mock uguale
+    // per tutte e ventitré le opere anche dopo che la curatela le aveva
+    // raccontate. Vedi `descrizioneDi` in lib/opere.ts.
+    descrizione: descrizioneDi(opera),
   }));
 
   return (

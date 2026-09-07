@@ -3,7 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Muto } from "@/components/filmato";
-import { OPERE, durataLeggibile, materiali, numerato, perSlug, rapporto } from "@/lib/opere";
+import {
+  OPERE,
+  descrizioneDi,
+  durataLeggibile,
+  materiali,
+  numerato,
+  perSlug,
+  rapporto,
+} from "@/lib/opere";
 import { Mensola } from "./mensola";
 import styles from "./page.module.css";
 
@@ -66,9 +74,7 @@ export default async function Page({
   // dato e diventano un elenco. Coucher avec moi ne ha sei.
   // Il segnaposto resta dov'è finché la curatela non scrive: un'opera senza
   // testo si deve VEDERE che non ce l'ha.
-  const descrizione =
-    opera.descrizione ??
-    "descrizione dell'opera — cosa succede, quando, dove, e perché sta in questa sequenza. Testo da scrivere con la curatela.";
+  const descrizione = descrizioneDi(opera);
 
   // Il conteggio degli scatti non comprende i fermi immagine: dire «scatti: 1»
   // per un'opera che in mensola non ha nessuna fotografia sarebbe una bugia
