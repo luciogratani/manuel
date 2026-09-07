@@ -21,7 +21,11 @@
   --margine: calc(var(--x) * 2); /* 36px */
 
   --asse: 18.75rem; /* 300px */
-  --passo-riga: 3.5rem; /* 56px — se due voci si accavallano */
+  /* 64px — il passo fra due voci sovrapposte. Era 56, e con l'interlinea dei
+     titoli portata a 1.45 una voce di due righe (coordinata 17 + gap 4 + due
+     righe 41 = 62) ci sarebbe finita a filo. Sessantaquattro le lascia due
+     pixel e la riga sotto resta staccata. */
+  --passo-riga: 4rem;
   /* `--pista`, `--voce`, `--dx-iniziale` arrivano dal TSX (vedi `page.tsx`):
      sono gli stessi numeri con cui il TSX dispone le voci, e il foglio non ne
      tiene una copia. */
@@ -189,9 +193,13 @@
   opacity: 0.55;
 }
 
+/* L'interlinea è 1.45 e non 1.2 per via della sottolineatura qui sotto: sta
+   4px sotto la linea di base, e con 1.2 su un corpo di 14px le restavano meno
+   di due pixel prima della riga seguente — su un titolo che va a capo, come
+   «Fanton Milano Fashion Week», il filo passava dentro le lettere. */
 .titolo {
   font-size: 0.875rem; /* 14px */
-  line-height: 1.2;
+  line-height: 1.45;
   font-weight: 800;
 }
 

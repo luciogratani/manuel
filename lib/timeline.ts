@@ -240,16 +240,35 @@ export type VoceTimeline = Voce & {
   copertina?: { src: string; w: number; h: number };
 };
 
-/** Dispone le voci sull'asse, evitando che due troppo vicine si sovrappongano. */
+/** Dispone le voci sull'asse, evitando che due troppo vicine si sovrappongano.
+ *
+ *  L'ORDINAMENTO NON È COSMETICO. `ultimaX[riga]` tiene l'ascissa dell'ultima
+ *  voce messa su quella riga, e il confronto `x - ultimaX[riga] < VOCE` dà per
+ *  scontato che le voci arrivino da sinistra a destra: se una arriva più a
+ *  sinistra della precedente la differenza è NEGATIVA, quindi minore di `VOCE`,
+ *  e la riga viene letta come occupata anche quando è libera. La voce scende
+ *  di una riga senza motivo e sopra le resta un buco.
+ *
+ *  Succedeva davvero: `VOCI` tiene le cinque Corsa Futurista in fila, retaggio
+ *  di quando erano una voce sola, quindi l'array salta 2016 → 2018 → 2019 →
+ *  2023 e poi torna al 2017. Da lì in poi ogni anno più a sinistra del 2023
+ *  partiva dalla seconda riga: 2017, 2020, 2021, 2022.
+ *
+ *  Si ordina qui e non nell'array perché la sequenza di `VOCI` è della
+ *  curatela — è l'ordine in cui le voci sono state scritte, e continuerà a
+ *  cambiare quando Manuel ne aggiungerà. `sort` in JavaScript è stabile,
+ *  quindi le voci dello stesso anno restano nell'ordine in cui stanno lì. */
 export function disponi(voci: Voce[]): (Voce & { x: number; riga: number })[] {
   const ultimaX: number[] = [];
-  return voci.map((voce) => {
-    const x = (voce.anno - INIZIO) * PASSO;
-    let riga = 0;
-    while (ultimaX[riga] !== undefined && x - ultimaX[riga] < VOCE) riga += 1;
-    ultimaX[riga] = x;
-    return { ...voce, x, riga };
-  });
+  return [...voci]
+    .sort((a, b) => a.anno - b.anno)
+    .map((voce) => {
+      const x = (voce.anno - INIZIO) * PASSO;
+      let riga = 0;
+      while (ultimaX[riga] !== undefined && x - ultimaX[riga] < VOCE) riga += 1;
+      ultimaX[riga] = x;
+      return { ...voce, x, riga };
+    });
 }
 
 /** ── L'ingresso della timeline ─────────────────────────────────────────────
