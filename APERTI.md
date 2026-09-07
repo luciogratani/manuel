@@ -16,8 +16,20 @@ sta solo ciò che resta vero nel tempo.
 
 ## Le opere che mancano
 
-`lib/opere.ts` progetta «una sequenza unica 01→26» (§3.3) e contiene **diciotto**
-opere, numerate 01→18.
+`lib/opere.ts` progetta «una sequenza unica 01→26» (§3.3) e contiene **ventuno**
+opere, numerate 01→21.
+
+**8 settembre 2026 — Corsa Futurista non è un'opera, sono cinque.** Erano una
+voce sola con l'arco «2015–2024». In archivio ci sono le edizioni **I** (10
+maggio 2015), **II** (8 maggio 2016), **III** (4 maggio 2018), **IV** (4 maggio
+2019, data letta dall'EXIF perché il nome della cartella non ce l'ha) e **VI**
+(7 maggio 2023). La **V manca**, ed è l'unica a cui Manuel non ha partecipato.
+Ognuna è un'opera a sé, e le cinque si distribuiscono lungo la cronologia
+invece di stare tutte insieme nel 2015 — è il motivo per cui la sequenza si è
+riordinata di nuovo.
+
+Il tag che marca la copertina si chiama **`Arancio`** (non «Arancione»), e
+convive col verde: cinque file portano `Verde, Arancio`, uno per edizione.
 
 **7 settembre 2026, sera — la sequenza è stata riordinata.** Era cronologica
 solo a grandi linee: le quattro opere del 2015 stavano in un ordine qualunque.

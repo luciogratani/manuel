@@ -284,6 +284,95 @@ glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara
 glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/1922078_10201989230747589_4814708745334848328_n.jpg
 glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/foto ufficiali ph chiara cordeschi/1922267_10201989229147549_8353014904538110841_n.jpg
 glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/locandina.jpg
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Michela Roggio/IMG_1772.JPG
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Alssandro Marongiu/11187783_10205117185424293_1098701665127202500_o.jpg
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Luciano Piras/11147872_828932950533825_7256199755798097251_n.jpg
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Luciano Piras/11152341_828938690533251_7647810022314042278_n.jpg
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Luciano Piras/11233487_828930360534084_1941262981551699242_n.jpg
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Luciano Piras/11257837_828939437199843_819850916382024616_n.jpg
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Luciano Piras/1231660_828939277199859_6486818405478496866_n.jpg
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Michela Roggio/IMG_1816.JPG
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Michela Roggio/IMG_1873 2.jpg
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Michela Roggio/IMG_1886 2.jpg
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Michela Roggio/IMG_1924.JPG
+corsa-futurista-i|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista I edizione 10-05-2015/ph Michela Roggio/IMG_1962.JPG
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Lotrella/_DSC3689.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Blanka Meccanica/13138931_1135995783119153_7223389102657881034_n.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Blanka Meccanica/13139024_263691613983332_5874646536773351821_n.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Blanka Meccanica/13151628_263690457316781_1164533189057917093_n.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Blanka Meccanica/13173807_263691313983362_3626903592980833825_n.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Blanka Meccanica/13214794_263689053983588_1088627980_o.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Blanka Meccanica/13234517_266925783659915_1556902473_o.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Lotrella/_DSC3684.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Lotrella/_DSC3686.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Lotrella/_DSC3688.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/Ph Lotrella/_DSC3691.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/foto ufficiali Ph depalmas/Corsa Futurista II  (20).jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/foto ufficiali Ph depalmas/Corsa Futurista II  (22).jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/foto ufficiali Ph depalmas/Corsa Futurista II  (6).jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/photo marongiu/13211169_10207504087215346_1137708229_o.jpg
+corsa-futurista-ii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista II edizione 08-05-2016/photo marongiu/13214413_10207504090535429_1575069856_o.jpg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5428.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/31542762_10214496831008667_7851701358167064576_o.jpg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5413.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5414.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5415.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5416.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5417.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5418.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5419.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5420.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5421.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5422.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5423.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5425.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5426.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5427.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5430.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5433.jpeg
+corsa-futurista-iii|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista III edizione 04-05-2018/foto ufficiali ph depalmas/IMG_5434.jpeg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/2.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_6943.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_6973.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_7128.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_7260.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_7367.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_7434.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_7505.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_7548.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_7632.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_7660.jpg
+corsa-futurista-iv|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista IV edizione/DSC_7677.jpg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_0999.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_0994.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_0995.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_0996.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_0997.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_0998.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_1001.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_1002.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_1003.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_1004.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_1005.jpeg
+corsa-futurista-vi|archivio/CORSA FUTURISTA 2015-2024/CORSA FUTURISTA tutte le edizioni/Corsa Futurista VI edizione 07-05-2023/foto ufficiali ph tommy bentivegna/IMG_1006.jpeg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI I performance ss Liceo Artistico - maggio 2017/ph lorella comi/_DSC5140.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/ph di blanka foto per locandina- modella raffaela ariano/Creazione di una Musa Alghero (5).jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/ph di blanka foto per locandina- modella raffaela ariano/IMG_2259.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/ph di blanka foto per locandina- modella raffaela ariano/IMG_2345.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI I performance ss Liceo Artistico - maggio 2017/ph lorella comi/_DSC5129.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI I performance ss Liceo Artistico - maggio 2017/ph lorella comi/_DSC5142.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI I performance ss Liceo Artistico - maggio 2017/ph lorella comi/_DSC5148.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/performance/1.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/performance/16.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/performance/25.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/performance/6.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/performance/9.jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/ph bacstage/Creazione di una Musa Alghero (1).jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/ph bacstage/Creazione di una Musa Alghero (3).jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/ph bacstage/Creazione di una Musa Alghero (37).jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/ph bacstage/Creazione di una Musa Alghero (39).jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/ph bacstage/Creazione di una Musa Alghero (41).jpg
+apoteosi|archivio/APOTEOSI Creazione di una Musa/APOTEOSI II performance aho mostra a Lu Quarter - maggio 2017/ph blanka meccanica/ph bacstage/Creazione di una Musa Alghero (42).jpg
 '
 
 : > "$OUT/scatti.txt"
