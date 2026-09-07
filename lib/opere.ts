@@ -41,7 +41,6 @@ export type Scatto = {
   /** Dimensioni vere del derivato: il formato dichiarato si ricava da qui. */
   w: number;
   h: number;
-  didascalia?: string;
   /** Un fotogramma preso dal filmato, che esiste SOLO per fare da copertina:
    *  l'indice e la cronologia leggono `scatti[0]` e un'opera solo-video non
    *  avrebbe niente da mostrare lì. Non è materiale da guardare, e infatti
@@ -78,7 +77,6 @@ export type Filmato = {
   audio: boolean;
   /** Chi l'ha girato, quando non è Manuel. */
   di?: string;
-  didascalia?: string;
 };
 
 /** Una riga di crediti: chi ha fatto cosa. Tupla e non oggetto perché nei dati

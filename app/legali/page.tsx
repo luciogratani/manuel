@@ -82,7 +82,7 @@ export default function Page() {
           <p className={styles.testo}>
             Il consenso non è definitivo. Chi è ritratto in un&apos;opera può
             chiederne in qualsiasi momento la rimozione, la sostituzione con una
-            versione non riconoscibile, o la modifica della didascalia, senza
+            versione non riconoscibile, o la modifica del testo dell&apos;opera, senza
             dover motivare la richiesta. Basta scrivere a{" "}
             <a className={styles.rimando} href={`mailto:${EMAIL}`}>
               {EMAIL}

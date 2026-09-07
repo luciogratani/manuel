@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Intero } from "@/components/filmato";
-import { OPERE, materiali, numerato, perSlug, rapporto } from "@/lib/opere";
+import { OPERE, descrizioneDi, materiali, numerato, perSlug, rapporto } from "@/lib/opere";
 import styles from "./page.module.css";
 
 // La vista ravvicinata: la stessa opera da vicino. La striscia diventa
@@ -62,7 +62,6 @@ export default async function Page({
 
   // Si entra sul materiale scelto, non sul primo: la colonna comincia da lì.
   const colonna = M.slice(indice - 1);
-  const corrente = colonna[0];
 
   return (
     <div className={styles.pagina}>
@@ -119,13 +118,20 @@ export default async function Page({
           <div className={styles.scheda}>
             <p className={styles.numero}>({numerato(indice)})</p>
             <h1 className={styles.titolo}>{opera.titolo}</h1>
-            {/* Il segnaposto cambia parola secondo cosa si sta guardando:
-                «scatto» davanti a un filmato era una svista che si vedeva. */}
-            <p className={styles.descrizione}>
-              didascalia {corrente.tipo === "foto" ? "dello scatto" : "del filmato"} —
-              cosa si vede, chi c&apos;è, in che momento dell&apos;opera. Testo da
-              scrivere con la curatela.
-            </p>
+            {/* IL TESTO È QUELLO DELL'OPERA, non uno per fotografia.
+                Qui c'era un segnaposto — «didascalia dello scatto — cosa si
+                vede, chi c'è…» — su tutte e trecentosessanta le viste
+                ravvicinate: il segnaposto più esposto del sito, e per toglierlo
+                sarebbero servite trecentosessanta didascalie che nessuno
+                scriverà.
+
+                Decisione di Lucio, 8 settembre 2026: la funzione si toglie e il
+                testo si eredita. Il campo `Scatto.didascalia` è sparito da
+                `lib/opere.ts` — era dichiarato, mai valorizzato e mai letto.
+                Se un giorno una singola fotografia meriterà un testo suo, si
+                riaggiunge sapendo che è un'eccezione e non una casella da
+                riempire trecento volte. */}
+            <p className={styles.descrizione}>{descrizioneDi(opera)}</p>
           </div>
 
           <div className={styles.vuoto} data-vuoto="1" />
