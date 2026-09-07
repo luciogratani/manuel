@@ -311,14 +311,34 @@
   left: var(--colonna);
 }
 
-.pagina[data-densita="minima"] .terza {
+/* I DUE BLOCCHI DELL'APPARATO SONO INVERTITI RISPETTO A PRIMA, e non è una
+   questione di gusto.
+
+   Qui la colonna è una sola e i due `dl` sono due assoluti a quote fisse: il
+   materiale (anno, medium, luogo, scatti, filmato) e le persone. Il materiale
+   ha un'altezza LIMITATA — cinque righe al massimo, e i valori non vanno a capo
+   — mentre le persone crescono con quanti sono: «performer: Irene Stefanini,
+   Mattia Mennuti, Christopher Dicky, Francesca Malagesi, Martina Bazzoni» sono
+   tre righe da solo.
+
+   Finché le persone stavano SOPRA, la loro crescita andava a sbattere contro
+   una quota fissa: su LOVE AND EAT sconfinavano di 36px e stampavano `anno:` e
+   `medium:` sopra il nome del montatore, e L'Affair ci arrivava a due pixel.
+   Alzare la quota del materiale avrebbe solo spostato la soglia più in là.
+
+   Invertendoli il problema non si ripresenta: chi cresce è l'ultimo e sotto di
+   lui non c'è niente. In più l'ordine diventa lo stesso della densità piena —
+   prima il materiale, poi chi l'ha fatto — che prima le due densità leggevano
+   in versi opposti. */
+.pagina[data-densita="minima"] .crediti {
   top: 32rem; /* 512px — era 430: con un testo di curatela la scheda ci arrivava */
   left: var(--colonna);
   width: 17.5rem;
 }
 
-.pagina[data-densita="minima"] .crediti {
-  top: 40rem; /* 640px — era 560, per lo stesso motivo della terza */
+/* 512 + 84 (cinque righe di materiale, il caso peggiore) + 28 di stacco. */
+.pagina[data-densita="minima"] .terza {
+  top: 39rem; /* 624px */
   left: var(--colonna);
   width: 17.5rem;
 }

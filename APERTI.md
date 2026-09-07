@@ -285,12 +285,28 @@ dall'archivio prima che ce ne occupassimo.
   stato toccato: `.credito[data-persone]` ha una larghezza di 16rem e va a
   capo, perché «Arturo Fraddi, Antonio Cabras, Simone Righi, Dimitri Ruiu,
   Giuseppe Hussein» su una riga sola correrebbe da 817px fin sotto la nota, che
-  attacca a 1096. E in `densita: "minima"` l'apparato parte da 560px: sei righe
-  di crediti ci stanno, dodici no — oggi nessuna opera minima ne ha tante, ma
-  il giorno che capita va guardato.
+  attacca a 1096.
 
-  Ancora **PROVVISORIO**: l'artwork e le luci di Don Giovanni sono di «Lucio»,
-  perché il documento sorgente non dà il cognome.
+  ~~E in `densita: "minima"` l'apparato parte da 560px: sei righe di crediti ci
+  stanno, dodici no — oggi nessuna opera minima ne ha tante, ma il giorno che
+  capita va guardato.~~ **È capitato, con LOVE AND EAT.** I due blocchi
+  dell'apparato erano due assoluti a quote fisse — le persone a 512, il
+  materiale a 640 — con 128px in mezzo e niente che li facesse rispettare. Le
+  persone di LOVE AND EAT ne misurano 164, perché «performer: Irene Stefanini,
+  Mattia Mennuti, Christopher Dicky, Francesca Malagesi, Martina Bazzoni» va a
+  capo tre volte: sconfinavano di 36px e stampavano `anno:` e `medium:` sopra
+  il nome del montatore. L'Affair ci arrivava a **due pixel**.
+
+  **Risolto il 7 settembre 2026 invertendo i due blocchi**, non alzando la
+  quota. Adesso il materiale sta a 512 e le persone a 624: chi cresce senza
+  limite è l'ultimo e sotto di lui non c'è niente, quindi il caso non può più
+  presentarsi — mentre alzare la quota avrebbe solo spostato la soglia. In più
+  la densità minima adesso legge nello stesso verso di quella piena, prima il
+  materiale e poi chi l'ha fatto; prima le due leggevano al contrario.
+
+  ~~Ancora **PROVVISORIO**: l'artwork e le luci di Don Giovanni sono di
+  «Lucio», perché il documento sorgente non dà il cognome.~~ Chiuso il 7
+  settembre 2026: Lucio ha tolto quella riga e la rassegna dai crediti.
 
 ## Due opere senza sorgente, e un fotografo incerto
 
@@ -450,13 +466,17 @@ Altezza calcolata dai fogli, dal contenuto più alto al piede:
 
 | pagina | richiede | da cosa |
 |---|---|---|
-| `/works/[slug]` | ~767px | base 614 + sporgenza 99 + piede |
-| `/timeline` | ~733px | voci fino a 503 dall'alto, pannello 230 dal basso |
+| `/works/[slug]` | ~788px | densità minima: crediti a 624 + persone fino a 164 |
+| `/works/[slug]` (piena) | ~767px | base 614 + sporgenza 99 + piede |
+| `/timeline` | ~765px | voci fino a 535 dall'alto, pannello 230 dal basso |
 | `/works` | ~707px | banda a 596 (alto 128 + zona 352 + stacco 116) + ~111 di scheda |
 | `/about` (scheda) | ~624px | apparato a 316 + tre paragrafi + piede |
 | home | ~520px | il player è centrato: gli serve solo di non toccare i bordi |
 
-Il massimo è ora `/works/[slug]`, **~767px**. `/works` è sceso a ~707 col
+Il massimo è ora `/works/[slug]` a densità minima, **~788px**: i due blocchi
+dell'apparato sono stati invertiti il 7 settembre 2026 (vedi qui sotto) e le
+persone, che sono il blocco che cresce, sono scese in fondo. `/timeline` sale a
+~765 con `--passo-riga` da 3.5 a 4rem. `/works` è sceso a ~707 col
 passaggio alla riga singola (6 settembre 2026): la striscia è più alta (`--zona`
 da 24 a 22rem, ma una riga sola invece di due) e la banda sale di conseguenza.
 `980` resta sovrastimato di ~210px — su una finestra alta 900 la scala scende a
