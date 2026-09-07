@@ -182,7 +182,7 @@ export const VOCI: Voce[] = [
   { titolo: "Glamour Confusion", anno: 2014, medium: "—", luogo: "—", slug: "glamour-confusion" },
   { titolo: "Oser Savoir", anno: 2015, medium: "collezione", luogo: "—", slug: "oser-savoir" },
   { titolo: "Ph Shoot Anto", anno: 2015, medium: "—", luogo: "—", slug: "ph-shoot-anto" },
-  { titolo: "Photo Editorial Design Scene", anno: 2015, medium: "editoriale", luogo: "—", slug: "photo-editorial-design-scene" },
+  { titolo: "Fanton Milano Fashion Week", anno: 2015, medium: "editoriale", luogo: "—", slug: "fanton-milano-fashion-week" },
   { titolo: "Corsa Futurista", anno: 2015, fine: 2024, medium: "—", luogo: "—", slug: "corsa-futurista" },
   { titolo: "Apoteosi — Creazione di una Musa", anno: 2017, medium: "sfilata-performance", luogo: "—", slug: "apoteosi" },
   { titolo: "A Boy's Closet", anno: 2020, medium: "—", luogo: "—", slug: "a-boys-closet" },

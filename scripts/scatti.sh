@@ -32,13 +32,79 @@ QUALITA=5   # -q:v di ffmpeg: 2 è il massimo, 31 il minimo. 5 ≈ 200 KB a 1600
 
 # ── La selezione: slug | percorso (relativo a $MEDIA)
 #
-# Le opere d'archivio si vedranno più avanti e per ora tengono la copertina
-# singola di `bozze-media.sh` — TRANNE due, dove quella copertina veniva da una
-# sottocartella marcata ROSSA, cioè da materiale escluso. Qui hanno un solo
-# file: la copertina giusta, non ancora una selezione.
+# ── L'ARCHIVIO
+#
+# Sei opere passate in rassegna con Lucio l'8 settembre 2026. Le altre nove
+# tengono ancora la copertina singola di `bozze-media.sh`.
+#
+# `Sketch for Casati Project` e `Biglietto da visita` restano fuori: non sono
+# opere. Delle cinque sottocartelle di `ph Veronica Diaz…` ne vale una sola,
+# OSER SAVOIR — le altre quattro sono rosse.
 TABELLA='
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319435_911359268957829_198592860_n.jpg
 oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Martina 10 photos/_MG_0641.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Francesca 8 photos/_MG_0599.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Martina 10 photos/_MG_0658-001.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Nonnora 9 photos/_MG_0546 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Nonnora 9 photos/_MG_0554 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Stefania 7 photos/_MG_0524.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Stefania 7 photos/_MG_0544.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Valeria 10 photos/_MG_0404.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Valeria 10 photos/_MG_0521 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/Valeria Abito nero 7 photos/_MG_0618.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/colloquio 12 photos/_MG_0415 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/colloquio 12 photos/_MG_0425 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/colloquio 12 photos/_MG_0434 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/eleonora 10 photos/_MG_0346 - Copia.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/eleonora 10 photos/_MG_0359.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/eleonora 10 photos/_MG_0392.jpg
+oser-savoir|archivio/ph Veronica Diaz seduta spiritica e altro/OSER SAVOIR 15-03-015/seduta 12 photos 6+6bw/_MG_0485.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Photo Davide Fanton Milano Fashion Week.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/Photo Davide Fanton.jpg
+fanton-milano-fashion-week|archivio/Photo Editorial Design Scene 28.09.15/22.jpg
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319435_911359268957829_198592860_n.jpg
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12305885_911064522320637_1360306086_n.jpg
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12308846_911064112320678_1059644038_n.jpg
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12308986_911358362291253_944476195_n.jpg
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12312127_911358978957858_615894769_n.jpg
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319288_911359135624509_2042221569_n.jpg
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319308_911063758987380_920179213_n.jpg
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319483_911358428957913_652225524_n.jpg
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12325043_911358345624588_1522507196_n.jpg
+ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12325217_911064292320660_1229689628_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/78761876_724276168064472_4553956504008392704_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/75521812_454608408586932_6122281189580472320_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/76944268_418518552390748_474567721267232768_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/77155774_765943817210900_4426691331628204032_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/77303023_663955620677129_4893727643058307072_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/77336811_563165674468211_2050212388321361920_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/77347775_2462937883824664_730351230110400512_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/78120480_438548993500888_1429156019920961536_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/78180255_2475493419356879_7097274203547631616_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/78182255_2434410700147775_5879552036265000960_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/78215389_449612449079703_6033461021086056448_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/78234442_769520836884399_4540288801381023744_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/78322959_431958900818303_2259099840749240320_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/78587097_486683731941709_8580035529901342720_n.jpg
+the-missing|archivio/THE MISSING/ph giuseppe esposito/78693106_753540808446338_7797147860394311680_n.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_4860.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_4886.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_4895.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_4943.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_4959.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_4964.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5001.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5007.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5044.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5072.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5102.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5114.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5120.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5127.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5136.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5143.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5166.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5171.jpg
+editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5196.jpg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00057.jpeg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00035.jpeg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00042.jpeg

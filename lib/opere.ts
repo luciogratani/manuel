@@ -172,17 +172,100 @@ export const OPERE: Opera[] = [
   // compilato ha un testo curatoriale intero sulla collezione Marchesa Casati,
   // le sedute spiritiche e la tavoletta Ouija. La seduta è una scena
   // dell'opera, non l'opera. Veronica Diaz è la fotografa.
-  { numero: 4, slug: "oser-savoir", titolo: "Oser Savoir", anno: "2015", medium: "collezione", luogo: "—", densita: "minima", scatti: foto("oser-savoir", ["01", 1600, 1067]), crediti: [["foto", "Veronica Diaz"]] },
+  {
+    numero: 4,
+    slug: "oser-savoir",
+    titolo: "Oser Savoir",
+    anno: "2015",
+    medium: "collezione",
+    luogo: "—",
+    densita: "documentata",
+    // La copertina è quella scelta guardando un provino; le sedici che seguono
+    // sono i file che Manuel ha marcato verdi.
+    scatti: foto("oser-savoir",
+      ["01", 1600, 1067], ["02", 1067, 1600], ["03", 1600, 1509],
+      ["04", 1600, 1067], ["05", 1600, 1067], ["06", 1062, 1600],
+      ["07", 1067, 1600], ["08", 1600, 1000], ["09", 1067, 1600],
+      ["10", 1067, 1600], ["11", 1148, 1600], ["12", 1600, 1067],
+      ["13", 1100, 1600], ["14", 1600, 951], ["15", 1600, 835],
+      ["16", 1067, 1600], ["17", 1600, 975],
+    ),
+    crediti: [["foto", "Veronica Diaz"]],
+  },
   { numero: 5, slug: "corsa-futurista", titolo: "Corsa Futurista", anno: "2015–2024", medium: "—", luogo: "—", densita: "minima", scatti: [indice("004", 505, 900)] },
-  { numero: 6, slug: "photo-editorial-design-scene", titolo: "Photo Editorial Design Scene", anno: "2015", medium: "editoriale", luogo: "—", densita: "minima", scatti: [indice("013", 695, 900)] },
-  // La copertina di prima veniva da `Nuova cartella`, che Manuel ha marcato
-  // rossa: materiale escluso finito in prima pagina. Questa viene da «immagini
-  // selezionate e impaginate». È piccola (640px) perché la sorgente lo è.
-  { numero: 7, slug: "ph-shoot-anto", titolo: "Ph Shoot Anto", anno: "2015", medium: "fotografia", luogo: "—", densita: "minima", scatti: foto("ph-shoot-anto", ["01", 640, 960]) },
+  // Il titolo è quello che ha dato Lucio. Vale la pena sapere che le fonti
+  // dicono altro: la cartella contiene le pagine dell'editoriale pubblicato su
+  // Design Scene (28.09.15) sotto il titolo DARK ROMANCE, e «Dark Romance» è
+  // anche una delle voci del portfolio compilato. Davide Fanton è il fotografo.
+  {
+    numero: 6,
+    slug: "fanton-milano-fashion-week",
+    titolo: "Fanton Milano Fashion Week",
+    anno: "2015",
+    medium: "editoriale",
+    luogo: "—",
+    densita: "documentata",
+    scatti: foto("fanton-milano-fashion-week",
+      ["01", 768, 960], ["02", 640, 960], ["03", 1236, 1600],
+    ),
+    crediti: [["foto", "Davide Fanton"]],
+  },
+  // `Nuova cartella` è rossa e resta fuori: quel che c'è qui viene tutto da
+  // «immagini selezionate e impaginate». Sono tavole già impaginate, non scatti
+  // sciolti, e piccole (640px) perché la sorgente lo è.
+  {
+    numero: 7,
+    slug: "ph-shoot-anto",
+    titolo: "Ph Shoot Anto",
+    anno: "2015",
+    medium: "fotografia",
+    luogo: "—",
+    densita: "documentata",
+    scatti: foto("ph-shoot-anto",
+      ["01", 640, 960], ["02", 960, 807], ["03", 960, 722],
+      ["04", 960, 819], ["05", 640, 960], ["06", 640, 960],
+      ["07", 960, 742], ["08", 960, 714], ["09", 960, 758],
+      ["10", 960, 740],
+    ),
+  },
   { numero: 8, slug: "apoteosi", titolo: "Apoteosi — Creazione di una Musa", anno: "2017", medium: "sfilata-performance", luogo: "—", densita: "minima", scatti: [indice("001", 900, 600)] },
   { numero: 9, slug: "la-distanza", titolo: "La Distanza", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("009", 600, 900)] },
-  { numero: 10, slug: "the-missing", titolo: "The Missing", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("015", 900, 600)] },
-  { numero: 11, slug: "blanka", titolo: "Blanka", anno: "—", medium: "fotografia", luogo: "—", densita: "minima", scatti: [indice("011", 900, 588)] },
+  {
+    numero: 10,
+    slug: "the-missing",
+    titolo: "The Missing",
+    anno: "—",
+    medium: "—",
+    luogo: "—",
+    densita: "documentata",
+    // La copertina è il file che Manuel ha marcato verde.
+    scatti: foto("the-missing",
+      ["01", 1200, 800], ["02", 1200, 800], ["03", 800, 1200],
+      ["04", 800, 1200], ["05", 800, 1200], ["06", 1200, 800],
+      ["07", 1200, 800], ["08", 800, 1200], ["09", 1200, 800],
+      ["10", 800, 1200], ["11", 1200, 800], ["12", 1200, 800],
+      ["13", 800, 1200], ["14", 800, 1200], ["15", 800, 1200],
+    ),
+    crediti: [["foto", "Giuseppe Esposito"]],
+  },
+  {
+    numero: 11,
+    slug: "editorial-blanka",
+    titolo: "Editorial Blanka",
+    anno: "—",
+    medium: "editoriale",
+    luogo: "—",
+    densita: "documentata",
+    scatti: foto("editorial-blanka",
+      ["01", 787, 1181], ["02", 1181, 787], ["03", 1181, 787],
+      ["04", 1181, 787], ["05", 787, 1181], ["06", 787, 1181],
+      ["07", 1181, 787], ["08", 1181, 787], ["09", 1181, 787],
+      ["10", 1181, 787], ["11", 1181, 787], ["12", 787, 1181],
+      ["13", 1600, 1066], ["14", 1181, 787], ["15", 787, 1181],
+      ["16", 787, 1181], ["17", 787, 1181], ["18", 1181, 787],
+      ["19", 1186, 787],
+    ),
+  },
   { numero: 12, slug: "a-boys-closet", titolo: "A Boy's Closet — Guardaroba di un ragazzo", anno: "2020", medium: "—", luogo: "—", densita: "minima", scatti: [indice("017", 900, 596)] },
   {
     numero: 13,

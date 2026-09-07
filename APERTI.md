@@ -72,7 +72,14 @@ fotografie si vede, tavolo e Ouija compresi. La seduta è una scena dell'opera,
 non l'opera; «Veronica Diaz» è la fotografa e ora è un credito. Slug, titolo e
 anno (2015) aggiornati.
 
-Resta **Dark Romance**, l'altro titolo del portfolio senza corrispondenza.
+**Dark Romance ha una corrispondenza, e crea un conflitto.** L'altro titolo
+orfano del portfolio è la cartella `Photo Editorial Design Scene 28.09.15`: le
+pagine dell'editoriale pubblicato portano il frontespizio **DARK ROMANCE** con
+«photos by Davide Fanton», e il portfolio compilato elenca «Dark Romance»
+seguito da «Editoriale per Design Scene Magazine 28/09/2015». Lucio ha però
+chiesto di chiamarla **Fanton Milano Fashion Week** — dal nome di uno dei file —
+e così è in `opere.ts`. **Due fonti dicono Dark Romance, l'istruzione dice
+Fanton**: da sciogliere, è una riga.
 
 **«BDSM» invece non esiste**: nessuna cartella porta quel nome, e nel portfolio
 compilato «BDSM» compare come riferimento culturale della collezione 1780/89,
