@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { OPERE, RAPPORTO, formato, numerato, perSlug } from "@/lib/opere";
+import { OPERE, RAPPORTO, durataLeggibile, formato, numerato, perSlug } from "@/lib/opere";
 import { Mensola } from "./mensola";
 import styles from "./page.module.css";
 
@@ -126,6 +126,16 @@ export default async function Page({
           <dt>scatti:</dt>
           <dd>{opera.scatti.length}</dd>
         </div>
+        {/* Il filmato è una riga a sé e non entra nel conteggio degli scatti:
+            l'apparato dice quante fotografie ci sono e quanto dura il video,
+            due dati distinti. La riga manca del tutto dove manca il materiale
+            — l'archivio conta, non dichiara zeri (§3.3). */}
+        {opera.filmati?.length ? (
+          <div className={styles.credito}>
+            <dt>filmato:</dt>
+            <dd>{opera.filmati.map((f) => durataLeggibile(f.durata)).join(" · ")}</dd>
+          </div>
+        ) : null}
       </dl>
 
       <p className={styles.nota}>
@@ -189,6 +199,12 @@ export default async function Page({
             <dt>scatti:</dt>
             <dd>{opera.scatti.length}</dd>
           </div>
+          {opera.filmati?.length ? (
+            <div className={styles.credito}>
+              <dt>filmato:</dt>
+              <dd>{opera.filmati.map((f) => durataLeggibile(f.durata)).join(" · ")}</dd>
+            </div>
+          ) : null}
         </dl>
 
         <p className={styles.compattaNota}>

@@ -14,10 +14,10 @@ sta solo ciò che resta vero nel tempo.
 
 ---
 
-## Le cinque opere che mancano
+## Le opere che mancano
 
-`lib/opere.ts` progetta «una sequenza unica 01→26» (§3.3) e contiene ventuno
-opere, numerate 01→21. Le pagine adesso contano invece di dichiarare, quindi
+`lib/opere.ts` progetta «una sequenza unica 01→26» (§3.3) e contiene **diciotto**
+opere, numerate 01→18. Le pagine adesso contano invece di dichiarare, quindi
 nessuna mente — ma le cinque assenti restano da inserire, ed è curatela.
 
 Il repo non dice quali siano. Dice però dove cercarle:
@@ -32,6 +32,31 @@ Il repo non dice quali siano. Dice però dove cercarle:
 
 Le due liste possono sovrapporsi: una delle immagini orfane potrebbe essere
 proprio L'Affair o BDSM.
+
+**7 settembre 2026 — tre opere sono uscite dall'archivio.** Scelta di Lucio:
+**The Red White Horse**, **Marie Antoinette in thr Fridge** e **Editoriale x
+Vogue** non ci vanno. Le voci sono state tolte da `lib/opere.ts` e la sequenza
+**rinumerata da capo, 01→18**: il numero è apparato e non identità — lo slug non
+lo contiene (§3.3), quindi nessun URL è cambiato. Le tre copertine
+(`indice/005`, `010`, `024`) restano su disco come file orfani.
+
+Resta da chiarire **se il totale è ancora 26**: la guida lo dà per deciso (§1),
+ma è stato scritto prima di queste tre esclusioni. Con 26 le mancanti sono otto,
+non cinque.
+
+**Aggiornamento del 7 settembre 2026** — guardando le sorgenti invece dei nomi,
+tre delle cinque hanno un nome e un materiale finito, e sono tutte e tre
+**solo-video**: `01-assets/media` contiene tre cartelle con un montato e zero
+fotografie — **L'Affair** (1:21, video di Giuseppe Esposito, modelli Josh
+Castiglioni e Stefano Raffo), **Love and Eat** (6:16, cinque performer, con un
+elaborato testuale di Manuel Delogu) e **Sauvage** (2:19, video di
+presentazione per la seconda serata di Sauvage di Technoroom, Sassari — la data
+manca). Entrare in archivio dipende dalla decisione sulla copertina, qui sotto.
+
+**«BDSM» invece non esiste**: nessuna cartella porta quel nome, e nel portfolio
+compilato «BDSM» compare come riferimento culturale della collezione 1780/89,
+non come titolo. La voce 2025 di `lib/timeline.ts` è senza sorgente. Da
+chiarire con Manuel: è un'opera, o è un attributo di un'altra?
 
 ## `/works` legge dalla più recente, e i tag aspettano
 
@@ -72,6 +97,69 @@ Restano aperte:
   l'**indicatore** la sua posizione nella striscia (`(16—21)`): rovesciando
   l'ordine i due numeri divergono. È coerente col resto del sito (numero ≠
   posizione), ma se dà fastidio l'indicatore è in `banda.tsx`.
+
+## I video (§8): i dati ci sono, le pagine no
+
+Dal 7 settembre 2026 il §8 non è più intero. **Quello che c'è:**
+
+- **`Filmato` in `lib/opere.ts`**, accanto a `Scatto` e non dentro. La ragione è
+  l'apparato: se un filmato entrasse in `scatti`, i crediti direbbero
+  «scatti: 13» per dodici fotografie e un video, e il §3.3 esiste per tenere
+  onesto quel conteggio. Il rapporto di un filmato **non passa da `formato()`**:
+  i cinque formati ammessi sono fotografici, e accostarci un 2,35:1
+  significherebbe ritagliare l'inquadratura che il videomaker ha composto — il
+  ritaglio di una foto è presentazione, quello di un filmato è una modifica
+  dell'opera.
+- **`scripts/filmati.sh`**, accanto a `bozze-media.sh`: per ogni opera produce
+  l'intero (H.264, CRF 25, max 1600px, `+faststart`), un'anteprima di dieci
+  secondi muta, e un poster. Scrive le misure in `public/media/filmati.txt`, da
+  cui si copiano in `opere.ts` — come già per le immagini, le misure non si
+  scrivono a occhio.
+- **Tre opere hanno il filmato nei dati**: 03 Glamour Confusion (2:59),
+  13 Le Rêve Lever (0:54), 14 Funeral Rave (1:35, video di Tommaso Bentivegna).
+  I crediti della work page mostrano `filmato: m:ss` accanto a `scatti: N`, in
+  entrambe le viste. The Red White Horse aveva un montato di 6:53 ed era la
+  quarta: è uscita dall'archivio, e con lei i suoi derivati.
+
+**Quello che non c'è: nessuna pagina mostra ancora un filmato.** I dati sono
+pronti e inerti. Il player (media-chrome, installato dal primo giorno e mai
+importato), la lastra della mensola e la vista con audio restano da fare, e
+sono l'unica parte che tocca l'interazione — quindi vanno decise, non dedotte.
+
+### Le decisioni che mancano
+
+- **Dove vivono i file — DECISO** (Lucio, 7 settembre 2026): **nel repo**. Il
+  §5 esclude i servizi esterni e `/legali` dichiara che non ce ne sono; il peso
+  del repo è un prezzo più basso di una promessa da riscrivere. Lo script tiene
+  un tetto di 90 MB per file per stare sotto il limite di GitHub, e avvisa
+  invece di fallire. Da sorvegliare quando entreranno Love and Eat (6:16) e
+  L'Affair (4K): ogni ri-encode resta per sempre nella storia di git.
+- **Il fermo immagine come copertina — DECISO** (Lucio, 7 settembre 2026): sì.
+  L'indice e la timeline leggono `scatti[0]`, e un'opera solo-video non ce
+  l'ha: si estrae un fotogramma dal montato e lo si dichiara per quello che è
+  (`didascalia: "fermo immagine dal video"`). È ciò che permette a L'Affair,
+  Love and Eat e Sauvage di entrare in archivio.
+- **Il filmato è opera o documentazione? — ANCORA APERTA.** Funeral Rave ha
+  dodici fotografie e un video: è la tredicesima cosa da guardare o è la
+  documentazione della performance? La risposta decide dove sta nella mensola.
+  Chiesto a Lucio il 7 settembre 2026, risposta «non saprei» — quindi la Fase 3
+  parte dalle altre tre decisioni e questa si chiude guardando la pagina.
+- **L'audio — DECISO** (Lucio, 7 settembre 2026): la mensola resta **muta**, il
+  suono vive **solo nella vista ravvicinata** — lì c'è spazio per i crediti del
+  videomaker e nessuno ci arriva per sbaglio. Il passaggio poster → movimento
+  resta una dissolvenza e non un taglio (§3.2: variazione interna a uno stato
+  già stabilito).
+
+### Due cose viste guardando i fotogrammi
+
+- **Il letterbox può stare dentro l'immagine.** The Red White Horse dichiarava
+  720×576 ma il contenuto era un dittico con bande nere sopra e sotto: in una
+  cornice 4:3 le bande si sarebbero viste. Quell'opera è uscita dall'archivio,
+  ma il caso resta — va guardato il fotogramma, non il rapporto dichiarato.
+- **L'anteprima non si può prendere a percentuale fissa.** Al 20% Glamour
+  Confusion è ancora sul cartello di testa: dieci secondi di titolo. L'offset è
+  ora al 50% ed è una manopola per opera nella tabella dello script — il
+  fotogramma giusto lo sceglie chi guarda.
 
 ## `--rif-altezza` — i numeri, rimisurati
 
