@@ -266,7 +266,8 @@ dall'archivio prima che ce ne occupassimo.
 - **La copertina di Don Giovanni** è `_selected copyed/IMG_0542` per posizione,
   non per scelta: nessuno l'ha indicata.
 - ~~Le copertine d'archivio vengono da cartelle rosse.~~ **Fatto** il 7
-  settembre 2026: Ph Shoot Anto prende la copertina da «immagini selezionate e
+  settembre 2026: Shooting per Editoriale (allora «Ph Shoot Anto») prende la
+  copertina da «immagini selezionate e
   impaginate» (640px — la sorgente è quella, viene da un social), Oser Savoir
   da `OSER SAVOIR 15-03-015`. Le due opere sono in `scripts/scatti.sh` con un
   file solo: è la copertina giusta, non ancora una selezione. **Resta vero il

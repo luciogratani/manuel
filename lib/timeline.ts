@@ -181,7 +181,7 @@ export const VOCI: Voce[] = [
   { titolo: "Candide a palazzo Guillot", anno: 2013, medium: "intervento", luogo: "Palazzo Guillot, Alghero", slug: "candide-a-palazzo-guillot" },
   { titolo: "Glamour Confusion", anno: 2014, medium: "—", luogo: "—", slug: "glamour-confusion" },
   { titolo: "Oser Savoir", anno: 2015, medium: "collezione", luogo: "—", slug: "oser-savoir" },
-  { titolo: "Ph Shoot Anto", anno: 2015, medium: "—", luogo: "—", slug: "ph-shoot-anto" },
+  { titolo: "Shooting per Editoriale", anno: 2015, medium: "fotografia", luogo: "—", slug: "shooting-editoriale" },
   { titolo: "Fanton Milano Fashion Week", anno: 2015, medium: "editoriale", luogo: "—", slug: "fanton-milano-fashion-week" },
   { titolo: "Corsa Futurista — I edizione", anno: 2015, medium: "corsa itinerante", luogo: "Sassari", slug: "corsa-futurista-i" },
   { titolo: "Corsa Futurista — II edizione", anno: 2016, medium: "corsa itinerante", luogo: "Sassari", slug: "corsa-futurista-ii" },

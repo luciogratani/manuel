@@ -341,8 +341,8 @@ export const OPERE: Opera[] = [
   // sciolti, e piccole (640px) perché la sorgente lo è.
   {
     numero: 6,
-    slug: "ph-shoot-anto",
-    titolo: "Ph Shoot Anto",
+    slug: "shooting-editoriale",
+    titolo: "Shooting per Editoriale",
     anno: "2015",
     medium: "fotografia",
     luogo: "—",
@@ -350,7 +350,7 @@ export const OPERE: Opera[] = [
     descrizione:
       "Servizio fotografico del 25 novembre 2015, di cui restano le tavole già " +
       "impaginate. Nessun documento accompagna la cartella.",
-    scatti: foto("ph-shoot-anto",
+    scatti: foto("shooting-editoriale",
       ["01", 640, 960], ["02", 960, 807], ["03", 960, 722],
       ["04", 960, 819], ["05", 640, 960], ["06", 640, 960],
       ["07", 960, 742], ["08", 960, 714], ["09", 960, 758],

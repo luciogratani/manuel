@@ -53,16 +53,16 @@ QUALITA=5   # -q:v di ffmpeg: 2 è il massimo, 31 il minimo. 5 ≈ 200 KB a 1600
 # singoli letta riga per riga: un `#` diventerebbe uno slug, e un apostrofo
 # chiuderebbe la stringa (per questo «Boy'"'"'s» è scritto così).
 TABELLA='
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319435_911359268957829_198592860_n.jpg
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12305885_911064522320637_1360306086_n.jpg
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12308846_911064112320678_1059644038_n.jpg
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12308986_911358362291253_944476195_n.jpg
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12312127_911358978957858_615894769_n.jpg
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319288_911359135624509_2042221569_n.jpg
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319308_911063758987380_920179213_n.jpg
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319483_911358428957913_652225524_n.jpg
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12325043_911358345624588_1522507196_n.jpg
-ph-shoot-anto|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12325217_911064292320660_1229689628_n.jpg
+shooting-editoriale|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319435_911359268957829_198592860_n.jpg
+shooting-editoriale|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12305885_911064522320637_1360306086_n.jpg
+shooting-editoriale|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12308846_911064112320678_1059644038_n.jpg
+shooting-editoriale|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12308986_911358362291253_944476195_n.jpg
+shooting-editoriale|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12312127_911358978957858_615894769_n.jpg
+shooting-editoriale|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319288_911359135624509_2042221569_n.jpg
+shooting-editoriale|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319308_911063758987380_920179213_n.jpg
+shooting-editoriale|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12319483_911358428957913_652225524_n.jpg
+shooting-editoriale|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12325043_911358345624588_1522507196_n.jpg
+shooting-editoriale|archivio/Ph Shoot Anto 25.11.15/immagini selezionate e impaginate/12325217_911064292320660_1229689628_n.jpg
 the-missing|archivio/THE MISSING/ph giuseppe esposito/78761876_724276168064472_4553956504008392704_n.jpg
 the-missing|archivio/THE MISSING/ph giuseppe esposito/75521812_454608408586932_6122281189580472320_n.jpg
 the-missing|archivio/THE MISSING/ph giuseppe esposito/76944268_418518552390748_474567721267232768_n.jpg
