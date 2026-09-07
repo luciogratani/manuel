@@ -111,17 +111,18 @@ decisione sull'artboard.
 
 ## 5. Cosa manca
 
-**Da guardare per primo, perché non è mai stato visto muoversi**: la lastra del
-filmato nella mensola. Il player della vista ravvicinata sì (controlli, tempo,
-audio); la lastra è verificata solo nel DOM, perché la scheda di prova era in
-background e Chrome lì mette in pausa le animazioni CSS — tutte le lastre
-restavano a `clip-path: inset(100%)`, quindi nemmeno raggiungibili dal
-puntatore.
+~~**Da guardare per primo, perché non è mai stato visto muoversi**: la lastra
+del filmato nella mensola.~~ **Guardata il 7 settembre 2026, in una scheda in
+primo piano**: la lastra si muove. Su Funeral Rave il `pointerenter` fa partire
+l'anteprima, il video sale in dissolvenza sopra il poster (0,45s) e il
+fotogramma a schermo è davvero il filmato, non la copertina. Muta, come deciso.
 
-**Una domanda aperta che si chiude guardando**: i filmati stanno in coda alle
+~~**Una domanda aperta che si chiude guardando**: i filmati stanno in coda alle
 fotografie, ma la mensola è un anello, quindi entrando in un'opera compaiono
 per primi, a sinistra della corrente. Non è sbagliato — è l'opposto di «in
-coda». Vale per Feral (tre teaser) e Funeral Rave.
+coda». Vale per Feral (tre teaser) e Funeral Rave.~~ **Chiusa da Lucio il 7
+settembre 2026, guardando**: non è un problema, i filmati restano in coda. Il
+dettaglio sta in `APERTI.md`, che è dove le decisioni durano.
 
 Poi, in ordine sparso: i testi di `/about`, ancora segnaposto; la `.nota` della
 work page, ancora segnaposto; le didascalie per-foto (`Scatto.didascalia`) mai

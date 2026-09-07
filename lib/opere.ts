@@ -805,12 +805,14 @@ export type Materiale =
   | { tipo: "foto"; n: number; scatto: Scatto }
   | { tipo: "filmato"; n: number; filmato: Filmato };
 
-/** I filmati vanno IN CODA alle fotografie. È la risposta provvisoria alla
- *  domanda che Lucio ha lasciato aperta — «il filmato è opera o
- *  documentazione?» — e la si è presa così perché è quella che si può
- *  guardare: se in una mensola il video deve stare in mezzo agli scatti, si
- *  vedrà da questa, e allora l'ordine lo dichiarerà l'opera invece di
- *  discenderlo dal tipo. */
+/** I filmati vanno IN CODA alle fotografie. Non è più provvisorio: guardata la
+ *  pagina il 7 settembre 2026, Lucio ha detto che va bene così.
+ *
+ *  Da sapere, perché è controintuitivo: la mensola è un ANELLO, quindi «in
+ *  coda» nei dati si legge «subito a sinistra della corrente» a schermo —
+ *  entrando in Funeral Rave il filmato è la lastra attaccata alla fotografia
+ *  grande, non l'ultima della fila. È stato visto ed è accettato: l'ordine
+ *  resta discendente dal tipo, l'opera non lo dichiara. */
 export function materiali(opera: Opera): Materiale[] {
   // I fermi immagine restano fuori: sono copertine, non materiale. In un'opera
   // solo-video la mensola mostra il filmato e basta.

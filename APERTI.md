@@ -367,11 +367,16 @@ un byte, e ci sono opere con sei filmati.
   l'ha: si estrae un fotogramma dal montato e lo si dichiara per quello che è
   (`didascalia: "fermo immagine dal video"`). È ciò che permette a L'Affair,
   Love and Eat e Sauvage di entrare in archivio.
-- **Il filmato è opera o documentazione? — ANCORA APERTA.** Funeral Rave ha
-  dodici fotografie e un video: è la tredicesima cosa da guardare o è la
-  documentazione della performance? La risposta decide dove sta nella mensola.
-  Chiesto a Lucio il 7 settembre 2026, risposta «non saprei» — quindi la Fase 3
-  parte dalle altre tre decisioni e questa si chiude guardando la pagina.
+- **Il filmato è opera o documentazione? — DECISO** (Lucio, 7 settembre 2026,
+  guardando la pagina): il filmato **resta in coda**, e va bene così. La
+  domanda si è chiusa come si era previsto — guardandola, non rispondendo in
+  astratto.
+
+  Quello che si vede, e che chi lavora qui deve sapere: la mensola è un
+  **anello**, quindi «in coda» nei dati diventa «subito a sinistra della
+  corrente» a schermo. Entrando in Funeral Rave il filmato è la lastra
+  attaccata alla fotografia grande, non l'ultima della fila. È l'opposto di
+  quello che «in coda» fa pensare, ed è accettato.
 - **L'audio — DECISO** (Lucio, 7 settembre 2026): la mensola resta **muta**, il
   suono vive **solo nella vista ravvicinata** — lì c'è spazio per i crediti del
   videomaker e nessuno ci arriva per sbaglio. Il passaggio poster → movimento
