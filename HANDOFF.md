@@ -1,10 +1,11 @@
 # Handoff — 8 settembre 2026
 
-Due giorni sui **contenuti**. L'archivio è passato da ventuno opere segnaposto
-a **ventuno opere vere**: 332 fotografie scelte a mano, 14 filmati, tutti i
-testi, tutti i crediti che i documenti danno. Branch `dopo-helper`, albero
-pulito, `typecheck`/`lint`/`build` verdi, 362 pagine. Undici commit, da
-`3b2a4f6` a `7599d87`.
+Due giorni sui **contenuti**, e in fondo il §8. L'archivio è passato da opere
+segnaposto a **ventitré opere vere**: 334 fotografie scelte a mano, 16 filmati
+che adesso **si vedono in pagina**, tutti i testi, tutti i crediti che i
+documenti danno. Branch `dopo-helper`, albero pulito,
+`typecheck`/`lint`/`build` verdi, 379 pagine. Quattordici commit, da `3b2a4f6`
+a `77804c9`.
 
 Questo documento è **datato e si consuma**. Ciò che resta vero nel tempo sta in
 `APERTI.md`, aggiornato passo per passo.
@@ -30,9 +31,15 @@ l'inquadratura del videomaker.
 lungo 1600, max 30 fps, `+faststart`), un'anteprima muta di dieci secondi
 sopra i trenta secondi di durata, e un poster.
 
-**Quattordici filmati sono nel repo e non li serve nessuno.** Zero riferimenti
-a `/media/filmati/` nell'HTML costruito; l'unico `<video>` del sito è l'hero
-della home. È la cosa più importante che resta da fare — vedi §5.
+**E dal 8 settembre si vedono.** `components/filmato.tsx` ha due modi: `Muto`
+nella mensola — poster fermo, movimento all'hover, `preload="none"`, nessun
+audio — e `Intero` nella vista ravvicinata, l'unico posto del sito dove un
+filmato suona (media-chrome). Le due viste dell'opera scorrono `materiali()` e
+non `scatti`.
+
+I **fermi immagine** non entrano fra i materiali: `Scatto.fermoImmagine` marca
+il fotogramma che esiste solo per fare da copertina, e nella mensola di
+un'opera solo-video c'è il filmato e basta.
 
 ### L'archivio, opera per opera
 
@@ -102,30 +109,29 @@ decisione sull'artboard.
 
 ---
 
-## 5. Cosa manca — e cosa viene per primo
+## 5. Cosa manca
 
-**Il video non si vede.** I dati ci sono, la pipeline c'è, media-chrome è in
-`package.json` dal primo giorno e non è mai stato importato. Serve: il player,
-la lastra del filmato nella mensola, la vista con audio.
+**Da guardare per primo, perché non è mai stato visto muoversi**: la lastra del
+filmato nella mensola. Il player della vista ravvicinata sì (controlli, tempo,
+audio); la lastra è verificata solo nel DOM, perché la scheda di prova era in
+background e Chrome lì mette in pausa le animazioni CSS — tutte le lastre
+restavano a `clip-path: inset(100%)`, quindi nemmeno raggiungibili dal
+puntatore.
 
-Le decisioni sono già prese, e sono di Lucio:
+**Una domanda aperta che si chiude guardando**: i filmati stanno in coda alle
+fotografie, ma la mensola è un anello, quindi entrando in un'opera compaiono
+per primi, a sinistra della corrente. Non è sbagliato — è l'opposto di «in
+coda». Vale per Feral (tre teaser) e Funeral Rave.
 
-- il filmato nella mensola è **muto**, l'audio vive **solo** in
-  `/works/[slug]/[n]`;
-- il passaggio poster → movimento è una **dissolvenza**, non un taglio (§3.2);
-- i file stanno **nel repo**, non su un'origine esterna.
-
-Resta aperta una domanda sola: **il filmato è opera o documentazione?** — cioè
-se sta in mezzo alle fotografie o dopo. Si chiude guardando la pagina.
-
-Un caso da tenere presente: **quattro opere hanno più di un filmato** (Feral
-tre teaser, Coucher sei clip). Per Coucher arriverà un montaggio unico di
-Lucio; per Feral i tre teaser sono tre pezzi distinti.
-
-Poi restano: L'Affair e Sauvage, le ultime due opere solo-video, che ora
-possono entrare come è entrata LOVE AND EAT; le opere d'archivio non ancora
-riviste; la revisione legale; e le cinque opere che mancherebbero per arrivare
-a 26 — se 26 regge dopo sette esclusioni, ed è una domanda per Manuel.
+Poi, in ordine sparso: i testi di `/about`, ancora segnaposto; la `.nota` della
+work page, ancora segnaposto; le didascalie per-foto (`Scatto.didascalia`) mai
+compilate; i tag/filtro dell'indice, ancora MOCK; la revisione legale; il
+montaggio di Coucher che farà Lucio, e con lui l'hero della home; il crop degli
+altri filmati, da controllare con l'occhio con cui è stato trovato quello di
+Sauvage; «Alex Ilushenka» contro «Aliaksandr Ilyushenka», due grafie della
+stessa persona; **BDSM**, voce di cronologia senza nessuna cartella; e le tre
+opere che mancherebbero per arrivare a 26 — se 26 regge dopo sette esclusioni,
+ed è una domanda per Manuel.
 
 ---
 
