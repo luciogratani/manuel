@@ -28,10 +28,22 @@ import styles from "./page.module.css";
 //
 // Tutto ciò che non è derivabile è segnaposto DICHIARATO.
 
-/** L'opera che è formazione: sta in archivio come le altre (§3.3 non separa la
- *  ricerca dal resto), e da lì la bio la rilegge come dato biografico invece
- *  di tenerne una seconda copia qui. */
-const FORMAZIONE = OPERE.find((o) => o.medium === "formazione");
+// La formazione NON si deriva più da `OPERE`. C'era una costante che cercava
+// l'opera con `medium: "formazione"` per rileggerla come dato biografico, ma
+// quell'opera in archivio non esiste — la scuola d'arte è fra le voci tenute
+// fuori — quindi la riga ha sempre mostrato un trattino. Il dato sta scritto
+// qui: non è derivabile, ed è meglio un fatto dichiarato che un campo vuoto in
+// attesa di un'opera che non arriverà.
+//
+// La fonte è il CV (`/cv`), non la bio, e le due non dicono la stessa cosa: la
+// bio parla di «Istituto d'Arte Filippo Figari», il CV di «Liceo Artistico
+// Filippo Figari», diploma in Arti Applicate 2008–2013. Il CV dà anche una
+// formazione più alta e più recente che la bio non nomina — la laurea
+// triennale in Comunicazione e Didattica dell'Arte all'Accademia di Belle Arti
+// Mario Sironi, 2023–2026 — ed è quella che sta in questa riga: nell'apparato
+// di una persona `formazione` è il titolo più alto, non il primo in ordine di
+// tempo. L'arco 2023–2026 finisce quest'anno: se il titolo non è ancora
+// conseguito la riga va sfumata, ed è una cosa da chiedere a Manuel.
 
 /** I medium davvero presenti in archivio, meno la formazione — che nella
  *  colonna dei dati è già una riga a sé — e meno i `—` non ancora compilati. */
@@ -42,11 +54,56 @@ const MEDIUM = [...new Set(OPERE.map((o) => o.medium))].filter(
 const DATI: [string, string][] = [
   ["nato", "ITA"],
   ["base", "Sassari"],
-  ["pratica", "moda, sartoria, performance"],
-  [
-    "formazione",
-    FORMAZIONE ? `${FORMAZIONE.titolo}, ${FORMAZIONE.luogo}, ${FORMAZIONE.anno}` : "—",
-  ],
+  ["pratica", "arte, performance, design"],
+  ["formazione", "Accademia di Belle Arti Mario Sironi, Sassari"],
+];
+
+/** La bio, scritta da Manuel il 7 settembre 2026. Non più un segnaposto.
+ *
+ *  È RIDOTTA: l'originale è ~2900 battute e la colonna ne regge ~1900 su due
+ *  colonne senza arrivare addosso all'apparato in basso. Tagliati i passaggi
+ *  che ripetevano un concetto già detto, non i concetti. Il registro è di
+ *  Manuel — terza persona, presente — e non è stato riscritto.
+ *
+ *  Tre cose corrette leggendo, e due che restano da chiedergli:
+ *   · corretti: «performonce», «un azione», e i titoli riportati come stanno
+ *     in archivio (`Le Rêve — Lever`, `L'Affair`, `Feral`, `Don Giovanni`).
+ *   · da chiedere: l'originale dice «Dal 2015 al 2024» per la Corsa Futurista,
+ *     ma in archivio le edizioni vanno dal 2015 al 2023 (la V manca). Qui
+ *     l'arco è aperto — «dal 2015» — per non scrivere una data che i dati
+ *     smentiscono.
+ *   · da chiedere: l'originale dà Don Giovanni come «spettacolo di chiusura
+ *     della rassegna Senza Sipario al Teatro Genova». Quella riga è stata
+ *     tolta dai crediti dell'opera il 7 settembre 2026, quindi qui non c'è: se
+ *     è vera va rimessa in tutt'e due i posti, non in uno solo. */
+const BIO = [
+  "Nato a Sassari. Fin dall'infanzia coltiva un forte interesse per la " +
+    "letteratura e la storia, ed è quest'ultima a introdurlo alla storia " +
+    "dell'arte attraverso i ritratti dei personaggi che ne stuzzicano la " +
+    "curiosità: figure diverse fra loro, in cui trova affinità.",
+  "I primi approcci con l'arte sono la scultura, la riproduzione in argilla " +
+    "di ciò che lo circonda. Il trasformismo e il teatro sono una scoperta " +
+    "che sfocia nella realizzazione di costumi: dapprima un gioco, più tardi " +
+    "un linguaggio espressivo.",
+  "Lo studio del costume all'Istituto d'Arte Filippo Figari di Sassari " +
+    "affina le sue conoscenze — il figurino, le tecniche di confezionamento " +
+    "— e lo porta a organizzare sfilate con abiti dal forte impatto " +
+    "teatrale. La sua formazione resta quasi interamente da autodidatta.",
+  "Il lavoro si basa sulla ricerca nella storia del costume: rivisita i " +
+    "periodi storici guardando ai dettagli che, filtrati da una lente " +
+    "moderna, tornano attuali. Nella fotografia, il ritratto diventa il " +
+    "mezzo di un'azione performativa bidimensionale.",
+  "Un periodo a Milano lo mette in contatto diretto con il mondo dell'arte. " +
+    "Dopo un excursus nel fashion design abbandona " +
+    "quell'ambiente per dedicarsi alla formazione di artista visivo: un " +
+    "lavoro performativo sul corpo maschile e sul desiderio, spesso " +
+    "attraverso riletture contemporanee del Settecento francese. " +
+    "L'happening è il campo di ricerca, e l'indagine sono le reazioni del " +
+    "pubblico.",
+  "Fra i suoi lavori Apoteosi (2017), L'Affair (2021), Le Rêve — Lever " +
+    "(2022), Funeral Rave (2023), Feral (2024) e Don Giovanni (2025). Dal " +
+    "2015 organizza e dirige la Corsa Futurista, evento itinerante di " +
+    "Monumenti Aperti.",
 ];
 
 const EMAIL = "hello@manuelcasati.it";
@@ -65,35 +122,41 @@ export default function Page() {
             accanto c'è per esteso. */}
         <h1 className={styles.nome}>Manuel Casati</h1>
 
-        {/* La voce. È l'unica riga del sito in cui una persona parla in prima
-            persona invece di essere schedata, ed è il posto dove PP Hatton —
-            dichiarata in `lib/fonts.ts` «candidata al ruolo di voce» e finora
-            mai usata — prende finalmente quel ruolo.
+        {/* La voce. È l'unica riga del sito in cui una persona parla invece di
+            essere schedata, ed è il posto dove PP Hatton — dichiarata in
+            `lib/fonts.ts` «candidata al ruolo di voce» e finora mai usata —
+            prende quel ruolo.
 
-            MOCK: frase da riscrivere con la curatela. */}
+            La frase è VERA e non è di Manuel: la dice un suo amico. Prima qui
+            c'era un segnaposto in prima persona, scritto da una sessione
+            precedente e attribuito a lui dal solo fatto di stare in questa
+            pagina — cioè una citazione inventata messa in bocca all'autore.
+
+            Proprio perché non è sua, sotto c'è la riga dell'attribuzione: una
+            citazione senza nome, in cima alla pagina di qualcuno, diventa sua.
+            Il nome MANCA ed è dichiarato: va chiesto a Manuel. */}
+        {/* Lo spazio unificatore fra «ma» e «spogliare» non è un vezzo: senza,
+            la riga si spezza dopo «ma» e la congiunzione resta appesa in fondo
+            alla prima riga. Legandoli, il capo cade dopo «domande,» — fra le
+            due proposizioni, che è dove cade anche il senso — e ci resta a
+            qualunque larghezza. */}
         <p className={styles.voce}>
-          «La sartoria è una forma di ascolto: prende le misure di un corpo e
-          gli restituisce uno sguardo.»
+          {"«Non voglio le domande, ma spogliare le risposte.»"}
         </p>
+        <p className={styles.attribuzione}>— nome da chiedere a Manuel</p>
 
-        {/* MOCK: i primi due paragrafi sono segnaposto scritti nel registro del
-            sito. Il secondo però dice una cosa vera e verificabile in
-            `lib/opere.ts`: la numerazione è unica e cronologica, e non separa
-            le commesse dalla ricerca. */}
+        {/* La bio di Manuel, non più segnaposto. Sta su DUE colonne: alla
+            misura di una sola (400px, ~58 battute per riga) sarebbero
+            cinquanta righe che arriverebbero addosso all'apparato in basso, e
+            allargare la riga invece di sdoppiarla avrebbe portato la misura
+            oltre le cento battute — leggibile la metà. La metà destra della
+            pagina era vuota, quindi lo spazio c'era. */}
         <div className={styles.dichiarazione}>
-          <p className={styles.paragrafo}>
-            Lavora fra moda, sartoria, performance e ricerca sul corpo. Le opere
-            nascono quasi sempre da un indumento — costruito, disfatto,
-            indossato da qualcun altro — e finiscono in fotografia, in video o
-            in una stanza.
-          </p>
-          <p className={styles.paragrafo}>
-            Tiene un archivio solo invece di distinguere fra progetti, commesse
-            e ricerca: la numerazione è cronologica e non dichiara quale delle
-            tre sia stata l&apos;origine di un lavoro.
-          </p>
-          <p className={styles.paragrafo}>Testo da scrivere con la curatela.</p>
-          <p className={styles.paragrafo}>Testo da scrivere con la curatela.</p>
+          {BIO.map((paragrafo, i) => (
+            <p key={i} className={styles.paragrafo}>
+              {paragrafo}
+            </p>
+          ))}
         </div>
 
         {/* La persona, nell'idioma dell'apparato delle work page. */}

@@ -63,10 +63,25 @@
   position: absolute;
   top: var(--riga);
   left: var(--margine);
-  width: 40rem; /* 640px — tarata per tre righe col testo attuale */
+  /* 480px. Era 640, tarato su una frase di 108 battute che andava su tre
+     righe; questa ne ha 48 e su 640 starebbe su una riga e mezza — una voce
+     che parte e finisce prima di farsi sentire. Stretta, va su due righe
+     piene e il taglio cade dopo «domande», dove cade anche il senso. */
+  width: 30rem;
   font-family: var(--font-pp-hatton), Georgia, "Times New Roman", serif;
   font-size: 1.75rem; /* 28px */
   line-height: 1.25;
+}
+
+/* Chi l'ha detta. Nell'idioma dell'apparato — corpo piccolo e opacità
+   dell'etichetta — perché è un dato sulla frase, non la frase. */
+.attribuzione {
+  position: absolute;
+  top: calc(var(--riga) + 5.25rem); /* 220px — sotto le due righe della voce */
+  left: var(--margine);
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.2;
+  opacity: 0.55;
 }
 
 /* ── Colonna 1 — la dichiarazione ─────────────────────────────────────────── */
@@ -80,11 +95,27 @@
   font-weight: 800;
 }
 
+/* DUE COLONNE, non una riga più larga. La bio di Manuel è ~1900 battute: in
+   una colonna sola sarebbero una cinquantina di righe, e finirebbero addosso
+   ai dati che stanno ancorati in basso. Allargare la riga avrebbe risolto lo
+   spazio e rotto la lettura — a 884px la misura passa da ~58 a ~130 battute,
+   e oltre le settanta l'occhio perde il capo della riga successiva.
+   Sdoppiando, la misura resta quella e lo spazio raddoppia.
+
+   `break-inside: avoid` sui paragrafi: si spezzavano a metà fra il fondo di
+   una colonna e la cima dell'altra, e un paragrafo di sei righe letto tre e
+   tre è peggio di due colonne un po' diseguali. */
 .dichiarazione {
   position: absolute;
   top: calc(var(--apparato) + 1.75rem);
   left: var(--margine);
-  width: var(--colonna);
+  width: calc(var(--colonna) * 2 + var(--fuga));
+  column-count: 2;
+  column-gap: var(--fuga);
+}
+
+.dichiarazione .paragrafo {
+  break-inside: avoid;
 }
 
 .paragrafo {
@@ -341,6 +372,7 @@
   }
 
   .voce,
+  .attribuzione,
   .nome,
   .dichiarazione,
   .dati,
@@ -349,6 +381,19 @@
     position: static;
     width: auto;
     max-width: 100%;
+  }
+
+  /* La colonna in flusso ha `gap: 1.75rem`, che fra la voce e il suo nome è
+     troppo: l'attribuzione appartiene alla frase, non è il blocco dopo. */
+  .attribuzione {
+    margin-top: -1.25rem;
+  }
+
+  /* Una colonna sola. Le due servivano a non far crescere il testo in
+     verticale dentro un canvas fisso; qui il canvas non è fisso, la pagina
+     scorre, e due colonne su 375px sarebbero due strisce da trenta battute. */
+  .dichiarazione {
+    column-count: 1;
   }
 
   .voce {
