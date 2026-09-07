@@ -34,7 +34,24 @@ export function Marchio({
     <svg
       className={className}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox={esteso ? "0 0 3817.3 325.7" : "0 0 1970.53 325.69"}
+      // L'ALTEZZA DEL VIEWBOX ESTESO È 326.64, NON 325.7. Quando `casati` si è
+      // aggiunto a `manuel` (6 settembre 2026) è stata allargata la cornice —
+      // 1970.53 → 3817.3 — ma l'altezza è rimasta quella della sola `manuel`,
+      // e le due parole non finiscono alla stessa quota: le tonde di `casati`
+      // scendono sotto la linea di base più di quelle di `manuel` (c 326.64,
+      // a 326.15, s 326.09, contro le 325.68 di `manuel`). Lo 0.94 di
+      // differenza cadeva fuori dal viewBox, e `overflow: hidden` — che sugli
+      // SVG è il default — tagliava le abbondanze: le tonde di «casati»
+      // avevano il fondo piatto.
+      //
+      // Misurato con `getBBox()` sui tracciati resi, non letto dal file: è lo
+      // stesso mestiere con cui si prendono le misure dei derivati.
+      //
+      // Il rapporto è scritto anche in `testa.module.css` (`aspect-ratio`), e
+      // i due numeri devono restare uguali: se lì resta il vecchio, il
+      // riquadro non combacia col viewBox e `preserveAspectRatio` centra il
+      // marchio lasciando una banda vuota.
+      viewBox={esteso ? "0 0 3817.3 326.64" : "0 0 1970.53 325.69"}
       fill="currentColor"
       role="img"
       aria-label={nome}
