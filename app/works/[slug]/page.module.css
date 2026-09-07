@@ -19,12 +19,54 @@
   --x: 1.125rem; /* 18px */
   --margine: calc(var(--x) * 2); /* 36px */
 
-  /* La mensola. Tre registri d'altezza e una linea di base condivisa.
-     La lastra corrente è l'unica che la rompe, e la rompe da tutt'e due i lati. */
+  /* La mensola. Tre registri e una linea di base condivisa. La lastra corrente
+     è l'unica che la rompe, e la rompe da tutt'e due i lati.
+
+     I REGISTRI SONO LARGHEZZE, NON PIÙ ALTEZZE, e i numeri sono gli stessi
+     dell'artboard letti dall'altro verso: 273 = 182 × 3:2, 205 = 137 × 3:2,
+     102 = 68 × 3:2. Su una fotografia orizzontale 3:2 — quelle su cui
+     l'artboard è stato disegnato — non cambia niente.
+
+     Cambia su tutto il resto, e cambia perché il disegno non reggeva le
+     verticali. Con i registri come altezze la larghezza la decideva il
+     rapporto, quindi una 2:3 in registro basso era alta 68 e larga 36: non
+     una fotografia, una scheggia. Le Rêve Lever, che è tutta verticale,
+     misurava 778px di striscia contro un binario di 1476, e sotto quella
+     soglia il motore dell'anello non si accende nemmeno (vedi mensola.tsx) —
+     l'opera restava ferma, senza che niente lo dichiarasse. */
   --base: 38.375rem; /* 614px — dove appoggiano tutte le lastre */
-  --alta: 11.375rem; /* 182px */
-  --media: 8.5625rem; /* 137px */
-  --bassa: 4.25rem; /* 68px */
+  --alta: 17.0625rem; /* 273px */
+  --media: 12.8125rem; /* 205px */
+  --bassa: 6.375rem; /* 102px */
+
+  /* Il tetto d'altezza, e senza di lui la larghezza da sola non basterebbe:
+     una 2:3 larga 273 sarebbe alta 409, cioè PIÙ della corrente (382), e la
+     gerarchia si rovescerebbe.
+
+     182 È LA QUOTA DELL'ARTBOARD, ed è deliberato tenerla: è l'altezza che
+     aveva il registro alto quando i registri erano altezze, quindi la mensola
+     occupa esattamente lo spazio verticale di prima e su una 3:2 le tre
+     misure tornano identiche al pixel. Cambia solo ciò che prima si
+     assottigliava: una 2:3 in registro basso passa da 36px di larghezza a 102.
+
+     Provato prima a 300 e poi a 236, ricavando il tetto dal vincolo «la cima
+     più alta resta sotto il testo» — la corrente rompe il registro da tutt'e
+     due i lati, e la sua cima sta a `base − (corrente-h + h) / 2`, quindi sale
+     quanto più è alta la lastra che sarebbe stata. Tutt'e due le volte la
+     mensola si alzava e andava a sbattere: a 300 la corrente di Le Rêve
+     entrava 20px nella descrizione, a 236 spuntavano tre urti — la
+     descrizione di Feral, quella di Coucher e i crediti di Le Rêve.
+
+     Quei tre testi sconfinavano già: erano nascosti dai 27px di margine fra
+     la cima della mensola e la quota 305 in cui il testo dovrebbe finire.
+     Alzare la mensola li scopriva. Sono da sistemare, ma sono testi di
+     curatela e non un numero di questo foglio — vedi `APERTI.md`. */
+  --tetto: 11.375rem; /* 182px */
+
+  /* L'altezza di una lastra in registro basso ORIZZONTALE: 102 / (3:2) = 68.
+     È la più piccola che la mensola produce, e serve solo alla sporgenza qui
+     sotto, che vuole il caso peggiore. */
+  --h-minima: 4.25rem; /* 68px */
 
   /* L'altezza assoluta della corrente — uguale per ogni registro di partenza,
      non più un fattore del registro (chi guarda deve vedere la stessa foto
@@ -34,10 +76,10 @@
   --corrente-h: 23.875rem; /* 382px — torna l'artboard sul registro alto */
 
   /* Quanto la corrente scende sotto la base: il caso peggiore, non un numero
-     a piacere. Registro basso (68px) verso `--corrente-h` (382px) è la
-     crescita più grande fra i tre, e la sporgenza deve poterla contenere
-     tutta o la lastra si taglierebbe. */
-  --sporgenza: calc((var(--corrente-h) - var(--bassa)) / 2); /* 157px */
+     a piacere. La lastra più bassa che la mensola produce (68px) verso
+     `--corrente-h` (382px) è la crescita più grande possibile, e la sporgenza
+     deve poterla contenere tutta o la lastra si taglierebbe. */
+  --sporgenza: calc((var(--corrente-h) - var(--h-minima)) / 2); /* 157px */
 
   /* Un passo, dall'inizio alla fine: la CSS transition dell'ingombro e il
      tween GSAP dello scorrimento (mensola.tsx) condividono questa durata,
@@ -97,11 +139,18 @@
   padding-right: var(--x);
 }
 
+/* Il registro dà la LARGHEZZA (`--w`), l'altezza scende dal rapporto — salvo
+   il tetto, che la ferma. Quando il tetto morde è la larghezza a rientrare, e
+   le due righe qui sotto dicono la stessa cosa da due lati: se `--w / --ar`
+   supera il tetto, allora `--w` supera `--tetto * --ar`, e i due `min` si
+   fermano insieme. Così la cornice tiene sempre esattamente il formato
+   dichiarato, che è la regola da cui dipende il ritaglio. */
 .lastra {
   position: relative;
   flex: none;
+  --h: min(calc(var(--w) / var(--ar)), var(--tetto));
   height: var(--h);
-  width: calc(var(--h) * var(--ar));
+  width: min(var(--w), calc(var(--tetto) * var(--ar)));
   background: var(--inchiostro);
   overflow: hidden;
 }
@@ -113,15 +162,15 @@
 }
 
 .lastra[data-registro="alta"] {
-  --h: var(--alta);
+  --w: var(--alta);
 }
 
 .lastra[data-registro="media"] {
-  --h: var(--media);
+  --w: var(--media);
 }
 
 .lastra[data-registro="bassa"] {
-  --h: var(--bassa);
+  --w: var(--bassa);
 }
 
 /* La corrente rompe il registro: cresce verso l'alto e scende sotto la linea

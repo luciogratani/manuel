@@ -151,6 +151,49 @@ segno di quella volta**: contiene sei opere su quindici. Non è stato
 ricostruito, perché rifarlo vuol dire riderivare 334 fotografie; le misure in
 `lib/opere.ts` restano quelle giuste, è il referto a essere monco.
 
+## La mensola: i registri sono larghezze, e due opere restano ferme
+
+**7 settembre 2026.** I tre registri della mensola — alta, media, bassa — erano
+**altezze** (182 / 137 / 68), e la larghezza la decideva il rapporto della
+fotografia. Su una 3:2, il formato su cui l'artboard è disegnato, funziona. Su
+una verticale no: una 2:3 in registro basso era alta 68 e larga **36px**, e il
+filmato 9:16 di Le Rêve Lever ne misurava **30** — con la targhetta della
+durata, larga 32, tagliata da `overflow: hidden`.
+
+Adesso i registri sono **larghezze** (273 / 205 / 102 — gli stessi numeri letti
+dall'altro verso: 273 = 182 × 3:2) e l'altezza scende dal rapporto, fermata da
+un tetto di 182px. Il tetto è la quota dell'artboard ed è deliberato tenerla:
+così **su una 3:2 non cambia niente al pixel**, la mensola occupa lo stesso
+spazio verticale di prima, e cambia solo ciò che si assottigliava.
+
+Misurato su tutte e sette le opere con mensola: la lastra più stretta
+dell'archivio passa da **28 a 78px**, la targhetta della durata ci sta, e non
+c'è nessuna sovrapposizione fra testo e lastre in nessuna pagina.
+
+### Quello che NON è stato risolto
+
+**Le Rêve Lever e Don Giovanni hanno ancora la mensola ferma.** Il motore
+dell'anello non si accende sotto una soglia — `lunghezzaNaturaleRef <=
+striscia.clientWidth` in `mensola.tsx` — e la guardia è giusta: un anello più
+corto del binario girerebbe mostrando la stessa fotografia due volte nella
+stessa schermata. Ma le due strisce restano corte:
+
+| opera | prima | adesso | binario |
+|---|---|---|---|
+| Le Rêve Lever | 778 | **918** | 1440 |
+| Don Giovanni | 1177 | **1391** | 1440 |
+| Funeral Rave | 1487 | 1537 | 1440 |
+
+Funeral Rave passava per undici pixel e adesso ne ha novantasette: quella era
+la cosa fragile, ed è sistemata. Le altre due no, **e non lo saranno
+allargando le lastre**: provato: per far arrivare Le Rêve al binario servirebbe
+un tetto sui 300px, e a quell'altezza la lastra corrente sale sopra il testo. È
+una decisione sull'artboard e non un numero da girare — o si abbassa la
+mensola, o si accetta che un'opera tutta verticale con otto materiali abbia una
+fila ferma invece di un anello.
+
+Nel frattempo la fila ferma non è rotta: si vede tutto, non scorre.
+
 ## `/works` legge dalla più recente, e i tag aspettano
 
 Dal 6 settembre 2026 l'indice è **una riga sola che scorre in orizzontale**,
@@ -353,6 +396,19 @@ finisce sulle fotografie, e non c'è niente nel codice che lo impedisca — non 
 un contenitore che taglia, è una posizione assoluta che non se ne accorge. Se
 un'opera meritasse un testo più lungo, la strada non è stringere la scrittura
 ma abbassare la mensola, e quella è una decisione sull'artboard.
+
+**7 settembre 2026 — tre testi sforano ancora, e non si vedeva.** Fra la cima
+della mensola (332) e la quota in cui il testo dovrebbe finire (305) ci sono
+27px di margine, e tre testi ci stanno dentro invece di stare sopra: la
+descrizione di **Feral** arriva a ~325, quella di **Coucher avec moi** a ~310,
+e i crediti di **Le Rêve Lever** — che sono nella terza colonna e scendono —
+a ~341. Nessuno dei tre tocca una fotografia oggi, perché il margine li
+copre. Sono emersi provando ad alzare la mensola: alzandola di 27px, tutti e
+tre andavano a sbattere.
+
+Vuol dire due cose. Che **quel margine non è libero**: chi tocca l'altezza
+delle lastre lo consuma e scopre gli sforamenti. E che i tre testi vanno
+accorciati comunque, perché oggi stanno dentro per fortuna e non per misura.
 
 ## Manuel Delogu è Manuel Casati — confermato
 
