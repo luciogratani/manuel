@@ -2,14 +2,40 @@ import type { CSSProperties } from "react";
 import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import { AVORIO } from "@/lib/movimento";
+import { SITO } from "@/lib/sito";
 import { Cursore } from "@/components/cursore";
 import { Testa } from "@/components/testa";
 import { fontVariables } from "@/lib/fonts";
 import "./globals.css";
 
+// ── PERCHÉ IL SITO NON SI FA INDICIZZARE ────────────────────────────────────
+// `index: false` non è una svista né una precauzione generica: indicizzare
+// significa mandare le fotografie in Google Immagini, e questo archivio
+// pubblica ritratti di persone identificabili. L'art. 96 L. 633/1941 chiede il
+// consenso della persona ritratta, `APERTI.md` dice che le liberatorie non
+// sono ancora state raccolte, e `/legali` è una bozza mai letta da un legale.
+//
+// Così il sito si può pubblicare e mandare a curatori e open call — chi ha il
+// link lo apre — senza che finisca nei motori. È una riga, e si toglie il
+// giorno in cui quella parte è chiusa. Il resto dei metadati è già pronto per
+// quel giorno: toglierla è l'unica cosa da fare.
 export const metadata: Metadata = {
-  title: "Manuel Casati",
-  description: "",
+  metadataBase: SITO,
+  title: {
+    default: "Manuel Casati",
+    // Le pagine che dichiarano un titolo proprio lo vedono completato qui, così
+    // il nome non va scritto ventitré volte.
+    template: "%s — Manuel Casati",
+  },
+  description:
+    "Archivio di Manuel Casati: moda, sartoria, performance e ricerca sul " +
+    "corpo. Ventitré opere dal 2013, in ordine cronologico.",
+  robots: { index: false, follow: false },
+  openGraph: {
+    type: "website",
+    locale: "it_IT",
+    siteName: "Manuel Casati",
+  },
 };
 
 export default function RootLayout({

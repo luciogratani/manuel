@@ -26,7 +26,7 @@ import styles from "./page.module.css";
 // annotata in `APERTI.md`.
 
 export const metadata = {
-  title: "Curriculum — Manuel Casati",
+  title: "Curriculum",
 };
 
 /** Il file servito. Il nome vive qui una volta sola: lo usano il visore, il

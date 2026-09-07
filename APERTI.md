@@ -635,6 +635,38 @@ non è adattato (come `/` e `/legali`) e `manuel casati` + le tre voci a 375px
 stanno strette. Il `data-letter` di `casati` è in ordine di lettura come quello
 di `manuel`, ma non è mai stato verificato contro un taglio lettera per lettera.
 
+## La SEO c'è, ma il sito è chiuso ai motori — di proposito
+
+**7 settembre 2026.** Il sito non aveva niente: `description` vuota, nessun
+Open Graph, nessuna sitemap, e ventitré work page che si chiamavano tutte
+«Manuel Casati». Condiviso in chat mostrava l'URL nudo.
+
+Adesso ha `metadataBase`, una descrizione vera, titoli e descrizioni per
+pagina, `og:image` per opera (la copertina, con le misure vere), una card
+1200×630 per la home, `robots.txt` e `sitemap.xml` derivata da `OPERE`.
+
+**E un `Disallow: /` che blocca l'indicizzazione.** Non è una precauzione
+generica: indicizzare vuol dire mandare le fotografie in Google Immagini, e
+questo archivio pubblica ritratti di persone identificabili. Finché le
+liberatorie non sono raccolte e `/legali` non è stata letta da un legale, il
+blocco resta. Il sito intanto è pienamente utilizzabile: chi ha il link lo
+apre, e un link si manda a un curatore o dentro una open call senza passare da
+un motore. Toglie solo la parte che non si può richiamare indietro — una
+fotografia entrata nella cache di un motore ci resta anche dopo.
+
+**Come si toglie, il giorno che si decide**: due righe, in due file. In
+`app/robots.ts` il `disallow` torna `[]`, in `app/layout.tsx` sparisce
+`robots: { index: false }`. Tutto il resto è già scritto per quel giorno.
+
+**Il dominio è un'ipotesi**: `https://manuelcasati.it`, ricavato
+dall'indirizzo email che il sito usa ovunque. Sta in `lib/sito.ts`, scritto una
+volta sola. Se è un altro, si cambia lì.
+
+Una nota tecnica che è costata un errore: `robots.ts` e `sitemap.ts` sono
+moduli a sé, e importando una costante da `app/layout.tsx` si tirano dietro
+font e fogli di stile — tutt'e due le rotte rispondevano 500. Per questo il
+dominio vive in `lib/sito.ts`, che non importa niente.
+
 ## Le note legali sono una bozza
 
 `/legali` esiste e dice cose vere, ma **non è stata letta da un legale** e la

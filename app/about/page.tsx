@@ -6,6 +6,14 @@ import { OPERE } from "@/lib/opere";
 import { FINE, INIZIO } from "@/lib/timeline";
 import styles from "./page.module.css";
 
+// Il titolo si completa da sé col `template` della radice, quindi qui sta
+// solo la parola che distingue questa pagina dalle altre.
+export const metadata = {
+  title: "About",
+  description:
+    "Manuel Casati, artista: performance sul corpo maschile e sul desiderio, costume e sartoria. Biografia, contatti e curriculum.",
+};
+
 // La bio, in due schermate alte quanto la finestra.
 //
 //   1. LA SCHEDA — l'autore trattato come un record d'archivio.

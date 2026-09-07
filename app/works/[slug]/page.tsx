@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -36,6 +37,45 @@ const REGISTRI: Registro[] = ["alta", "alta", "media", "bassa", "media", "media"
 
 export function generateStaticParams() {
   return OPERE.map((opera) => ({ slug: opera.slug }));
+}
+
+/** I metadati dell'opera, DERIVATI dai suoi dati: titolo, anno, medium, luogo,
+ *  testo e copertina esistono già, e prima nessuno li leggeva. Fino al 7
+ *  settembre 2026 tutte e ventitré le work page si chiamavano «Manuel Casati»
+ *  e non avevano descrizione né immagine: in una pagina di risultati sarebbero
+ *  state ventitré righe identiche, e condivise in chat mostravano l'URL nudo.
+ *
+ *  La descrizione è la stessa che si legge in pagina (`descrizioneDi`), non una
+ *  seconda scritta per i motori: un archivio che racconta una cosa al lettore e
+ *  un'altra a Google mente a uno dei due.
+ *
+ *  L'immagine dell'anteprima è la COPERTINA dell'opera, `scatti[0]`, che è la
+ *  stessa che la rappresenta nell'indice e nella cronologia — compresi i fermi
+ *  immagine delle opere solo-video, che esistono apposta per quel ruolo. */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const opera = perSlug(slug);
+  if (!opera) return {};
+
+  const descrizione = descrizioneDi(opera);
+  const copertina = opera.scatti[0];
+
+  return {
+    title: opera.titolo,
+    description: descrizione,
+    openGraph: {
+      type: "article",
+      title: `${opera.titolo} — Manuel Casati`,
+      description: descrizione,
+      images: copertina
+        ? [{ url: copertina.src, width: copertina.w, height: copertina.h, alt: opera.titolo }]
+        : undefined,
+    },
+  };
 }
 
 export default async function Page({

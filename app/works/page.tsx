@@ -7,6 +7,14 @@ import { IndiceCompatta } from "./indice-compatta";
 import { MotoreIndice } from "./motore";
 import styles from "./page.module.css";
 
+// Il titolo si completa da sé col `template` della radice, quindi qui sta
+// solo la parola che distingue questa pagina dalle altre.
+export const metadata = {
+  title: "Archivio",
+  description:
+    "Ventitré opere in una sequenza cronologica unica: moda, sartoria, performance, editoriale. L'indice si legge dalla più recente.",
+};
+
 // L'indice: la striscia numerata. È la spina dorsale del sito, la pagina che
 // decide se quindici anni si leggono come una ricerca o come una raccolta.
 //

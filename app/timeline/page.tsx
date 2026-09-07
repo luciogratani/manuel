@@ -20,6 +20,14 @@ import { AnnoCorrente, AnnoTick, VoceInterattiva } from "./nastro-vivo";
 import { InterruttoreSuono } from "./interruttore-suono";
 import styles from "./page.module.css";
 
+// Il titolo si completa da sé col `template` della radice, quindi qui sta
+// solo la parola che distingue questa pagina dalle altre.
+export const metadata = {
+  title: "Cronologia",
+  description:
+    "Le opere di Manuel Casati sull'asse del tempo, dal 2013 a oggi, comprese quelle di cui l'archivio non ha ancora il materiale.",
+};
+
 // Timeline — la biografia storica di Manuel, e insieme una mappa del sito. NON
 // è l'indice dell'archivio: qui entra anche ciò che opera non è (formazione,
 // appunti, lavori esterni), materiale che nella numerazione 01→26 non può

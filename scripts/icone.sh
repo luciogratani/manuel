@@ -145,6 +145,29 @@ done
 # garantisce solo il cerchio centrale all'80%. Fondo pieno fino al bordo.
 resa 512 76 "$TMP/avorio.svg" "$SOCIAL/maskable-512.png"
 
+echo "── la card delle anteprime (app/opengraph-image.png)"
+# 1200x630 è la misura che WhatsApp, X, Slack, Facebook e LinkedIn si aspettano:
+# sotto la ritagliano, sopra la rimpiccioliscono.
+#
+# Rosso con ritratto e marchio avorio: è la coppia della chiusura di /about, il
+# momento più riconoscibile del sito, e a questa misura il rosso non costa
+# contrasto — il problema delle linee sottili si presenta sotto i sessanta
+# pixel, non a milleduecento.
+MARCHIO="/Users/lucio/Desktop/manuel-portfolio/01-assets/svg/manuel-wide-web.svg"
+sed "s|<svg |<svg fill=\"$AVORIO\" |" "$MARCHIO" > "$TMP/marchio.svg"
+# Le misure: ritratto 420 quadrato a sinistra con 90 di margine (90→510),
+# ottanta di stacco, marchio largo 520 a destra (590→1110). Nessuno dei due
+# tocca l'altro, e il marchio resta alto 44 — leggibile anche quando una chat
+# rimpicciolisce la card a un terzo.
+magick -background none "$TMP/nudo.svg" -resize 420x420 \
+  -channel RGB -fill "$AVORIO" -colorize 100 +channel "$TMP/og-ritratto.png"
+magick -background none "$TMP/marchio.svg" -resize 520x "$TMP/og-marchio.png"
+magick -size 1200x630 "xc:$ROSSO" \
+  "$TMP/og-ritratto.png" -gravity west -geometry +90+0 -composite \
+  "$TMP/og-marchio.png" -gravity east -geometry +90+0 -composite \
+  -strip "$APP/opengraph-image.png"
+identify -format "card: %wx%h\n" "$APP/opengraph-image.png"
+
 echo
 echo "--- fatto ---"
 ls -1 "$APP"/favicon.ico "$APP"/icon.png "$APP"/icon.svg "$APP"/apple-icon.png

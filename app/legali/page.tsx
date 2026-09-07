@@ -29,7 +29,7 @@ import styles from "./page.module.css";
 // servizio esterno, QUESTA PAGINA VA RISCRITTA per prima.
 
 export const metadata = {
-  title: "Note legali — Manuel Casati",
+  title: "Note legali",
 };
 
 /** L'indirizzo a cui si scrive per le richieste, lo stesso della chiusura di
