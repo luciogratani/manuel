@@ -57,6 +57,18 @@ export default async function Page({
     registro: i === 0 ? REGISTRI[0] : REGISTRI[(i - 1) % REGISTRI.length],
   }));
 
+  // Un filmato solo si dice per nome («filmato: 1:35»); più di uno si conta,
+  // perché sei durate in fila («0:13 · 0:07 · 0:24 · …») smettono di essere un
+  // dato e diventano un elenco. Coucher avec moi ne ha sei.
+  const filmati = opera.filmati ?? [];
+  const durata = durataLeggibile(filmati.reduce((t, f) => t + f.durata, 0));
+  const rigaFilmato =
+    filmati.length === 0
+      ? null
+      : filmati.length === 1
+        ? { dt: "filmato:", dd: durata }
+        : { dt: "filmati:", dd: `${filmati.length} — ${durata} in tutto` };
+
   return (
     <div
       className={styles.pagina}
@@ -130,10 +142,10 @@ export default async function Page({
             l'apparato dice quante fotografie ci sono e quanto dura il video,
             due dati distinti. La riga manca del tutto dove manca il materiale
             — l'archivio conta, non dichiara zeri (§3.3). */}
-        {opera.filmati?.length ? (
+        {rigaFilmato ? (
           <div className={styles.credito}>
-            <dt>filmato:</dt>
-            <dd>{opera.filmati.map((f) => durataLeggibile(f.durata)).join(" · ")}</dd>
+            <dt>{rigaFilmato.dt}</dt>
+            <dd>{rigaFilmato.dd}</dd>
           </div>
         ) : null}
       </dl>
@@ -199,10 +211,10 @@ export default async function Page({
             <dt>scatti:</dt>
             <dd>{opera.scatti.length}</dd>
           </div>
-          {opera.filmati?.length ? (
+          {rigaFilmato ? (
             <div className={styles.credito}>
-              <dt>filmato:</dt>
-              <dd>{opera.filmati.map((f) => durataLeggibile(f.durata)).join(" · ")}</dd>
+              <dt>{rigaFilmato.dt}</dt>
+              <dd>{rigaFilmato.dd}</dd>
             </div>
           ) : null}
         </dl>

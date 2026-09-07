@@ -107,11 +107,16 @@ export type Opera = {
  *  voce 2025 in lib/timeline.ts resta lì in attesa che Manuel dica cos'è. */
 export const SENZA_IMMAGINI = ["L'Affair", "Love and Eat", "Sauvage"];
 
-const fr = (n: string, w: number, h: number): Scatto => ({
-  src: `/media/funeral-rave/${n}.jpg`,
-  w,
-  h,
-});
+/** Gli scatti derivati da `scripts/scatti.sh`: una cartella per opera, i file
+ *  numerati nell'ORDINE DI LETTURA della mensola — `01` è la copertina. Le
+ *  misure vengono da `public/media/scatti.txt`, non dall'occhio.
+ *
+ *  Sostituisce il vecchio `fr()`, che era la scorciatoia di una sola opera
+ *  perché una sola opera aveva una selezione vera. */
+const foto = (
+  slug: string,
+  ...misure: [n: string, w: number, h: number][]
+): Scatto[] => misure.map(([n, w, h]) => ({ src: `/media/${slug}/${n}.jpg`, w, h }));
 
 const indice = (n: string, w: number, h: number): Scatto => ({
   src: `/media/indice/${n}.jpg`,
@@ -153,27 +158,102 @@ export const OPERE: Opera[] = [
   { numero: 10, slug: "seduta-spiritica", titolo: "Seduta spiritica", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("016", 600, 900)] },
   { numero: 11, slug: "blanka", titolo: "Blanka", anno: "—", medium: "fotografia", luogo: "—", densita: "minima", scatti: [indice("011", 900, 588)] },
   { numero: 12, slug: "a-boys-closet", titolo: "A Boy's Closet — Guardaroba di un ragazzo", anno: "2020", medium: "—", luogo: "—", densita: "minima", scatti: [indice("017", 900, 596)] },
-  { numero: 13, slug: "le-reve-lever", titolo: "Le Rêve Lever", anno: "2022", medium: "—", luogo: "—", densita: "minima", scatti: [indice("023", 514, 900)], filmati: [film("le-reve-lever", 360, 640, 53.66, true)] },
+  {
+    numero: 13,
+    slug: "le-reve-lever",
+    titolo: "Le Rêve — Lever",
+    anno: "2022",
+    medium: "capsule collection e performance",
+    luogo: "studioamatoriale, Milano",
+    densita: "piena",
+    scatti: foto("le-reve-lever",
+      ["01", 919, 1600], ["02", 914, 1600], ["03", 901, 1600],
+      ["04", 917, 1600], ["05", 919, 1600], ["06", 1200, 1600],
+      ["07", 1200, 1600],
+    ),
+    filmati: [film("le-reve-lever", 360, 640, 53.66, true, "Alessandro Di Palma")],
+  },
   {
     numero: 14,
     slug: "funeral-rave",
     titolo: "Funeral Rave",
     anno: "2023",
     medium: "performance",
-    luogo: "—",
+    luogo: "Spazio Sabotage, Sassari",
     densita: "piena",
-    scatti: [
-      fr("01", 1600, 1142), fr("02", 1600, 1143), fr("03", 1600, 1142),
-      fr("04", 1600, 1142), fr("05", 1600, 1200), fr("06", 1600, 1143),
-      fr("07", 1600, 1600), fr("08", 1600, 1600), fr("09", 1280, 1600),
-      fr("10", 1280, 1600), fr("11", 1600, 1066), fr("12", 1600, 1200),
-    ],
+    // Le prime sei sono la selezione di Manuel (foto di Blanka Meccanica), le
+    // ultime due l'artwork di Fabrizio Casu. Le dodici di prima venivano da
+    // `bozze-media.sh`, che pescava i primi dodici file in ordine alfabetico.
+    scatti: foto("funeral-rave",
+      ["01", 1600, 1142], ["02", 1600, 1143], ["03", 1600, 1142],
+      ["04", 1600, 1142], ["05", 1600, 1200], ["06", 1600, 1143],
+      ["07", 1600, 1600], ["08", 1600, 1600],
+    ),
     filmati: [film("funeral-rave", 480, 848, 95.11, true, "Tommaso Bentivegna")],
   },
   { numero: 15, slug: "antropologia", titolo: "Antropologia", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("018", 854, 900)] },
-  { numero: 16, slug: "feral", titolo: "Feral", anno: "—", medium: "—", luogo: "—", densita: "minima", scatti: [indice("021", 900, 675)] },
-  { numero: 17, slug: "don-giovanni", titolo: "Don Giovanni", anno: "2025", medium: "—", luogo: "—", densita: "minima", scatti: [indice("020", 900, 675)] },
-  { numero: 18, slug: "coucher-avec-moi", titolo: "Coucher avec moi", anno: "2026", medium: "—", luogo: "—", densita: "minima", scatti: [indice("019", 900, 675)] },
+  {
+    numero: 16,
+    slug: "feral",
+    titolo: "Feral",
+    anno: "2024",
+    medium: "performance",
+    luogo: "—",
+    densita: "piena",
+    scatti: foto("feral",
+      ["01", 1200, 1600], ["02", 1600, 1068], ["03", 1600, 1068],
+      ["04", 1200, 1600], ["05", 1200, 1600], ["06", 1200, 1600],
+      ["07", 1200, 1600], ["08", 1200, 1600], ["09", 1200, 1600],
+      ["10", 1200, 1600], ["11", 1600, 1200],
+    ),
+    filmati: [
+      film("feral-teaser-1", 900, 1600, 6.69, true, "Alex Akashi"),
+      film("feral-teaser-2", 900, 1600, 9.47, true, "Alex Akashi"),
+      film("feral-teaser-3", 900, 1600, 13.72, true, "Alex Akashi"),
+    ],
+  },
+  {
+    numero: 17,
+    slug: "don-giovanni",
+    titolo: "Don Giovanni",
+    anno: "2025",
+    medium: "performance",
+    luogo: "—",
+    densita: "piena",
+    scatti: foto("don-giovanni",
+      ["01", 1200, 1600], ["02", 1200, 1600], ["03", 1200, 1600],
+      ["04", 1200, 1600], ["05", 1200, 1600], ["06", 1200, 1600],
+      ["07", 902, 1600], ["08", 902, 1600], ["09", 1200, 1600],
+      ["10", 1200, 1600], ["11", 841, 1190],
+    ),
+    filmati: [film("don-giovanni", 720, 1280, 37.71, true, "Irene Stefanini")],
+  },
+  {
+    numero: 18,
+    slug: "coucher-avec-moi",
+    titolo: "Coucher avec moi",
+    anno: "2026",
+    medium: "performance",
+    luogo: "Teatro Genova, Sassari",
+    // PARZIALE: per ora solo i contenuti che Manuel ha marcato verdi. La
+    // selezione vera si fa più avanti — è l'opera più recente e merita una
+    // passata a sé (scelta di Lucio, 7 settembre 2026).
+    densita: "piena",
+    scatti: foto("coucher-avec-moi",
+      ["01", 1600, 1200], ["02", 1600, 1200], ["03", 1600, 1200],
+      ["04", 1600, 1200], ["05", 1600, 1200], ["06", 1600, 1200],
+      ["07", 1600, 1200], ["08", 1600, 1200], ["09", 1600, 1200],
+      ["10", 1200, 1600], ["11", 1600, 1200],
+    ),
+    filmati: [
+      film("coucher-avec-moi-1", 640, 480, 13.17, true, "Irene Stefanini"),
+      film("coucher-avec-moi-2", 640, 480, 6.87, true, "Irene Stefanini"),
+      film("coucher-avec-moi-3", 640, 480, 23.97, true, "Irene Stefanini"),
+      film("coucher-avec-moi-4", 640, 480, 19.47, true, "Irene Stefanini"),
+      film("coucher-avec-moi-5", 640, 480, 8.37, true, "Irene Stefanini"),
+      film("coucher-avec-moi-6", 640, 480, 10.77, true, "Irene Stefanini"),
+    ],
+  },
 ];
 
 export const perSlug = (slug: string) => OPERE.find((o) => o.slug === slug);

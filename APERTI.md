@@ -98,6 +98,83 @@ Restano aperte:
   l'ordine i due numeri divergono. È coerente col resto del sito (numero ≠
   posizione), ma se dà fastidio l'indicatore è in `banda.tsx`.
 
+## La selezione delle opere recenti
+
+Il 7 settembre 2026 cinque opere sono passate dalla copertina singola generata
+da `bozze-media.sh` a una **selezione scelta da Manuel e Lucio**: 48 fotografie
+e 13 filmati, derivati da `scripts/scatti.sh` e `scripts/filmati.sh`.
+
+| opera | scatti | filmati | luogo |
+|---|---|---|---|
+| 13 Le Rêve — Lever | 7 | 1 (0:54) | studioamatoriale, Milano |
+| 14 Funeral Rave | 8 | 1 (1:35) | Spazio Sabotage, Sassari |
+| 16 Feral | 11 | 3 teaser (0:30) | **da chiarire** |
+| 17 Don Giovanni | 11 | 1 (0:38) | **da chiarire** |
+| 18 Coucher avec moi | 11 | 6 clip (1:23) | Teatro Genova, Sassari |
+
+Tutte e cinque sono passate a `densita: "piena"`: avevano una fotografia sola e
+adesso ne hanno da sette a undici, e il layout `minima` è disegnato per la foto
+singola.
+
+### Le regole di selezione, dette da Lucio
+
+- **Tag rosso del Finder = escluso.** Vale per una cartella o per un file.
+- **Tag verde** = copertina se è l'unico dell'opera; se sono più d'uno, sono i
+  materiali importanti da includere. I tag sono in italiano (`Rosso`, `Verde`):
+  `mdfind "kMDItemUserTags == 'Verde'"`.
+- Ogni opera recente ha un `descrizione.rtf` (Le Rêve Lever anche un
+  `descrizione.jpeg`, Feral un `descrizione.pdf`) con crediti e testo.
+- Delle cartelle più corpose **non si carica tutto**: la selezione la fa Manuel.
+
+### Una trappola trovata lavorando: l'orientamento EXIF
+
+Tredici delle sorgenti selezionate portano un **EXIF Orientation 6 o 8** — i
+pixel sono orizzontali, l'immagine vera è verticale. `sips -Z`, che
+`bozze-media.sh` usa, conserva sia i pixel che il tag: il file misura 1600×1200
+ma il browser (che l'EXIF lo applica) ne mostra 1200×1600. Le misure in
+`lib/opere.ts` sarebbero state rovesciate, `formato()` avrebbe scelto 4:3 al
+posto di 3:4 e **la cornice avrebbe ritagliato l'immagine sbagliata**.
+
+`scripts/scatti.sh` usa ffmpeg, che l'orientamento lo applica scrivendo, e
+`-map_metadata -1` non lascia il tag nel derivato — i pixel sono già girati e
+nessuno li gira una seconda volta. Se un domani si torna a `sips`, questo
+problema torna con lui.
+
+### Cosa resta da chiarire
+
+- **Feral, `4734` non esiste.** In `After/` ci sono `_MG_4742`, `_MG_4373` e
+  `_MG_4374`. Ho incluso `_MG_4166` (segnalato come importante) e `_MG_4784`.
+- **Feral, due file verdi non nominati**: `Pictures/Carla Rudy/IMG_2258.JPG` e
+  `IMG_2263.JPG`. La regola del verde direbbe di includerli, la lista esplicita
+  non li nomina.
+- **Coucher, il video verde da un'ora.** `video camera sinistra/20220101_015941A.mp4`
+  è un rush a camera fissa di 3600 secondi, 1,1 GB. Non l'ho derivato: a CRF 25
+  peserebbe centinaia di MB, ed è documentazione integrale più che opera. Le sei
+  clip verdi brevi ci sono tutte.
+- **La copertina di Don Giovanni** è `_selected copyed/IMG_0542` per posizione,
+  non per scelta: nessuno l'ha indicata.
+- **Le copertine d'archivio vengono da cartelle rosse.** `bozze-media.sh` pesca
+  il primo jpg in ordine alfabetico, e per **Ph Shoot Anto** e **Seduta
+  spiritica** ha pescato dentro `Nuova cartella` e `David Bowie Tribute
+  16-03-015`, entrambe marcate rosse. Sono in `lib/opere.ts` adesso. Vanno
+  rifatte, e allo script conviene insegnare a leggere i tag.
+- **I crediti veri non hanno un posto nel modello.** `Opera` ha `anno`,
+  `medium`, `luogo` e basta, ma i documenti danno molto di più — curatela,
+  performer, fotografia, artwork, musica, props. Per Funeral Rave: performer
+  Arturo Fraddi, Antonio Cabras, Simone Righi, Dimitri Ruiu, Giuseppe Hussein;
+  foto Blanka Meccanica; artwork Fabrizio Casu (in arte Tempesta); video
+  Tommaso Bentivegna. Per Don Giovanni: regia e scrittura Manuel e Stefano
+  Serusi; performer Manuel Casati, Antonio Cabras, Alex Ilushenka, Simone
+  Righi; foto Irene Stefanini; artwork e luci Lucio; props Stefano Serusi;
+  rassegna «Senza Sipario» di Simone Gelsomino. Per Feral: con Alex Akashi;
+  curatela Carla Carta e Stefania Mele per Sabotage; supporto tecnico Ivan Pes;
+  musica dal vivo Angela Colombino. Per Le Rêve — Lever: cura Eleonora
+  Angiolini, testi Francesco Tola, display Angelo Castucci, video Alessandro Di
+  Palma, prodotto da studioamatoriale con Contemporary Attitude. Per Coucher:
+  performer Edoardo Gabriel Cois, curatela Alice Zucca. **Oggi tutto questo non
+  ha dove stare.** Serve un campo `crediti` nel tipo, e una decisione su come
+  la work page lo mostra.
+
 ## I video (§8): i dati ci sono, le pagine no
 
 Dal 7 settembre 2026 il §8 non è più intero. **Quello che c'è:**

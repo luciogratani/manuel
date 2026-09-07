@@ -18,7 +18,11 @@ set -e
 MEDIA="/Users/lucio/Desktop/manuel-portfolio/01-assets/media"
 OUT="/Users/lucio/Desktop/manuel-portfolio/04-site/public/media/filmati"
 
-# ── La tabella: slug | sorgente (relativa a $MEDIA) | offset dell'anteprima
+# ── La tabella: chiave | sorgente (relativa a $MEDIA) | offset dell'anteprima
+#
+# La chiave dà il nome ai tre derivati e NON è lo slug dell'opera: Feral ha tre
+# teaser, Coucher sei clip. Dove il filmato è uno solo la chiave coincide con
+# lo slug, e resta la cosa più leggibile.
 #
 # L'offset è in percentuale della durata, e serve a non aprire l'anteprima su
 # un nero o su un cartello di testa. È una MANOPOLA, non una misura: il
@@ -38,6 +42,16 @@ TABELLA='
 glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/Glamour Confusion - Videoclip - V1 [HD 1080x24p].mp4|50
 funeral-rave|FUNERAL RAVE 30-06-23/_selected copy/video Tommy Bentivegna.mp4|20
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/VIdeo.MOV|20
+feral-teaser-1|FERAL 17-11-24/Teaser 1 - Final.mp4|30
+feral-teaser-2|FERAL 17-11-24/Teaser 2 - Final.mp4|30
+feral-teaser-3|FERAL 17-11-24/Teaser 3 - Final.mp4|30
+don-giovanni|DON GIOVANNI 30 -05 - 25/1 performance ph Irene Stefanini/video/3d3094b9-4aea-4a8d-ae08-18d5693a642e.mov|25
+coucher-avec-moi-1|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2332.AVI|30
+coucher-avec-moi-2|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2336.AVI|30
+coucher-avec-moi-3|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2348.AVI|30
+coucher-avec-moi-4|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2355.AVI|30
+coucher-avec-moi-5|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2361.AVI|30
+coucher-avec-moi-6|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2375.AVI|30
 '
 
 # ── Le ricette
@@ -56,14 +70,18 @@ le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/VIdeo.MOV|20
 # nate così. Ingrandirle sarebbe inventare pixel e triplicare il peso per
 # mostrare la stessa immagine più sfocata.
 #
-# CRF 25 e larghezza 1600 sono MISURATI, non scelti: il videoclip di Glamour
+# CRF 25 e lato lungo 1600 sono MISURATI, non scelti: il videoclip di Glamour
 # Confusion a CRF 23 / 1920 pesava 142 MB — oltre il limite di GitHub, per tre
 # minuti di video. Le due manopole insieme lo riportano dentro il tetto, e la
 # cornice del sito non è mai a schermo intero.
 CRF=25
-LARGHEZZA_MAX=1600
+LATO_MAX=1600
 ANTEPRIMA_SECONDI=10
-ANTEPRIMA_ALTEZZA_MAX=720
+ANTEPRIMA_LATO_MAX=1280
+
+# Sotto questa durata l'anteprima non si fa: dieci secondi presi da una clip di
+# otto sarebbero la clip stessa, cioè lo stesso file scaricato due volte.
+ANTEPRIMA_SOGLIA=30
 
 # Il tetto per file. Nel repo, quindi sotto il limite di GitHub (100 MB) con
 # margine. Se un derivato lo supera lo script non fallisce: lo dice, e la
@@ -98,9 +116,12 @@ echo "$TABELLA" | grep -v '^$' | while IFS='|' read -r slug rel offset; do
   t=$(awk -v d="$dur" -v p="$offset" 'BEGIN{printf "%.2f", d*p/100}')
   printf '── %-22s %sx%s  %ss  anteprima da %ss\n' "$slug" "$w" "$h" "$(printf '%.0f' "$dur")" "$t"
 
-  # scale solo se la sorgente è più larga del massimo; -2 tiene l'altezza pari
-  # (H.264 in 4:2:0 non ammette dimensioni dispari) e il rapporto intatto.
-  scala="scale='min($LARGHEZZA_MAX,iw)':-2"
+  # Il tetto è sul LATO LUNGO e non sulla larghezza: i teaser di Feral sono
+  # 1440x2560 verticali, e un `min(1600,iw)` li avrebbe lasciati alti 2560.
+  # `decrease` non ingrandisce mai, quindi le sorgenti piccole restano intatte;
+  # il secondo `scale` arrotonda a dimensioni pari (H.264 in 4:2:0 non ammette
+  # lati dispari).
+  scala="scale='min($LATO_MAX,iw)':'min($LATO_MAX,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2"
 
   echo "   intero…"
   ffmpeg -nostdin -v error -y -i "$src" \
@@ -110,17 +131,22 @@ echo "$TABELLA" | grep -v '^$' | while IFS='|' read -r slug rel offset; do
     -movflags +faststart \
     "$OUT/$slug.mp4"
 
-  echo "   anteprima…"
-  ffmpeg -nostdin -v error -y -ss "$t" -t $ANTEPRIMA_SECONDI -i "$src" \
-    -vf "scale='min($LARGHEZZA_MAX,iw)':'min($ANTEPRIMA_ALTEZZA_MAX,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2" \
-    -an \
-    -c:v libx264 -profile:v high -crf 24 -preset slow -pix_fmt yuv420p \
-    -movflags +faststart \
-    "$OUT/$slug-anteprima.mp4"
+  if awk -v d="$dur" -v s=$ANTEPRIMA_SOGLIA 'BEGIN{exit !(d>s)}'; then
+    echo "   anteprima…"
+    ffmpeg -nostdin -v error -y -ss "$t" -t $ANTEPRIMA_SECONDI -i "$src" \
+      -vf "scale='min($ANTEPRIMA_LATO_MAX,iw)':'min($ANTEPRIMA_LATO_MAX,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+      -an \
+      -c:v libx264 -profile:v high -crf 24 -preset slow -pix_fmt yuv420p \
+      -movflags +faststart \
+      "$OUT/$slug-anteprima.mp4"
+  else
+    rm -f "$OUT/$slug-anteprima.mp4"
+    echo "   anteprima saltata (dura meno di ${ANTEPRIMA_SOGLIA}s)"
+  fi
 
   echo "   poster…"
   ffmpeg -nostdin -v error -y -ss "$t" -i "$src" -frames:v 1 \
-    -vf "scale='min(1600,iw)':-2" -q:v 3 \
+    -vf "scale='min($LATO_MAX,iw)':'min($LATO_MAX,ih)':force_original_aspect_ratio=decrease" -q:v 3 \
     "$OUT/$slug-poster.jpg"
 done
 
