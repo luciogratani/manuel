@@ -70,6 +70,12 @@ export default async function Page({
     opera.descrizione ??
     "descrizione dell'opera — cosa succede, quando, dove, e perché sta in questa sequenza. Testo da scrivere con la curatela.";
 
+  // Il conteggio degli scatti non comprende i fermi immagine: dire «scatti: 1»
+  // per un'opera che in mensola non ha nessuna fotografia sarebbe una bugia
+  // dell'apparato, ed è esattamente ciò che il §3.3 non vuole. Dove il numero
+  // è zero la riga sparisce, come già fa quella del filmato.
+  const quantiScatti = opera.scatti.filter((x) => !x.fermoImmagine).length;
+
   const filmati = opera.filmati ?? [];
   const durata = durataLeggibile(filmati.reduce((t, f) => t + f.durata, 0));
   const rigaFilmato =
@@ -146,10 +152,12 @@ export default async function Page({
           <dt>luogo:</dt>
           <dd>{opera.luogo}</dd>
         </div>
-        <div className={styles.credito}>
-          <dt>scatti:</dt>
-          <dd>{opera.scatti.length}</dd>
-        </div>
+        {quantiScatti > 0 ? (
+          <div className={styles.credito}>
+            <dt>scatti:</dt>
+            <dd>{quantiScatti}</dd>
+          </div>
+        ) : null}
         {/* Il filmato è una riga a sé e non entra nel conteggio degli scatti:
             l'apparato dice quante fotografie ci sono e quanto dura il video,
             due dati distinti. La riga manca del tutto dove manca il materiale
@@ -249,10 +257,12 @@ export default async function Page({
             <dt>luogo:</dt>
             <dd>{opera.luogo}</dd>
           </div>
-          <div className={styles.credito}>
-            <dt>scatti:</dt>
-            <dd>{opera.scatti.length}</dd>
-          </div>
+          {quantiScatti > 0 ? (
+            <div className={styles.credito}>
+              <dt>scatti:</dt>
+              <dd>{quantiScatti}</dd>
+            </div>
+          ) : null}
           {rigaFilmato ? (
             <div className={styles.credito}>
               <dt>{rigaFilmato.dt}</dt>

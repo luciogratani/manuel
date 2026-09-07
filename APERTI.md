@@ -16,8 +16,17 @@ sta solo ciò che resta vero nel tempo.
 
 ## Le opere che mancano
 
-`lib/opere.ts` progetta «una sequenza unica 01→26» (§3.3) e contiene **ventuno**
-opere, numerate 01→21.
+`lib/opere.ts` progetta «una sequenza unica 01→26» (§3.3) e contiene
+**ventitré** opere, numerate 01→23.
+
+**8 settembre 2026 — le opere solo-video sono entrate tutte.** L'Affair (2021,
+Alghero) e Sauvage (maggio 2025, Sassari) hanno seguito la strada aperta da
+LOVE AND EAT: un fermo immagine fa da copertina, il montato è il materiale.
+`SENZA_IMMAGINI` **non esiste più** — era la costante che dichiarava il buco
+del §8, e non ha più niente da dichiarare.
+
+Il fermo immagine si genera dalla pipeline: `scripts/filmati.sh` ha un campo
+`copertina` con il secondo da cui prenderlo, scelto dalla curatela guardando.
 
 **8 settembre 2026 — Corsa Futurista non è un'opera, sono cinque.** Erano una
 voce sola con l'arco «2015–2024». In archivio ci sono le edizioni **I** (10
@@ -179,6 +188,19 @@ posto di 3:4 e **la cornice avrebbe ritagliato l'immagine sbagliata**.
 `-map_metadata -1` non lascia il tag nel derivato — i pixel sono già girati e
 nessuno li gira una seconda volta. Se un domani si torna a `sips`, questo
 problema torna con lui.
+
+### Un video con le bande nere dentro
+
+Il montato di **Sauvage** dichiara 1280×720 ma porta due bande nere verticali
+impresse da un export sbagliato: sotto, l'immagine vera è **960×720**, cioè
+4:3 e non 16:9. `cropdetect` lo conferma in tre punti del filmato, e il campo
+`crop` della tabella di `filmati.sh` lo toglie prima della scala — se no il
+lato lungo si misurerebbe sulle bande.
+
+Non è una scelta di inquadratura, è togliere quello che non è mai stato
+ripreso. Ma **vale la pena guardare gli altri filmati con lo stesso occhio**:
+The Red White Horse aveva lo stesso problema in orizzontale, ed è uscita
+dall'archivio prima che ce ne occupassimo.
 
 ### Cosa resta da chiarire
 

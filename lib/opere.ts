@@ -123,21 +123,6 @@ export type Opera = {
   descrizione?: string;
 };
 
-/** Le opere che non hanno nemmeno una fotografia: solo filmati. Restano fuori
- *  finché §8 non è risolto, e sono la prova che il problema dei video non è un
- *  capitolo a parte ma un buco nell'indice.
- *
- *  Corretta il 7 settembre 2026 guardando le sorgenti, non i nomi: le cartelle
- *  con un montato finito e ZERO fotografie sono TRE — L'Affair (1:21, video di
- *  Giuseppe Esposito), Love and Eat (6:16) e Sauvage (2:19). Erano due perché
- *  nessuno le aveva aperte.
- *
- *  «BDSM» invece è uscita di qui perché non esiste: `01-assets/media` non ha
- *  nessuna cartella con quel nome, e nel portfolio compilato «BDSM» compare
- *  come riferimento culturale della collezione 1780/89, non come titolo. La
- *  voce 2025 in lib/timeline.ts resta lì in attesa che Manuel dica cos'è. */
-export const SENZA_IMMAGINI = ["L'Affair", "Sauvage"];
-
 /** Gli scatti derivati da `scripts/scatti.sh`: una cartella per opera, i file
  *  numerati nell'ORDINE DI LETTURA della mensola — `01` è la copertina. Le
  *  misure vengono da `public/media/scatti.txt`, non dall'occhio.
@@ -556,6 +541,27 @@ export const OPERE: Opera[] = [
   },
   {
     numero: 15,
+    slug: "l-affair",
+    titolo: "L'Affair",
+    anno: "2021",
+    medium: "video performance",
+    luogo: "Alghero",
+    densita: "minima",
+    descrizione:
+      "Video performance girata ad Alghero nel luglio 2021, per la regia di " +
+      "Giuseppe Esposito, con lo styling e la direzione artistica di Manuel " +
+      "Casati.",
+    // Fermo immagine da 0:42. Il montato è l'opera: qui non c'è nient'altro.
+    scatti: fermo("l-affair", 1600, 681),
+    filmati: [film("l-affair", 1600, 680, 80.62, true, "Giuseppe Esposito")],
+    crediti: [
+      ["regia", "Giuseppe Esposito"],
+      ["styling e art direction", "Manuel Casati"],
+      ["modelli", "Joshua Castiglione, Stefano Raffo"],
+    ],
+  },
+  {
+    numero: 16,
     slug: "le-reve-lever",
     titolo: "Le Rêve — Lever",
     anno: "2022",
@@ -590,7 +596,7 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 16,
+    numero: 17,
     slug: "corsa-futurista-vi",
     titolo: "Corsa Futurista — VI edizione",
     anno: "2023",
@@ -612,7 +618,7 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 17,
+    numero: 18,
     slug: "funeral-rave",
     titolo: "Funeral Rave",
     anno: "2023",
@@ -642,7 +648,7 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 18,
+    numero: 19,
     slug: "feral",
     titolo: "Feral",
     anno: "2024",
@@ -674,7 +680,24 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 19,
+    numero: 20,
+    slug: "sauvage",
+    titolo: "Sauvage",
+    anno: "2025",
+    medium: "video",
+    luogo: "Sassari",
+    densita: "minima",
+    descrizione:
+      "Video di presentazione per la seconda serata di Sauvage, di Technoroom, " +
+      "a Sassari. Maggio 2025.",
+    // Fermo immagine da 0:36. Il derivato è RITAGLIATO: la sorgente porta due
+    // bande nere verticali impresse da un export sbagliato, e sotto di esse
+    // l'immagine vera è 4:3, non 16:9 — vedi `scripts/filmati.sh`.
+    scatti: fermo("sauvage", 960, 720),
+    filmati: [film("sauvage", 960, 720, 139.3, true)],
+  },
+  {
+    numero: 21,
     slug: "don-giovanni",
     titolo: "Don Giovanni",
     anno: "2025",
@@ -702,7 +725,7 @@ export const OPERE: Opera[] = [
     ],
   },
   {
-    numero: 20,
+    numero: 22,
     slug: "love-and-eat",
     titolo: "LOVE AND EAT",
     anno: "2026",
@@ -722,11 +745,16 @@ export const OPERE: Opera[] = [
     // in cui il rapporto fra i due si rovescia.
     filmati: [film("love-and-eat", 1600, 900, 375.83, true)],
     crediti: [
+      ["sceneggiatura", "Manuel Casati"],
       ["performer", "Irene Stefanini, Mattia Mennuti, Christopher Dicky, Francesca Malagesi, Martina Bazzoni"],
+      // Probabilmente la stessa persona che in Don Giovanni è creditata come
+      // «Alex Ilushenka»: le due grafie vengono da due fonti diverse e nessuno
+      // ha detto quale sia quella giusta.
+      ["montaggio", "Aliaksandr Ilyushenka"],
     ],
   },
   {
-    numero: 21,
+    numero: 23,
     slug: "coucher-avec-moi",
     titolo: "Coucher avec moi",
     anno: "2026",

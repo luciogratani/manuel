@@ -18,7 +18,19 @@ set -e
 MEDIA="/Users/lucio/Desktop/manuel-portfolio/01-assets/media"
 OUT="/Users/lucio/Desktop/manuel-portfolio/04-site/public/media/filmati"
 
-# ── La tabella: chiave | sorgente (relativa a $MEDIA) | offset dell'anteprima
+# ── La tabella: chiave | sorgente | offset anteprima | crop | copertina
+#
+# Gli ultimi due campi sono facoltativi.
+#
+# `crop` è un `w:h:x:y` da dare a ffmpeg, e si usa quando il contenuto vero è
+# più piccolo del fotogramma — bande nere impresse nel file da un export
+# sbagliato. Non è una scelta di inquadratura: è togliere ciò che non è mai
+# stato ripreso. Il valore si trova con `cropdetect`, campionando in più punti
+# e fidandosi solo se concordano.
+#
+# `copertina` è il secondo da cui prendere il fermo immagine che finisce in
+# `public/media/<slug>/01.jpg`. Serve alle opere SOLO-VIDEO, che una copertina
+# non ce l'hanno: l'indice e la cronologia leggono `scatti[0]`.
 #
 # La chiave dà il nome ai tre derivati e NON è lo slug dell'opera: Feral ha tre
 # teaser, Coucher sei clip. Dove il filmato è uno solo la chiave coincide con
@@ -34,11 +46,13 @@ OUT="/Users/lucio/Desktop/manuel-portfolio/04-site/public/media/filmati"
 # di qui: The Red White Horse, Marie Antoinette in thr Fridge, Editoriale x
 # Vogue. Il montato di THE RED WHITE HORSE resta nelle sorgenti, non nel sito.
 #
-# Le tre opere che esistono SOLO come filmato — l-affair, love-and-eat,
-# sauvage — non sono in questa tabella perché non sono ancora in lib/opere.ts:
-# inserirle è curatela (serve decidere se un fermo immagine può fare da
-# copertina d'archivio). Le sorgenti sono pronte, le righe si aggiungono qui.
-TABELLA='
+# Le tre opere che esistono SOLO come filmato — love-and-eat, l-affair,
+# sauvage — sono qui e hanno il campo `copertina`: il fermo immagine è ciò che
+# permette loro di stare in un indice che legge `scatti[0]`.
+# Heredoc e non una stringa fra apici: `L'AFFAIR` contiene un apostrofo, che
+# in una stringa quotata la chiude a metà — lo script leggeva «video» come
+# un comando. Con `<<'FINE'` nulla viene interpretato.
+TABELLA=$(cat <<'FINE'
 glamour-confusion|archivio/GLAMOUR CONFUSION 04-05-2014/Glamour Confusion - Videoclip - V1 [HD 1080x24p].mp4|50
 funeral-rave|FUNERAL RAVE 30-06-23/_selected copy/video Tommy Bentivegna.mp4|20
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/VIdeo.MOV|20
@@ -52,9 +66,11 @@ coucher-avec-moi-3|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 
 coucher-avec-moi-4|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2355.AVI|30
 coucher-avec-moi-5|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2361.AVI|30
 coucher-avec-moi-6|COUCHER AVEC MOI 29 - 05 -26/COUCHER AVEC MOI performance 29 - 05 - 26/foto e video Irene Stefanini/video/DSCN2375.AVI|30
-love-and-eat|LOVE AND EAT 12-02-26/LOVE AND EAT.mp4|35
-'
-
+love-and-eat|LOVE AND EAT 12-02-26/LOVE AND EAT.mp4|35||125
+l-affair|L'AFFAIR video performance 20-07-021/Video GIuseppe Esposito - L'Affair 4k h264.mp4|35||42
+sauvage|Sauvage/655600bc-80df-4c03-8e87-e4141b72d2bd.mp4|35|960:720:160:0|36.8
+FINE
+)
 # ── Le ricette
 #
 # H.264 e non AV1 o HEVC: è l'unico codec che ogni browser decodifica in
@@ -106,7 +122,7 @@ misura() { # file -> "w h durata"
     -of default=noprint_wrappers=1:nokey=1 "$1" | tr '\n' ' '
 }
 
-echo "$TABELLA" | grep -v '^$' | while IFS='|' read -r slug rel offset; do
+echo "$TABELLA" | grep -v '^$' | while IFS='|' read -r slug rel offset ritaglio copertina; do
   # Se lo script ha argomenti, fa solo quegli slug.
   if [ $# -gt 0 ]; then
     voluto=0
@@ -124,12 +140,17 @@ echo "$TABELLA" | grep -v '^$' | while IFS='|' read -r slug rel offset; do
   t=$(awk -v d="$dur" -v p="$offset" 'BEGIN{printf "%.2f", d*p/100}')
   printf '── %-22s %sx%s  %ss  anteprima da %ss\n' "$slug" "$w" "$h" "$(printf '%.0f' "$dur")" "$t"
 
+  # Il ritaglio viene PRIMA della scala: se no il lato lungo si misurerebbe su
+  # una larghezza che comprende le bande nere.
+  taglia=""
+  [ -n "$ritaglio" ] && taglia="crop=$ritaglio,"
+
   # Il tetto è sul LATO LUNGO e non sulla larghezza: i teaser di Feral sono
   # 1440x2560 verticali, e un `min(1600,iw)` li avrebbe lasciati alti 2560.
   # `decrease` non ingrandisce mai, quindi le sorgenti piccole restano intatte;
   # il secondo `scale` arrotonda a dimensioni pari (H.264 in 4:2:0 non ammette
   # lati dispari).
-  scala="scale='min($LATO_MAX,iw)':'min($LATO_MAX,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2"
+  scala="${taglia}scale='min($LATO_MAX,iw)':'min($LATO_MAX,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2"
 
   # Il frame rate della sorgente, come frazione: `50/1`, `60000/1001`…
   fps=$(ffprobe -v error -select_streams v:0 -show_entries stream=r_frame_rate \
@@ -151,7 +172,7 @@ echo "$TABELLA" | grep -v '^$' | while IFS='|' read -r slug rel offset; do
   if awk -v d="$dur" -v s=$ANTEPRIMA_SOGLIA 'BEGIN{exit !(d>s)}'; then
     echo "   anteprima…"
     ffmpeg -nostdin -v error -y -ss "$t" -t $ANTEPRIMA_SECONDI -i "$src" \
-      -vf "scale='min($ANTEPRIMA_LATO_MAX,iw)':'min($ANTEPRIMA_LATO_MAX,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+      -vf "${taglia}scale='min($ANTEPRIMA_LATO_MAX,iw)':'min($ANTEPRIMA_LATO_MAX,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2" \
       -an \
       -c:v libx264 -profile:v high -crf 24 -preset slow -pix_fmt yuv420p \
       -movflags +faststart \
@@ -163,8 +184,18 @@ echo "$TABELLA" | grep -v '^$' | while IFS='|' read -r slug rel offset; do
 
   echo "   poster…"
   ffmpeg -nostdin -v error -y -ss "$t" -i "$src" -frames:v 1 \
-    -vf "scale='min($LATO_MAX,iw)':'min($LATO_MAX,ih)':force_original_aspect_ratio=decrease" -q:v 3 \
+    -vf "${taglia}scale='min($LATO_MAX,iw)':'min($LATO_MAX,ih)':force_original_aspect_ratio=decrease" -q:v 3 \
     "$OUT/$slug-poster.jpg"
+
+  # La copertina dell'opera, per chi il video ce l'ha e basta.
+  if [ -n "$copertina" ]; then
+    echo "   copertina (da ${copertina}s)…"
+    mkdir -p "$OUT/../$slug"
+    ffmpeg -nostdin -v error -y -ss "$copertina" -i "$src" -frames:v 1 \
+      -vf "${taglia}scale='min($LATO_MAX,iw)':'min($LATO_MAX,ih)':force_original_aspect_ratio=decrease" \
+      -map_metadata -1 -q:v 5 \
+      "$OUT/../$slug/01.jpg"
+  fi
 done
 
 # ── Il referto. Da qui si copiano le misure in lib/opere.ts.
