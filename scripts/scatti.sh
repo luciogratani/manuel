@@ -97,6 +97,9 @@ editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5143.jpg
 editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5166.jpg
 editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5171.jpg
 editorial-blanka|archivio/Ph Blanka Claudio&Fab/photo for editorial/IMG_5196.jpg
+le-reve-lever|LE REVE LEVER 21-09-22/performance/image00043-standard v2-2x.jpeg
+le-reve-lever|LE REVE LEVER 21-09-22/performance/image00052-standard v2-2x.jpeg
+le-reve-lever|LE REVE LEVER 21-09-22/performance/image00056-standard v2-2x.jpeg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00057.jpeg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00035.jpeg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00042.jpeg
@@ -104,6 +107,10 @@ le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00044.jpeg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00046.jpeg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00058.jpeg
 le-reve-lever|LE REVE LEVER 21-09-22/_selected copy/image00059.jpeg
+le-reve-lever|LE REVE LEVER 21-09-22/display/image00055.jpeg
+le-reve-lever|LE REVE LEVER 21-09-22/display/image00060.jpeg
+le-reve-lever|LE REVE LEVER 21-09-22/display/image00062.jpeg
+le-reve-lever|LE REVE LEVER 21-09-22/display/image00063.jpeg
 funeral-rave|FUNERAL RAVE 30-06-23/_selected copy/image00002.jpeg
 funeral-rave|FUNERAL RAVE 30-06-23/_selected copy/image00005.jpeg
 funeral-rave|FUNERAL RAVE 30-06-23/_selected copy/image00007.jpeg

@@ -594,18 +594,27 @@ export const OPERE: Opera[] = [
     luogo: "studioamatoriale, Milano",
     densita: "piena",
     descrizione:
-      "Un progetto in due livelli: il design di una capsule collection e un " +
-      "progetto performativo, presentato da studioamatoriale a Milano dal 21 al " +
-      "24 settembre 2022. I tre look della capsule Lever sviluppano lo studio " +
-      "filologico del costume e la sua riformulazione contemporanea. La " +
-      "performance, attivata a più riprese durante l'opening, fa parte della " +
-      "riflessione sul corpo, l'eroticità, la ritualità e il voyeurismo: lo " +
-      "spazio diventa il luogo privato di un performer che indossa i capi in " +
-      "una dimensione parallela a quella del pubblico.",
+      "Un progetto in due livelli: una capsule collection e una performance, " +
+      "dal 21 al 24 settembre 2022. I tre look sviluppano lo studio filologico " +
+      "del costume in una riformulazione contemporanea. La performance, " +
+      "ripetuta durante l'opening, riflette su corpo, eroticità, ritualità e " +
+      "voyeurismo.",
+    // 01→03 sono le tre ORIZZONTALI, da `performance`, e stanno in testa per
+    // scelta di Lucio: la prima è anche la copertina, ed è l'unica misura in
+    // cui l'indice e la cronologia leggono quest'opera. 04→10 sono la
+    // selezione di `_selected copy`, 11→14 le vedute dell'allestimento da
+    // `display`.
+    //
+    // Le sette aggiunte il 7 settembre 2026 non sono solo curatela: l'opera
+    // era tutta verticale e la sua mensola non arrivava a riempire il binario,
+    // quindi l'anello non si accendeva e la fila restava ferma. Vedi
+    // `APERTI.md` — è il motivo per cui le orizzontali contano doppio qui.
     scatti: foto("le-reve-lever",
-      ["01", 919, 1600], ["02", 914, 1600], ["03", 901, 1600],
-      ["04", 917, 1600], ["05", 919, 1600], ["06", 1200, 1600],
-      ["07", 1200, 1600],
+      ["01", 1600, 1199], ["02", 1600, 1200], ["03", 1600, 1200],
+      ["04", 919, 1600], ["05", 914, 1600], ["06", 901, 1600],
+      ["07", 917, 1600], ["08", 919, 1600], ["09", 1200, 1600],
+      ["10", 1200, 1600], ["11", 1200, 1600], ["12", 1200, 1600],
+      ["13", 1200, 1600], ["14", 1200, 1600],
     ),
     filmati: [film("le-reve-lever", 360, 640, 53.66, true, "Alessandro Di Palma")],
     // Dal comunicato (`descrizione.jpeg`), che è il documento pubblicato. Il
