@@ -729,12 +729,17 @@ progetto Vercel `manuel`. Tre record, e il perché di ognuno:
 La posta resta su IONOS (MX, SPF, DKIM, DMARC, autodiscover): quei record non
 c'entrano col sito e non vanno toccati quando si cambia hosting.
 
-**L'apex è la primaria, `www` rimanda.** Non è una preferenza estetica: da
-`SITO` in `lib/sito.ts` nascono `metadataBase`, tutti i `canonical`, `robots.txt`
-e la sitemap, e quella costante dice `https://manuelcasati.it`. Se la primaria
-diventasse `www`, ogni canonical punterebbe a un indirizzo che rimanda altrove —
-cioè il problema che i canonical erano stati aggiunti per risolvere. **Le due
-cose vanno cambiate insieme o non vanno cambiate.**
+**La primaria è `www.manuelcasati.it`, l'apex rimanda con un 308.** Era stata
+valutata la direzione opposta — l'apex è più corto, e sta bene a un sito che ha
+tolto perfino il numero di telefono — ma la configurazione su Vercel era già
+questa e funzionava, quindi si è allineato il codice invece della piattaforma.
+
+**Questa scelta e `SITO` in `lib/sito.ts` sono la stessa decisione scritta in
+due posti**, e vanno cambiate insieme o non vanno cambiate. Da `SITO` nascono
+`metadataBase`, tutti i `canonical`, `robots.txt` e la sitemap: se dichiarassero
+l'apex mentre Vercel serve il `www`, direbbero a Google «la pagina vera è qui»
+su un indirizzo che poi lo manda altrove — il contrario di ciò per cui i
+canonical erano stati aggiunti.
 
 ## L'avviso di contenuto c'è, la verifica dell'età no
 

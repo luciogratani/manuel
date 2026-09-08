@@ -12,15 +12,23 @@
  *  CONFERMATO il 9 settembre 2026: il dominio è registrato (IONOS), collegato
  *  al progetto Vercel e validato. Era rimasto a lungo un'ipotesi — dedotta da
  *  una casella `hello@manuelcasati.it` che non è mai esistita — e adesso non
- *  lo è più. Il sito risponde all'apex, e `www` ci rimanda con un 308.
+ *  lo è più.
  *
- *  Serve a Next per risolvere in URL assoluti le immagini delle anteprime:
- *  senza, le card si vedono senza figura, perché un percorso relativo a
- *  WhatsApp o a X non dice niente. Da qui nascono anche `metadataBase`, tutti
- *  i `canonical`, `robots.txt` e `sitemap.xml`: è l'unico posto in cui il
- *  dominio è scritto, e va tenuto d'accordo con quale dei due indirizzi Vercel
- *  serve davvero — se un giorno diventasse `www` la primaria, si cambia qui. */
-export const SITO = new URL("https://manuelcasati.it");
+ *  CON IL `www`, ed è la parte che si sbaglia. Su Vercel la primaria è
+ *  `www.manuelcasati.it`, e l'apex nudo ci rimanda con un 308. Questa costante
+ *  deve dire lo STESSO indirizzo che Vercel serve davvero: da qui nascono
+ *  `metadataBase`, tutti i `canonical`, `robots.txt` e `sitemap.xml`, e se
+ *  puntassero all'apex direbbero a Google «la pagina vera è qui» su un
+ *  indirizzo che poi lo manda altrove — cioè il contrario di ciò per cui i
+ *  canonical erano stati aggiunti.
+ *
+ *  Serve anche a Next per risolvere in URL assoluti le immagini delle
+ *  anteprime: senza, le card si vedono senza figura, perché un percorso
+ *  relativo a WhatsApp o a X non dice niente.
+ *
+ *  Se un giorno la primaria su Vercel torna a essere l'apex, si cambia qui —
+ *  le due cose si muovono insieme o non si muovono. */
+export const SITO = new URL("https://www.manuelcasati.it");
 
 /** L'indirizzo a cui si scrive: contatti di /about e richieste di /legali.
  *
