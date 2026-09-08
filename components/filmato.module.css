@@ -13,25 +13,17 @@
   overflow: hidden;
 }
 
-.poster,
+/* Un elemento solo: il video porta il proprio `poster`, che il browser mostra
+   finché non parte. Prima c'erano due strati — una `img` sotto e il video che
+   ci saliva sopra in dissolvenza — perché il movimento arrivava con l'hover ed
+   era un passaggio da annunciare. Adesso parte da sé al caricamento: non c'è
+   più nessun passaggio, e la dissolvenza non aveva più niente da dissolvere. */
 .video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-/* La dissolvenza del §3.2: il movimento sale sopra il fermo, non lo taglia.
-   Il poster resta sotto — se il video non parte (rete lenta, autoplay negato)
-   non si vede un buco nero ma la fotografia. */
-.video {
-  opacity: 0;
-  transition: opacity 0.45s cubic-bezier(0.33, 1, 0.68, 1);
-}
-
-.muto[data-corre] .video {
-  opacity: 1;
 }
 
 /* La durata: l'unico segno che distingue una lastra che si muove da una ferma.
@@ -55,21 +47,11 @@
 
 /* ── Il player intero ─────────────────────────────────────────────────────── */
 
-.controller {
+/* Nessuna variabile di tema: i comandi sono quelli nativi del browser, e
+   compaiono solo dopo il primo clic. Qui resta il fondo scuro, che si vede
+   nelle bande quando il rapporto del filmato non riempie il riquadro. */
+.intero {
   display: block;
   width: 100%;
-
-  --media-primary-color: #efede8;
-  --media-secondary-color: color-mix(in srgb, #0d0d0c 55%, transparent);
-  --media-control-hover-background: color-mix(in srgb, #efede8 18%, transparent);
-  --media-range-thumb-border-radius: 0; /* niente angoli arrotondati, §3.5 */
-  --media-range-track-border-radius: 0;
-  --media-font-family: var(--font-pp-air), ui-monospace, monospace;
-  --media-font-size: 0.75rem;
   background: #0d0d0c;
-}
-
-.barra {
-  --media-control-background: transparent;
-  width: 100%;
 }

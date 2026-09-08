@@ -741,6 +741,39 @@ l'apex mentre Vercel serve il `www`, direbbero a Google «la pagina vera è qui�
 su un indirizzo che poi lo manda altrove — il contrario di ciò per cui i
 canonical erano stati aggiunti.
 
+## I filmati partono da soli, come l'hero
+
+**9 settembre 2026.** `Muto` partiva al passaggio del puntatore e tornava al
+poster quando se ne andava. Dal telefono non funzionava: l'hover non esiste,
+`pointerenter` scatta al tocco e `pointerleave` spesso non scatta affatto, così
+un filmato restava fermo e un altro partiva e non si fermava più. Non era un
+bug: era un'interazione che presuppone un dispositivo che metà dei visitatori
+non ha.
+
+Adesso **tutti i video fanno quello che ha sempre fatto l'hero della soglia**:
+autoplay, muti, in loop, senza comandi. Via lo stato, via i due strati
+(poster `img` + video in dissolvenza), via la dissolvenza del §3.2 — non c'era
+più nessun passaggio da annunciare.
+
+**Il ravvicinato in più ha il clic.** È l'unica pagina il cui contenuto è un
+video solo: parte muto come gli altri, e al primo clic entra l'audio e
+compaiono i comandi NATIVI del browser. Sono spariti quelli di media-chrome:
+una barra che appare solo dopo un clic esplicito non vale una dipendenza, e
+quella del browser è già accessibile da tastiera e tradotta.
+
+**Da sapere, due cose.**
+
+- **`media-chrome` non è più importato da nessuna parte**, ma è ancora in
+  `package.json`. Va tolto con `pnpm remove media-chrome` quando si è certi di
+  non volerlo indietro — non prima, perché rimetterlo significa rifare le
+  variabili di tema che stavano in `filmato.module.css`.
+- **I comandi di un filmato verticale cadono sotto la piega.** Funeral Rave è
+  480×848: a larghezza piena l'elemento è alto ~1900px in una finestra da 1121,
+  e la barra nativa sta in fondo al video, non in fondo allo schermo. La
+  `.colonna` scorre, quindi ci si arriva, ma bisogna sapere di doverlo fare.
+  Si risolve con un `max-height` su `.intero`, al prezzo di rimpicciolire il
+  video sulla pagina che esiste per mostrarlo grande: da decidere guardando.
+
 ## L'avviso di contenuto c'è, la verifica dell'età no
 
 **9 settembre 2026.** Le sei opere con `nudo: true` mostrano nell'apparato una

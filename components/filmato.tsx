@@ -1,39 +1,36 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import {
-  MediaControlBar,
-  MediaController,
-  MediaFullscreenButton,
-  MediaMuteButton,
-  MediaPlayButton,
-  MediaTimeDisplay,
-  MediaTimeRange,
-} from "media-chrome/react";
 import type { Filmato } from "@/lib/opere";
 import styles from "./filmato.module.css";
 
-// Il video, finalmente in pagina (§8). Due modi, e la differenza fra i due è
-// una decisione di Lucio, non una comodità tecnica:
+// Il video in pagina (§8). Due modi, e da qui in avanti partono TUTTI E DUE da
+// soli, come l'hero della soglia: autoplay, muto, in loop, senza comandi.
 //
-//   · `Muto` sta nella mensola e nell'indice. Nessun controllo, nessun audio:
-//     è una fotografia che si muove, e serve a far capire che lì c'è un
-//     filmato. Parte quando il puntatore ci passa sopra e si rimette sul
-//     poster quando se ne va.
-//   · `Intero` sta nella vista ravvicinata, ed è l'unico posto dove il suono
-//     esiste. Lì c'è spazio per i crediti del videomaker, e nessuno ci arriva
-//     per sbaglio: ci si arriva cliccando.
+// ── Perché non più l'hover ──────────────────────────────────────────────────
+// `Muto` partiva al passaggio del puntatore e tornava al poster quando se ne
+// andava. Su un telefono l'hover non esiste: `pointerenter` scatta al tocco e
+// `pointerleave` spesso non scatta affatto, così un filmato restava fermo, un
+// altro partiva e non si fermava più, e nessuno dei due faceva quello che
+// sembrava promettere. Non era un bug da aggiustare: era un'interazione che
+// presuppone un dispositivo che metà dei visitatori non ha.
 //
-// Il passaggio fermo → movimento è una DISSOLVENZA e non un taglio: §3.2, il
-// taglio segna un passaggio di stato strutturale, la dissolvenza una
-// variazione dentro uno stato già stabilito. Qui l'opera è già aperta.
+// La soglia ha sempre fatto la cosa giusta — il suo video parte e basta — e
+// adesso la fanno anche gli altri. Meno stato, meno codice, stesso
+// comportamento ovunque (decisione di Lucio, 9 settembre 2026).
+//
+// ── Il peso ─────────────────────────────────────────────────────────────────
+// L'autoplay scarica, mentre `preload="none"` no: è il prezzo della scelta. Si
+// paga poco perché la mensola mostra le ANTEPRIME — dieci secondi, generate da
+// `scripts/filmati.sh` sopra i trenta secondi di durata — e sotto quella soglia
+// il montato intero è già corto. In pratica nessuna lastra supera i 4 MB,
+// contro gli 85 di `love-and-eat.mp4`, che in mensola non entra mai.
 
-/** Il filmato come lastra: poster fermo, e il movimento all'hover.
+/** Il filmato come lastra: parte da sé, muto, in loop.
  *
- *  L'anteprima esiste per i filmati sopra i trenta secondi ed è dieci secondi
- *  muti; sotto quella soglia si usa il montato intero, che è già corto. In
- *  entrambi i casi `preload="none"`: finché nessuno ci passa sopra, di questo
- *  video non si scarica un byte — e ci sono opere con sei filmati. */
+ *  Il `poster` resta dichiarato sul video e non è decorazione: se l'autoplay
+ *  viene negato — iOS in risparmio energetico lo nega anche ai video muti — si
+ *  vede la fotografia invece di un rettangolo nero. */
 export function Muto({
   filmato,
   className,
@@ -43,48 +40,17 @@ export function Muto({
   className?: string;
   alt: string;
 }) {
-  const video = useRef<HTMLVideoElement>(null);
-  const [corre, setCorre] = useState(false);
-
-  const parti = useCallback(() => {
-    const v = video.current;
-    if (!v) return;
-    setCorre(true);
-    void v.play().catch(() => setCorre(false));
-  }, []);
-
-  const fermati = useCallback(() => {
-    const v = video.current;
-    if (!v) return;
-    v.pause();
-    v.currentTime = 0;
-    setCorre(false);
-  }, []);
-
   return (
-    <span
-      className={[styles.muto, className].filter(Boolean).join(" ")}
-      onPointerEnter={parti}
-      onPointerLeave={fermati}
-      data-corre={corre ? "" : undefined}
-    >
-      {/* Il poster è un `img` e non l'attributo `poster` del video: così è
-          `next/image` a servirlo — no, qui no: la cornice ritaglia in `cover`
-          e il file è già derivato alla misura giusta, quindi un `img` semplice
-          fa meno lavoro e non passa dall'ottimizzatore per un'immagine che
-          esiste in una sola taglia. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className={styles.poster} src={filmato.poster} alt={alt} />
+    <span className={[styles.muto, className].filter(Boolean).join(" ")}>
       <video
-        ref={video}
         className={styles.video}
         src={filmato.anteprima ?? filmato.src}
         poster={filmato.poster}
-        preload="none"
+        autoPlay
         muted
         loop
         playsInline
-        aria-hidden="true"
+        aria-label={alt}
         tabIndex={-1}
       />
       {/* La durata è l'unico segno che dice «questo si muove»: un numero, come
@@ -94,37 +60,48 @@ export function Muto({
   );
 }
 
-/** Il filmato per intero, con il suono. Media-chrome porta i controlli;
- *  l'aspetto glielo dà `filmato.module.css` — bordi durissimi, nessun angolo
- *  arrotondato (§3.5), e l'accento non si spende sui comandi (§2.3). */
+/** Il filmato per intero, nella vista ravvicinata: l'unico posto dove il suono
+ *  esiste, e l'unica pagina che di contenuto ha soltanto quel video.
+ *
+ *  Parte muto come gli altri, così la pagina non aggredisce chi ci arriva. AL
+ *  PRIMO CLIC diventa un film: entra l'audio e compaiono i comandi nativi del
+ *  browser. Prima di quel clic non c'è nessuna barra, perché non serve — il
+ *  video sta già andando.
+ *
+ *  Comandi NATIVI e non più media-chrome. La libreria serviva a vestire una
+ *  barra sempre presente; una barra che compare solo dopo un clic esplicito
+ *  non vale una dipendenza, e quella del browser è già accessibile da tastiera,
+ *  tradotta, e uguale a quella che il visitatore conosce. */
 export function Intero({ filmato, titolo }: { filmato: Filmato; titolo: string }) {
+  const video = useRef<HTMLVideoElement>(null);
+  const [aperto, setAperto] = useState(false);
+
+  const apri = useCallback(() => {
+    const v = video.current;
+    if (!v || aperto) return;
+    // L'ordine conta: si toglie il muto PRIMA di dichiarare aperto, così il
+    // browser lega l'audio al clic che lo ha chiesto. Fatto dopo, il gesto è
+    // già consumato e Safari rimette il muto da sé.
+    v.muted = false;
+    setAperto(true);
+    void v.play().catch(() => undefined);
+  }, [aperto]);
+
   return (
-    <MediaController
-      className={styles.controller}
+    <video
+      ref={video}
+      className={styles.intero}
       style={{ aspectRatio: `${filmato.w} / ${filmato.h}` }}
-    >
-      {/* `tabIndex={-1}` è dichiarato qui perché media-chrome lo mette da sé
-          appena idrata — il fuoco lo gestisce il controller, non il video — e
-          senza dirlo anche al server React segnala un disallineamento di
-          idratazione a ogni caricamento. */}
-      <video
-        slot="media"
-        src={filmato.src}
-        poster={filmato.poster}
-        preload="metadata"
-        playsInline
-        crossOrigin=""
-        aria-label={titolo}
-        tabIndex={-1}
-      />
-      <MediaControlBar className={styles.barra}>
-        <MediaPlayButton />
-        <MediaTimeRange />
-        <MediaTimeDisplay showDuration />
-        <MediaMuteButton />
-        <MediaFullscreenButton />
-      </MediaControlBar>
-    </MediaController>
+      src={filmato.src}
+      poster={filmato.poster}
+      autoPlay
+      muted
+      loop
+      playsInline
+      controls={aperto}
+      onClick={apri}
+      aria-label={titolo}
+    />
   );
 }
 
