@@ -19,11 +19,12 @@ import styles from "./page.module.css";
 // Dentro il PDF il nome è già «Manuel Casati» (lo dice anche il titolo del
 // documento): era solo il nome del file a portare l'altro.
 //
-// ── Da sapere prima di pubblicare ───────────────────────────────────────────
-// Il PDF porta in testa un indirizzo email PERSONALE, diverso da quello che il
-// sito usa ovunque (`hello@manuelcasati.it`). Pubblicando questa pagina si
-// pubblica anche quello. È una decisione di Lucio e Manuel, non del codice:
-// annotata in `APERTI.md`.
+// ── L'email ─────────────────────────────────────────────────────────────────
+// Il PDF porta in testa `manuelcasati89@gmail.com`, e per un po' il sito ne ha
+// mostrato un altro (`hello@manuelcasati.it`, una casella di servizio mai
+// aperta): chi scaricava il curriculum si trovava due strade diverse per la
+// stessa persona. Dal 9 settembre 2026 il sito usa quella del PDF — `EMAIL` in
+// `lib/sito.ts` — quindi qui non c'è più niente da riconciliare.
 
 export const metadata = {
   alternates: { canonical: "/cv" },

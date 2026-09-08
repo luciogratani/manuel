@@ -221,6 +221,20 @@ export default async function Page({
           </div>
         ) : null}
 
+        {/* L'avviso di contenuto. È una RIGA D'APPARATO, non una schermata
+            che sbarra la strada: chi arriva qui ha già scelto un'opera, e
+            un cartello a tutto schermo prima di ventitré archivi
+            tratterebbe il nudo come un incidente invece che come materia
+            del lavoro. Dice la stessa cosa che `/legali` dichiara in
+            generale, ma sulla singola opera e prima dei crediti — dove
+            cade l'occhio di chi legge l'apparato.
+            Nota: è un avviso, NON una verifica dell'età. Vedi APERTI.md. */}
+        {opera.nudo ? (
+          <div className={styles.credito}>
+            <dt>contenuto:</dt>
+            <dd>nudo artistico</dd>
+          </div>
+        ) : null}
       </dl>
 
       {/* La terza colonna. Le persone stanno qui e non nella `dl` dei dati:
@@ -319,6 +333,21 @@ export default async function Page({
             <div className={styles.credito}>
               <dt>{rigaFilmato.dt}</dt>
               <dd>{rigaFilmato.dd}</dd>
+            </div>
+          ) : null}
+
+          {/* L'avviso di contenuto. È una RIGA D'APPARATO, non una schermata
+              che sbarra la strada: chi arriva qui ha già scelto un'opera, e
+              un cartello a tutto schermo prima di ventitré archivi
+              tratterebbe il nudo come un incidente invece che come materia
+              del lavoro. Dice la stessa cosa che `/legali` dichiara in
+              generale, ma sulla singola opera e prima dei crediti — dove
+              cade l'occhio di chi legge l'apparato.
+              Nota: è un avviso, NON una verifica dell'età. Vedi APERTI.md. */}
+          {opera.nudo ? (
+            <div className={styles.credito}>
+              <dt>contenuto:</dt>
+              <dd>nudo artistico</dd>
             </div>
           ) : null}
 

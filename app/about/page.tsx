@@ -3,6 +3,7 @@ import { Copia } from "@/components/copia";
 import { Marchio } from "@/components/marchio";
 import { ROSSO } from "@/lib/movimento";
 import { OPERE } from "@/lib/opere";
+import { EMAIL } from "@/lib/sito";
 import { FINE, INIZIO } from "@/lib/timeline";
 import styles from "./page.module.css";
 
@@ -117,8 +118,6 @@ const BIO = [
     "2015 organizza e dirige la Corsa Futurista, evento itinerante di " +
     "Monumenti Aperti.",
 ];
-
-const EMAIL = "hello@manuelcasati.it";
 
 const PROFILI: [string, string][] = [
   ["Instagram", "https://www.instagram.com/manuelcasatidegliamman_/"],

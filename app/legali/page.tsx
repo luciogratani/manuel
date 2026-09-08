@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EMAIL } from "@/lib/sito";
 import styles from "./page.module.css";
 
 // Le note legali.
@@ -38,11 +39,6 @@ export const metadata = {
     "Diritti sulle opere, consenso delle persone ritratte e richieste di " +
     "rimozione, natura dei contenuti e trattamento dei dati.",
 };
-
-/** L'indirizzo a cui si scrive per le richieste, lo stesso della chiusura di
- *  /about: un canale solo, così non può accadere che uno dei due smetta di
- *  essere letto senza che nessuno se ne accorga. */
-const EMAIL = "hello@manuelcasati.it";
 
 export default function Page() {
   return (

@@ -174,6 +174,15 @@ export default async function Page({
               <dt>luogo:</dt>
               <dd>{opera.luogo}</dd>
             </div>
+            {/* Ripetuto qui come il `noindex`, e per la stessa ragione: è la
+                vista in cui la fotografia si vede grande, e ci si può
+                arrivare da un link diretto senza passare dall'opera. */}
+            {opera.nudo ? (
+              <div className={styles.credito}>
+                <dt>contenuto:</dt>
+                <dd>nudo artistico</dd>
+              </div>
+            ) : null}
           </dl>
         </div>
       </div>

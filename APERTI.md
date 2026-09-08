@@ -201,11 +201,20 @@ arriva, prendono uno slug e diventano opere.
   sia conseguito — l'arco finisce quest'anno.
 
 **Due cose prima di pubblicare `/cv`.** Il PDF porta in testa un indirizzo
-email **personale** (`manuelcasati89@gmail.com`), diverso da quello che il sito
-usa ovunque, e una **fotografia di Manuel**. Pubblicando la pagina si
-pubblicano tutti e due. Il file servito è stato rinominato — la sorgente si
-chiama `Manuel_Delogu_CV.pdf` e il §2.1 dice che l'anagrafe non va in pagina —
-ma il contenuto è quello che è, e va deciso guardandolo.
+email **personale** (`manuelcasati89@gmail.com`) e una **fotografia di
+Manuel**. Pubblicando la pagina si pubblicano tutti e due. Il file servito è
+stato rinominato — la sorgente si chiama `Manuel_Delogu_CV.pdf` e il §2.1 dice
+che l'anagrafe non va in pagina — ma il contenuto è quello che è, e va deciso
+guardandolo.
+
+**9 settembre 2026 — l'email è decisa, ed è quella.** Lucio ha scelto di usare
+in tutto il sito l'indirizzo del PDF invece della casella di servizio
+`hello@manuelcasati.it`, che non è mai stata aperta: mostrarne due dava a chi
+scrive due strade per la stessa persona. Ora vive una volta sola, in `EMAIL`
+dentro `lib/sito.ts`. Resta il fatto che è una casella gratuita e che il
+dominio del sito non ha più nessun indizio a sostenerlo — vedi il commento
+accanto a `SITO`: il giorno che si passa a un indirizzo sul dominio proprio, va
+cambiato **anche nel PDF**, che è la sorgente.
 
 ## La mensola: i registri sono larghezze, e due opere restano ferme
 
@@ -703,6 +712,55 @@ analitica, nessuna terza parte, nessun modulo, e una sola chiave in
 `localStorage` per la preferenza del suono della timeline. Se arriva
 un'analitica, un modulo o un servizio esterno, quella pagina va riscritta per
 prima.
+
+## Il dominio è vero, e l'apex è la primaria
+
+**9 settembre 2026.** `manuelcasati.it` è registrato su IONOS e collegato al
+progetto Vercel `manuel`. Tre record, e il perché di ognuno:
+
+- `A @ 76.76.21.21` — l'indirizzo dell'apex su Vercel. Il pannello ne suggerisce
+  uno più nuovo (`216.198.79.1`) dicendo che il vecchio continua a funzionare:
+  cambiarlo è manutenzione, non urgenza.
+- `AAAA @` **eliminato**. Vercel non dà un IPv6 per l'apex, e lasciando quello
+  di IONOS chi naviga in IPv6 — cioè quasi tutti i telefoni in rete mobile —
+  finiva sulla pagina parcheggio mentre da desktop il sito si vedeva giusto.
+- `CNAME www` → l'host `…vercel-dns-017.com`.
+
+La posta resta su IONOS (MX, SPF, DKIM, DMARC, autodiscover): quei record non
+c'entrano col sito e non vanno toccati quando si cambia hosting.
+
+**L'apex è la primaria, `www` rimanda.** Non è una preferenza estetica: da
+`SITO` in `lib/sito.ts` nascono `metadataBase`, tutti i `canonical`, `robots.txt`
+e la sitemap, e quella costante dice `https://manuelcasati.it`. Se la primaria
+diventasse `www`, ogni canonical punterebbe a un indirizzo che rimanda altrove —
+cioè il problema che i canonical erano stati aggiunti per risolvere. **Le due
+cose vanno cambiate insieme o non vanno cambiate.**
+
+## L'avviso di contenuto c'è, la verifica dell'età no
+
+**9 settembre 2026.** Le sei opere con `nudo: true` mostrano nell'apparato una
+riga in più — «contenuto: nudo artistico» — sulla work page, nella vista
+compatta e nel ravvicinato. È deliberatamente **minima**: nessuna schermata che
+sbarra la strada, nessun clic da fare, stesso registro tipografico dei crediti.
+Un cartello a tutto schermo davanti a un archivio d'artista tratterebbe il nudo
+come un incidente invece che come materia del lavoro.
+
+**Va saputo cosa questa riga NON è.** Non è una verifica dell'età: chiunque
+apre la pagina vede le fotografie, e nessuna delle due cose dipende dall'altra.
+Serve a due scopi più modesti — dire a chi legge cosa sta per guardare, e
+rendere coerente ciò che `/legali` afferma in generale con ciò che le singole
+pagine dichiarano.
+
+Se un giorno servisse una barriera vera (la si valuti insieme alla revisione
+legale, non prima), le strade sono due e vanno decise da chi firma il sito: una
+schermata di conferma prima delle sole opere segnate, oppure niente. La via di
+mezzo — un avviso che sembra un cancello ma non lo è — è la peggiore, perché dà
+l'impressione di una tutela che non c'è.
+
+Nota tecnica: il campo `nudo` è ancora **una prima passata**. Finché non è
+rivisto opera per opera, la riga manca dove il campo manca — e «manca» non
+vuol dire «non c'è nudo», vuol dire «non guardato». Vedi la sezione sulle note
+legali qui sopra.
 
 ## La soglia compatta non ha un artboard
 

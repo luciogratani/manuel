@@ -150,9 +150,15 @@ export type Opera = {
    *  la curatela non ha ancora raccontato, invece di riempire il buco con una
    *  frase generica che sembra vera. */
   descrizione?: string;
-  /** L'opera contiene nudo. L'unico effetto è sui MOTORI DI RICERCA: la sua
-   *  pagina e le sue viste ravvicinate portano `noindex`, e restano fuori dalla
-   *  mappa del sito. Nel sito non cambia niente — si vedono come le altre.
+  /** L'opera contiene nudo. Due effetti, e conviene tenerli distinti.
+   *
+   *  FUORI DAL SITO: la sua pagina e le sue viste ravvicinate portano
+   *  `noindex` + `noimageindex`, e restano fuori dalla mappa.
+   *
+   *  DENTRO IL SITO: l'apparato mostra una riga in più, «contenuto: nudo
+   *  artistico». Una riga, non una schermata che sbarra la strada — è un
+   *  avviso, e non va scambiato per una verifica dell'età, che il sito non
+   *  fa (vedi `APERTI.md`). Le opere restano raggiungibili come le altre.
    *
    *  Il resto dell'archivio si indicizza normalmente (decisione di Lucio,
    *  8 settembre 2026): home, about, cronologia, indice e curriculum sono
