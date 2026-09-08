@@ -43,6 +43,13 @@ export async function generateMetadata({
 
   return {
     title: `${opera.titolo} — ${numerato(Number(n))}`,
+    // Il canonico NON è questa pagina: è l'opera. Le viste ravvicinate di
+    // un'opera sono decine — settantasette per Glamour Confusion — e portano
+    // tutte lo stesso apparato attorno a una fotografia diversa. Per un motore
+    // sono quasi-duplicati che si fanno concorrenza fra loro; puntandole tutte
+    // alla work page, quel peso torna dov'è il contenuto vero. È anche il
+    // motivo per cui non stanno nella mappa del sito.
+    alternates: { canonical: `/works/${opera.slug}` },
     robots: opera.nudo ? { index: false, follow: true, noimageindex: true } : undefined,
   };
 }

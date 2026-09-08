@@ -16,6 +16,33 @@
 //     filmato non è una fotografia con più fotogrammi, e `scatti.length` deve
 //     restare il conteggio delle fotografie (§3.3, §8)
 
+/** Le categorie della lente sull'indice (`app/works/banda.tsx`).
+ *
+ *  È una cosa DIVERSA da `medium`, e serve saperlo perché per mesi il filtro
+ *  ha usato quello. `medium` dice in che forma l'opera si è concretizzata —
+ *  «corsa itinerante», «capsule collection e performance», «guardaroba» — ed è
+ *  apparato d'archivio, scritto per essere letto in pagina. La categoria dice
+ *  di che TIPO è, ed è un attrezzo per cercare: poche voci, ripetute.
+ *
+ *  Con `medium` la lente mentiva. «performance» pescava quattro opere su
+ *  ventitré, mentre le cinque Corsa Futurista, Apoteosi, L'Affair e Le Rêve
+ *  Lever — tutte performance — restavano fuori perché il loro medium era
+ *  scritto con altre parole. Un curatore non aveva modo di accorgersene.
+ *
+ *  Il campo è FACOLTATIVO ed è giusto che lo sia: sette opere non ricadono in
+ *  nessuna delle tre senza forzarle (un intervento, un evento, due capsule, un
+ *  guardaroba, due video). Restano senza, e con una lente attiva si attenuano
+ *  come le altre fuori categoria. Inventare una quarta voce per non lasciare
+ *  buchi sarebbe tornare al problema di prima da un'altra porta: le tre voci
+ *  sono quelle che un curatore cerca davvero, e le altre opere si trovano
+ *  scorrendo. Se un giorno servisse «moda» o «video», si aggiunge qui e le
+ *  opere la prendono — la banda le legge da `CATEGORIE`, non da una lista
+ *  scritta a mano. */
+export type Categoria = "performance" | "fotografia" | "editoriale";
+
+/** Le voci della lente, nell'ordine in cui la banda le mostra. */
+export const CATEGORIE: Categoria[] = ["performance", "fotografia", "editoriale"];
+
 export type Formato = "2:3" | "3:4" | "1:1" | "4:3" | "3:2";
 
 export const RAPPORTO: Record<Formato, number> = {
@@ -105,6 +132,10 @@ export type Opera = {
    *  incerte ("c. 2013"), e la doppia coordinata del §3.3 deve reggerle. */
   anno: string;
   medium: string;
+  /** Il tipo dell'opera per la lente dell'indice — non il `medium`, che è
+   *  un'altra cosa e sta qui sopra (vedi `Categoria`). Assente dove nessuna
+   *  delle tre voci calza senza forzare. */
+  categoria?: Categoria;
   luogo: string;
   densita: Densita;
   scatti: Scatto[];
@@ -307,6 +338,7 @@ export const OPERE: Opera[] = [
     titolo: "Corsa Futurista — I edizione",
     anno: "2015",
     medium: "corsa itinerante",
+    categoria: "performance",
     luogo: "Sassari",
     densita: "documentata",
     descrizione:
@@ -333,6 +365,7 @@ export const OPERE: Opera[] = [
     titolo: "Fanton Milano Fashion Week",
     anno: "2015",
     medium: "editoriale",
+    categoria: "editoriale",
     luogo: "—",
     densita: "documentata",
     descrizione:
@@ -357,11 +390,17 @@ export const OPERE: Opera[] = [
     titolo: "Shooting per Editoriale",
     anno: "2015",
     medium: "fotografia",
+    categoria: "fotografia",
     luogo: "—",
     densita: "documentata",
     descrizione:
       "Servizio fotografico del 25 novembre 2015, di cui restano le tavole già " +
       "impaginate. Nessun documento accompagna la cartella.",
+    // Il nome del fotografo non viene da un documento — la cartella è muta —
+    // ma da Lucio, l'8 settembre 2026: è l'«Anto» che dava il nome alla
+    // cartella sorgente, `Ph Shoot Anto`. Con questa riga l'archivio non ha
+    // più nessuna opera senza crediti.
+    crediti: [["foto", "Antonio Cabras"]],
     scatti: foto("shooting-editoriale",
       ["01", 640, 960], ["02", 960, 807], ["03", 960, 722],
       ["04", 960, 819], ["05", 640, 960], ["06", 640, 960],
@@ -375,6 +414,7 @@ export const OPERE: Opera[] = [
     titolo: "Corsa Futurista — II edizione",
     anno: "2016",
     medium: "corsa itinerante",
+    categoria: "performance",
     luogo: "Sassari",
     densita: "documentata",
     descrizione:
@@ -408,6 +448,7 @@ export const OPERE: Opera[] = [
     titolo: "Editorial Blanka",
     anno: "2016",
     medium: "editoriale",
+    categoria: "editoriale",
     luogo: "—",
     densita: "documentata",
     descrizione:
@@ -429,6 +470,7 @@ export const OPERE: Opera[] = [
     titolo: "Apoteosi — Creazione di una Musa",
     anno: "2017",
     medium: "sfilata-performance",
+    categoria: "performance",
     luogo: "Sassari e Alghero",
     densita: "piena",
     descrizione:
@@ -456,6 +498,7 @@ export const OPERE: Opera[] = [
     titolo: "Corsa Futurista — III edizione",
     anno: "2018",
     medium: "corsa itinerante",
+    categoria: "performance",
     luogo: "Sassari",
     densita: "documentata",
     descrizione:
@@ -481,6 +524,7 @@ export const OPERE: Opera[] = [
     titolo: "Corsa Futurista — IV edizione",
     anno: "2019",
     medium: "corsa itinerante",
+    categoria: "performance",
     luogo: "Sassari",
     densita: "documentata",
     descrizione:
@@ -574,6 +618,7 @@ export const OPERE: Opera[] = [
     titolo: "La Distanza",
     anno: "2020",
     medium: "fotografia",
+    categoria: "fotografia",
     luogo: "Alghero",
     densita: "documentata",
     descrizione:
@@ -599,6 +644,7 @@ export const OPERE: Opera[] = [
     titolo: "L'Affair",
     anno: "2021",
     medium: "video performance",
+    categoria: "performance",
     // Il CV (`public/cv/`) dà «26/11/2021 — Acre - Lume Occupato, Milano»,
     // mentre la cartella sorgente si chiama `L'AFFAIR video performance
     // 20-07-021` e il testo diceva «girata ad Alghero nel luglio 2021». Non
@@ -630,6 +676,7 @@ export const OPERE: Opera[] = [
     titolo: "Le Rêve — Lever",
     anno: "2022",
     medium: "capsule collection e performance",
+    categoria: "performance",
     luogo: "studioamatoriale, Milano",
     densita: "piena",
     descrizione:
@@ -672,6 +719,7 @@ export const OPERE: Opera[] = [
     titolo: "Corsa Futurista — VI edizione",
     anno: "2023",
     medium: "corsa itinerante",
+    categoria: "performance",
     luogo: "Sassari",
     densita: "documentata",
     descrizione:
@@ -694,6 +742,7 @@ export const OPERE: Opera[] = [
     titolo: "Funeral Rave",
     anno: "2023",
     medium: "performance",
+    categoria: "performance",
     luogo: "Spazio Sabotage, Sassari",
     densita: "piena",
     // Le prime sei sono la selezione di Manuel (foto di Blanka Meccanica), le
@@ -726,6 +775,7 @@ export const OPERE: Opera[] = [
     titolo: "Feral",
     anno: "2024",
     medium: "performance",
+    categoria: "performance",
     // Dal CV (`public/cv/`), 7 settembre 2026: era un trattino perché nessun
     // documento della cartella dava il luogo.
     luogo: "Maison du Sabotage, Sassari",
@@ -784,6 +834,7 @@ export const OPERE: Opera[] = [
     titolo: "Don Giovanni",
     anno: "2025",
     medium: "performance",
+    categoria: "performance",
     // Dal CV (`public/cv/`), 7 settembre 2026: era un trattino perché nessun
     // documento della cartella dava il luogo.
     luogo: "Teatro Genova, Sassari",
@@ -842,6 +893,7 @@ export const OPERE: Opera[] = [
     titolo: "Coucher avec moi",
     anno: "2026",
     medium: "performance",
+    categoria: "performance",
     luogo: "Teatro Genova, Sassari",
     // PARZIALE: per ora solo i contenuti che Manuel ha marcato verdi. La
     // selezione vera si fa più avanti — è l'opera più recente e merita una

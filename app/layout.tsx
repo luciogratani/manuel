@@ -19,8 +19,21 @@ import "./globals.css";
 // essere voluto, era anche tecnicamente sbagliato: impedendo la scansione
 // nessun robot leggeva il `noindex` della pagina, e i robot delle anteprime —
 // WhatsApp, X, Slack — non prendevano nemmeno la card.
+// L'INDIRIZZO CANONICO. Ogni pagina dichiara qual è il suo unico URL vero, e
+// serve a una cosa sola ma importante: il sito deve farsi trovare cercando
+// «manuel casati», e un motore che vede la stessa pagina a più indirizzi
+// divide fra loro la forza del nome invece di sommarla.
+//
+// Gli indirizzi che si moltiplicano da soli sono tre: `www` contro il dominio
+// nudo, la barra finale, e le code di tracciamento che i social attaccano ai
+// link condivisi (`?fbclid=…`, `?utm_source=…`). Nessuna delle tre è una
+// pagina diversa, ma un robot non lo sa se non gliel'ha detto nessuno.
+//
+// Si scrive relativo — `/works`, non l'URL intero — perché `metadataBase` lo
+// completa: il giorno che il dominio cambia si tocca solo `lib/sito.ts`.
 export const metadata: Metadata = {
   metadataBase: SITO,
+  alternates: { canonical: "/" },
   title: {
     default: "Manuel Casati",
     // Le pagine che dichiarano un titolo proprio lo vedono completato qui, così

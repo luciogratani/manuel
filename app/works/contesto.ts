@@ -11,7 +11,7 @@ export type StatoIndice = {
   /** La categoria scelta nella banda, o `null`. Il motore la usa per
    *  attenuare le opere fuori categoria (`data-fuoricategoria` sulle celle,
    *  CSS in page.module.css) e per portare in vista la prima che vi rientra.
-   *  MOCK: oggi è un valore di `medium`, un domani un tag curato per opera. */
+   *  È una voce di `Categoria` (`lib/opere.ts`), curata per opera. */
   categoria: string | null;
   scegliCategoria: (categoria: string | null) => void;
 };

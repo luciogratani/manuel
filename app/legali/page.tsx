@@ -29,7 +29,14 @@ import styles from "./page.module.css";
 // servizio esterno, QUESTA PAGINA VA RISCRITTA per prima.
 
 export const metadata = {
+  alternates: { canonical: "/legali" },
   title: "Note legali",
+  // Chi arriva qui cerca una cosa precisa — di solito come far togliere una
+  // propria immagine. La descrizione lo dice subito, invece di ripetere cos'è
+  // l'archivio.
+  description:
+    "Diritti sulle opere, consenso delle persone ritratte e richieste di " +
+    "rimozione, natura dei contenuti e trattamento dei dati.",
 };
 
 /** L'indirizzo a cui si scrive per le richieste, lo stesso della chiusura di

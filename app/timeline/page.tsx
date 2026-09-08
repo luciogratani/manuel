@@ -23,6 +23,7 @@ import styles from "./page.module.css";
 // Il titolo si completa da sé col `template` della radice, quindi qui sta
 // solo la parola che distingue questa pagina dalle altre.
 export const metadata = {
+  alternates: { canonical: "/timeline" },
   title: "Cronologia",
   description:
     "Le opere di Manuel Casati sull'asse del tempo, dal 2013 a oggi, comprese quelle di cui l'archivio non ha ancora il materiale.",

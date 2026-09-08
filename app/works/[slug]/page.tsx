@@ -67,6 +67,7 @@ export async function generateMetadata({
   return {
     title: opera.titolo,
     description: descrizione,
+    alternates: { canonical: `/works/${opera.slug}` },
     // Le opere con nudo restano fuori dai motori — pagina e immagini. Il
     // `noimageindex` è quello che conta davvero: senza, la copertina potrebbe
     // finire in Google Immagini anche da una pagina non indicizzata.
@@ -329,9 +330,13 @@ export default async function Page({
           ))}
         </dl>
 
-        <p className={styles.compattaNota}>
-          note sull&apos;opera, il making of e i materiali collegati
-        </p>
+        {/* Qui c'era la stessa riga finta che stava sul desktop — «note
+            sull'opera, il making of e i materiali collegati» — ma senza la
+            condizione: la mostrava su tutte e ventitré le opere, anche dove i
+            crediti c'erano. Descriveva una funzione che non esiste in nessun
+            punto del progetto, ed era l'ultimo segnaposto del sito, sulla
+            vista che si apre dal telefono. Tolta il 9 settembre 2026, stessa
+            decisione già presa per le didascalie delle viste ravvicinate. */}
       </div>
     </div>
   );

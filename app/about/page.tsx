@@ -9,6 +9,7 @@ import styles from "./page.module.css";
 // Il titolo si completa da sé col `template` della radice, quindi qui sta
 // solo la parola che distingue questa pagina dalle altre.
 export const metadata = {
+  alternates: { canonical: "/about" },
   title: "About",
   description:
     "Manuel Casati, artista: performance sul corpo maschile e sul desiderio, costume e sartoria. Biografia, contatti e curriculum.",

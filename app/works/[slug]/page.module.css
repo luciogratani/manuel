@@ -535,8 +535,7 @@
     gap: 0.375rem;
   }
 
-  .compattaNota {
-    margin-top: 1.5rem;
-    opacity: 0.7;
-  }
+  /* `.compattaNota` stava qui: era la riga finta in coda ai crediti della
+     vista compatta, tolta insieme all'elemento (vedi il commento in
+     `page.tsx`). Il margine inferiore lo dà già `.compattaTesto`. */
 }

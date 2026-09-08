@@ -54,7 +54,9 @@ import styles from "./page.module.css";
 // fino alla prima che vi rientra. È una lente sull'archivio, non un filtro
 // che taglia: le opere restano tutte, al loro posto. Un input manuale annulla
 // lo scorrimento verso la categoria (`gsap.killTweensOf` in `spingi`).
-// MOCK: il criterio è il `medium` dell'opera; diventerà un tag curato.
+// Il criterio è `Opera.categoria` (`data-genere` sulla cella), non il
+// `medium`: sono due cose diverse, e finché la lente ha usato il medium
+// diceva il falso. Vedi il tipo `Categoria` in `lib/opere.ts`.
 
 /** Il fattore di smorzamento indipendente dal frame rate. */
 function smorza(fattore: number, dt: number) {
@@ -295,7 +297,7 @@ export function MotoreIndice({
 
     let primo = -1;
     for (let i = 0; i < celle.length; i++) {
-      const dentro = categoria === null || celle[i].dataset.medium === categoria;
+      const dentro = categoria === null || celle[i].dataset.genere === categoria;
       if (dentro) {
         delete celle[i].dataset.fuoricategoria;
         if (categoria !== null && primo < 0) primo = i;

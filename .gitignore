@@ -43,3 +43,9 @@ next-env.d.ts
 # editor
 .idea/
 .vscode/
+
+# media di scorta
+# I derivati che il sito serve sono tracciati; le versioni superate no. Il
+# master di ogni filmato vive in `01-assets/media`, quindi tenerne una copia
+# vecchia anche qui è solo peso.
+public/media/**/*_old.*

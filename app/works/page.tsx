@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { OPERE, RAPPORTO, descrizioneDi, formato, numerato } from "@/lib/opere";
+import { CATEGORIE, OPERE, RAPPORTO, descrizioneDi, formato, numerato } from "@/lib/opere";
 import { Banda, type Scheda } from "./banda";
 import { IndiceCompatta } from "./indice-compatta";
 import { MotoreIndice } from "./motore";
@@ -10,6 +10,7 @@ import styles from "./page.module.css";
 // Il titolo si completa da sé col `template` della radice, quindi qui sta
 // solo la parola che distingue questa pagina dalle altre.
 export const metadata = {
+  alternates: { canonical: "/works" },
   title: "Archivio",
   description:
     "Ventitré opere in una sequenza cronologica unica: moda, sartoria, performance, editoriale. L'indice si legge dalla più recente.",
@@ -46,14 +47,12 @@ const INDICE = [...OPERE].reverse();
  *  con la più recente a sinistra. Da qui in poi è stato, e vive nel motore. */
 const INIZIALE = 0;
 
-/** MOCK: tre voci reali del vocabolario di `lib/opere.ts` (il campo `medium`).
- *  Il meccanismo È collegato — sceglierne una nella banda attenua le opere
- *  con un `medium` diverso e scorre alla prima che combacia (`motore.tsx`) —
- *  ma il criterio è provvisorio: `medium` è «in che forma si è concretizzata
- *  l'opera», non «di che tipo è», e quasi tutte le opere hanno `medium: "—"`.
- *  Quando la curatela scrive un tag per opera, si cambia `data-medium` con
- *  quello e questa lista con le categorie vere. */
-const TAG = ["performance", "fotografia", "editoriale"];
+/* La lente non è più un mock. Le tre voci vengono da `CATEGORIE` in
+   `lib/opere.ts`, e ogni opera dichiara la sua: il criterio è un campo curato,
+   non il `medium` — che diceva «corsa itinerante» e «capsule collection e
+   performance», e teneva fuori dalla lente «performance» otto opere che lo
+   sono. Vedi il tipo `Categoria` per il perché sono tre e perché sette opere
+   restano senza. */
 
 export default function Page() {
   // I testi di TUTTE le opere: la banda ne mostra uno per volta, ma può
@@ -75,7 +74,7 @@ export default function Page() {
     // e le righe restano un fatto del foglio (vedi `--righe`).
     <div className={styles.pagina} style={{ "--opere": OPERE.length } as CSSProperties}>
       <div className={styles.motoreDesktop}>
-        <MotoreIndice iniziale={INIZIALE} banda={<Banda schede={schede} tags={TAG} />}>
+        <MotoreIndice iniziale={INIZIALE} banda={<Banda schede={schede} tags={CATEGORIE} />}>
           {INDICE.map((opera, i) => {
             const copertina = opera.scatti[0];
             const f = formato(copertina.w, copertina.h);
@@ -84,7 +83,7 @@ export default function Page() {
                 key={opera.slug}
                 className={styles.cella}
                 href={`/works/${opera.slug}`}
-                data-medium={opera.medium}
+                data-genere={opera.categoria}
                 style={{ "--i": i } as CSSProperties}
               >
                 <span className={styles.numero}>{numerato(opera.numero)}</span>

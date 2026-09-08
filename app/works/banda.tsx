@@ -58,9 +58,8 @@ export function Banda({ schede, tags }: { schede: Scheda[]; tags: string[] }) {
   // La categoria vive nel motore (contesto.ts): serve lì per attenuare le
   // celle e scorrere. Qui la banda la mostra e la commuta.
   //
-  // MOCK: `tags` sono tre valori di `medium`, uguali per ogni opera finché
-  // `lib/opere.ts` non ha un tag curato per opera — vedi il commento in
-  // `page.tsx`. Ri-cliccare la categoria attiva la spegne.
+  // `tags` sono le voci di `CATEGORIE` (`lib/opere.ts`), e ogni opera dichiara
+  // la sua. Ri-cliccare la categoria attiva la spegne.
 
   // `vivo` è la scheda in scena, `scia` quella che sta uscendo. Si aggiornano
   // in coppia, durante il render, quando `hover` è cambiato davvero: è il

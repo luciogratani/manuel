@@ -26,7 +26,13 @@ import styles from "./page.module.css";
 // annotata in `APERTI.md`.
 
 export const metadata = {
+  alternates: { canonical: "/cv" },
   title: "Curriculum",
+  // Propria e non ereditata dalla home: è la pagina che si cerca per nome, e
+  // dice cosa si trova QUI — un CV da scaricare — non cos'è il sito.
+  description:
+    "Il curriculum di Manuel Casati in PDF: mostre, performance, sfilate e " +
+    "collaborazioni dal 2013, con formazione e contatti.",
 };
 
 /** Il file servito. Il nome vive qui una volta sola: lo usano il visore, il
