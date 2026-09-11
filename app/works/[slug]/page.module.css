@@ -134,6 +134,9 @@
      che a riposo la mette sotto la linea di lettura (`LETTURA` in
      lib/mensola.ts, la quota dell'artboard). Un `padding-left` qui farebbe
      parte dell'anello e ci girerebbe dentro come un vuoto largo quanto lui.
+     Vale anche quando l'anello NON gira (striscia più corta del binario:
+     Le Rêve Lever, Don Giovanni): lì mensola.tsx trasla l'intera fila una
+     volta, che un `padding-left` non saprebbe rifare a ogni resize.
      La densità minima, che un anello non ce l'ha, se lo tiene. */
   padding-left: 0;
   padding-right: var(--x);

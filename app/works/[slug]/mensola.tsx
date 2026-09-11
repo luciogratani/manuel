@@ -202,9 +202,30 @@ export function Mensola({ children }: { children: ReactNode }) {
       /** Un anello ha senso solo se la sequenza è più lunga di ciò che si
        *  vede: sotto, girerebbe mostrando la stessa fotografia due volte nella
        *  stessa schermata. Venti opere su ventuno hanno uno scatto solo — la
-       *  densità minima del §4.1 — e per loro questo motore non deve nemmeno
-       *  accendersi. */
-      if (lastre.length < 2 || lunghezzaNaturaleRef.current <= striscia.clientWidth) return;
+       *  densità minima del §4.1 — e per loro il motore non si accende.
+       *
+       *  Resta un paio di opere tutte verticali (Le Rêve Lever, Don Giovanni) la
+       *  cui striscia non arriva a riempire il binario: la fila resta ferma, ma
+       *  la corrente va comunque portata sotto la linea di lettura. `.fila` ha
+       *  `padding-left: 0` proprio perché di norma ce la porta il motore, e
+       *  senza motore resterebbe incollata al bordo, staccata dal testo che la
+       *  racconta. Una traslazione statica gliela porta, rifatta a ogni resize
+       *  come farebbe il motore vero. */
+      if (lastre.length < 2 || lunghezzaNaturaleRef.current <= striscia.clientWidth) {
+        if (lastre.length < 2) return;
+        const allineaFerma = () => {
+          const c = lastreRef.current[correnteRef.current];
+          gsap.set(fila, { x: letturaRef.current - c.xNaturale });
+        };
+        allineaFerma();
+        const suResize = () => {
+          gsap.set(fila, { x: 0 });
+          misura();
+          allineaFerma();
+        };
+        window.addEventListener("resize", suResize);
+        return () => window.removeEventListener("resize", suResize);
+      }
 
       window.addEventListener("resize", misura);
 
