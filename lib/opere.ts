@@ -399,7 +399,7 @@ export const OPERE: Opera[] = [
     densita: "documentata",
     descrizione:
       "Servizio fotografico del 25 novembre 2015, di cui restano le tavole già " +
-      "impaginate. Nessun documento accompagna la cartella.",
+      "impaginate.",
     // Il nome del fotografo non viene da un documento — la cartella è muta —
     // ma da Lucio, l'8 settembre 2026: è l'«Anto» che dava il nome alla
     // cartella sorgente, `Ph Shoot Anto`. Con questa riga l'archivio non ha
