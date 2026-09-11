@@ -12,19 +12,18 @@ import styles from "./page.module.css";
 // da dire non entra in una riga.
 //
 // ── IL NOME DEL FILE ────────────────────────────────────────────────────────
-// La sorgente si chiama `Manuel_Delogu_CV.pdf`. Servito si chiama
+// La sorgente si chiama `Manuel_Casati_CV.pdf`. Servito si chiama
 // `manuel-casati-cv.pdf`: il §2.1 dice che il nome pubblico è Manuel Casati e
 // che l'anagrafe non va in pagina — e l'URL di un file scaricabile È pagina,
-// anzi è la sola parte che resta scritta sul computer di chi lo scarica.
-// Dentro il PDF il nome è già «Manuel Casati» (lo dice anche il titolo del
-// documento): era solo il nome del file a portare l'altro.
+// anzi è la sola parte che resta scritta sul computer di chi lo scarica. Il
+// nome servito non cambia quando cambia il PDF: qualcuno potrebbe averlo
+// salvato, e un URL che si sposta è un collegamento che si rompe.
 //
 // ── L'email ─────────────────────────────────────────────────────────────────
-// Il PDF porta in testa `manuelcasati89@gmail.com`, e per un po' il sito ne ha
-// mostrato un altro (`hello@manuelcasati.it`, una casella di servizio mai
-// aperta): chi scaricava il curriculum si trovava due strade diverse per la
-// stessa persona. Dal 9 settembre 2026 il sito usa quella del PDF — `EMAIL` in
-// `lib/sito.ts` — quindi qui non c'è più niente da riconciliare.
+// La versione del 10 settembre 2026 del CV NON porta più un indirizzo email in
+// testa (la precedente aveva `manuelcasati89@gmail.com`). L'indirizzo del sito
+// vive comunque una volta sola in `EMAIL` dentro `lib/sito.ts`: era quello del
+// PDF, ma ora il PDF tace e quella costante è l'unica sorgente rimasta.
 
 export const metadata = {
   alternates: { canonical: "/cv" },
@@ -32,21 +31,21 @@ export const metadata = {
   // Propria e non ereditata dalla home: è la pagina che si cerca per nome, e
   // dice cosa si trova QUI — un CV da scaricare — non cos'è il sito.
   description:
-    "Il curriculum di Manuel Casati in PDF: mostre, performance, sfilate e " +
-    "collaborazioni dal 2013, con formazione e contatti.",
+    "Il curriculum di Manuel Casati in PDF: il profilo di ricerca e le " +
+    "performance e mostre principali dal 2015 al 2026.",
 };
 
 /** Il file servito. Il nome vive qui una volta sola: lo usano il visore, il
  *  collegamento di scarico e il nome con cui il file arriva sul disco. */
 const FILE = "/cv/manuel-casati-cv.pdf";
 
-/** Dalla sorgente, non dall'occhio: `pdfinfo` dà due pagine A4 e la data di
+/** Dalla sorgente, non dall'occhio: `pdfinfo` dà una pagina A4 e la data di
  *  creazione, `du` la taglia. Come le misure dei derivati, si leggono dallo
  *  strumento e si scrivono qui. */
 const SCHEDA: [string, string][] = [
-  ["formato", "PDF, 2 pagine A4"],
-  ["peso", "3,2 MB"],
-  ["aggiornato", "2 settembre 2026"],
+  ["formato", "PDF, 1 pagina A4"],
+  ["peso", "19 KB"],
+  ["aggiornato", "10 settembre 2026"],
 ];
 
 export default function Page() {
@@ -56,8 +55,8 @@ export default function Page() {
         <h1 className={styles.titolo}>Curriculum</h1>
 
         <p className={styles.testo}>
-          Il curriculum di Manuel Casati: profilo, competenze, esperienze,
-          istruzione. Si può leggere qui sotto o scaricare.
+          Il curriculum di Manuel Casati: il profilo di ricerca e le
+          performance e mostre principali. Si può leggere qui sotto o scaricare.
         </p>
 
         {/* Il record del file, nell'idioma dell'apparato delle work page. */}
@@ -75,7 +74,7 @@ export default function Page() {
             succede — non «qui», che a un lettore di schermo non dice niente. */}
         <p className={styles.scarico}>
           <a className={styles.bottone} href={FILE} download>
-            Scarica il curriculum (PDF, 3,2 MB)
+            Scarica il curriculum (PDF, 19 KB)
           </a>
         </p>
       </div>

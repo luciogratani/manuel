@@ -38,10 +38,11 @@ export const SITO = new URL("https://www.manuelcasati.it");
  *  tre copie della stessa riga, ed è il momento in cui una costante si sposta.
  *
  *  È QUELLO DEL CV, non un indirizzo di servizio (scelta di Lucio, 9 settembre
- *  2026): il curriculum scaricabile porta in testa `manuelcasati89@gmail.com`,
+ *  2026): il curriculum scaricabile portava in testa `manuelcasati89@gmail.com`,
  *  e un sito che ne mostrava un altro dava a chi scrive due strade diverse per
  *  la stessa persona — con il dubbio, per chi arriva da un'open call, di quale
- *  delle due venga letta davvero. Prima o poi resta una scelta da rifare: un
- *  indirizzo sul proprio dominio è più solido di una casella gratuita, ma
- *  allora va cambiato ANCHE nel PDF, che è la sorgente. */
+ *  delle due venga letta davvero. Dal 10 settembre 2026 il PDF non stampa più
+ *  alcun indirizzo, quindi questa costante è l'unica sorgente rimasta. Prima o
+ *  poi resta una scelta da rifare: un indirizzo sul proprio dominio è più
+ *  solido di una casella gratuita. */
 export const EMAIL = "manuelcasati89@gmail.com";

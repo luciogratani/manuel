@@ -1,9 +1,9 @@
 /* Il curriculum.
 
-   Come `/legali`, è una pagina fatta per essere LETTA e quindi scorre: un
-   documento di due pagine A4 non si impagina su una schermata sola. Il resto è
-   l'idioma di sempre — margini a `2x`, apparato a 14px, la riga dei contenuti
-   a 136px.
+   Come `/legali`, è una pagina fatta per essere LETTA e quindi scorre: una
+   pagina A4 non si impagina comoda su una schermata sola, e il visore del PDF
+   vuole comunque la sua altezza. Il resto è l'idioma di sempre — margini a
+   `2x`, apparato a 14px, la riga dei contenuti a 136px.
 
    La colonna è quella di `/legali` (34rem): qui il testo è poco, ma la misura
    deve essere la stessa delle altre pagine di lettura, se no due pagine sorelle
