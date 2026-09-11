@@ -1,159 +1,98 @@
-# Handoff — 8 settembre 2026
+# Handoff — 11 settembre 2026
 
-Due giorni sui **contenuti**, e in fondo il §8. L'archivio è passato da opere
-segnaposto a **ventitré opere vere**: 334 fotografie scelte a mano, 16 filmati
-che adesso **si vedono in pagina**, tutti i testi, tutti i crediti che i
-documenti danno. Branch `dopo-helper`, albero pulito,
-`typecheck`/`lint`/`build` verdi, 379 pagine. Quattordici commit, da `3b2a4f6`
-a `77804c9`.
+Tre blocchi di lavoro in una sessione: il **CV** sostituito, la **mensola di
+Don Giovanni** rimessa in riga, e una **lista di ritocchi di curatela** data da
+Lucio. `typecheck` e `lint` verdi. Non c'è stato un branch: i commit vanno su
+`main`, come tutta la storia recente del repo.
 
 Questo documento è **datato e si consuma**. Ciò che resta vero nel tempo sta in
-`APERTI.md`, aggiornato passo per passo.
+`APERTI.md`. **Leggi quello per secondo, dopo `AGENTS.md`.**
 
 ---
 
-## 1. Lo stato, in una riga
+## 1. Il CV (`/cv`)
 
-Il §6.1 — la curatela dell'archivio, che la guida dà come **bloccante** — è
-fatto. Quello che manca adesso non sono più i contenuti: è **il video, che
-nessuna pagina mostra**.
+Sostituito con la versione del **10 settembre 2026**: una pagina, ~19 KB,
+LibreOffice. `app/cv/page.tsx` è allineato (scheda, peso, data).
 
-## 2. Cosa è cambiato
+- **Non porta più email né fotografia** in testa (la vecchia aveva
+  `manuelcasati89@gmail.com` e un ritratto). I due dubbi «prima di pubblicare»
+  segnati in `APERTI.md` sono chiusi dal file stesso.
+- **`EMAIL` in `lib/sito.ts` resta `manuelcasati89@gmail.com`** — il valore non
+  cambia, ma il PDF non ne è più la sorgente perché ora tace. Commento
+  aggiornato lì.
+- La nuova versione è **più asciutta**: niente formazione, niente chiusura
+  «14 novembre» per A Boy's Closet. Le decisioni del 7 settembre basate su
+  quelle righe **restano valide** (non contraddette), ma i commenti in
+  `app/about/page.tsx` e `lib/opere.ts` che citano `public/cv/` come prova ora
+  puntano a un file che quel dettaglio non ha più.
+- **Corsa Futurista**: il CV dice ancora «2015–2024». Contraddizione con
+  l'archivio invariata (vedi `APERTI.md`).
 
-### I filmati sono nei dati, e in nessuna pagina
+## 2. La mensola di Don Giovanni
 
-`Filmato` sta accanto a `Scatto`, non dentro: `scatti.length` deve restare il
-conteggio delle fotografie (§3.3). Il rapporto non passa da `formato()` — i
-cinque formati sono fotografici, e accostarci un 2,35:1 vuol dire ritagliare
-l'inquadratura del videomaker.
+**Il bug segnalato**: lo scroll non scrollava e la foto in evidenza non era
+allineata alla colonna di testo. Una sola causa: la guardia dell'anello a
+`mensola.tsx:207` scatta (striscia più corta del binario, ~40px) e nel ramo
+che esce subito **nessuno portava la lastra corrente sotto la linea di
+lettura** — `.fila` ha `padding-left: 0` apposta, di norma ce la porta il
+motore.
 
-`scripts/filmati.sh` deriva per ogni filmato l'intero (H.264, CRF 25, lato
-lungo 1600, max 30 fps, `+faststart`), un'anteprima muta di dieci secondi
-sopra i trenta secondi di durata, e un poster.
+**Il fix** (`mensola.tsx`): nel ramo fermo la fila viene traslata una volta (e
+a ogni resize) per allineare la corrente. La striscia **resta non scorrevole**
+— è documentato come accettabile in `APERTI.md`, e la sezione «mensola» lì
+spiega perché non conviene forzare l'anello con una guardia più generosa
+(oscilla attorno alla soglia al variare dell'altezza della finestra).
 
-**E dal 8 settembre si vedono.** `components/filmato.tsx` ha due modi: `Muto`
-nella mensola — poster fermo, movimento all'hover, `preload="none"`, nessun
-audio — e `Intero` nella vista ravvicinata, l'unico posto del sito dove un
-filmato suona (media-chrome). Le due viste dell'opera scorrono `materiali()` e
-non `scatti`.
+Verificato a schermo: `delta` corrente ↔ `.scheda` = **0**. Le Rêve Lever
+invece **l'anello lo accende** — le 7 foto aggiunte il 7 settembre l'hanno
+portata oltre il binario; `APERTI` che la dava ancora ferma era stale, corretto.
 
-I **fermi immagine** non entrano fra i materiali: `Scatto.fermoImmagine` marca
-il fotogramma che esiste solo per fare da copertina, e nella mensola di
-un'opera solo-video c'è il filmato e basta.
+## 3. Ritocchi di curatela (Lucio, 11 settembre)
 
-### L'archivio, opera per opera
+Tutti in `lib/opere.ts` salvo dove detto. Nessuno slug è cambiato, nessun URL.
 
-Ventuno opere, tutte con fotografie scelte da Manuel e Lucio, non pescate in
-ordine alfabetico. Da sapere:
-
-- **Corsa Futurista sono cinque opere**, una per edizione (I 2015, II 2016,
-  III 2018, IV 2019, VI 2023 — la V manca, ed è l'unica a cui Manuel non ha
-  partecipato). Si distribuiscono lungo tutta la cronologia.
-- **«Antropologia» era LOVE AND EAT** e **«Seduta spiritica» era Oser Savoir**:
-  due opere che sembravano senza sorgente perché portavano il nome sbagliato.
-- **Fuori dall'archivio**: The Red White Horse, Marie Antoinette in thr Fridge,
-  Editoriale x Vogue, l'Istituto d'Arte Filippo Figari, Bozzetti, Biglietto da
-  visita, Sketch for Casati Project.
-- La sequenza è **cronologica sul serio** e rinumerata 01→21 tre volte, perché
-  ogni datazione nuova la rimescolava. Il numero è apparato: gli slug non lo
-  contengono, quindi nessun URL è mai cambiato.
-
-### Le regole di selezione
-
-Le ha dette Lucio e valgono per il futuro: **tag rosso del Finder = escluso**,
-**verde = da includere** (se è l'unico, è la copertina), **`Verde, Arancio` =
-la copertina** quando i verdi sono molti. I tag sono in italiano — `Rosso`,
-`Verde`, `Arancio` — e si leggono con
-`mdfind -onlyin <cartella> "kMDItemUserTags == 'Verde'"`.
-
-### Testi e crediti
-
-Tutte e ventuno hanno un testo. Dove i documenti esistono il testo viene da
-lì; dove non esistono dice cosa si sa e dichiara che la cartella è muta.
-**Nessun testo di riempimento**: un'opera non raccontata si deve vedere.
-
-`Credito` è una tupla `[ruolo, nome]`, e le righe stanno nella terza colonna.
+| opera | cosa |
+|---|---|
+| **Candide a palazzo Guillot** | tolta dalla descrizione la frase-nota «Nessun documento accompagna questa cartella…». Il credito «foto: Blanka Meccanica» era già nei crediti. |
+| **Editorial Blanka** → **Editoriale per KALTBLUT** | titolo e descrizione (le foto le ha pubblicate KALTBLUT Magazine, Berlino). **Slug invariato** `editorial-blanka` — un nome già servito non si sposta. Aggiornato anche `lib/timeline.ts`. |
+| **Apoteosi** | tolta la foto **17** (un backstage). File `17.jpg` cancellato. La sequenza salta 16 → 18: nessuno legge il nome del file. `scatti: 17`. |
+| **The Missing** | **anno 2019 → 2018** (Lucio). Scavalca la IV Corsa Futurista (2019): array riordinato, **numero 12 → 11**, e corsa-futurista-iv **11 → 12**. Copertina → foto **2** (i quattro ensemble nel campo). Aggiornato `lib/timeline.ts`. |
+| **Corsa Futurista — VI** | copertina → foto **7**. Tuple riordinati, file non rinominati. |
+| **Don Giovanni** | tolta la foto **11** (la locandina dello spettacolo — grafica, non fotografia). File `11.jpg` cancellato. `scatti: 10`. La mensola è ancora più corta di prima, ma il fix del punto 2 la tiene allineata. |
+| **`/about`** | vedi `APERTI.md` › «Recapiti»: tolta la colonna «il nome», curriculum e note legali separati (restano 4 colonne), la voce in cima attribuita a **Manuel Casati**, la citazione di Luisa Casati in fondo **tenuta**. |
 
 ---
 
-## 3. Da controllare a mano
+## 4. Da controllare a mano
 
-Verificato in Chrome a 1440×900 su tutte e ventuno le opere, misurando le
-sovrapposizioni invece di guardarle: **nessun testo sopra le fotografie,
-nessun overflow orizzontale**, vista compatta provata a 375 e 820px.
+1. **Le nuove copertine con l'occhio**: `the-missing/02.jpg`, `corsa-futurista-vi/07.jpg`
+   — scelte di Lucio, viste in derivato ma non su tutte le viste (indice,
+   cronologia, card OG).
+2. **`/about`**: la ripetizione «Manuel Casati» (`<h1>`) + «— Manuel Casati»
+   (attribuzione della voce) a cinque righe di distanza. Se stona, l'alternativa
+   è togliere la riga dell'attribuzione. Vedi `APERTI.md`.
+3. **`shooting-editoriale` (numero 6)** ha la stessa frase-nota di Candide:
+   «Nessun documento accompagna la cartella.» Non toccata — Lucio ha segnalato
+   solo Candide. Da decidere se vale lo stesso taglio.
+4. **`public/media/scatti.txt`** è un referto generato e **già monco** (vedi
+   `APERTI.md`). Non l'ho toccato: contiene ancora `apoteosi|17`, e non ha mai
+   avuto don-giovanni né the-missing. Si sistema rigenerandolo con
+   `scripts/scatti.sh`, non a mano.
 
-Restano da guardare con gli occhi:
+## 5. Cosa resta aperto (invariato da prima)
 
-1. **La striscia di `/works` con ventuno opere**, e Corsa Futurista che ora la
-   scandisce a intervalli dal 2015 al 2023 invece di stare tutta insieme.
-2. **Lo scorrimento dell'indice con una rotellata vera.** La memoria della
-   posizione è verificata (chiedendo 900 riprende a −900, un valore assurdo
-   viene limitato allo scorrimento massimo), ma il moto no: gli eventi `wheel`
-   sintetici non arrivano all'Observer di GSAP, e la finestra di prova non
-   saliva sopra i 789px di viewport, dove il motore è spento.
-3. **Le mensole più lunghe** — Glamour Confusion ha 77 fotografie, Candide 30,
-   Editorial Blanka 19.
-
----
-
-## 4. Il tetto delle 330 battute
-
-L'apparato della work page ha **169px verticali**: il testo attacca a 136, le
-fotografie a 305. Con la colonna larga 416px ci stanno **~330 battute**. Oltre,
-il testo finisce sulle fotografie, e **niente nel codice lo impedisce** — non
-è un contenitore che taglia, è una posizione assoluta che non se ne accorge.
-
-Chi scrive i prossimi testi deve saperlo. Se un'opera meritasse più spazio, la
-strada non è stringere la scrittura ma abbassare la mensola, e quella è una
-decisione sull'artboard.
+Tutto ciò che era in `APERTI.md` e non è nominato qui sopra: i testi di
+`/about` (segnaposto), le didascalie per-foto, i tag/filtro dell'indice (MOCK),
+la revisione legale, il montaggio di Coucher e l'hero della home, Corsa
+Futurista (arco 2015/2024 vs archivio), «BDSM» senza cartella, il campo `nudo`
+come prima passata, i file orfani in `public/media/indice/`.
 
 ---
 
-## 5. Cosa manca
-
-~~**Da guardare per primo, perché non è mai stato visto muoversi**: la lastra
-del filmato nella mensola.~~ **Guardata il 7 settembre 2026, in una scheda in
-primo piano**: la lastra si muove. Su Funeral Rave il `pointerenter` fa partire
-l'anteprima, il video sale in dissolvenza sopra il poster (0,45s) e il
-fotogramma a schermo è davvero il filmato, non la copertina. Muta, come deciso.
-
-~~**Una domanda aperta che si chiude guardando**: i filmati stanno in coda alle
-fotografie, ma la mensola è un anello, quindi entrando in un'opera compaiono
-per primi, a sinistra della corrente. Non è sbagliato — è l'opposto di «in
-coda». Vale per Feral (tre teaser) e Funeral Rave.~~ **Chiusa da Lucio il 7
-settembre 2026, guardando**: non è un problema, i filmati restano in coda. Il
-dettaglio sta in `APERTI.md`, che è dove le decisioni durano.
-
-Poi, in ordine sparso: i testi di `/about`, ancora segnaposto; la `.nota` della
-work page, ancora segnaposto; le didascalie per-foto (`Scatto.didascalia`) mai
-compilate; i tag/filtro dell'indice, ancora MOCK; la revisione legale; il
-montaggio di Coucher che farà Lucio, e con lui l'hero della home; il crop degli
-altri filmati, da controllare con l'occhio con cui è stato trovato quello di
-Sauvage; «Alex Ilushenka» contro «Aliaksandr Ilyushenka», due grafie della
-stessa persona; **BDSM**, voce di cronologia senza nessuna cartella; e le tre
-opere che mancherebbero per arrivare a 26 — se 26 regge dopo sette esclusioni,
-ed è una domanda per Manuel.
-
----
-
-## 6. Due cose imparate
-
-**L'EXIF Orientation.** Tredici sorgenti su 332 hanno i pixel orizzontali e
-l'immagine vera verticale. `sips -Z` conserva pixel e tag: il file misura
-1600×1200 e il browser mostra 1200×1600, quindi le misure dichiarate sarebbero
-rovesciate e la cornice ritaglierebbe l'immagine sbagliata. `scatti.sh` usa
-ffmpeg, che l'orientamento lo applica scrivendo, con `-map_metadata -1`. Se un
-domani si torna a `sips`, il problema torna con lui.
-
-**Guardare i derivati, non fidarsi del referto.** Quel bug è emerso solo
-perché ho aperto una copertina per controllarla e l'ho vista verticale mentre
-il referto la diceva orizzontale.
-
----
-
-## 7. E la cosa più importante
+## E la cosa più importante
 
 **La guida di progetto è fuori da questo repository.** Ogni `§` citato nei
-commenti è una parafrasi. In questi due giorni il §3.3, il §4.1 e il §8 sono
-stati usati parecchio per giustificare decisioni. **Chiedi la guida prima di
-fidarti di un `§`.**
+commenti è una parafrasi scritta da una sessione precedente, non la fonte.
+**Chiedi la guida prima di fidarti di un `§`**, soprattutto prima di usarne uno
+per giustificare una decisione.

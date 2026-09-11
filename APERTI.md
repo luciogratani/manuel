@@ -216,7 +216,28 @@ dominio del sito non ha più nessun indizio a sostenerlo — vedi il commento
 accanto a `SITO`: il giorno che si passa a un indirizzo sul dominio proprio, va
 cambiato **anche nel PDF**, che è la sorgente.
 
-## La mensola: i registri sono larghezze, e due opere restano ferme
+**11 settembre 2026 — CV sostituito, ed è una versione più asciutta.** Il file
+servito (`public/cv/manuel-casati-cv.pdf`, nome invariato) è ora la versione del
+10 settembre 2026: **una pagina, ~19 KB**, LibreOffice. `app/cv/page.tsx` — la
+`SCHEDA`, il peso del collegamento, la data — è allineato.
+
+Conseguenze:
+
+- **Le due cose da guardare prima di pubblicare non ci sono più.** Niente
+  indirizzo email in testa (la vecchia aveva `manuelcasati89@gmail.com`), niente
+  fotografia di Manuel. Il commento accanto a `EMAIL` in `lib/sito.ts` è
+  aggiornato: quella costante è ora l'unica sorgente dell'indirizzo, il PDF tace.
+- **Il CV non conferma più il dettaglio che citava.** La nuova versione è bio +
+  «Performance e mostre principali» e basta: **nessuna sezione formazione**
+  (Liceo Figari, Accademia Sironi), nessuna chiusura per A Boy's Closet
+  («14 novembre»), nessun contatto. Le decisioni prese il 7 settembre da quelle
+  righe **restano valide** — la nuova versione non le contraddice — ma i commenti
+  che rimandano a `public/cv/` come prova (`app/about/page.tsx`, `lib/opere.ts`)
+  ora puntano a un file che quel dettaglio non ha più.
+- **Corsa Futurista: il CV dice ancora «2015–2024».** La contraddizione con
+  l'archivio (edizioni I–IV + VI, la V manca, il 2024 non c'è) è invariata.
+
+## La mensola: i registri sono larghezze, e una striscia resta ferma
 
 **7 settembre 2026.** I tre registri della mensola — alta, media, bassa — erano
 **altezze** (182 / 137 / 68), e la larghezza la decideva il rapporto della
@@ -237,27 +258,39 @@ c'è nessuna sovrapposizione fra testo e lastre in nessuna pagina.
 
 ### Quello che NON è stato risolto
 
-**Le Rêve Lever e Don Giovanni hanno ancora la mensola ferma.** Il motore
-dell'anello non si accende sotto una soglia — `lunghezzaNaturaleRef <=
-striscia.clientWidth` in `mensola.tsx` — e la guardia è giusta: un anello più
-corto del binario girerebbe mostrando la stessa fotografia due volte nella
-stessa schermata. Ma le due strisce restano corte:
+**Il motore dell'anello non si accende sotto una soglia** —
+`lunghezzaNaturaleRef <= striscia.clientWidth` in `mensola.tsx` — e la guardia è
+giusta: un anello più corto del binario girerebbe mostrando la stessa
+fotografia due volte nella stessa schermata.
 
-| opera | prima | adesso | binario |
-|---|---|---|---|
-| Le Rêve Lever | 778 | **918** | 1440 |
-| Don Giovanni | 1177 | **1391** | 1440 |
-| Funeral Rave | 1487 | 1537 | 1440 |
+| opera | 7 set | oggi | binario | anello |
+|---|---|---|---|---|
+| Le Rêve Lever | 918 | **~2157** | ~1480 | **sì** — le 7 foto aggiunte il 7 set l'hanno portata oltre |
+| Funeral Rave | 1537 | 1537 | ~1480 | sì, per ~97px |
+| Don Giovanni | 1391 | **~1442** | ~1480 | **no** — corta di ~40px |
 
-Funeral Rave passava per undici pixel e adesso ne ha novantasette: quella era
-la cosa fragile, ed è sistemata. Le altre due no, **e non lo saranno
-allargando le lastre**: provato: per far arrivare Le Rêve al binario servirebbe
-un tetto sui 300px, e a quell'altezza la lastra corrente sale sopra il testo. È
-una decisione sull'artboard e non un numero da girare — o si abbassa la
-mensola, o si accetta che un'opera tutta verticale con otto materiali abbia una
-fila ferma invece di un anello.
+**11 settembre 2026 — solo Don Giovanni resta ferma, e ora è allineata.** Il
+guaio non era che non scorresse (`APERTI` lo accetta già): era che, ferma, la
+lastra corrente restava incollata al bordo sinistro invece di stare sotto la
+colonna di testo. `.fila` ha `padding-left: 0` apposta — di norma ce la porta il
+motore — e nel ramo che esce subito nessuno la spostava. Ora `mensola.tsx`
+trasla la fila una volta (e a ogni resize) nel ramo fermo: `delta` corrente ↔
+`.scheda` misurato a **0**.
 
-Nel frattempo la fila ferma non è rotta: si vede tutto, non scorre.
+**Perché non le si fa scorrere aggiungendo una guardia più generosa.** Provato:
+misurare la striscia con la corrente alla larghezza ingrandita (non al registro)
+dà ~1573px su una finestra alta 857 → passerebbe. Ma su una finestra alta 800 lo
+stesso conto dà ~1472 → non passa: la scala d'altezza del sito la fa oscillare
+proprio attorno alla soglia, e lo scroll si accenderebbe e spegnerebbe
+ridimensionando di poco la finestra. Peggio di una fila ferma coerente.
+
+**Per farla scorrere davvero** servono più materiali, come Le Rêve: la striscia
+deve superare il binario con margine comodo (~1900px+ ⇒ ~4–5 lastre in più).
+È curatela, decisione di Manuel e Lucio. Toglierne non aiuta mai — accorcia
+soltanto.
+
+Nel frattempo la fila ferma di Don Giovanni non è rotta: si vede tutto,
+allineata al testo, non scorre.
 
 ## `/works` legge dalla più recente, e i tag aspettano
 
@@ -822,6 +855,20 @@ del tutto (6 settembre 2026, scelta di Lucio): i canali di contatto sono email
 e social, non un numero. Mancano ancora, se serviranno: un indirizzo postale e,
 se un giorno ci sarà una partita IVA o una ragione sociale, la riga che nel
 riferimento stava in fondo e che qui è occupata dalla citazione di Luisa Casati.
+
+**11 settembre 2026 — la chiusura di `/about` è cambiata (Lucio).**
+
+- La **colonna «il nome»** («Delogu di nascita. Casati per scelta, dalla
+  Marchesa Luisa Casati») è stata tolta. Le quattro colonne restano quattro:
+  curriculum e note legali, prima insieme sotto «documenti», ora una ciascuna.
+- La **citazione di Luisa Casati** in fondo **resta** (scelta di Lucio): ora
+  però arriva senza la colonna che la introduceva. Se un domani dà fastidio,
+  è in `page.tsx` (`.citazione`).
+- La **voce in cima** («Non voglio le domande, ma spogliare le risposte.») **è
+  di Manuel** — confermato, non più «nome da chiedere». L'attribuzione porta
+  «Manuel Casati». Sotto l'`<h1>` che dice lo stesso nome: se la ripetizione
+  stona, l'alternativa è togliere del tutto la riga dell'attribuzione (una
+  citazione senza nome, in cima alla pagina di qualcuno, è già sua).
 
 ---
 

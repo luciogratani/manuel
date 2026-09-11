@@ -302,8 +302,10 @@
 
 /* ── La citazione ─────────────────────────────────────────────────────────────
    La barra bassa del riferimento portava ragione sociale e partita IVA, che
-   qui non esistono. Al loro posto la voce da cui viene il cognome: `Casati` è
-   una scelta, non un'anagrafe, e questa è la pagina in cui dirlo. */
+   qui non esistono. Al loro posto la citazione di Luisa Casati. La colonna
+   «il nome» che la introduceva — «Casati per scelta, dalla Marchesa…» — è
+   stata tolta l’11 settembre 2026; la citazione resta comunque (scelta di
+   Lucio), quindi ora arriva senza quella riga a prepararla. */
 .citazione {
   position: absolute;
   bottom: var(--margine);

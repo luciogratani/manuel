@@ -215,21 +215,19 @@ export const VOCI: Voce[] = [
   // archivio la maiuscola integrale non è un dato del titolo.
   { titolo: "Retrospettiva", anno: 2024, medium: "mostra personale", luogo: "Gebaude Gallery, Sassari" },
   { titolo: "Ombre Corte", anno: 2026, medium: "performance", luogo: "MAST, San Teodoro" },
-  { titolo: "Editorial Blanka", anno: 2016, medium: "editoriale", luogo: "—", slug: "editorial-blanka" },
-  { titolo: "The Missing", anno: 2019, medium: "—", luogo: "—", slug: "the-missing" },
+  { titolo: "Editoriale per KALTBLUT", anno: 2016, medium: "editoriale", luogo: "—", slug: "editorial-blanka" },
+  { titolo: "The Missing", anno: 2018, medium: "—", luogo: "—", slug: "the-missing" },
 ];
 
-// The Missing ed Editorial Blanka adesso ci sono, e la loro data è una
-// COLLOCAZIONE e non una datazione: viene dalla data di copia dei file
-// (novembre 2019 e dicembre 2016), non da un documento e non dallo scatto.
-// Decisione di Lucio il 7 settembre 2026, presa sapendo cos'è — e per questo
-// l'anno vive solo nel campo `anno`, mai nella descrizione dell'opera.
+// Editoriale per KALTBLUT (l’ex «Editorial Blanka») è del 2016 per
+// COLLOCAZIONE — la data di copia dei file, dicembre 2016 — non per datazione,
+// quindi l’anno vive solo nel campo `anno`. The Missing invece è del 2018:
+// l’ha datata Lucio l’11 settembre 2026, e prima era ferma al novembre 2019
+// della copia. Con la data vera scavalca la IV Corsa Futurista.
 //
-// Quella di Blanka ha rimescolato la sequenza: da 2016 l'opera è salita di
-// quattro posti in `lib/opere.ts`, e con lei si sono rinumerate Apoteosi, la
-// III e la IV Corsa Futurista e The Missing. È la terza volta che succede, ed
-// è il §3.3 che funziona: il numero è apparato, lo slug è nome, e nessun URL
-// è cambiato.
+// Rinumerazioni: Blanka nel 2016 fece salire l’opera di quattro posti in
+// `lib/opere.ts`; The Missing nel 2018 ne scambia due (11 ↔ 12). Ogni volta
+// il §3.3 regge: il numero è apparato, lo slug è nome, nessun URL cambia.
 
 export const ANNI = Array.from({ length: FINE - INIZIO + 1 }, (_, i) => INIZIO + i);
 

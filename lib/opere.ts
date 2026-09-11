@@ -237,9 +237,7 @@ export const OPERE: Opera[] = [
     luogo: "Palazzo Guillot, Alghero",
     densita: "documentata",
     descrizione:
-      "Intervento a Palazzo Guillot, ad Alghero, il 21 settembre 2013. " +
-      "Nessun documento accompagna questa cartella: restano le fotografie di " +
-      "Blanka Meccanica.",
+      "Intervento a Palazzo Guillot, ad Alghero, il 21 settembre 2013.",
     scatti: foto("candide-a-palazzo-guillot",
       ["01", 960, 640], ["02", 640, 960], ["03", 960, 640],
       ["04", 640, 960], ["05", 960, 693], ["06", 960, 640],
@@ -448,17 +446,24 @@ export const OPERE: Opera[] = [
   // È il motivo per cui questa voce è salita di quattro posti: la sequenza è
   // cronologica per regola (§3.3), e datare un'opera la rimescola. Gli slug non
   // contengono il numero, quindi nessun URL è cambiato.
+  //
+  // Il titolo era «Editorial Blanka» (dal nome della cartella sorgente); l'ha
+  // rinominata Lucio l'11 settembre 2026, sapendo che le fotografie le ha
+  // pubblicate KALTBLUT Magazine. Lo slug resta `editorial-blanka` per non
+  // spostare un URL già servito (§3.3: il numero è apparato, lo slug è nome, ma
+  // un nome già pubblicato non si cambia sotto i piedi di chi l'ha salvato).
   {
     numero: 8,
     slug: "editorial-blanka",
-    titolo: "Editorial Blanka",
+    titolo: "Editoriale per KALTBLUT",
     anno: "2016",
     medium: "editoriale",
     categoria: "editoriale",
     luogo: "—",
     densita: "documentata",
     descrizione:
-      "Servizio editoriale fotografato da Blanka Meccanica.",
+      "Servizio editoriale fotografato da Blanka Meccanica, pubblicato da " +
+      "KALTBLUT Magazine.",
     crediti: [["foto", "Blanka Meccanica"]],
     scatti: foto("editorial-blanka",
       ["01", 787, 1181], ["02", 1181, 787], ["03", 1181, 787],
@@ -485,13 +490,16 @@ export const OPERE: Opera[] = [
       "Aktionismus. Tre parti — lo shooting per la locandina con Raffaella " +
       "Ariano, la sfilata al Liceo Artistico Figari di Sassari il 6 maggio 2017, " +
       "e quella nella mostra a Lu Quarter di Alghero.",
+    // La 17 — un backstage — l'ha tolta Lucio l'11 settembre 2026. Il file
+    // `17.jpg` è stato cancellato; la sequenza salta da 16 a 18, e va bene:
+    // nessuno legge il nome del file, conta l'ordine di questo array.
     scatti: foto("apoteosi",
       ["01", 820, 545], ["02", 1600, 1066], ["03", 1600, 1066],
       ["04", 1600, 1066], ["05", 545, 820], ["06", 545, 820],
       ["07", 820, 545], ["08", 1600, 1066], ["09", 1600, 1058],
       ["10", 1600, 1066], ["11", 1600, 1066], ["12", 1600, 1066],
       ["13", 1600, 1067], ["14", 1063, 708], ["15", 1600, 1066],
-      ["16", 1600, 1066], ["17", 1600, 1066], ["18", 1600, 1066],
+      ["16", 1600, 1066], ["18", 1600, 1066],
     ),
     crediti: [
       ["modella, locandina", "Raffaella Ariano"],
@@ -524,8 +532,38 @@ export const OPERE: Opera[] = [
       ["nell'ambito di", "Monumenti Aperti"],
     ],
   },
+  // The Missing è del 2018 (Lucio, 11 settembre 2026). Prima l'anno veniva
+  // dalla data di COPIA dei file (novembre 2019) ed era una collocazione, non
+  // una datazione. Con la data vera l'opera scavalca la IV Corsa Futurista
+  // (2019) e la sequenza si rinumera: il numero è apparato, lo slug è nome,
+  // nessun URL cambia (§3.3). È la quarta volta che succede.
   {
     numero: 11,
+    slug: "the-missing",
+    titolo: "The Missing",
+    anno: "2018",
+    medium: "—",
+    luogo: "—",
+    densita: "documentata",
+    // Copertina: la 2 (Lucio, 11 settembre 2026) — i quattro ensemble insieme
+    // nel campo. I file non si rinominano, è l'ordine di questo array a
+    // decidere `scatti[0]`.
+    descrizione:
+      "Una capsule di quattro ensemble ispirata all'ultimo decennio del " +
+      "Settecento: un omaggio a Marie Antoinette e ai suoi abiti chiari del " +
+      "Trianon, con un forte riferimento a Picnic ad Hanging Rock.",
+    scatti: foto("the-missing",
+      ["02", 1200, 800],
+      ["01", 1200, 800], ["03", 800, 1200],
+      ["04", 800, 1200], ["05", 800, 1200], ["06", 1200, 800],
+      ["07", 1200, 800], ["08", 800, 1200], ["09", 1200, 800],
+      ["10", 800, 1200], ["11", 1200, 800], ["12", 1200, 800],
+      ["13", 800, 1200], ["14", 800, 1200], ["15", 800, 1200],
+    ),
+    crediti: [["foto", "Giuseppe Esposito"]],
+  },
+  {
+    numero: 12,
     slug: "corsa-futurista-iv",
     titolo: "Corsa Futurista — IV edizione",
     anno: "2019",
@@ -545,33 +583,6 @@ export const OPERE: Opera[] = [
       ["in collaborazione con", "Club il Volante"],
       ["nell'ambito di", "Monumenti Aperti"],
     ],
-  },
-  // Come per Editorial Blanka: l'anno viene dalla data di COPIA dei file
-  // (novembre 2019), non da un documento e non dallo scatto. Decisione di Lucio
-  // il 7 settembre 2026. Vale come collocazione, non come datazione — per
-  // questo sta nel campo `anno` e NON nella descrizione, dove suonerebbe come
-  // un fatto accertato.
-  {
-    numero: 12,
-    slug: "the-missing",
-    titolo: "The Missing",
-    anno: "2019",
-    medium: "—",
-    luogo: "—",
-    densita: "documentata",
-    // La copertina è il file che Manuel ha marcato verde.
-    descrizione:
-      "Una capsule di quattro ensemble ispirata all'ultimo decennio del " +
-      "Settecento: un omaggio a Marie Antoinette e ai suoi abiti chiari del " +
-      "Trianon, con un forte riferimento a Picnic ad Hanging Rock.",
-    scatti: foto("the-missing",
-      ["01", 1200, 800], ["02", 1200, 800], ["03", 800, 1200],
-      ["04", 800, 1200], ["05", 800, 1200], ["06", 1200, 800],
-      ["07", 1200, 800], ["08", 800, 1200], ["09", 1200, 800],
-      ["10", 800, 1200], ["11", 1200, 800], ["12", 1200, 800],
-      ["13", 800, 1200], ["14", 800, 1200], ["15", 800, 1200],
-    ),
-    crediti: [["foto", "Giuseppe Esposito"]],
   },
   // La data viene dal nome della cartella («09-10-020», che nel formato delle
   // altre — gg-mm-aa — è il 9 ottobre 2020 con uno zero di troppo); il CV
@@ -730,10 +741,13 @@ export const OPERE: Opera[] = [
     densita: "documentata",
     descrizione:
       "Una corsa itinerante per la città, con soste nei monumenti storici aperti per l'occasione. VI edizione, 7 maggio 2023.",
+    // Copertina: la 7 (scelta di Lucio, 11 settembre 2026). I file non si
+    // rinominano — è l'ordine di questo array a decidere qual è `scatti[0]`.
     scatti: foto("corsa-futurista-vi",
+      ["07", 960, 1280],
       ["01", 853, 1280], ["02", 1280, 960], ["03", 960, 1280],
       ["04", 853, 1280], ["05", 853, 1280], ["06", 853, 1280],
-      ["07", 960, 1280], ["08", 853, 1280], ["09", 960, 1280],
+      ["08", 853, 1280], ["09", 960, 1280],
       ["10", 853, 1280], ["11", 853, 1280], ["12", 853, 1280],
     ),
     crediti: [
@@ -848,11 +862,13 @@ export const OPERE: Opera[] = [
     descrizione:
       "Regia e scrittura di Manuel Casati e Stefano Serusi, per la rassegna Senza " +
       "Sipario di Simone Gelsomino, il 30 maggio 2025.",
+    // La 11 era la locandina dello spettacolo — grafica, non fotografia.
+    // Tolta da Lucio l'11 settembre 2026, file cancellato.
     scatti: foto("don-giovanni",
       ["01", 1200, 1600], ["02", 1200, 1600], ["03", 1200, 1600],
       ["04", 1200, 1600], ["05", 1200, 1600], ["06", 1200, 1600],
       ["07", 902, 1600], ["08", 902, 1600], ["09", 1200, 1600],
-      ["10", 1200, 1600], ["11", 841, 1190],
+      ["10", 1200, 1600],
     ),
     filmati: [film("don-giovanni", 720, 1280, 37.71, true, "Irene Stefanini")],
     crediti: [

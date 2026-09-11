@@ -138,14 +138,9 @@ export default function Page() {
             `lib/fonts.ts` «candidata al ruolo di voce» e finora mai usata —
             prende quel ruolo.
 
-            La frase è VERA e non è di Manuel: la dice un suo amico. Prima qui
-            c'era un segnaposto in prima persona, scritto da una sessione
-            precedente e attribuito a lui dal solo fatto di stare in questa
-            pagina — cioè una citazione inventata messa in bocca all'autore.
-
-            Proprio perché non è sua, sotto c'è la riga dell'attribuzione: una
-            citazione senza nome, in cima alla pagina di qualcuno, diventa sua.
-            Il nome MANCA ed è dichiarato: va chiesto a Manuel. */}
+            La frase è di Manuel (confermato da Lucio l’11 settembre 2026). Per
+            un po’ si era creduto la dicesse un suo amico e l’attribuzione era
+            rimasta senza nome; ora porta il suo. */}
         {/* Lo spazio unificatore fra «ma» e «spogliare» non è un vezzo: senza,
             la riga si spezza dopo «ma» e la congiunzione resta appesa in fondo
             alla prima riga. Legandoli, il capo cade dopo «domande,» — fra le
@@ -154,7 +149,7 @@ export default function Page() {
         <p className={styles.voce}>
           {"«Non voglio le domande, ma spogliare le risposte.»"}
         </p>
-        <p className={styles.attribuzione}>— nome da chiedere a Manuel</p>
+        <p className={styles.attribuzione}>— Manuel Casati</p>
 
         {/* La bio di Manuel, non più segnaposto. Sta su DUE colonne: alla
             misura di una sola (400px, ~58 battute per riga) sarebbero
@@ -253,35 +248,28 @@ export default function Page() {
             ))}
           </div>
 
-          {/* Il curriculum sta qui e non nella navigazione principale: non è
-              una quarta sezione accanto ad archivio, timeline e about — è un
-              allegato della bio, e chi arriva in fondo a questa pagina è
-              esattamente chi lo cerca. Accanto alle note legali perché sono la
-              stessa specie di rimando: documenti, non opere. */}
+          {/* Curriculum e note legali, una colonna ciascuno. Prima stavano
+              insieme sotto «documenti»; separati riempiono le due colonne di
+              destra, dov’era la colonna «il nome» — «Delogu di nascita, Casati
+              per scelta, dalla Marchesa Luisa Casati» — tolta da Lucio l’11
+              settembre 2026. Restano la stessa specie di rimando (documenti,
+              non opere) e chi arriva in fondo alla bio è chi li cerca.
+              La citazione di Luisa Casati in chiusura resta, per scelta. */}
           <div className={styles.colonna}>
-            <p className={styles.etichetta}>documenti</p>
+            <p className={styles.etichetta}>curriculum</p>
             <p>
               <Link className={styles.rimando} href="/cv">
-                Curriculum
-              </Link>
-            </p>
-            <p>
-              <Link className={styles.rimando} href="/legali">
-                Note legali
+                Scarica
               </Link>
             </p>
           </div>
 
-          {/* La quarta colonna del riferimento era una newsletter, che qui non
-              esiste. Invece di lasciarla vuota o di inventare un servizio,
-              porta l'unica cosa che questa pagina sa e nessun'altra dice: da
-              dove viene il nome. È anche ciò che prepara la citazione in
-              fondo, che altrimenti arriverebbe senza spiegazione. */}
           <div className={styles.colonna}>
-            <p className={styles.etichetta}>il nome</p>
+            <p className={styles.etichetta}>note legali</p>
             <p>
-              Delogu di nascita. Casati per scelta, dalla Marchesa Luisa Casati
-              (1881–1957).
+              <Link className={styles.rimando} href="/legali">
+                Leggi
+              </Link>
             </p>
           </div>
         </div>
